@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
+import 'dart:io';
 
 class PINcode extends StatelessWidget {
   List<Widget> textFields;
-
-  Widget genTextFields(BuildContext context, int fields, double fontSize, fieldSize) {
+  List<String> values;
+  StreamController<bool> _controller;
+  Widget genTextFields(BuildContext context, StreamController<bool> _controller, int fields, double fontSize, fieldSize) {
+    this._controller = _controller;
+    values = List<String>(fields);
     textFields = List.generate(fields, (index) {
       return bTextField(context, index, fields, fontSize, fieldSize);
     });
@@ -14,6 +19,10 @@ class PINcode extends StatelessWidget {
         verticalDirection: VerticalDirection.down,
         children: textFields
     );
+  }
+
+  String getValues(){
+    return values.join("");
   }
 
   Widget bTextField(BuildContext context, i, fields, fontSize, fieldSize) {
@@ -37,8 +46,23 @@ class PINcode extends StatelessWidget {
             fontSize: fontSize),
         controller: tc,
         onChanged:(String str){
-          tc.text = str.substring(str.length-1);
-          FocusScope.of(context).nextFocus();
+          if (str.length>0) {
+            tc.text = str.substring(str.length - 1);
+            values[i] = str.substring(str.length - 1);
+            FocusScope.of(context).nextFocus();
+          }
+          else{
+            tc.text = str;
+            values[i] = str;
+          }
+
+          if (values.join("").length == fields) {
+            _controller.add(true);
+          }
+          else {
+            _controller.add(false);
+          }
+
         },
       ),
     );
