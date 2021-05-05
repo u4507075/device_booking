@@ -1,3 +1,4 @@
+import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/home.dart';
@@ -5,6 +6,9 @@ import 'package:device_booking/getotp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/book.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:device_booking/test.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +35,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: Home(),
-      home: GetOTP(),
+      //home: GetOTP(),
       //home: Book('992106606'),
+      //home: Load(),
+      home: MyTestBook(),
     );
   }
 }
