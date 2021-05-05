@@ -49,7 +49,7 @@ class GetOTPState extends State<GetOTP> {
               Padding(
                 padding:
                 EdgeInsets.only(top: 50.0, bottom: 50.0, left: 0, right: 0),
-                child: pincode.genTextFields(context,_controller,9, 30.0, 25.0)), // end PinEntryTextField()),
+                child: pincode.genTextFields(context,_controller,10, 30.0, 25.0)), // end PinEntryTextField()),
             StreamBuilder<bool>(
             stream: _controller.stream,
             builder: (context, snapshot) {
@@ -81,7 +81,7 @@ class GetOTPState extends State<GetOTP> {
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
       auth.verifyPhoneNumber(
-        phoneNumber: "+660" + pincode.getValues(),
+        phoneNumber: "+66" + pincode.getValues(),
         timeout: const Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) async {
           // ANDROID ONLY!
