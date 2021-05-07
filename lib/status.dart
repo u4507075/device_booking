@@ -76,7 +76,8 @@ class StatusState extends State<Status> {
                   child: Text("Send", style: TextStyle(fontSize: 30)),
                 ),
                 onPressed: () {
-                  ref.child(deviceId).push().set(<String, String>{"date":DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())});
+                  String v = DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now());
+                  ref.child(deviceId).push().set(<String, String>{"date":'Piyapong: $v'});
                 }),
           ],
         ),
