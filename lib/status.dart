@@ -12,7 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 class Status extends StatefulWidget {
   FirebaseApp app;
   String deviceId;
-  Status(FirebaseApp app, String deviceId){
+  Status(FirebaseApp app, String deviceId) {
     this.app = app;
     this.deviceId = deviceId;
   }
@@ -22,7 +22,7 @@ class Status extends StatefulWidget {
 class StatusState extends State<Status> {
   FirebaseApp app;
   String deviceId;
-  StatusState(FirebaseApp app, String deviceId){
+  StatusState(FirebaseApp app, String deviceId) {
     this.app = app;
     this.deviceId = deviceId;
   }
@@ -34,11 +34,13 @@ class StatusState extends State<Status> {
     database = FirebaseDatabase(app: widget.app);
     _controller.add('Loading');
   }
+
   @override
   void dispose() {
     _controller.close();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     // Material is a conceptual piece
@@ -58,34 +60,41 @@ class StatusState extends State<Status> {
               child: StreamBuilder<String>(
                   stream: _controller.stream,
                   builder: (context, snapshot) {
-                    if (snapshot.hasData){
+                    if (snapshot.hasData) {
                       return Text(snapshot.data);
-                    }
-                    else{
+                    } else {
                       return Text("Loading");
                     }
-                  }),),
+                  }),
+            ),
             ElevatedButton(
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(28.0)))),
                 child: Padding(
-                  padding:
-                  EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
+                  padding: EdgeInsets.only(
+                      top: 10.0, bottom: 10.0, left: 50, right: 50),
                   child: Text("Send", style: TextStyle(fontSize: 30)),
                 ),
                 onPressed: () {
-                  ref.child(deviceId).push().set(<String, String>{"date":DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())});
+                  String v =
+                      DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+                  ref
+                      .child(deviceId)
+                      .push()
+                      .set(<String, String>{"date": "spatipan $v"});
                 }),
           ],
         ),
       ),
     );
   }
+
   void listenStatusChange(DatabaseReference ref) {
     ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
-      Map<String, dynamic> data = new Map<String, dynamic>.from(event.snapshot.value);
+      Map<String, dynamic> data =
+          new Map<String, dynamic>.from(event.snapshot.value);
       _controller.add('Child added: ${data["date"]}');
     });
   }
