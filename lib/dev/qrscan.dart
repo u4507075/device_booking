@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:clipboard/clipboard.dart';
 
+//Method to get permission to use qr code in ios 10.0 and beyond
+//https://stackoverflow.com/questions/39465687/nscamerausagedescription-in-ios-10-0-runtime-crash
+
 void main() {
   runApp(QR_reader());
 }
@@ -12,14 +15,14 @@ class QR_reader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData(
-      primaryColor: Colors.blueGrey,
-      scaffoldBackgroundColor: Colors.teal,
-    ),
-    home: MainPage(title: title),
-  );
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(
+          primaryColor: Colors.blueGrey,
+          scaffoldBackgroundColor: Colors.teal,
+        ),
+        home: MainPage(title: title),
+      );
 }
 
 class MainPage extends StatefulWidget {
@@ -32,27 +35,28 @@ class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
+
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text(widget.title),
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ButtonWidget(
-            text: 'Scan QR Code',
-            onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => QRScanPage(),
-            )),
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ButtonWidget(
+                text: 'Scan QR Code',
+                onClicked: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => QRScanPage(),
+                )),
+              ),
+              const SizedBox(height: 32),
+            ],
           ),
-          const SizedBox(height: 32),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 }
 
 class ButtonWidget extends StatelessWidget {
@@ -67,16 +71,16 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RaisedButton(
-    child: Text(
-      text,
-      style: TextStyle(fontSize: 24),
-    ),
-    shape: StadiumBorder(),
-    color: Theme.of(context).primaryColor,
-    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    textColor: Colors.white,
-    onPressed: onClicked,
-  );
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 24),
+        ),
+        shape: StadiumBorder(),
+        color: Theme.of(context).primaryColor,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        textColor: Colors.white,
+        onPressed: onClicked,
+      );
 }
 
 class QRScanPage extends StatefulWidget {
@@ -89,46 +93,46 @@ class _QRScanPageState extends State<QRScanPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text(QR_reader.title),
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Scan Result',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white54,
-              fontWeight: FontWeight.bold,
-            ),
+        appBar: AppBar(
+          title: Text(QR_reader.title),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Scan Result',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white54,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                '$qrCode',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 72),
+              ButtonWidget(
+                text: 'Start QR scan',
+                onClicked: () => scanQRCode(),
+              ),
+              SizedBox(height: 72),
+              ButtonWidget(
+                  text: 'Copy details',
+                  onClicked: () {
+                    FlutterClipboard.copy('$qrCode')
+                        .then((value) => print('copied'));
+                  }),
+            ],
           ),
-          SizedBox(height: 8),
-          Text(
-            '$qrCode',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 72),
-          ButtonWidget(
-            text: 'Start QR scan',
-            onClicked: () => scanQRCode(),
-          ),
-          SizedBox(height: 72),
-          ButtonWidget(
-              text: 'Copy details',
-              onClicked: () {
-                FlutterClipboard.copy('$qrCode').then(( value ) => print('copied'));
-              }
-          ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   Future<void> scanQRCode() async {
     try {
