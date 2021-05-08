@@ -10,6 +10,7 @@ void main() {
   runApp(QR_reader());
 }
 
+//สร้างหัวข้อ+ธีม
 class QR_reader extends StatelessWidget {
   static final String title = 'QR Code Scanner';
 
@@ -24,7 +25,7 @@ class QR_reader extends StatelessWidget {
         home: MainPage(title: title),
       );
 }
-
+//stateful สร้าง state สร้าง column scan qr center
 class MainPage extends StatefulWidget {
   final String title;
 
@@ -49,7 +50,7 @@ class _MainPageState extends State<MainPage> {
               ButtonWidget(
                 text: 'Scan QR Code',
                 onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => QRScanPage(),
+                  builder: (BuildContext context) => QRScanPage(), //redirect
                 )),
               ),
               const SizedBox(height: 32),
@@ -59,6 +60,7 @@ class _MainPageState extends State<MainPage> {
       );
 }
 
+//buttonwidget
 class ButtonWidget extends StatelessWidget {
   final String text;
   final VoidCallback onClicked;
@@ -83,11 +85,13 @@ class ButtonWidget extends StatelessWidget {
       );
 }
 
+//หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
 class QRScanPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _QRScanPageState();
 }
 
+//กำหนดค่าแรกเริ่มให้แสดงเป็น Unknown
 class _QRScanPageState extends State<QRScanPage> {
   String qrCode = 'Unknown';
 
@@ -124,7 +128,7 @@ class _QRScanPageState extends State<QRScanPage> {
               ),
               SizedBox(height: 72),
               ButtonWidget(
-                  text: 'Copy details',
+                  text: 'Copy details',    //สร้างปุ่ม+copy to clipboard
                   onClicked: () {
                     FlutterClipboard.copy('$qrCode')
                         .then((value) => print('copied'));
