@@ -1,6 +1,8 @@
+// @dart=2.9
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:device_booking/home.dart';
 import 'package:device_booking/getotp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +12,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
+import 'package:device_booking/profile.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -52,13 +57,15 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue.shade300,
       ),
       //home: Home(),
       //home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
-      home: Status(app,'deviceid1'),
+      //home: Status(app,'deviceid1'),
+      //home: MyTestBook(),
+      home: ProfilePage(),
     );
   }
 }
