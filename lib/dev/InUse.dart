@@ -76,7 +76,7 @@ class _MainPageState extends State<MainPage> {
                       height: MediaQuery.of(context).size.width / 2,
                       width: MediaQuery.of(context).size.width / 2,
                       child: Image.network(
-                          'https://scontent.fcnx4-1.fna.fbcdn.net/v/t1.6435-9/184880727_4162080337208955_872074179837376358_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=730e14&_nc_eui2=AeFzMXV3_6_c_5A3U4oH_xN_mJBlnkPjqVCYkGWeQ-OpUE_RIzwoH0Cw60DcWaY2sb1aPDxoXxpM5gEwDvLcG_2A&_nc_ohc=QRfxHEdguFgAX-bXfXz&_nc_ht=scontent.fcnx4-1.fna&oh=bf92e661f2eafb8993210e705f1de133&oe=60BF59AF'),
+                          'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png'),
                     ),
                     Container(
                       padding: const EdgeInsets.all(15),
