@@ -1,3 +1,4 @@
+import 'package:device_booking/Confirmation/page_nine.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,9 @@ class MyApp extends StatelessWidget {
       //home: Home(),
       //home: GetOTP(),
       //home: Book('992106606'),
-      home: Load(),
+      //home: Load(),
       //home: MyTestBook(),
+      home: ConfiPage(),
     );
   }
 }
