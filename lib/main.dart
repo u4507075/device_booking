@@ -1,3 +1,4 @@
+import 'package:device_booking/Report%20Problem.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,8 @@ class MyApp extends StatelessWidget {
       //home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
-      home: Status(app,'deviceid1'),
+      //home: Status(app,'deviceid1'),
+      home: KKK(),
     );
   }
 }

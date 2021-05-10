@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class KKK extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTitle = 'Report Problem';
