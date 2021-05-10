@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProfileWidget extends StatelessWidget {
@@ -12,7 +11,6 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primary;
-
     return Center(
       child: buildImage(),
     );
@@ -33,4 +31,16 @@ class ProfileWidget extends StatelessWidget {
       ),
     );
   }
+
+  Widget buildCircle({
+    Widget child,
+    double all,
+    Color color}) => ClipOval(
+  child: Container(
+    padding: EdgeInsets.all(all),
+    color: color,
+    child: child,
+  ),
+  );
+
 }

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:device_booking/user/user.dart';
 
-class ProfilePage extends StatefulWidget{
+class ProfilePageEdit extends StatefulWidget{
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfilePageEditState createState() => _ProfilePageEditState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageEditState extends State<ProfilePageEdit> {
   @override
   Widget build(BuildContext context) {
     final user = UserPreferences.myUser;
@@ -53,15 +53,12 @@ class _ProfilePageState extends State<ProfilePage> {
       )
   );
 
-  Widget firstNameBox(User user) => Container(
-    padding: EdgeInsets.symmetric(horizontal: 48),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text('First Name',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
-        Text(user.firstname, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),)
-      ]
-    )
+  Widget firstNameBox(User user) => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      Text('First Name',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
+      Text(user.firstname, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),)
+    ],
   );
 
   Widget lastNameBox(User user) => Row(
