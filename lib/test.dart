@@ -1,49 +1,36 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-class MyTestBook extends StatefulWidget {
-  MyTestBookState createState() => MyTestBookState();
-}
+//import 'appbar_widget.dart';
 
-class MyTestBookState extends State<MyTestBook> {
-  StreamController<String> _controller = StreamController();
-  @override
-  void initState() {
-    super.initState();
-    _controller.add("loading");
-  }
-  @override
-  void dispose() {
-    _controller.close();
-    super.dispose();
-  }
+class MyTestBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(30.0),
-          child: StreamBuilder<String>(
-          stream: _controller.stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData){
-              return Text('Hello user '+snapshot.data, style: TextStyle(fontSize: 40, color: Colors.white));
-            }
-            else{
-              return Text("Loading");
-            }
-          }),),
-        ElevatedButton(
-            onPressed: () {
-              _controller.add("My name is cool.");
-            },
-            child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text('Scan QR code', style: TextStyle(fontSize: 40, color: Colors.white)))
+    final appTitle = 'Select Location';
+    return MaterialApp(
+      title: appTitle,
+      home: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(),
+          elevation: 0,
+          title: Text(appTitle),
         ),
-      ],
+        body: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text('Map'),
+            ),
+            ListTile(
+              leading: Icon(Icons.photo_album),
+              title: Text('Album'),
+            ),
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text('Phone'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
