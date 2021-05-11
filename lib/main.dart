@@ -12,6 +12,8 @@ import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
 import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/dev/homepage.dart';
+import 'pages/welcome.dart';
+import 'src/button.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.grey,
       ),
       //home: Home(),
       //home: GetOTP(),
@@ -64,7 +66,27 @@ class MyApp extends StatelessWidget {
       //home: Load(),
       // home: Status(app, 'deviceid1'),
       // home: QRScanPage(),
-      home: HomePage(),
+      // home: HomePage(),
+      home: Welcome(),
+      // home: HomeTest(),
+    );
+  }
+}
+
+class HomeTest extends StatelessWidget {
+  //const name({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Title'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [CardStatus()],
+      ),
     );
   }
 }
