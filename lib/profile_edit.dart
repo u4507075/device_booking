@@ -17,21 +17,25 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
     final user = UserPreferences.myUser;
     return Scaffold(
       appBar: buildAppBar(context),
-      body: Column(
-        children: [
-          ProfileEditWidget(imagePath: user.imagePath,),
-          const SizedBox(height: 20),
-          buildName(user),
-          editButton(),
-          Divider(thickness: 0.2, color: Colors.black,),
-          firstNameBox(user),
-          Divider(thickness: 0.2, color: Colors.black,),
-          lastNameBox(user),
-          Divider(thickness: 0.2, color: Colors.black,),
-          telephoneBox(user),
-          Divider(thickness: 0.2, color: Colors.black,),
-          roleBox(user),
-        ],
+      body: SingleChildScrollView(
+        child: (
+            Column(
+              children: [
+               ProfileEditWidget(imagePath: user.imagePath,),
+               const SizedBox(height: 20),
+               buildName(user),
+               editButton(),
+                Divider(thickness: 0.2, color: Colors.black,),
+               firstNameBox(user),
+                Divider(thickness: 0.2, color: Colors.black,),
+               lastNameBox(user),
+                Divider(thickness: 0.2, color: Colors.black,),
+               telephoneBox(user),
+                Divider(thickness: 0.2, color: Colors.black,),
+               roleBox(user),
+            ],
+          )
+        ),
       ),
     );
   }
