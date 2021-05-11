@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
+import 'package:device_booking/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -57,8 +59,9 @@ class MyApp extends StatelessWidget {
       //home: Home(),
       //home: GetOTP(),
       //home: Book('992106606'),
-      //home: Load(),
-      home: Status(app,'deviceid1'),
+      home: Load(),
+      //home: Status(app,'deviceid1'),
+      //home: Login(),
     );
   }
 }
