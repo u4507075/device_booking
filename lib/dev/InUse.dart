@@ -77,7 +77,7 @@ class _MainPageState extends State<MainPage> {
               SizedBox(
                 height: (MediaQuery.of(context).size.height -
                     appBar.preferredSize.height) /
-                    10,
+                    20,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -92,7 +92,7 @@ class _MainPageState extends State<MainPage> {
                           'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png'),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(15),
+                      //padding: const EdgeInsets.all(10),
                       child: Text(
                         'Duration',
                         style: TextStyle(
@@ -103,7 +103,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(15),
                       child: StreamBuilder<String>(
                           stream: _controller.stream,
                           builder: (context, snapshot) {
@@ -131,7 +131,7 @@ class _MainPageState extends State<MainPage> {
                           }),
                     ),
                     Container(
-                        padding: const EdgeInsets.all(25),
+                        padding: const EdgeInsets.all(10),
                         child: ButtonWidget(
                           text: 'คืนอุปกรณ์', //สร้างปุ่ม+copy to clipboard
                           onClicked: () =>
@@ -140,9 +140,9 @@ class _MainPageState extends State<MainPage> {
                               )),
                         )),
                     Container(
-                        padding: const EdgeInsets.all(25),
+                        padding: const EdgeInsets.all(10),
                         child: ButtonWidget(
-                          text: 'refresh', //สร้างปุ่ม+copy to clipboard
+                          text: 'Refresh', //สร้างปุ่ม+copy to clipboard
                           onClicked: () => fetchData().then((String value) => _controller.add(value)),
                         ))
                   ],
