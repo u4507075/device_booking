@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:device_booking/dev/date time.dart';
+import 'dart:async';
+import 'dart:io';
 
 void main() {
   runApp(Busy());
@@ -33,6 +35,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  StreamController<String> _controller = StreamController();
+  @override
+  void initState() {
+    super.initState();
+    _controller.add("-- hours -- minutes");
+  }
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
+  }
   @override
   var appBar = AppBar(
     title: Text(Busy.title, style: TextStyle(fontSize: 28)),
@@ -72,12 +85,12 @@ class _MainPageState extends State<MainPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.width / 2,
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: Image.network(
-                          'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png'),
-                    ),
+//                    Container(
+//                      height: MediaQuery.of(context).size.width / 2,
+//                      width: MediaQuery.of(context).size.width / 2,
+//                      child: Image.network(
+//                          'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png'),
+//                    ),
                     Container(
                       padding: const EdgeInsets.all(15),
                       child: Text(
@@ -91,14 +104,31 @@ class _MainPageState extends State<MainPage> {
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
-                      child: Text(
-                        '$hrs hours $min minutes',
-                        style: TextStyle(
-                          fontSize: 26,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: StreamBuilder<String>(
+                          stream: _controller.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData){
+                              return Text(
+                                snapshot.data,
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }
+                            else{
+                              return Text(
+                                '-- hours -- minutes',
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }
+
+                          }),
                     ),
                     Container(
                         padding: const EdgeInsets.all(25),
@@ -108,6 +138,12 @@ class _MainPageState extends State<MainPage> {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) => Back(),
                               )),
+                        )),
+                    Container(
+                        padding: const EdgeInsets.all(25),
+                        child: ButtonWidget(
+                          text: 'refresh', //สร้างปุ่ม+copy to clipboard
+                          onClicked: () => fetchData().then((String value) => _controller.add(value)),
                         ))
                   ],
                 ),
