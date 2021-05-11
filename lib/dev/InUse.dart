@@ -85,12 +85,12 @@ class _MainPageState extends State<MainPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-//                    Container(
-//                      height: MediaQuery.of(context).size.width / 2,
-//                      width: MediaQuery.of(context).size.width / 2,
-//                      child: Image.network(
-//                          'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png'),
-//                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.width / 2,
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: Image.network(
+                          'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png'),
+                    ),
                     Container(
                       padding: const EdgeInsets.all(15),
                       child: Text(
