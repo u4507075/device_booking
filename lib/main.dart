@@ -1,3 +1,4 @@
+import 'package:device_booking/dev/GUI.dart';
 import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
@@ -14,6 +15,7 @@ import 'package:device_booking/status.dart';
 import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/dev/InUse.dart';
 import 'package:device_booking/dev/firebasedb.dart';
+import 'package:device_booking/dev/GUI.dart';
 
  void main() async {
    WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +39,7 @@ import 'package:device_booking/dev/firebasedb.dart';
                  'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
            ),
    );
-   runApp(MyApp1(app: app));
+   runApp(MyApp(app: app));
  }
 
 class MyApp extends StatelessWidget {
@@ -71,7 +73,7 @@ class MyApp extends StatelessWidget {
       //home: Load(),
       //home: Status(app, 'deviceid1'),
       //home : QR_reader(),
-      home : Busy(),
+      home : MyApp2(),
     );
   }
 }
