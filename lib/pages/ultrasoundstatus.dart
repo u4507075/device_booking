@@ -44,12 +44,11 @@ class UltrasoundStatus extends StatelessWidget {
                   padding: EdgeInsets.all(8.0),
                   children: <Widget>[
                     for (var i = 1; i < 6; i++)
-                      CardStatus('$_title $i', _assetPath, 80.0, Colors.green),
+                      CardStatus(onPressed: () {}, device: 'ultrasound'),
                     for (var i = 6; i < 11; i++)
-                      CardStatus(
-                          '$_title $i', _assetPath, 80.0, Colors.red[800]),
+                      CardStatus(onPressed: () {}, device: 'ultrasound'),
                     for (var i = 11; i < 16; i++)
-                      CardStatus('$_title $i', _assetPath, 80.0, Colors.amber),
+                      CardStatus(onPressed: () {}, device: 'ultrasound'),
                   ],
                 ),
               ),

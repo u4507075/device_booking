@@ -48,15 +48,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    FirebaseDB2().fetchData('users', '396009414e0329f7');
+    // FirebaseDB2().fetchData('users', '396009414e0329f7');
 
-    FirebaseDB()
-        .fetchData('users', '396009414e0329f7')
-        .then((value) => (Map<String, dynamic> data) {
-              print(data);
-              print(data.length);
-              print(data['name']);
-            });
+    // FirebaseDB()
+    //     .fetchData('users', '396009414e0329f7')
+    //     .then((value) => (Map<String, dynamic> data) {
+    //           print(data);
+    //         });
+
+    // FirebaseDB().updateStatus(app, 'spatipan');
+
+    // FirebaseDB().listenStatusChange(app, 'Sun');
 
     return MaterialApp(
       title: 'Flutter Demo',
