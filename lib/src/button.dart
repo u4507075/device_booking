@@ -1,83 +1,14 @@
 import 'package:flutter/material.dart';
 
-//1. CardButton with status bar on the right side
-// class CardButton extends StatelessWidget {
-//   final double _height;
-//   static const String _assetPath =
-//       'package:device_booking/assets/images/ultrasonography.png';
-//   static const double _edge = 3.0;
-//   static const double _elevation = 3.0;
-
-//   CardButton(this._height);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Card(
-//           elevation: _elevation,
-//           shape:
-//               RoundedRectangleBorder(borderRadius: BorderRadius.circular(_edge)),
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             crossAxisAlignment: CrossAxisAlignment.stretch,
-//             children: <Widget>[
-//               ListTile(
-//                 leading: Container(
-//                     constraints: BoxConstraints.expand(height: 30),
-//                     child: Icon(Icons.accessibility_new_sharp)),
-//                 // child: Image(
-//                 //     image: AssetImage(_assetPath), fit: BoxFit.cover)),
-//                 title: Text('Ultrasound'),
-//                 subtitle: Text('อายุรกรรมชาย'),
-//               )
-//             ],
-//           )),
-//     );
-//   }
-// }
-
-// class CardStatus extends StatelessWidget {
-//   final double _height;
-//   final Color _color;
-//   static const double _edge = 3.0;
-//   static const double _elevation = 3.0;
-
-//   // double _height;
-//   // Color _color;
-
-//   // CardButton(double _height, Color _color) {
-//   //   this._height = _height;
-//   //   this._color = _color;
-//   // }
-
-//   CardStatus(this._height, this._color);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: _elevation,
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_edge)),
-//       child: ClipPath(
-//         child: Container(
-//           height: _height,
-//           // decoration: BoxDecoration(
-//           //     border: Border(right: BorderSide(color: _color, width: 10))),
-//         ),
-//         clipper: ShapeBorderClipper(
-//             shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(_edge))),
-//       ),
-//     );
-//   }
-// }
-
 class CardStatus extends StatelessWidget {
   static const double _edge = 10.0;
   static const double _elevation = 3.0;
-  final String _assetPath = 'assets/images/ultrasonography.png';
-  // final String _device;
-  // CardStatus(this._device);
+  final double _height; //TODO add inheritwidget
+  final String _assetPath;
+  final String _title;
+  final Color _color;
+
+  CardStatus(this._title, this._assetPath, this._height, this._color);
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +24,7 @@ class CardStatus extends StatelessWidget {
             child: Container(
               // height: 80.0,
               decoration: BoxDecoration(
-                  border: Border(
-                      left: BorderSide(color: Colors.amber, width: 10.0))),
+                  border: Border(left: BorderSide(color: _color, width: 10.0))),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -102,8 +32,8 @@ class CardStatus extends StatelessWidget {
                 children: <Widget>[
                   ListTile(
                     leading: LoadingImageContain(_assetPath, 40.0),
-                    title: Text('Title'),
-                    subtitle: Text('Subtitle'),
+                    title: Text(_title),
+                    subtitle: Text('Location'),
                     isThreeLine: false,
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
@@ -147,7 +77,8 @@ class CardButton extends StatelessWidget {
                   leading: LoadingImageContain(_assetPath, 60.0),
                   title: Text(
                     _title,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                   ),
                   // subtitle: Text('Subtitle'),
                   isThreeLine: false,

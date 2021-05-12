@@ -13,6 +13,7 @@ import 'package:device_booking/status.dart';
 import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/dev/homepage.dart';
 import 'pages/welcome.dart';
+import 'pages/ultrasoundstatus.dart';
 import 'src/button.dart';
 
 void main() async {
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
       // home: QRScanPage(),
       // home: HomePage(),
       home: Welcome(),
+      // home: UltrasoundStatus(),
       // home: HomeTest(),
     );
   }
@@ -85,8 +87,42 @@ class HomeTest extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [CardStatus()],
+        // children: [CardStatus()],
       ),
+    );
+  }
+}
+
+class Example extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text('Text 1'),
+        Text('Text 2'),
+        Card(
+          elevation: 3.0,
+          child: OutlinedButton(
+              onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(
+                      Icons.login_rounded,
+                      size: 40.0,
+                    ),
+                    SizedBox(
+                      width: 20.0,
+                    ),
+                    Text('Continue with Google')
+                  ],
+                ),
+              )),
+        ),
+      ],
     );
   }
 }
