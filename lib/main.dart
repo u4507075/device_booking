@@ -15,6 +15,7 @@ import 'package:device_booking/dev/homepage.dart';
 import 'pages/welcome.dart';
 import 'pages/ultrasoundstatus.dart';
 import 'src/button.dart';
+import 'package:device_booking/services/firebasedb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseDB2().fetchData('users', '396009414e0329f7');
+
+    FirebaseDB()
+        .fetchData('users', '396009414e0329f7')
+        .then((value) => (Map<String, dynamic> data) {
+              print(data);
+              print(data.length);
+              print(data['name']);
+            });
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -59,7 +70,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.blue,
       ),
       //home: Home(),
       //home: GetOTP(),
