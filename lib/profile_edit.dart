@@ -71,7 +71,8 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
               height: MediaQuery.of(context).size.height / 15,
               child: TextFieldWidget(
                 text: user.firstname,
-                onChanged: (firstname) {},
+                onChanged: (firstname) {
+                },
               ),
             )
           ]
@@ -91,7 +92,9 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
         height: MediaQuery.of(context).size.height / 15,
         child: TextFieldWidget(
           text: user.lastname,
-          onChanged: (lastname) {},
+          onChanged: (lastname) {
+
+          },
         ),
       )
     ],
