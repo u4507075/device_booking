@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_booking/dev/firebasedb.dart';
 
 void main() {
   runApp(Busy());
@@ -237,7 +238,9 @@ Future <String> fetchData() async {
     var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
     final hrs = DateTime.now().difference(dateTime1).inHours;
     final mins = DateTime.now().difference(dateTime1).inMinutes;
+    final secs = DateTime.now().difference(dateTime1).inSeconds;
     int min = mins%60;
+    int sec = secs%60;
     return '$hrs hours $min minutes';
   }
 }
