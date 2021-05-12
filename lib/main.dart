@@ -14,6 +14,7 @@ import 'dart:io';
 import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
 import 'package:device_booking/profile.dart';
+import 'package:device_booking/firebasedb.dart';
 
 
 void main() async {
@@ -37,6 +38,7 @@ void main() async {
     ),
   );
   runApp(MyApp(app: app));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -45,6 +47,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    /*FirebaseDB().fetchData('users','396009414e0329f7').then((Map<String, dynamic> data) {
+      print(data);
+    });*/
+    //FirebaseDB().updateStatus(app, "Kittisak");
+    FirebaseDB().listenStatusChange(app, "Sun");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
