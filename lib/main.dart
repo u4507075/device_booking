@@ -9,6 +9,7 @@ import 'package:device_booking/book.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:device_booking/test.dart';
+import 'package:device_booking/firebasedb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +18,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key, this.app}) : super(key: key);
+  final FirebaseApp app;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //FirebaseDB().fetchData('users', '396009414e0329f7').then((Map<String, dynamic> data){
+      //print(data);
+    //});
+    //FirebaseDB().updateStatus(app, "Gain");
+    FirebaseDB().listenStatusChange(app, "Sun");
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
