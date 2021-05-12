@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 
-class PINcode extends StatelessWidget {
+class PINcode {
   List<Widget> textFields;
   List<String> values;
   StreamController<bool> _controller;
@@ -54,6 +54,7 @@ class PINcode extends StatelessWidget {
           else{
             tc.text = str;
             values[i] = str;
+            FocusScope.of(context).previousFocus();
           }
 
           if (values.join("").length == fields) {
@@ -66,11 +67,5 @@ class PINcode extends StatelessWidget {
         },
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
   }
 }
