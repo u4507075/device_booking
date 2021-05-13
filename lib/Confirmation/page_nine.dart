@@ -2,6 +2,267 @@ import 'package:device_booking/Confirmation/No.dart';
 import 'package:device_booking/Confirmation/Yes.dart';
 import 'package:flutter/material.dart';
 import 'Back.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+//final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
+
+class ConfiPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return ConfiPageState();
+  }
+}
+
+class ConfiPageState extends State<ConfiPage> {
+  @override
+  Widget build(BuildContext context) {
+    var appBar= AppBar();
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Backward()),
+              );
+            }),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        title: const Text('Confirmation', style: TextStyle(fontSize: 25.0,
+          fontWeight: FontWeight.bold,
+        )),
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
+              width: (MediaQuery.of(context).size.width)/3,
+              height: (MediaQuery.of(context).size.width)/3,
+              child: Image.network(
+                  'https://scontent.fcnx4-1.fna.fbcdn.net/v/t1.6435-9/184880727_4162080337208955_872074179837376358_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=730e14&_nc_eui2=AeFzMXV3_6_c_5A3U4oH_xN_mJBlnkPjqVCYkGWeQ-OpUE_RIzwoH0Cw60DcWaY2sb1aPDxoXxpM5gEwDvLcG_2A&_nc_ohc=QRfxHEdguFgAX-bXfXz&_nc_ht=scontent.fcnx4-1.fna&oh=bf92e661f2eafb8993210e705f1de133&oe=60BF59AF'),
+              ),
+            SizedBox(
+              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height)/28,
+            ),
+            Card(
+              margin: EdgeInsets.fromLTRB(30.0, 15.0, 16.0, 0.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    'ผู้ใช้งานปัจจุบัน',
+                    style: GoogleFonts.kanit(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),],
+              ),
+            ),
+            Card(
+              color: Colors.grey[300],
+              margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 10.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 3.0),
+                        child: SizedBox(
+                          height: 25,
+                          child: Text(
+                            "User",
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                          color: Colors.grey[300],
+                          margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
+                          child: Text(
+                              'N A M E', style: GoogleFonts.kanit(
+                            fontSize: 20.0,
+                          )
+                          )
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.grey[400],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0, 1.0, 14.0, 3.0),
+                        child: Text(
+                          "Tel",
+                          style: GoogleFonts.ubuntu(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      Container(
+                          color: Colors.grey[300],
+                          margin: EdgeInsets.fromLTRB(40.0, 1.0, 16.0, 3.0),
+                          child: Text(
+                              '##########', style: GoogleFonts.kanit(
+                            fontSize: 20.0,
+                          )
+                          )
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.grey[400],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0, 0.0, 14.0, 8.0),
+                        child: Text(
+                          "Time",
+                          style: GoogleFonts.ubuntu(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                          color: Colors.grey[300],
+                          margin: EdgeInsets.fromLTRB(22.0, 0.0, 16.0, 8.0),
+                          child: Text(
+                              '12.00', style: GoogleFonts.kanit(
+                            fontSize: 20.0,
+                          )
+                          )
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.fromLTRB(30.0, 10.0, 16.0, 0.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[ Text(
+                  'ยืมไปใช้งานที่',
+                  style: GoogleFonts.kanit(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                ],
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              color: Colors.grey[300],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[ Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "อายุรกรรมชาย 1",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.kanit(
+                      fontSize: 20.0,
+                    ),),
+                ),],),),
+            Card(
+              elevation: 0.0,
+              margin: EdgeInsets.fromLTRB(120.0, 0.0, 16.0, 5.0),
+              child: Text(
+                'ต้องการยืนยันการยืมหรือไม่ ?',
+                style: GoogleFonts.kanit(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(120.0, 0.0, 16.0, 16.0),
+              color: Colors.white,
+              child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    color: Colors.blue,
+                    child: SizedBox(
+                        height: 50,
+                        child:
+                        ElevatedButton(onPressed: () => {showAlertDialog(context)},
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.blue),
+                          child: Text('Confirm', style: GoogleFonts.kanit(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,),),)
+                    ),
+                  ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/////ALERT DIALOG PART
+
+showAlertDialog(BuildContext context) {
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true)
+            .pop(); // dismisses only the dialog and returns nothing
+      }
+  );
+  Widget continueButton = FlatButton(
+    child: Text("Continue"),
+    onPressed:  () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Yess()),
+      );
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text('AlertDialog'),
+    content: Text('Would you like to borrow "Device"'),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 
 /*
 class ConfiPage extends StatelessWidget {
@@ -217,40 +478,3 @@ class ConfiPage extends StatelessWidget {
 }
 */
 
-showAlertDialog(BuildContext context) {
-  // set up the buttons
-  Widget cancelButton = FlatButton(
-      child: Text("Cancel"),
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true)
-            .pop(); // dismisses only the dialog and returns nothing
-      }
-  );
-  Widget continueButton = FlatButton(
-    child: Text("Continue"),
-    onPressed:  () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Yess()),
-      );
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text('AlertDialog'),
-    content: Text('Would you like to borrow "Device"'),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
