@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/profile_edit.dart';
+import 'package:device_booking/profilenew.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,8 +74,9 @@ class MyApp extends StatelessWidget {
       //home: Load(),
       //home: Status(app,'deviceid1'),
       //home: MyTestBook(),
-      home: ProfilePage(),
+      //home: ProfilePage(),
       //home: ProfilePageEdit(),
+      home: ProfilePageNew(),
     );
   }
 }
