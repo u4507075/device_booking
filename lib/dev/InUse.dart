@@ -41,7 +41,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    _controller.add("-- hours -- minutes");
+    fetchData().then((String value) => _controller.add(value));
   }
   @override
   void dispose() {
