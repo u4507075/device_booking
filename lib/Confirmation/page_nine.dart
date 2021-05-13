@@ -3,7 +3,7 @@ import 'package:device_booking/Confirmation/Yes.dart';
 import 'package:flutter/material.dart';
 import 'Back.dart';
 
-
+/*
 class ConfiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -215,6 +215,8 @@ class ConfiPage extends StatelessWidget {
     );
   }
 }
+*/
+
 showAlertDialog(BuildContext context) {
   // set up the buttons
   Widget cancelButton = FlatButton(
