@@ -139,7 +139,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     try {
       databaseReference.collection('device')
           .doc('uqxXjSEU2JpgXpcaJfPF')
-          .update({'problem': TextFieldController.text});
+          .update({'problem': FieldValue.arrayUnion([TextFieldController.text])});
     } catch (e) {
       print(e.toString());
     }
