@@ -1,3 +1,4 @@
+import 'package:device_booking/Firebasedb.dart';
 import 'package:device_booking/Report%20Problem.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //FirebaseDB().fetchData('users', '396009414e0329f7').then((Map<String, dynamic> data);
+    //FirebaseDB().updateStatus(app, "Sun");
+    FirebaseDB().listenStatusChange(app, "Sun");
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -60,7 +64,8 @@ class MyApp extends StatelessWidget {
       //home: Book('992106606'),
       //home: Load(),
       //home: Status(app,'deviceid1'),
-      home: KKK(),
+      home: Load(),
+      //home: KKK(),
     );
   }
 }
