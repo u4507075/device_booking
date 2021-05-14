@@ -48,11 +48,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    /*FirebaseDB().fetchData('users','396009414e0329f7').then((Map<String, dynamic> data) {
-      print(data);
+    /*FirebaseDB()
+        .fetchData('users','profileTest')
+        .then((Map<String, dynamic> data) {
+      print(data['imagePath']);
     });*/
     //FirebaseDB().updateStatus(app, "Kittisak");
-    FirebaseDB().listenStatusChange(app, "Sun");
+    //FirebaseDB().listenStatusChange(app, "Sun");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -74,9 +76,9 @@ class MyApp extends StatelessWidget {
       //home: Load(),
       //home: Status(app,'deviceid1'),
       //home: MyTestBook(),
-      //home: ProfilePage(),
+      home: ProfilePage(),
       //home: ProfilePageEdit(),
-      home: ProfilePageNew(),
+      //home: ProfilePageNew(),
     );
   }
 }

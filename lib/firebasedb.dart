@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:io';
 
 class FirebaseDB{
+
   Future <Map<String, dynamic>> fetchData(String field, String document) async {
     CollectionReference doc = FirebaseFirestore.instance.collection(field);
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
@@ -19,6 +20,7 @@ class FirebaseDB{
      return null;
     }
   }
+
   void updateStatus(FirebaseApp app, String deviceId){
     FirebaseDatabase database = FirebaseDatabase(app: app);
     final ref = database.reference();

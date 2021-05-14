@@ -1,9 +1,14 @@
+import 'package:device_booking/dataservice.dart';
+import 'package:device_booking/firebasedb.dart';
 import 'package:device_booking/profile_edit.dart';
 import 'package:device_booking/widget/appbar_widget.dart';
 import 'package:device_booking/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:device_booking/user/user_list.dart';
+import 'package:device_booking/user/user_list.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('users');
 
@@ -14,21 +19,6 @@ class ProfilePageNew extends StatefulWidget{
 
 class _ProfilePageNewState extends State<ProfilePageNew> {
 
-  @override
-  void initState() {
-    getUsersById();
-    super.initState();
-  }
-
-  getUsersById() {
-    final String id = "profileTest";
-    usersRef.doc(id).get().then((DocumentSnapshot documentSnapshot){
-      print('${documentSnapshot.data()}');
-    });
-  }
-
-  //String imagePath = documentSnapshot.data()['imagePath']
-
   String imagePath = 'https://pbs.twimg.com/profile_images/378800000857919980/lHqPIZza_400x400.png';
   String email = 'test@gmail.com';
   String firstname = 'fname';
@@ -38,25 +28,28 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(context),
-      body: Column(
-        children: [
-          ProfileWidget(imagePath: imagePath,),
-          const SizedBox(height: 20),
-          buildName(),
-          editButton(),
-          Divider(thickness: 0.2, color: Colors.black,),
-          firstNameBox(),
-          Divider(thickness: 0.2, color: Colors.black,),
-          lastNameBox(),
-          Divider(thickness: 0.2, color: Colors.black,),
-          telephoneBox(),
-          Divider(thickness: 0.2, color: Colors.black,),
-          roleBox(),
-        ],
-      ),
-    );
+     return StreamProvider<QuerySnapshot>.value(
+       value: DatabaseService().users,
+       child: Scaffold(
+        appBar: buildAppBar(context),
+        body: Column(
+          children: [
+            ProfileWidget(imagePath: imagePath,),
+            const SizedBox(height: 20),
+            buildName(),
+            editButton(),
+            Divider(thickness: 0.2, color: Colors.black,),
+            firstNameBox(),
+            Divider(thickness: 0.2, color: Colors.black,),
+            lastNameBox(),
+            Divider(thickness: 0.2, color: Colors.black,),
+            telephoneBox(),
+            Divider(thickness: 0.2, color: Colors.black,),
+            roleBox(),
+          ],
+        ),
+    ),
+     );
   }
 
   Widget buildName() => Column(
