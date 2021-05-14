@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
       //home: Load(),
       //home: Status(app, 'deviceid1'),
       //home : QR_reader(),
-      home : MyApp2(),
+      home : Busy(),
     );
   }
 }

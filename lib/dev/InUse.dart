@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_booking/dev/firebasedb.dart';
+
 
 void main() {
   runApp(Busy());
@@ -232,6 +232,7 @@ Future <String> fetchData() async {
   String userid = '300da4192f5db344';
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   DocumentSnapshot documentSnapshot = await users.doc(userid).get();
+
   if(documentSnapshot.exists){
     Map<String, dynamic> data = documentSnapshot.data();
     String datetime = data["date"];
@@ -241,6 +242,19 @@ Future <String> fetchData() async {
     final secs = DateTime.now().difference(dateTime1).inSeconds;
     int min = mins%60;
     int sec = secs%60;
-    return '$hrs hours $min minutes';
+    int hr = hrs;
+/*    const oneSec = const Duration(seconds:1);
+    new Timer.periodic(oneSec, (Timer t) => sec = sec +1);
+      if (sec%60 == 0) {
+        min = min + 1 ;
+      }else {
+        min = min ;
+      }
+      if (min%60 == 0) {
+        hr = hr + 1 ;
+      }else {
+        hr = hr ;
+      }*/
+    return '$hrs hours $min minutes $sec secs';
   }
 }
