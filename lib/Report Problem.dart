@@ -2,6 +2,7 @@ import 'package:device_booking/Models/Pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class Apple extends StatefulWidget {
@@ -73,6 +74,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   TextEditingController TextFieldController = new TextEditingController();
 
   StreamController<String> _controller = StreamController.broadcast();
+
+  final databaseReference = FirebaseFirestore.instance;
+
   @override
   void initState() {
     super.initState();
@@ -111,6 +115,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => submit()));
                     //Updatedata from TextFieldController.text
+                    updateData();
                   }
               );
             }
@@ -130,6 +135,16 @@ class MyCustomFormState extends State<MyCustomForm> {
       alignment: Alignment.center,
     );
   }
+  void updateData() {
+    try {
+      databaseReference.collection('device')
+          .doc('uqxXjSEU2JpgXpcaJfPF')
+          .update({'problem': TextFieldController.text});
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 }
 //---------------------------------------------------
 class submit extends StatelessWidget {
