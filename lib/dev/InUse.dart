@@ -2,55 +2,37 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_booking/models/pages.dart';
 
 
-void main() {
-  runApp(Busy());
-}
-
-//สร้างหัวข้อ+ธีม
-class Busy extends StatelessWidget {
-  static final String title = 'Using device';
+class MainPageBusy extends StatefulWidget {
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData(
-      primaryColor: Color.fromARGB(255, 218, 105, 98),
-      scaffoldBackgroundColor: Colors.white,
-    ),
-    home: MainPage(title: title),
-  );
+  _MainPageBusyState createState() => _MainPageBusyState();
 }
 
-class MainPage extends StatefulWidget {
-  final String title;
+class _MainPageBusyState extends State<MainPageBusy> {
 
-  const MainPage({
-    @required this.title,
-  });
 
-  @override
-  _MainPageState createState() => _MainPageState();
-}
+  InUsePage INUSE = InUsePage();
+  StreamController<String> _controller = StreamController.broadcast();
 
-class _MainPageState extends State<MainPage> {
-
-  StreamController<String> _controller = StreamController();
   @override
   void initState() {
     super.initState();
-    fetchData().then((String value) => _controller.add(value));
+    INUSE.fetchAll(_controller);
+
   }
+
   @override
   void dispose() {
-    _controller.close();
     super.dispose();
   }
+
+
   @override
   var appBar = AppBar(
-    title: Text(Busy.title, style: TextStyle(fontSize: 28)),
+    title: Text("In Use", style: TextStyle(fontSize: 28)),
     centerTitle: true,
   );
   Widget build(BuildContext context) => Scaffold(
@@ -141,12 +123,6 @@ class _MainPageState extends State<MainPage> {
                                 builder: (BuildContext context) => Back(),
                               )),
                         )),
-                    Container(
-                        padding: const EdgeInsets.all(10),
-                        child: ButtonWidget(
-                          text: 'Refresh', //สร้างปุ่ม+copy to clipboard
-                          onClicked: () => fetchData().then((String value) => _controller.add(value)),
-                        ))
                   ],
                 ),
               ),
@@ -228,33 +204,20 @@ class MyWidget2 extends StatelessWidget {
   }
 }
 
-Future <String> fetchData() async {
-  String userid = '300da4192f5db344';
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot documentSnapshot = await users.doc(userid).get();
-
-  if(documentSnapshot.exists){
-    Map<String, dynamic> data = documentSnapshot.data();
-    String datetime = data["date"];
-    var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
-    final hrs = DateTime.now().difference(dateTime1).inHours;
-    final mins = DateTime.now().difference(dateTime1).inMinutes;
-    final secs = DateTime.now().difference(dateTime1).inSeconds;
-    int min = mins%60;
-    int sec = secs%60;
-    int hr = hrs;
-/*    const oneSec = const Duration(seconds:1);
-    new Timer.periodic(oneSec, (Timer t) => sec = sec +1);
-      if (sec%60 == 0) {
-        min = min + 1 ;
-      }else {
-        min = min ;
-      }
-      if (min%60 == 0) {
-        hr = hr + 1 ;
-      }else {
-        hr = hr ;
-      }*/
-    return '$hrs hours $min minutes $sec secs';
-  }
-}
+// Future <String> fetchData() async {
+//   String userid = '300da4192f5db344';
+//   CollectionReference users = FirebaseFirestore.instance.collection('users');
+//   DocumentSnapshot documentSnapshot = await users.doc(userid).get();
+//
+//   if(documentSnapshot.exists){
+//     Map<String, dynamic> data = documentSnapshot.data();
+//     String datetime = data["date"];
+//     var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
+//     final hrs = DateTime.now().difference(dateTime1).inHours;
+//     final mins = DateTime.now().difference(dateTime1).inMinutes;
+//     final secs = DateTime.now().difference(dateTime1).inSeconds;
+//     int min = mins%60;
+//     int sec = secs%60;
+//     return '$hrs hours $min minutes $sec secs';
+//   }
+// }
