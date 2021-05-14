@@ -74,17 +74,22 @@ class _LogInPageState extends State<LogInPage> {
                   children: <Widget>[
                     StreamBuilder<Object>(
                         stream: _controller.stream,
-                        initialData: '',
+                        // initialData: 'Hi',
                         builder: (context, snapshot) {
-                          if (snapshot.hasData & snapshot.data == "success") {
-                            return Text(
-                              login.header,
-                              style: TextStyle(
-                                  fontSize: 35.0, fontWeight: FontWeight.bold),
-                            );
-                          }
+                          // if (snapshot.hasData & snapshot.data == "success") {
+                          return Text(
+                            login.header,
+                            style: TextStyle(
+                                fontSize: 35.0, fontWeight: FontWeight.bold),
+                          );
+                          // } else {
+                          //   return Text(
+                          //     'Medical Device Tracking System',
+                          //     style: TextStyle(
+                          //         fontSize: 35.0, fontWeight: FontWeight.bold),
+                          //   );
+                          // }
                         }),
-                    Text("\n\n"),
                     Text(
                       "\"Medical Device At Your Fingertip\"",
                       style: TextStyle(

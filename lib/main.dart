@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print(Text('hi'));
+    // print(Text('hi'));
     // FirebaseDB2().fetchData('users', '396009414e0329f7');
 
     // FirebaseDB()
