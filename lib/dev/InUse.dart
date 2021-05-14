@@ -31,37 +31,53 @@ class _MainPageBusyState extends State<MainPageBusy> {
 
 
   @override
-  var appBar = AppBar(
-    title: Text("In Use", style: TextStyle(fontSize: 28)),
-    centerTitle: true,
-  );
   Widget build(BuildContext context) => Scaffold(
-    appBar: appBar,
+      appBar: AppBar(
+        title: StreamBuilder<Object>(
+        stream: _controller.stream,
+        builder: (context, snapshot) {
+          if (snapshot != null &&
+              snapshot.hasData &&
+              snapshot.data == "success") {
+            return Text(INUSE.ApPbAr, style: TextStyle(fontSize: 28));
+          } else {
+            return Text('Using Device');
+          }
+        }),
+    centerTitle: true,
+      ),
     body: Center(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          height: (MediaQuery.of(context).size.height -
-              appBar.preferredSize.height),
-          width: MediaQuery.of(context).size.width,
-          child: Column(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  ButtonWidget(
-                    text: 'Report', //สร้างปุ่ม+copy to clipboard
-                    onClicked: () =>
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => Report(),
-                        )),
+                  StreamBuilder<Object>(
+                      stream: _controller.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot != null &&
+                            snapshot.hasData &&
+                            snapshot.data == "success") {
+
+                          return ButtonWidget(
+                              text: INUSE.UppR_LfT_Button,
+                              onClicked: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) => Report())));
+                        } else {
+                          return ButtonWidget(
+                              text: "Report",
+                              onClicked: () =>
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) => Report())));
+                        }
+                      }
                   ),
                 ],
               ),
               SizedBox(
-                height: (MediaQuery.of(context).size.height -
-                    appBar.preferredSize.height) /
-                    20,
+                height: 20,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -72,64 +88,68 @@ class _MainPageBusyState extends State<MainPageBusy> {
                     Container(
                       height: MediaQuery.of(context).size.width / 2,
                       width: MediaQuery.of(context).size.width / 2,
-                      child: Image.network(
-                          'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png'),
-                    ),
-                    Container(
-                      //padding: const EdgeInsets.all(10),
-                      child: Text(
-                        'Duration',
-                        style: TextStyle(
-                          fontSize: 32,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(15),
-                      child: StreamBuilder<String>(
+                      child: StreamBuilder<Object>(
                           stream: _controller.stream,
                           builder: (context, snapshot) {
-                            if (snapshot.hasData){
-                              return Text(
-                                snapshot.data,
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
+                            if (snapshot != null &&
+                                snapshot.hasData &&
+                                snapshot.data == "success") {
+                              return Image.network(INUSE.Piggure);
+                            } else {
+                              return Image.network(
+                                  'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png');
                             }
-                            else{
-                              return Text(
-                                '-- hours -- minutes',
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
-                            }
-
                           }),
                     ),
                     Container(
+                      //padding: const EdgeInsets.all(10),
+                      child: StreamBuilder<Object>(
+                          stream: _controller.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot != null &&
+                                snapshot.hasData &&
+                                snapshot.data == "success") {
+                              return Text(INUSE.DU_RaTION);
+                            } else {
+                              return Text('Duration');
+                            }
+                          }),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(15),
+                      child: Text("---") //duration time
+                    ),
+                    Container(
                         padding: const EdgeInsets.all(10),
-                        child: ButtonWidget(
-                          text: 'คืนอุปกรณ์', //สร้างปุ่ม+copy to clipboard
-                          onClicked: () =>
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Back(),
-                              )),
-                        )),
+                        child: StreamBuilder<Object>(
+                            stream: _controller.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot != null &&
+                                  snapshot.hasData &&
+                                  snapshot.data == "success") {
+
+                                return ButtonWidget(
+                                    text: INUSE.re,
+                                  onClicked: () =>
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (BuildContext context) => Back(),
+                                      )),);
+                              } else {
+                                return ButtonWidget(
+                                    text: "คืนอุปกรณ์",
+                                  onClicked: () =>
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (BuildContext context) => Back(),
+                                      )),);
+                              }
+                            }
+                        ),),
                   ],
                 ),
               ),
             ],
           ),
-        )),
-  );
+        ));
 }
 
 
