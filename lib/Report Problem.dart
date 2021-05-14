@@ -69,6 +69,9 @@ class MyCustomForm extends StatefulWidget {
 
 class MyCustomFormState extends State<MyCustomForm> {
   ReportProblemPage Reportproblem = ReportProblemPage();
+
+  TextEditingController TextFieldController = new TextEditingController();
+
   StreamController<String> _controller = StreamController.broadcast();
   @override
   void initState() {
@@ -87,6 +90,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
           TextField(
+            controller: TextFieldController,
             keyboardType: TextInputType.multiline,
             minLines: 10,
             maxLines: 30,
@@ -103,8 +107,10 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               return ElevatedButton(
                   child: Text(Reportproblem.Submit),
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => submit())));
+                  onPressed: () { Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => submit()));
+                  }
+              );
             }
               else {
               return ElevatedButton(
