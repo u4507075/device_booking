@@ -20,6 +20,8 @@
 
 import 'package:device_booking/pages/login.dart';
 import 'package:device_booking/services/firebasedb.dart';
+import 'dart:async';
+import 'dart:ui';
 
 class LogInPageModel {
   String header;
@@ -28,20 +30,21 @@ class LogInPageModel {
   String text1;
   String text2;
 
-  Future<String> fetchAll() async {
+  void fetchAll(StreamController<String> _controller) {
     FirebaseDB().fetchData('pages', 'login').then((data) {
+      print(data);
       this.header = data['header'];
       this.logoPath = data['logo'];
       this.subtitle = data['subtitle'];
       this.text1 = data['text'];
       this.text2 = data['text2'];
-      return "success";
+      _controller.add('success');
     });
   }
 
-  String getHeader() {
-    return this.header;
-  }
+  // String getHeader() {
+  //   return this.header;
+  // }
 
   // FirebaseDB()
   //     .fetchData('users', '396009414e0329f7')

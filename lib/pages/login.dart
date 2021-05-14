@@ -41,9 +41,7 @@ class _LogInPageState extends State<LogInPage> {
   @override
   void initState() {
     super.initState();
-    login.fetchAll().then((String value) {
-      _controller.add(value);
-    });
+    login.fetchAll(_controller);
   }
 
   // login.fetchAll().then((value) {
@@ -74,14 +72,22 @@ class _LogInPageState extends State<LogInPage> {
                   children: <Widget>[
                     StreamBuilder<Object>(
                         stream: _controller.stream,
-                        // initialData: 'Hi',
+                        initialData: 'Hi',
                         builder: (context, snapshot) {
-                          // if (snapshot.hasData & snapshot.data == "success") {
                           return Text(
                             login.header,
-                            style: TextStyle(
-                                fontSize: 35.0, fontWeight: FontWeight.bold),
                           );
+                          // print(snapshot);
+
+                          // if (snapshot != null &&
+                          //     snapshot.hasData &&
+                          //     snapshot.data == "success") {
+                          //   print(snapshot.data);
+                          //   return Text(
+                          //     login.header,
+                          //     style: TextStyle(
+                          //         fontSize: 35.0, fontWeight: FontWeight.bold),
+                          //   );
                           // } else {
                           //   return Text(
                           //     'Medical Device Tracking System',
