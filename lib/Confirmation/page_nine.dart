@@ -1,6 +1,7 @@
 import 'package:device_booking/Confirmation/No.dart';
 import 'package:device_booking/Confirmation/Yes.dart';
 import 'package:flutter/material.dart';
+import 'package:device_booking/models/pages.dart';
 import 'Back.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,26 @@ import 'dart:async';
 class ConfiPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return ConfiPageState();
+    return _ConfiPageState();
   }
 }
 
-class ConfiPageState extends State<ConfiPage> {
+class _ConfiPageState extends State<ConfiPage> {
+
+  ConfirmBook confibook = ConfirmBook();
+  StreamController<String> _controller = StreamController.broadcast();
+
+  @override
+  void initState() {
+    super.initState();
+    confibook.fetchAll(_controller);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var appBar= AppBar();
@@ -31,35 +47,82 @@ class ConfiPageState extends State<ConfiPage> {
             }),
         centerTitle: true,
         backgroundColor: Colors.blue,
-        title: const Text('Confirmation', style: TextStyle(fontSize: 25.0,
-          fontWeight: FontWeight.bold,
-        )),
+        title: StreamBuilder<Object>(
+            stream: _controller.stream,
+            builder: (context, snapshot) {
+              if (snapshot != null &&
+                  snapshot.hasData &&
+                  snapshot.data == "success") {
+                return Text(
+                  confibook.header,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,),
+                );
+              } else {
+                return Text(
+                  'Confirmation',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,),
+                );
+              }
+            }),
       ),
       body: Center(
         child: Column(
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
-              width: (MediaQuery.of(context).size.width)/3,
-              height: (MediaQuery.of(context).size.width)/3,
-              child: Image.network(
-                  'https://scontent.fcnx4-1.fna.fbcdn.net/v/t1.6435-9/184880727_4162080337208955_872074179837376358_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=730e14&_nc_eui2=AeFzMXV3_6_c_5A3U4oH_xN_mJBlnkPjqVCYkGWeQ-OpUE_RIzwoH0Cw60DcWaY2sb1aPDxoXxpM5gEwDvLcG_2A&_nc_ohc=QRfxHEdguFgAX-bXfXz&_nc_ht=scontent.fcnx4-1.fna&oh=bf92e661f2eafb8993210e705f1de133&oe=60BF59AF'),
-              ),
-            SizedBox(
-              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height)/28,
+              width: (MediaQuery.of(context).size.width)/2.5,
+              height: (MediaQuery.of(context).size.width)/2.5,
+              child: StreamBuilder<Object>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return Image.network(confibook.picture);
+                    } else {
+                      return Text(
+                        'Confirmation',
+                        style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,),
+                      );
+                    }
+                  }),),
+        SizedBox(
+              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height)/30,
             ),
             Card(
               margin: EdgeInsets.fromLTRB(30.0, 15.0, 16.0, 0.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text(
-                    'ผู้ใช้งานปัจจุบัน',
-                    style: GoogleFonts.kanit(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),],
+                  StreamBuilder<Object>(
+                      stream: _controller.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot != null &&
+                            snapshot.hasData &&
+                            snapshot.data == "success") {
+                          return Text(
+                            confibook.subheader_1,
+                            style:
+                            GoogleFonts.kanit(
+                            fontSize: 20.0,
+                              fontWeight: FontWeight.bold,),
+                          );
+                        } else {
+                          return Text(
+                            'Confirmation',
+                            style: GoogleFonts.kanit(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,),
+                          );
+                        }
+                      }),
+                ],
               ),
             ),
             Card(
@@ -78,13 +141,29 @@ class ConfiPageState extends State<ConfiPage> {
                         padding: const EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 3.0),
                         child: SizedBox(
                           height: 25,
-                          child: Text(
-                            "User",
-                            style: GoogleFonts.ubuntu(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child:
+                          StreamBuilder<Object>(
+                              stream: _controller.stream,
+                              builder: (context, snapshot) {
+                                if (snapshot != null &&
+                                    snapshot.hasData &&
+                                    snapshot.data == "success") {
+                                  return Text(
+                                    confibook.text_1,
+                                    style:
+                                    GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,),
+                                  );
+                                } else {
+                                  return Text(
+                                    'User',
+                                    style: GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,),
+                                  );
+                                }
+                              }),
                         ),
                       ),
                       Container(
@@ -106,13 +185,28 @@ class ConfiPageState extends State<ConfiPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(30.0, 1.0, 14.0, 3.0),
-                        child: Text(
-                          "Tel",
-                          style: GoogleFonts.ubuntu(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
+                        child:  StreamBuilder<Object>(
+                            stream: _controller.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot != null &&
+                                  snapshot.hasData &&
+                                  snapshot.data == "success") {
+                                return Text(
+                                  confibook.text_2,
+                                  style:
+                                  GoogleFonts.ubuntu(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,),
+                                );
+                              } else {
+                                return Text(
+                                  'Tel',
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,),
+                                );
+                              }
+                            }),
                       ),
                       Container(
                           color: Colors.grey[300],
@@ -133,13 +227,28 @@ class ConfiPageState extends State<ConfiPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(30.0, 0.0, 14.0, 8.0),
-                        child: Text(
-                          "Time",
-                          style: GoogleFonts.ubuntu(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: StreamBuilder<Object>(
+                            stream: _controller.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot != null &&
+                                  snapshot.hasData &&
+                                  snapshot.data == "success") {
+                                return Text(
+                                  confibook.text_3,
+                                  style:
+                                  GoogleFonts.ubuntu(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,),
+                                );
+                              } else {
+                                return Text(
+                                  'Time',
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,),
+                                );
+                              }
+                            }),
                       ),
                       Container(
                           color: Colors.grey[300],
@@ -159,13 +268,29 @@ class ConfiPageState extends State<ConfiPage> {
               margin: EdgeInsets.fromLTRB(30.0, 10.0, 16.0, 0.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[ Text(
-                  'ยืมไปใช้งานที่',
-                  style: GoogleFonts.kanit(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                children: <Widget>[
+                  StreamBuilder<Object>(
+                      stream: _controller.stream,
+                      builder: (context, snapshot) {
+                        if (snapshot != null &&
+                            snapshot.hasData &&
+                            snapshot.data == "success") {
+                          return Text(
+                            confibook.subheader_2,
+                            style:
+                            GoogleFonts.kanit(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,),
+                          );
+                        } else {
+                          return Text(
+                            'ยืมไปใช้งานที่',
+                            style: GoogleFonts.kanit(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,),
+                          );
+                        }
+                      }),
                 ],
               ),
             ),
@@ -189,40 +314,124 @@ class ConfiPageState extends State<ConfiPage> {
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(120.0, 0.0, 16.0, 5.0),
-              child: Text(
-                'ต้องการยืนยันการยืมหรือไม่ ?',
-                style: GoogleFonts.kanit(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child:
+              StreamBuilder<Object>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return Text(
+                        confibook.subheader_3,
+                        style:
+                        GoogleFonts.kanit(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,),
+                      );
+                    } else {
+                      return Text(
+                        'ต้องการยืนยันการยืมหรือไม่ ?',
+                        style: GoogleFonts.kanit(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,),
+                      );
+                    }
+                  }),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(120.0, 0.0, 16.0, 16.0),
+              margin: EdgeInsets.fromLTRB(140.0, 5.0, 16.0, 16.0),
               color: Colors.white,
-              child: Card(
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0.0, 1.0, 14.0, 3.0),
+                    child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: SizedBox(
+                          height: 50,
+                          width: 100,
+                          child: ElevatedButton(onPressed: () {
+                            ///
+                          },
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.grey[200],
+                                side: BorderSide(color: Colors.grey)),
+                                child: StreamBuilder<Object>(
+                                    stream: _controller.stream,
+                                    builder: (context, snapshot) {
+                                      if (snapshot != null &&
+                                          snapshot.hasData &&
+                                          snapshot.data == "success") {
+                                        return Text(
+                                          confibook.button_1,
+                                          style:
+                                          GoogleFonts.kanit(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold, color: Colors.black),
+                                        );
+                                      } else {
+                                        return Text(
+                                          'แก้้ไข',
+                                          style: GoogleFonts.kanit(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,),
+                                        );
+                                      }
+                                    }),)
+                      ),
+                    ),
+                  ),
+                  Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    color: Colors.blue,
+                    //color: Colors.redAccent,
                     child: SizedBox(
                         height: 50,
+                        width: 100,
                         child:
-                        ElevatedButton(onPressed: () => {showAlertDialog(context)},
+                        ElevatedButton(onPressed: () {
+                          ///
+                        },
                           style: ElevatedButton.styleFrom(
                               primary: Colors.blue),
-                          child: Text('Confirm', style: GoogleFonts.kanit(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,),),)
+                          child: StreamBuilder<Object>(
+                              stream: _controller.stream,
+                              builder: (context, snapshot) {
+                                if (snapshot != null &&
+                                    snapshot.hasData &&
+                                    snapshot.data == "success") {
+                                  return Text(
+                                    confibook.button_2,
+                                    style:
+                                    GoogleFonts.kanit(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,),
+                                  );
+                                } else {
+                                  return Text(
+                                    'ยืนยัน',
+                                    style: GoogleFonts.kanit(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,),
+                                  );
+                                }
+                              }),)
                     ),
                   ),
+                ],
               ),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
 
 /////ALERT DIALOG PART
 
