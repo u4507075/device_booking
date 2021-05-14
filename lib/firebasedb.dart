@@ -14,6 +14,7 @@ class FirebaseDB {
     if(documentSnapshot.exists){
       Map<String, dynamic> data = documentSnapshot.data();
       print(data);
+      return data;
     }
     else{
       return null;
