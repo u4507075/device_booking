@@ -165,7 +165,7 @@ class _QRScanState extends State<QRScan> {
                     ScAn.Result,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white54,
+                      color: Colors.black45,
                       fontWeight: FontWeight.bold,
                     ),
                   );
@@ -174,7 +174,7 @@ class _QRScanState extends State<QRScan> {
                     'Scan Result',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white54,
+                      color: Colors.black45,
                       fontWeight: FontWeight.bold,
                     ),
                   );
@@ -186,21 +186,52 @@ class _QRScanState extends State<QRScan> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 72),
-              ButtonWidget(
-                text: 'Start QR scan',
-                onClicked: () => scanQRCode(),
+              StreamBuilder<Object>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+
+                      return ButtonWidget(
+                          text: ScAn.Start,
+                          onClicked: () => scanQRCode());
+                    } else {
+                      return ButtonWidget(
+                          text: "Start QR Scan",
+                          onClicked: () => scanQRCode());
+                    }
+                  }
               ),
+
               SizedBox(height: 72),
-              ButtonWidget(
-                  text: 'Copy details',    //สร้างปุ่ม+copy to clipboard
-                  onClicked: () {
-                    FlutterClipboard.copy('$qrCode')
-                        .then((value) => print('copied'));
-                  }),
+              StreamBuilder<Object>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+
+                      return ButtonWidget(
+                          text: ScAn.Copy,
+                          onClicked: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
+                    } else {
+                      return ButtonWidget(
+                          text: "Copy Details",
+                          onClicked: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
+                    }
+                  }
+              ),
+              // ButtonWidget(
+              //     text: 'Copy details',    //สร้างปุ่ม+copy to clipboard
+              //     onClicked: () {
+              //       FlutterClipboard.copy('$qrCode')
+              //           .then((value) => print('copied'));
+              //     }),
             ],
           ),
         ),
