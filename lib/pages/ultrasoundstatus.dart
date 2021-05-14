@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:device_booking/models/device.dart';
 import 'package:device_booking/pages/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
@@ -9,6 +9,8 @@ import 'package:device_booking/pages/deviceinfo.dart';
 class UltrasoundStatus extends StatelessWidget {
   final String _assetPath = "assets/images/ultrasonography.png";
   final String _title = "Ultrasound";
+  final List<Device> devices = Device.fetchAll();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,16 +42,25 @@ class UltrasoundStatus extends StatelessWidget {
               showTrackOnHover: true,
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.7,
-                child: ListView(
-                  padding: EdgeInsets.all(8.0),
-                  children: <Widget>[
-                    for (var i = 1; i < 6; i++)
-                      CardStatus(onPressed: () {}, device: 'ultrasound'),
-                    for (var i = 6; i < 11; i++)
-                      CardStatus(onPressed: () {}, device: 'ultrasound'),
-                    for (var i = 11; i < 16; i++)
-                      CardStatus(onPressed: () {}, device: 'ultrasound'),
-                  ],
+                child: ListView.builder(
+                  // padding: EdgeInsets.all(0.0),
+                  itemCount: devices.length,
+                  itemBuilder: (context, index) {
+                    print(devices[index]);
+                    // return Text(devices[index].name);
+
+                    return Card(
+                      child: ListTile(
+                        onTap: () {},
+                        title: Text(devices[index].name),
+                        subtitle: Text('Location'),
+                        leading: Image.asset(
+                          _assetPath,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

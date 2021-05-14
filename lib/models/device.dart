@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 
-class DeviceInfo {
-  String status;
-  String location;
+class Device {
+  String deviceId;
+  String type;
   String name;
-  String lastname;
-  String date;
-  String timebook;
-  String timereturn;
+  List<String> operatingZone;
+  String problem;
 
-  DeviceInfo(this.status, this.location, this.name, this.lastname, this.date,
-      this.timebook, this.timereturn);
+  Device(
+      {this.deviceId, this.type, this.name, this.operatingZone, this.problem});
 
-  static List<DeviceInfo> fetchAll() {
-    return [];
+  static List<Device> fetchAll() {
+    return [
+      Device(
+        deviceId: 'u0001',
+        type: 'ultrasound',
+        name: 'Ultrasound อายุกรรมชาย 1',
+        operatingZone: ['อายุรกรรมชาย 1', 'อายุรกรรมชาย 2', 'อายุรกรรมชาย 3'],
+        problem: 'none',
+      ),
+      Device(
+        deviceId: 'u0002',
+        type: 'ultrasound',
+        name: 'Ultrasound อายุกรรมชาย 1',
+        operatingZone: ['อายุรกรรมชาย 1', 'อายุรกรรมชาย 2', 'อายุรกรรมชาย 3'],
+        problem: 'none',
+      )
+    ];
   }
 }

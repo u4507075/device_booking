@@ -24,6 +24,9 @@ class FirebaseDB {
     final ref = database.reference();
     ref.child(deviceId).push().set(<String, String>{
       "date": DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
+      //Add user id
+      //Add device is
+      //Add status borrow / return
     });
   }
 

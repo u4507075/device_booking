@@ -44,12 +44,12 @@ class EkgStatus extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.all(8.0),
                   children: <Widget>[
-                    for (var i = 1; i < 6; i++)
-                      CardStatus(onPressed: () {}, device: 'ultrasound'),
-                    for (var i = 6; i < 11; i++)
-                      CardStatus(onPressed: () {}, device: 'ultrasound'),
-                    for (var i = 11; i < 16; i++)
-                      CardStatus(onPressed: () {}, device: 'ultrasound'),
+                    // for (var i = 1; i < 6; i++)
+                    //   CardStatus(onPressed: () {}, device: 'ultrasound'),
+                    // for (var i = 6; i < 11; i++)
+                    //   CardStatus(onPressed: () {}, device: 'ultrasound'),
+                    // for (var i = 11; i < 16; i++)
+                    //   CardStatus(onPressed: () {}, device: 'ultrasound'),
                   ],
                 ),
               ),

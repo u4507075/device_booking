@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
       // home: Status(app, 'deviceid1'),
       // home: QRScanPage(),
       // home: HomePage(),
-      // home: Welcome(),
+      home: Welcome(),
       // home: UltrasoundStatus(),
       // home: HomeTest(),
       // home: Status(app,'deviceid1'),
@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
       //home: MyTestBook(),
       //home: Status(app, 'deviceid1'),
       //home : QR_reader(),
-      home: LogIn(),
+      // home: LogIn(),
     );
   }
 }
