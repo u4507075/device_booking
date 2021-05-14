@@ -28,7 +28,6 @@ class InUsePage {
   String Piggure;
   String UppR_LfT_Button;
   String re;
-  String date;
 
 
   void fetchAll(StreamController<String> _controller) {
@@ -39,7 +38,6 @@ class InUsePage {
       this.Piggure = data['Piggure'];
       this.UppR_LfT_Button = data['UppR_LfT_Button'];
       this.re = data['re'];
-      this.date = data['date'];
       _controller.add('success');
     });
   }
