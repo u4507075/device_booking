@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
       //home: MyTestBook(),
       //home: Status(app, 'deviceid1'),
       //home : QR_reader(),
-      home: LogInPage(),
+      home: LogIn(),
     );
   }
 }

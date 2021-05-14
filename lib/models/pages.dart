@@ -1,29 +1,8 @@
-// import 'package:device_booking/services/firebasedb.dart';
-
-// class LogInPage {
-//   final String header;
-//   final String subtitle;
-//   final String logoPath;
-//   final String text;
-
-//   LogInPage(this.header, this.subtitle, this.logoPath, this.text);
-
-//   static LogInPage updateData() {
-//     // return LogInPage('header', 'subtitle');
-//     FirebaseDB().fetchData('users', '396009414e0329f7');
-//   }
-// }
-
-// // LogInPage data = LogInPage.updateData();
-
-// // Text(data.header)
-
 import 'package:device_booking/pages/login.dart';
 import 'package:device_booking/services/firebasedb.dart';
 import 'dart:async';
-import 'dart:ui';
 
-class LogInPageModel {
+class LogInPage {
   String header;
   String logoPath;
   String subtitle;
@@ -41,15 +20,4 @@ class LogInPageModel {
       _controller.add('success');
     });
   }
-
-  // String getHeader() {
-  //   return this.header;
-  // }
-
-  // FirebaseDB()
-  //     .fetchData('users', '396009414e0329f7')
-  //     .then((value) => (Map<String, dynamic> data) {
-  //           print(data);
-  //         });
-
 }
