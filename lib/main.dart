@@ -39,7 +39,7 @@ import 'package:device_booking/dev/GUI.dart';
                  'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
            ),
    );
-   runApp(MyApp(app: app));
+   runApp(MyApp1(app: app));
  }
 
 class MyApp extends StatelessWidget {
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
     /*FirebaseDB().fetchData("users","396009414e0329f7").then((Map<String, dynamic> data){
       print(data);
     });*/
-    FirebaseDB().updateStatus(app, "Sun");
+    //FirebaseDB().updateStatus(app, "Sun");
     //FirebaseDB().listenStatusChange(app, 'Sun');
     return MaterialApp(
       title: 'Flutter Demo',
@@ -118,7 +118,7 @@ class MyApp1 extends StatelessWidget {
           EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
           child: Text("Get OTP", style: TextStyle(fontSize: 30)),
         ),
-        onPressed: () {FirebaseDB().updateStatus(app, "Sun");
+        onPressed: () {FirebaseDB().updateStatus(app, "TimeTest");
         },
       ),
     );
