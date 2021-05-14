@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/models/pages.dart';
+import 'package:device_booking/dev/firebasedb.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 class MainPageBusy extends StatefulWidget {
+  final FirebaseApp app;
+  const MainPageBusy({Key key, this.app}) : super(key: key);
 
   @override
   _MainPageBusyState createState() => _MainPageBusyState();
@@ -16,11 +20,14 @@ class _MainPageBusyState extends State<MainPageBusy> {
 
   InUsePage INUSE = InUsePage();
   StreamController<String> _controller = StreamController.broadcast();
+  StreamController<String> _controllerTime = StreamController();
 
   @override
   void initState() {
     super.initState();
     INUSE.fetchAll(_controller);
+    FirebaseDB().getTime(widget.app, "deviceid1");
+
 
   }
 
