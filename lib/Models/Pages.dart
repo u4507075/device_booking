@@ -5,7 +5,7 @@ class ReportProblemPage {
   String Submit;
 
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'Report problem').then((data) {
+    FirebaseDB().fetchData('pages', 'Report_problem').then((data) {
       print(data);
       this.Header = data['Header'];
       this.Submit = data['Submit'];
