@@ -1,4 +1,5 @@
 import 'package:device_booking/Firebasedb.dart';
+import 'package:device_booking/Re1.dart';
 import 'package:device_booking/Report%20Problem.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
@@ -64,8 +65,9 @@ class MyApp extends StatelessWidget {
       //home: Book('992106606'),
       //home: Load(),
       //home: Status(app,'deviceid1'),
-      home: Load(),
-      //home: KKK(),
+     // home: Load(),
+      home: Apple(),
+     // home: KKK(),
     );
   }
 }

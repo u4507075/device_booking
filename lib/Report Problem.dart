@@ -1,24 +1,65 @@
+import 'package:device_booking/Models/Pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
-class KKK extends StatelessWidget {
+
+class Apple extends StatefulWidget {
+
+  @override
+  _AppleState createState() => _AppleState();
+}
+
+class _AppleState extends State<Apple> {
+  ReportProblemPage Reportproblem = ReportProblemPage();
+  StreamController<String> _controller = StreamController();
+  @override
+  void initState() {
+    super.initState();
+    Reportproblem.fetchAll(_controller);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Report Problem';
     return MaterialApp(
-      title: appTitle,
-      home: Scaffold(
-        appBar: AppBar(
+      home: Scaffold(appBar: AppBar(
           leading: BackButton(),
           elevation:0,
-          title: Text(appTitle),
-        ),
-        body: MyCustomForm(),
+        title: StreamBuilder<Object>(
+          stream: _controller.stream,
+          builder: (context, snapshot)
+    {
+      if (snapshot != null &&
+          snapshot.hasData &&
+          snapshot.data == "success") {
+        print(snapshot);
+        print(snapshot.data);
+        print(Reportproblem.Header);
+        return Text(
+          Reportproblem.Header,
+          style: TextStyle(
+              fontSize: 35.0, fontWeight: FontWeight.bold),
+        );
+      } else {
+        return Text(
+          'loading /ja',
+          style: TextStyle(
+              fontSize: 35.0, fontWeight: FontWeight.bold),
+        );
+      }
+    }
+    )
       ),
+          body: MyCustomForm(),
+      )
     );
   }
 }
-
 class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() {
@@ -80,6 +121,8 @@ class ButtonWidget extends StatelessWidget {
     onPressed: onClicked,
   );
 }
+
+
 class submit extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
@@ -101,3 +144,4 @@ class MyWidget extends StatelessWidget {
     return Text('Submitted!!', style: Theme.of(context).textTheme.headline4);
   }
 }
+
