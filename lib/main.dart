@@ -1,7 +1,7 @@
-import 'package:device_booking/pages/reportproblem.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:device_booking/home.dart';
 import 'package:device_booking/getotp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +11,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
+import 'package:device_booking/pages/profile.dart';
 import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/dev/homepage.dart';
 import 'pages/welcome.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print(Text('hi'));
     // FirebaseDB2().fetchData('users', '396009414e0329f7');
 
     // FirebaseDB()
@@ -62,6 +64,7 @@ class MyApp extends StatelessWidget {
     // FirebaseDB().listenStatusChange(app, 'Sun');
 
     return MaterialApp(
+      debugShowCheckedModeBanner: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -73,20 +76,22 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue.shade300,
       ),
       //home: Home(),
       //home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
+      // home: ProfilePage(),
       // home: Status(app, 'deviceid1'),
       // home: QRScanPage(),
       // home: HomePage(),
       // home: Welcome(),
       // home: UltrasoundStatus(),
       // home: HomeTest(),
-      //home: Status(app,'deviceid1'),
-      home: ReportProblem(),
+      // home: Status(app,'deviceid1'),
+      //home: ReportProblem(),
+      //home: MyTestBook(),
     );
   }
 }
