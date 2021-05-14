@@ -1,4 +1,4 @@
-import 'package:device_booking/dev/GUI.dart';
+import 'package:device_booking/pages/login.dart';
 import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
@@ -96,10 +96,11 @@ class MyApp extends StatelessWidget {
       //home: MyTestBook(),
       //home: Status(app, 'deviceid1'),
       //home : QR_reader(),
-      home : MyApp2(),
+      home: LogInPage(),
     );
   }
 }
+
 class MyApp1 extends StatelessWidget {
   const MyApp1({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
@@ -131,19 +132,19 @@ class MyApp1 extends StatelessWidget {
       //home: Load(),
       //home: Status(app, 'deviceid1'),
       //home : QR_reader(),
-      home : ElevatedButton(
-        style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28.0)))),
-        child: Padding(
-          padding:
-          EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
-          child: Text("Get OTP", style: TextStyle(fontSize: 30)),
-        ),
-        onPressed: () {FirebaseDB().updateStatus(app, "Sun");
-        },
-      ),
+      // home : ElevatedButton(
+      //   style: ButtonStyle(
+      //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      //           RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(28.0)))),
+      //   child: Padding(
+      //     padding:
+      //     EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
+      //     child: Text("Get OTP", style: TextStyle(fontSize: 30)),
+      //   ),
+      //   onPressed: () {FirebaseDB().updateStatus(app, "Sun");
+      //   },
+      // ),
     );
   }
 }
