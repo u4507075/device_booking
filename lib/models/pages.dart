@@ -2,23 +2,22 @@ import 'package:device_booking/dev/firebasedb.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class InUsePage {
-  String ApPbAr;
-  String DU_RaTION;
-  String F5;
-  String Piggure;
-  String UppR_LfT_Button;
-  String re;
+class QRScanPage {
+  String Brrr;
+  String Copy;
+  String Result;
+  String Scan;
+  String Start;
+
 
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'INusE').then((data) {
+    FirebaseDB().fetchData('pages', 'QR_reader').then((data) {
       print(data);
-      this.ApPbAr = data['ApPbAr'];
-      this.DU_RaTION = data['DU_RaTION'];
-      this.F5 = data['F5'];
-      this.Piggure = data['Piggure'];
-      this.UppR_LfT_Button = data['UppR_LfT_Button'];
-      this.re = data['re'];
+      this.Brrr = data['Brrr'];
+      this.Copy = data['Copy'];
+      this.Result = data['Result'];
+      this.Scan = data['Scan'];
+      this.Start = data['Start'];
       _controller.add('success');
     });
   }
