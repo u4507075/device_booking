@@ -1,3 +1,5 @@
+import 'package:device_booking/dev/GUI.dart';
+import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
@@ -92,58 +94,56 @@ class MyApp extends StatelessWidget {
       // home: Status(app,'deviceid1'),
       //home: ReportProblem(),
       //home: MyTestBook(),
+      //home: Status(app, 'deviceid1'),
+      //home : QR_reader(),
+      home : MyApp2(),
     );
   }
 }
-
-class HomeTest extends StatelessWidget {
-  //const name({Key key}) : super(key: key);
-
+class MyApp1 extends StatelessWidget {
+  const MyApp1({Key key, this.app}) : super(key: key);
+  final FirebaseApp app;
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Title'),
+    /*FirebaseDB().fetchData("users","396009414e0329f7").then((Map<String, dynamic> data){
+      print(data);
+    });*/
+    //FirebaseDB().updateStatus(app, "Sun");
+    //FirebaseDB().listenStatusChange(app, 'Sun');
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        // children: [CardStatus()],
-      ),
-    );
-  }
-}
-
-class Example extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Text 1'),
-        Text('Text 2'),
-        Card(
-          elevation: 3.0,
-          child: OutlinedButton(
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.login_rounded,
-                      size: 40.0,
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    Text('Continue with Google')
-                  ],
-                ),
-              )),
+      //home: Home(),
+      //home: GetOTP(),
+      //home: Book('992106606'),
+      //home: Load(),
+      //home: Status(app, 'deviceid1'),
+      //home : QR_reader(),
+      home : ElevatedButton(
+        style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28.0)))),
+        child: Padding(
+          padding:
+          EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
+          child: Text("Get OTP", style: TextStyle(fontSize: 30)),
         ),
-      ],
+        onPressed: () {FirebaseDB().updateStatus(app, "Sun");
+        },
+      ),
     );
   }
 }
