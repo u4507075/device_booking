@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:device_booking/models/user_page.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/profile_edit.dart';
 import 'package:device_booking/user/user_pref.dart';
@@ -15,13 +16,16 @@ class ProfilePageNew extends StatefulWidget{
 
 class _ProfilePageNewState extends State<ProfilePageNew> {
 
+  Userpager usr = Userpager();
   Profilepager pfp = Profilepager();
   StreamController<String> _controller = StreamController.broadcast();
+  StreamController<String> _ucontroller = StreamController.broadcast();
 
   @override
   void initState() {
     super.initState();
     pfp.fetchAll(_controller);
+    usr.fetchAll(_ucontroller);
   }
 
   @override
@@ -37,7 +41,17 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
       body: Column(
         children: <Widget>[
           //image
-          ProfileWidget(imagePath: user.imagePath,),
+          StreamBuilder<Object>(
+              stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+              builder: (context, snapshot){
+                if (snapshot != null &&
+                    snapshot.hasData &&
+                    snapshot.data == "success") {
+                  return ProfileWidget(imagePath: usr.imagePath,);
+                } else {
+                  return ProfileWidget(imagePath: user.imagePath,);
+                }
+              }),
           const SizedBox(height: 20),
           //buildName aka Email
           buildName(user),
@@ -101,7 +115,17 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                       );
                     }
                   }),
-              firstNameBox(user),
+              StreamBuilder<Object>(
+                  stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+                  builder: (context, snapshot){
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return Text(usr.firstname, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                    } else {
+                      return firstNameBox(user);
+                    }
+                  }),
             ],
           ),
           Divider(thickness: 0.2, color: Colors.black,),
@@ -132,7 +156,17 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                       );
                     }
                   }),
-              lastNameBox(user),
+              StreamBuilder<Object>(
+                  stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+                  builder: (context, snapshot){
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return Text(usr.lastname, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                    } else {
+                      return lastNameBox(user);
+                    }
+                  }),
             ],
           ),
           Divider(thickness: 0.2, color: Colors.black,),
@@ -163,7 +197,17 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                       );
                     }
                   }),
-              telephoneBox(user),
+              StreamBuilder<Object>(
+                  stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+                  builder: (context, snapshot){
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return Text(usr.telephone, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                    } else {
+                      return telephoneBox(user);
+                    }
+                  }),
             ],
           ),
           Divider(thickness: 0.2, color: Colors.black,),
@@ -194,14 +238,24 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                       );
                     }
                   }),
-              roleBox(user),
+              StreamBuilder<Object>(
+                  stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+                  builder: (context, snapshot){
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return Text(usr.role, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                    } else {
+                      return roleBox(user);
+                    }
+                  }),
             ],
           ),
         ],
       ),
     );
   }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------//
   Widget buildName(User user) => Column(
     children: [
       Text(user.email, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))
@@ -246,5 +300,6 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
     ],
   );
 
+//----------------------------------------------------------------------------------------------------------------------------------------------//
 
 }
