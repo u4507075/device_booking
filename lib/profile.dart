@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/profile_edit.dart';
 import 'package:device_booking/user/user_pref.dart';
 import 'package:device_booking/widget/appbar_widget.dart';
@@ -12,17 +14,57 @@ class ProfilePage extends StatefulWidget{
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  Profilepager pfp = Profilepager();
+  StreamController<String> _controller = StreamController();
+
+  @override
+  void initState() {
+    super.initState();
+    pfp.fetchAll(_controller);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = UserPreferences.myUser;
     return Scaffold(
       appBar: buildAppBar(context),
       body: Column(
-        children: [
+        children: <Widget>[
           ProfileWidget(imagePath: user.imagePath,),
           const SizedBox(height: 20),
           buildName(user),
           editButton(),
+          Divider(thickness: 0.2, color: Colors.black,),
+          //FirstNameBox
+          StreamBuilder<Object>(
+              stream: _controller.stream,
+              builder: (context, snapshot){
+                if (snapshot != null &&
+                    snapshot.hasData &&
+                    snapshot.data == "success") {
+                  return Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    height: MediaQuery.of(context).size.height / 15,
+                    child: Text(pfp.text1, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    height: MediaQuery.of(context).size.height / 15,
+                    child: Text('ErrorText1', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  );
+                }
+              }),
           Divider(thickness: 0.2, color: Colors.black,),
           firstNameBox(user),
           Divider(thickness: 0.2, color: Colors.black,),

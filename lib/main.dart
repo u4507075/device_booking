@@ -1,7 +1,6 @@
 // @dart=2.9
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/profile_edit.dart';
-import 'package:device_booking/profilenew.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +15,7 @@ import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
 import 'package:device_booking/profile.dart';
 import 'package:device_booking/firebasedb.dart';
-
+import 'package:device_booking/profilepagenew.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,9 +75,10 @@ class MyApp extends StatelessWidget {
       //home: Load(),
       //home: Status(app,'deviceid1'),
       //home: MyTestBook(),
-      home: ProfilePage(),
+      home: ProfilePageNew(),
       //home: ProfilePageEdit(),
-      //home: ProfilePageNew(),
+      //home: ProfilePage(),
+      //home: UserList(),
     );
   }
 }
