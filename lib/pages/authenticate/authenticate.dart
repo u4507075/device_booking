@@ -4,12 +4,12 @@ import 'package:device_booking/models/pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LogIn extends StatefulWidget {
+class Authenticate extends StatefulWidget {
   @override
-  _LogInState createState() => _LogInState();
+  _AuthenticateState createState() => _AuthenticateState();
 }
 
-class _LogInState extends State<LogIn> {
+class _AuthenticateState extends State<Authenticate> {
   LogInPage login = LogInPage();
   StreamController<String> _controller = StreamController.broadcast();
 
