@@ -4,7 +4,6 @@ import 'package:device_info/device_info.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:device_booking/book.dart';
-import 'package:device_booking/database.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
