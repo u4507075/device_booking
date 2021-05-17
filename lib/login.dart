@@ -3,14 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:device_info/device_info.dart';
 import 'dart:async';
 import 'dart:io';
-import 'book.dart';
-import 'database.dart';
+import 'package:device_booking/demo/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/demo/getotp.dart';
+import 'package:device_booking/demo/book.dart';
 
-class Load extends StatefulWidget {
-  LoadState createState() => LoadState();
+class Login extends StatefulWidget {
+  LoginState createState() => LoginState();
 }
 
-class LoadState extends State<Load> {
+class LoginState extends State<Login> {
   StreamController<String> _controller = StreamController();
   @override
   void initState() {
@@ -28,7 +31,10 @@ class LoadState extends State<Load> {
   Widget build(BuildContext context) {
     // Material is a conceptual piece
     // of paper on which the UI appears.
-    getID(context);
+    Future.delayed(Duration.zero, () async {
+      checkID(context);
+    });
+
     return Scaffold(
       // Column is a vertical, linear layout.
       body: Align(
@@ -55,22 +61,16 @@ class LoadState extends State<Load> {
     );
   }
 
-  void getID(BuildContext context) async {
-    var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      // import 'dart:io'
-      var iosDeviceInfo = await deviceInfo.iosInfo;
-      // unique ID on iOS
-      _controller.add(iosDeviceInfo.identifierForVendor);
+  void checkID(BuildContext context) {
+    User user = FirebaseAuth.instance.currentUser;
+    print(user);
+    if (user == null) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return Info(iosDeviceInfo.identifierForVendor);
+        return GetOTP();
       }));
     } else {
-      var androidDeviceInfo = await deviceInfo.androidInfo;
-      // unique ID on Android
-      _controller.add(androidDeviceInfo.androidId);
       Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return Info(androidDeviceInfo.androidId);
+        return Book(user.phoneNumber);
       }));
     }
   }

@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:device_booking/models/device.dart';
-import 'package:device_booking/pages/welcome.dart';
+import 'package:device_booking/pages/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
 import 'package:device_booking/src/qrfloatingbutton.dart';
-import 'package:device_booking/pages/deviceinfo.dart';
+import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 
 class UltrasoundStatus extends StatefulWidget {
   @override

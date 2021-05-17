@@ -1,29 +1,3 @@
-// class User {
-//   final String firstname;
-//   final String lastname;
-//   final String imagePath;
-//   final String email;
-//   final String telephone;
-//   final String role;
-
-//   const User({
-//     this.firstname,
-//     this.lastname,
-//     this.imagePath,
-//     this.email,
-//     this.telephone,
-//     this.role,
-//   });
-
-//   static List<User> fetchAll() {
-//     return [
-//       User('First name', 'Lastname')
-//     ];
-//   }
-// }
-
-import 'user_profile.dart';
-
 class User {
   String firstname;
   String lastname;
@@ -53,3 +27,27 @@ class User {
     // return [''];
   }
 }
+
+// class User {
+//   final String firstname;
+//   final String lastname;
+//   final String imagePath;
+//   final String email;
+//   final String telephone;
+//   final String role;
+
+//   const User({
+//     this.firstname,
+//     this.lastname,
+//     this.imagePath,
+//     this.email,
+//     this.telephone,
+//     this.role,
+//   });
+
+//   static List<User> fetchAll() {
+//     return [
+//       User('First name', 'Lastname')
+//     ];
+//   }
+// }

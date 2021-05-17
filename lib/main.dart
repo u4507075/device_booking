@@ -1,24 +1,14 @@
-import 'package:device_booking/pages/login.dart';
-import 'package:device_booking/dev/qrscan.dart';
-import 'package:device_booking/loading.dart';
-import 'package:device_booking/smscode.dart';
+import 'package:device_booking/pages/authenticate/authenticate.dart';
+import 'package:device_booking/pages/home/home.dart';
+import 'package:device_booking/pages/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:device_booking/home.dart';
-import 'package:device_booking/getotp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/book.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:device_booking/test.dart';
-import 'package:device_booking/status.dart';
-import 'package:device_booking/pages/profile.dart';
-import 'package:device_booking/dev/qrscan.dart';
-import 'package:device_booking/dev/homepage.dart';
-import 'pages/welcome.dart';
-import 'pages/ultrasoundstatus.dart';
-import 'src/button.dart';
+// import 'package:device_booking/dev/homepage.dart';
+
 import 'package:device_booking/services/firebasedb.dart';
 
 void main() async {
@@ -80,23 +70,12 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primaryColor: Colors.blue.shade300,
       ),
-      //home: Home(),
-      //home: GetOTP(),
-      //home: Book('992106606'),
-      //home: Load(),
-      // home: ProfilePage(),
-      // home: Status(app, 'deviceid1'),
-      // home: QRScanPage(),
-      // home: HomePage(),
-      home: Welcome(),
-      // home: UltrasoundStatus(),
-      // home: HomeTest(),
-      // home: Status(app,'deviceid1'),
-      //home: ReportProblem(),
-      //home: MyTestBook(),
-      //home: Status(app, 'deviceid1'),
-      //home : QR_reader(),
-      // home: LogIn(),
+      initialRoute: '/authenticate',
+      routes: {
+        '/': (context) => Wrapper(),
+        '/home': (context) => Home(),
+        '/authenticate': (context) => Authenticate(),
+      },
     );
   }
 }

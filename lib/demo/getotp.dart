@@ -1,17 +1,17 @@
-import 'package:device_booking/home.dart';
+import 'home.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:device_booking/smscode.dart';
-import 'package:device_booking/pin.dart';
-import 'package:device_booking/backhome.dart';
+import 'smscode.dart';
+import 'pin.dart';
+import 'backhome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/home.dart';
-import 'package:device_booking/book.dart';
-import 'package:device_booking/alert.dart';
+import 'home.dart';
+import 'book.dart';
+import 'alert.dart';
 
 class GetOTP extends StatefulWidget {
   GetOTPState createState() => GetOTPState();
@@ -25,11 +25,13 @@ class GetOTPState extends State<GetOTP> {
     super.initState();
     _controller.add(false);
   }
+
   @override
   void dispose() {
     _controller.close();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     // Material is a conceptual piece
@@ -37,45 +39,51 @@ class GetOTPState extends State<GetOTP> {
 
     return Scaffold(
       // Column is a vertical, linear layout.
-        body: Align(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text('Enter your phone number',
-                style: TextStyle(fontSize: 20),
-              ),
-              Padding(
+      body: Align(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Enter your phone number',
+              style: TextStyle(fontSize: 20),
+            ),
+            Padding(
                 padding:
-                EdgeInsets.only(top: 50.0, bottom: 50.0, left: 0, right: 0),
-                child: pincode.genTextFields(context,_controller,10, 30.0, 25.0)), // end PinEntryTextField()),
+                    EdgeInsets.only(top: 50.0, bottom: 50.0, left: 0, right: 0),
+                child: pincode.genTextFields(context, _controller, 10, 30.0,
+                    25.0)), // end PinEntryTextField()),
             StreamBuilder<bool>(
-            stream: _controller.stream,
-            builder: (context, snapshot) {
-            return ElevatedButton(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28.0)))),
-                child: Padding(
-                  padding:
-                  EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
-                  child: Text("Get OTP", style: TextStyle(fontSize: 30)),
-                ),
-                onPressed: snapshot.hasData && snapshot.data == false ? null : () {
-                    _controller.add(false);
-                    sendRequest(context);
-                },
-              );}),
-            ],
-          ),
+                stream: _controller.stream,
+                builder: (context, snapshot) {
+                  return ElevatedButton(
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(28.0)))),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: 10.0, bottom: 10.0, left: 50, right: 50),
+                      child: Text("Get OTP", style: TextStyle(fontSize: 30)),
+                    ),
+                    onPressed: snapshot.hasData && snapshot.data == false
+                        ? null
+                        : () {
+                            _controller.add(false);
+                            sendRequest(context);
+                          },
+                  );
+                }),
+          ],
         ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       floatingActionButton: BackHome(),
     );
   }
-
 
   void sendRequest(BuildContext context) {
     try {
@@ -88,17 +96,23 @@ class GetOTPState extends State<GetOTP> {
 
           // Sign the user in (or link) with the auto-generated credential
           await auth.signInWithCredential(credential);
-          Navigator.push(context, MaterialPageRoute(builder: (_) {return Book(pincode.getValues());}));
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return Book(pincode.getValues());
+          }));
         },
         verificationFailed: (FirebaseAuthException e) {
-          Alert().show(context,e.code);
+          Alert().show(context, e.code);
         },
         codeSent: (String verificationId, int resendToken) {
           //Use sms code in IOS and Huawei
-          Navigator.push(context, MaterialPageRoute(builder: (_) {return SMScode(verificationId,pincode.getValues());}));
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return SMScode(verificationId, pincode.getValues());
+          }));
         },
         codeAutoRetrievalTimeout: (String verificationId) {
-          Navigator.push(context, MaterialPageRoute(builder: (_) {return SMScode(verificationId,pincode.getValues());}));
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return SMScode(verificationId, pincode.getValues());
+          }));
         },
       );
     } catch (e) {

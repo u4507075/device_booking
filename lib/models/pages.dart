@@ -1,4 +1,4 @@
-import 'package:device_booking/pages/login.dart';
+import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/services/firebasedb.dart';
 import 'dart:async';
 

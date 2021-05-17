@@ -1,9 +1,8 @@
-import 'package:device_booking/pages/ultrasoundstatus.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
-import 'package:device_booking/pages/ekgstatus.dart';
+import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 
-class Welcome extends StatelessWidget {
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,7 +75,7 @@ class Welcome extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EkgStatus()),
+                    MaterialPageRoute(builder: (context) => UltrasoundStatus()),
                   );
                 },
                 child: CardButton(
