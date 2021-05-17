@@ -104,7 +104,7 @@ class _LogInState extends State<LogIn> {
                                         if (snapshot != null &&
                                             snapshot.hasData &&
                                             snapshot.data == "success") {
-                                        return Image.network(login.logoPath);
+                                        return Image.network(login.logoPath ,height: 15,width: 15);
 
                                         } else {
                                         return Icon(
