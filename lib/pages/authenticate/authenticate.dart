@@ -79,10 +79,20 @@ class _AuthenticateState extends State<Authenticate> {
                   child: ListTile(
                     onTap: () {
                       AuthService().signInWithGoogle().then((user) {
-                        print(user);
-                        print(user.additionalUserInfo);
-                        print(user.credential);
-                        print(user.user);
+                        // print(user);
+                        // print(user.additionalUserInfo);
+                        // print(user.credential);
+                        print(user.user.phoneNumber);
+                        if (user.user.uid != null &&
+                            user.user.phoneNumber != null) {
+                          //login success -> navigate to 'Home' with user data
+                          Navigator.pushReplacementNamed(context, '/getOTP',
+                              arguments: {user});
+                        } else {
+                          //login failed -> reload 'Auth'
+                          Navigator.pushReplacementNamed(
+                              context, '/authenticate');
+                        }
                       });
                     },
                     leading: Icon(
@@ -106,6 +116,7 @@ class _AuthenticateState extends State<Authenticate> {
                   elevation: 3.0,
                   child: ListTile(
                     onTap: () {},
+                    // TODO Apple free developer license can't perform login with phone number, Ref: https://help.apple.com/developer-account/#/dev21218dfd6
                     leading: Icon(
                       Icons.phone,
                       color: Color(0xFF02589D),
@@ -136,3 +147,5 @@ class _AuthenticateState extends State<Authenticate> {
     );
   }
 }
+
+//TODO need to add login with apple id later as required by Apple to be allowed to login with other email
