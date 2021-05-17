@@ -39,7 +39,7 @@ import 'package:device_booking/dev/GUI.dart';
                  'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
            ),
    );
-   runApp(MyApp1(app: app));
+   runApp(MyApp(app: app));
  }
 
 class MyApp extends StatelessWidget {

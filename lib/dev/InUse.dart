@@ -26,7 +26,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
   void initState() {
     super.initState();
     INUSE.fetchAll(_controller);
-    FirebaseDB().getTime(widget.app, "deviceid1");
+    FirebaseDB().getTime(widget.app, _controllerTime, "Sun");
 
 
   }
@@ -124,7 +124,32 @@ class _MainPageBusyState extends State<MainPageBusy> {
                     ),
                     Container(
                       padding: const EdgeInsets.all(15),
-                      child: Text("---") //duration time
+                      child: StreamBuilder<String>(
+                          stream: _controllerTime.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData){
+                              return Text(
+                                snapshot.data,
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }
+                            else{
+                              print(1);
+                              return Text(
+                                '-- hours -- minutes -- secs',
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }
+
+                          }), //duration time
                     ),
                     Container(
                         padding: const EdgeInsets.all(10),
