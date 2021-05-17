@@ -5,6 +5,10 @@ import 'dart:async';
 import 'dart:io';
 import 'package:device_booking/book.dart';
 import 'package:device_booking/database.dart';
+import 'package:device_booking/home.dart';
+import 'package:device_booking/google_signin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Load extends StatefulWidget {
   LoadState createState() => LoadState();
@@ -26,7 +30,8 @@ class LoadState extends State<Load> {
   Widget build(BuildContext context) {
     // Material is a conceptual piece
     // of paper on which the UI appears.
-    getID(context);
+    //getID(context);
+    checkLogin();
     return Scaffold(
       // Column is a vertical, linear layout.
       body: Align(
@@ -65,5 +70,15 @@ class LoadState extends State<Load> {
       _controller.add(androidDeviceInfo.androidId);
       Navigator.push(context, MaterialPageRoute(builder: (_) {return Info(androidDeviceInfo.androidId);}));
     }
+  }
+  void checkLogin() async {
+    await signInWithGoogle().then((UserCredential user) {
+      if (user != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {return Book(user.user.email);}));
+      }
+      else {
+        Navigator.push(context, MaterialPageRoute(builder: (_) {return Home();}));
+      }
+    });
   }
 }

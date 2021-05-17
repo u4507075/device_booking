@@ -77,7 +77,7 @@ class StatusState extends State<Status> {
                 ),
                 onPressed: () {
                   String v = DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now());
-                  ref.child(deviceId).push().set(<String, String>{"date":'Arpunna: $v'});
+                  ref.child(deviceId).push().set(<String, String>{"date":'Piyapong: $v'});
                 }),
           ],
         ),

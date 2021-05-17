@@ -1,3 +1,4 @@
+import 'package:device_booking/firebasedb.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +10,41 @@ import 'package:device_booking/book.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:device_booking/test.dart';
+import 'package:device_booking/status.dart';
+import 'package:device_booking/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  final FirebaseApp app = await Firebase.initializeApp(
+    name: 'db',
+    options: Platform.isIOS || Platform.isMacOS
+        ? const FirebaseOptions(
+      appId: '1:780797690669:ios:b2cdff48c7ca58a231c9a4',
+      apiKey: 'AIzaSyB2FxL38uNcqlhuRql7fJHceaSBeIUDBgU',
+      projectId: 'med-cmu-device-tracking-system',
+      messagingSenderId: '780797690669',
+      databaseURL: 'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
+    )
+        : const FirebaseOptions(
+      appId: '1:780797690669:android:33ab63eb3bed0cd131c9a4',
+      apiKey: 'AIzaSyDiCLAMpx1JS4AHNdw0rWhgOf6HxD_EvCs',
+      messagingSenderId: '780797690669',
+      projectId: 'med-cmu-device-tracking-system',
+      databaseURL: 'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
+    ),
+  );
+  runApp(MyApp(app: app));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key, this.app}) : super(key: key);
+  final FirebaseApp app;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //FirebaseDB().updateStatus(app, 'Arpunna');
+    //FirebaseDB().fetchData("users", '396009414e0329f7').then((Map<String, dynamic> data){
+    FirebaseDB().listenStatusChange(app, 'Sun');
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -38,7 +63,10 @@ class MyApp extends StatelessWidget {
       //home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
-      home: MyTestBook(),
+      //home: Status(app,'deviceid1'),
+      //home: Login(),
+
+      home: LogIn()
     );
   }
 }

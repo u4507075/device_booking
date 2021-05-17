@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/home.dart';
 import 'package:device_booking/alert.dart';
+import 'package:device_booking/logout.dart';
+import 'package:device_booking/firebasedb.dart';
 
 class Book extends StatelessWidget {
   String phone;
@@ -34,8 +36,14 @@ class Book extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: BackHome(),
+
+      floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BackHome(),
+            Logout(),
+          ]
+      ),
     );
   }
 }
