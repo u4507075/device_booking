@@ -4,6 +4,8 @@ import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -76,7 +78,12 @@ class _AuthenticateState extends State<Authenticate> {
                   elevation: 3.0,
                   child: ListTile(
                     onTap: () {
-                      AuthService().signInWithGoogle();
+                      AuthService().signInWithGoogle().then((user) {
+                        print(user);
+                        print(user.additionalUserInfo);
+                        print(user.credential);
+                        print(user.user);
+                      });
                     },
                     leading: Icon(
                       Icons.login_outlined,
