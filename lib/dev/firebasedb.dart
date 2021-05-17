@@ -58,7 +58,7 @@ class FirebaseDB {
           event.snapshot.value);
       print(data["date"]);
       String datetime = data["date"];
-      var time = const Duration(seconds: 1);
+      var time = const Duration(milliseconds: 900);
       Timer.periodic(time, (timer)
       {
           var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
