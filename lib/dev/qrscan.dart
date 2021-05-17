@@ -5,24 +5,7 @@ import 'package:clipboard/clipboard.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
 
-//Method to get permission to use qr code in ios 10.0 and beyond
-//https://stackoverflow.com/questions/39465687/nscamerausagedescription-in-ios-10-0-runtime-crash
 
-//สร้างหัวข้อ+ธีม
-/*class QR_reader extends StatelessWidget {
-  static final String title = 'QR Code Scanner';
-
-  @override
-  Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(
-          primaryColor: Colors.blueGrey,
-          scaffoldBackgroundColor: Colors.teal,
-        ),
-        home: MainPage(title: title),
-      );
-}*/
 //stateful สร้าง state สร้าง column scan qr center
 class MainPageQR extends StatefulWidget {
 
@@ -73,14 +56,14 @@ class _MainPageQRState extends State<MainPageQR> {
                         snapshot.hasData &&
                         snapshot.data == "success") {
 
-                        return ButtonWidget(
-                        text: ScAn.Scan,
-                        onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => QRScan())));
+                        return ElevatedButton(
+                          child: Text(ScAn.Scan),
+                          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => QRScan())));
                         } else {
-                          return ButtonWidget(
-                              text: "Scan QR Code",
-                              onClicked: () => Navigator.of(context).push(MaterialPageRoute(
+                          return ElevatedButton(
+                              child: Text("Scan QR Code"),
+                              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) => QRScan())));
                         }
                         }
@@ -88,24 +71,7 @@ class _MainPageQRState extends State<MainPageQR> {
                       ]),
                     )
               );
-
-
-
 }
-
-// StreamBuilder<Object>(
-// stream: _controller.stream,
-// builder: (context, snapshot) {
-//   return ButtonWidget(
-//   text: ScAn.Scan,
-//   onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-// builder: (BuildContext context) => QRScan(), //redirect
-// )),
-// ),
-// }
-// )
-
-
 
 //หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
 class QRScan extends StatefulWidget {
@@ -197,13 +163,13 @@ class _QRScanState extends State<QRScan> {
                         snapshot.hasData &&
                         snapshot.data == "success") {
 
-                      return ButtonWidget(
-                          text: ScAn.Start,
-                          onClicked: () => scanQRCode());
+                      return ElevatedButton(
+                          child: Text(ScAn.Start),
+                          onPressed: () => scanQRCode());
                     } else {
-                      return ButtonWidget(
-                          text: "Start QR Scan",
-                          onClicked: () => scanQRCode());
+                      return ElevatedButton(
+                          child: Text("Start QR Scan"),
+                          onPressed: () => scanQRCode());
                     }
                   }
               ),
@@ -216,22 +182,16 @@ class _QRScanState extends State<QRScan> {
                         snapshot.hasData &&
                         snapshot.data == "success") {
 
-                      return ButtonWidget(
-                          text: ScAn.Copy,
-                          onClicked: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
+                      return ElevatedButton(
+                          child: Text(ScAn.Copy),
+                          onPressed: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
                     } else {
-                      return ButtonWidget(
-                          text: "Copy Details",
-                          onClicked: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
+                      return ElevatedButton(
+                          child: Text("Copy Details"),
+                          onPressed: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
                     }
                   }
               ),
-              // ButtonWidget(
-              //     text: 'Copy details',    //สร้างปุ่ม+copy to clipboard
-              //     onClicked: () {
-              //       FlutterClipboard.copy('$qrCode')
-              //           .then((value) => print('copied'));
-              //     }),
             ],
           ),
         ),
@@ -255,30 +215,4 @@ class _QRScanState extends State<QRScan> {
       qrCode = 'Failed to get platform version.';
     }
   }
-}
-
-
-//buttonwidget
-class ButtonWidget extends StatelessWidget {
-  final String text;
-  final VoidCallback onClicked;
-
-  const ButtonWidget({
-    @required this.text,
-    @required this.onClicked,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => RaisedButton(
-    child: Text(
-      text,
-      style: TextStyle(fontSize: 24),
-    ),
-    shape: StadiumBorder(),
-    color: Theme.of(context).primaryColor,
-    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    textColor: Colors.white,
-    onPressed: onClicked,
-  );
 }
