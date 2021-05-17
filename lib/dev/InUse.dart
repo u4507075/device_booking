@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/dev/firebasedb.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -67,15 +65,15 @@ class _MainPageBusyState extends State<MainPageBusy> {
                             snapshot.hasData &&
                             snapshot.data == "success") {
 
-                          return ButtonWidget(
-                              text: INUSE.UppR_LfT_Button,
-                              onClicked: () =>
+                          return ElevatedButton(
+                             child: Text (INUSE.UppR_LfT_Button),
+                              onPressed: () =>
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (BuildContext context) => Report())));
                         } else {
-                          return ButtonWidget(
-                              text: "Report",
-                              onClicked: () =>
+                          return ElevatedButton(
+                              child: Text ("Report"),
+                              onPressed: () =>
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (BuildContext context) => Report())));
                         }
@@ -160,16 +158,16 @@ class _MainPageBusyState extends State<MainPageBusy> {
                                   snapshot.hasData &&
                                   snapshot.data == "success") {
 
-                                return ButtonWidget(
-                                    text: INUSE.re,
-                                  onClicked: () =>
+                                return ElevatedButton(
+                                    child: Text(INUSE.re),
+                                  onPressed: () =>
                                       Navigator.of(context).push(MaterialPageRoute(
                                         builder: (BuildContext context) => Back(),
                                       )),);
                               } else {
-                                return ButtonWidget(
-                                    text: "คืนอุปกรณ์",
-                                  onClicked: () =>
+                                return ElevatedButton(
+                                    child: Text("คืนอุปกรณ์"),
+                                  onPressed: () =>
                                       Navigator.of(context).push(MaterialPageRoute(
                                         builder: (BuildContext context) => Back(),
                                       )),);
@@ -182,32 +180,6 @@ class _MainPageBusyState extends State<MainPageBusy> {
             ],
           ),
         ));
-}
-
-
-//buttonwidget
-class ButtonWidget extends StatelessWidget {
-  final String text;
-  final VoidCallback onClicked;
-
-  const ButtonWidget({
-    @required this.text,
-    @required this.onClicked,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => RaisedButton(
-    child: Text(
-      text,
-      style: TextStyle(fontSize: 24),
-    ),
-    shape: StadiumBorder(),
-    color: Theme.of(context).primaryColor,
-    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    textColor: Colors.white,
-    onPressed: onClicked,
-  );
 }
 
 class Report extends StatelessWidget {
