@@ -60,9 +60,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: Home(),
-      //home: GetOTP(),
+      home: GetOTP(),
       //home: Book('992106606'),
-      home: Load(),
+      //home: Load(),
       //home: Status(app,'deviceid1'),
       //home: Login(),
     );
