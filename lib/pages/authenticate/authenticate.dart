@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:device_booking/pages/loading.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -13,18 +14,28 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  // LogInPage login = LogInPage();
-  // StreamController<String> _controller = StreamController.broadcast();
+  void signIn() async {
+    return AuthService().signInWithGoogle().then((user) {
+      if (user.uid != null) {
+        //login success -> navigate to 'Home' with user data
+        Navigator.pushReplacementNamed(context, '/signup',
+            arguments: {'user': user});
+        print('log in success');
+      } else {
+        //login failed -> reload 'Auth'
+        Navigator.pushReplacementNamed(context, '/authenticate');
+        print('log in failed');
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    // login.fetchAll(_controller);
   }
 
   @override
   void dispose() {
-    // _controller.close();
     super.dispose();
   }
 
@@ -78,22 +89,8 @@ class _AuthenticateState extends State<Authenticate> {
                   elevation: 3.0,
                   child: ListTile(
                     onTap: () {
-                      AuthService().signInWithGoogle().then((user) {
-                        // print(user);
-                        // print(user.additionalUserInfo);
-                        // print(user.credential);
-                        print(user.user.phoneNumber);
-                        if (user.user.uid != null &&
-                            user.user.phoneNumber != null) {
-                          //login success -> navigate to 'Home' with user data
-                          Navigator.pushReplacementNamed(context, '/getOTP',
-                              arguments: {user});
-                        } else {
-                          //login failed -> reload 'Auth'
-                          Navigator.pushReplacementNamed(
-                              context, '/authenticate');
-                        }
-                      });
+                      signIn();
+                      Navigator.pushNamed(context, '/loading');
                     },
                     leading: Icon(
                       Icons.login_outlined,

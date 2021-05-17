@@ -1,3 +1,4 @@
+import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
@@ -33,14 +34,15 @@ class Home extends StatelessWidget {
                   ],
                 )),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Icon(Icons.account_circle, size: 50.0),
-                    Text(
-                      'Profile',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        'Profile',
+                        style: b2TextStyle,
+                      ),
                     )
                   ],
                 ),
@@ -85,42 +87,19 @@ class Home extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.grey[100],
-        label: Text(
-          'ยืมอุปกรณ์',
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        label: Text('ยืมอุปกรณ์',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            )),
+        icon: Icon(
+          Icons.qr_code_scanner_outlined,
+          color: Colors.black,
         ),
-        icon: Icon(Icons.qr_code_scanner_outlined),
         onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
-
-// Container(
-//           height: 100.0,
-//           decoration: BoxDecoration(
-//             color: Colors.blue,
-//           ),
-//           child: ListTile(
-//             leading: Icon(
-//               Icons.qr_code_rounded,
-//               size: 70.0,
-//               color: Colors.white,
-//             ),
-//             title: Text(
-//               'Scan QR Code',
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 24.0),
-//             ),
-//             subtitle: Text(
-//               'เพื่อยืมอุปกรณ์',
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.normal,
-//                   fontSize: 20.0),
-//             ),
-//           ),
-//         ),

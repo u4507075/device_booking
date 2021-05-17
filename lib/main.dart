@@ -1,17 +1,29 @@
 import 'package:device_booking/pages/authenticate/authenticate.dart';
+import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/home/home.dart';
+import 'package:device_booking/pages/loading.dart';
 import 'package:device_booking/pages/wrapper.dart';
+import 'package:device_booking/services/auth.dart';
+import 'package:device_booking/style.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:async';
 import 'dart:io';
+import 'pages/authenticate/signup.dart';
+import 'package:provider/provider.dart';
 // import 'package:device_booking/dev/homepage.dart';
 
 import 'package:device_booking/services/firebasedb.dart';
 
 void main() async {
+  LicenseRegistry.addLicense(() async* {
+    final license =
+        await rootBundle.loadString('google_fonts/roboto_LICENSE.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp(
     name: 'db',
@@ -39,43 +51,29 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // print(Text('hi'));
-    // FirebaseDB2().fetchData('users', '396009414e0329f7');
-
-    // FirebaseDB()
-    //     .fetchData('users', '396009414e0329f7')
-    //     .then((value) => (Map<String, dynamic> data) {
-    //           print(data);
-    //         });
-
-    // FirebaseDB().updateStatus(app, 'spatipan');
-
-    // FirebaseDB().listenStatusChange(app, 'Sun');
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primaryColor: Colors.blue.shade300,
+    return StreamProvider<User>.value(
+      initialData: null,
+      value: AuthService().onAuthStateChanged,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: true,
+        title: 'Medical Device Tracking System',
+        theme: ThemeData(
+          appBarTheme:
+              AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+          textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
+          primaryColor: Colors.blue,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => Wrapper(),
+          '/home': (context) => Home(),
+          '/authenticate': (context) => Authenticate(),
+          '/loading': (context) => Loading(),
+          '/signup': (context) => SignUp(),
+        },
       ),
-      initialRoute: '/authenticate',
-      routes: {
-        '/': (context) => Wrapper(),
-        '/home': (context) => Home(),
-        '/authenticate': (context) => Authenticate(),
-      },
     );
   }
 }
@@ -128,3 +126,16 @@ class MyApp1 extends StatelessWidget {
     );
   }
 }
+
+// print(Text('hi'));
+// FirebaseDB2().fetchData('users', '396009414e0329f7');
+
+// FirebaseDB()
+//     .fetchData('users', '396009414e0329f7')
+//     .then((value) => (Map<String, dynamic> data) {
+//           print(data);
+//         });
+
+// FirebaseDB().updateStatus(app, 'spatipan');
+
+// FirebaseDB().listenStatusChange(app, 'Sun');
