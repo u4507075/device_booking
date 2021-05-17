@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/home.dart';
 import 'package:device_booking/alert.dart';
 import 'package:device_booking/logout.dart';
+import 'package:device_booking/firebasedb.dart';
 
 class Book extends StatelessWidget {
   String phone;

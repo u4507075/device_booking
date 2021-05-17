@@ -1,3 +1,4 @@
+import 'package:device_booking/firebasedb.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
+    //FirebaseDB().updateStatus(app, 'Arpunna');
+    //FirebaseDB().fetchData("users", '396009414e0329f7').then((Map<String, dynamic> data){
+    FirebaseDB().listenStatusChange(app, 'Sun');
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -59,9 +62,11 @@ class MyApp extends StatelessWidget {
       //home: Home(),
       //home: GetOTP(),
       //home: Book('992106606'),
-      home: Load(),
+      //home: Load(),
       //home: Status(app,'deviceid1'),
       //home: Login(),
+
+      home: LogIn()
     );
   }
 }
