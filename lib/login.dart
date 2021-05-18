@@ -49,13 +49,32 @@ class _LogInState extends State<LogIn> {
                                   snapshot.hasData &&
                                   snapshot.data == "success") {
                                 return Text(
-                                  login.header,
+                                  login.header1,
                                   style: TextStyle(
                                       fontSize: 35.0, fontWeight: FontWeight.bold, color: Colors.white),
                                 );
                               } else {
                                 return Text(
-                                  'Medical Device Tracking System',
+                                  'Medical Device',
+                                  style: TextStyle(
+                                      fontSize: 35.0, fontWeight: FontWeight.bold, color: Colors.white),
+                                );
+                              }
+                            }),
+                        StreamBuilder<Object>(
+                            stream: _controller.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot != null &&
+                                  snapshot.hasData &&
+                                  snapshot.data == "success") {
+                                return Text(
+                                  login.header2,
+                                  style: TextStyle(
+                                      fontSize: 35.0, fontWeight: FontWeight.bold, color: Colors.white),
+                                );
+                              } else {
+                                return Text(
+                                  'Tracking System',
                                   style: TextStyle(
                                       fontSize: 35.0, fontWeight: FontWeight.bold, color: Colors.white),
                                 );
@@ -104,7 +123,7 @@ class _LogInState extends State<LogIn> {
                                         if (snapshot != null &&
                                             snapshot.hasData &&
                                             snapshot.data == "success") {
-                                        return Image.network(login.logoPath ,height: 15,width: 15);
+                                        return Image.network(login.logoPath,height: 40, width: 40,);
 
                                         } else {
                                         return Icon(
@@ -127,10 +146,10 @@ class _LogInState extends State<LogIn> {
                                               snapshot.data == "success") {
                                             return Text(
                                               login.text1,
-                                              style: TextStyle(
-                                                  fontSize: 18.0,
-                                                  color: Colors.black,
-                                                  fontStyle: FontStyle.italic),
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54)
                                             );
                                           } else {
                                             return Text(
