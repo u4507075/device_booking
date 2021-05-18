@@ -1,10 +1,8 @@
-import 'package:device_booking/Confirmation/No.dart';
 import 'package:device_booking/Confirmation/Yes.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/models/pages.dart';
 import 'Back.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
 
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
@@ -20,7 +18,7 @@ class _ConfiPageState extends State<ConfiPage> {
 
   ConfirmBook confibook = ConfirmBook();
   StreamController<String> _controller = StreamController.broadcast();
-
+ 
   @override
   void initState() {
     super.initState();
@@ -74,8 +72,8 @@ class _ConfiPageState extends State<ConfiPage> {
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
-              width: (MediaQuery.of(context).size.width)/2.5,
-              height: (MediaQuery.of(context).size.width)/2.5,
+              width: (MediaQuery.of(context).size.width)/3,
+              height: (MediaQuery.of(context).size.width)/3,
               child: StreamBuilder<Object>(
                   stream: _controller.stream,
                   builder: (context, snapshot) {
@@ -92,9 +90,9 @@ class _ConfiPageState extends State<ConfiPage> {
                       );
                     }
                   }),),
-        SizedBox(
-              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height)/30,
-            ),
+        //SizedBox(
+            //  height: (MediaQuery.of(context).size.height - appBar.preferredSize.height)/30,
+          //  ),
             Card(
               margin: EdgeInsets.fromLTRB(30.0, 15.0, 16.0, 0.0),
               child: Column(
@@ -437,14 +435,14 @@ class _ConfiPageState extends State<ConfiPage> {
 
 showAlertDialog(BuildContext context) {
   // set up the buttons
-  Widget cancelButton = FlatButton(
+  Widget cancelButton = TextButton(
       child: Text("Cancel"),
       onPressed: () {
         Navigator.of(context, rootNavigator: true)
             .pop(); // dismisses only the dialog and returns nothing
       }
   );
-  Widget continueButton = FlatButton(
+  Widget continueButton = TextButton(
     child: Text("Continue"),
     onPressed:  () {
       Navigator.push(
