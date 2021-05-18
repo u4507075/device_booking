@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/',
+        initialRoute: '/signup',
         routes: {
           '/': (context) => Wrapper(),
           '/home': (context) => Home(),

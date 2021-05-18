@@ -39,7 +39,7 @@ class AuthService {
       UserCredential user = await _auth.signInWithCredential(credential);
 
       // print(user);
-      print('login success');
+      // print('login success');
       return _userDataFromFirebaseUser(user.user);
     } catch (e) {
       print(e);
