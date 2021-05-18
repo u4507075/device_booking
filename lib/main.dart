@@ -64,8 +64,6 @@ class MyApp extends StatelessWidget {
       //home: Book('992106606'),
       //home: Load(),
       //home: Status(app,'deviceid1'),
-      //home: Login(),
-
       home: LogIn()
     );
   }

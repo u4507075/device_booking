@@ -81,8 +81,6 @@ class SMScodeState extends State<SMScode> {
             ],
           ),
         ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: BackHome(),
     );
   }
   verifyPhone(BuildContext context) async {

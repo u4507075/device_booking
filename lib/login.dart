@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:device_booking/models/pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:device_booking/google_signin.dart';
+import 'package:device_booking/getotp.dart';
 
 
 class LogIn extends StatefulWidget {
@@ -110,7 +112,9 @@ class _LogInState extends State<LogIn> {
                           elevation: 3.0,
                           color: Colors.white,
                           child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () => {
+                                signInWithGoogle()
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
@@ -170,7 +174,12 @@ class _LogInState extends State<LogIn> {
                           elevation: 3.0,
                           color: Colors.white,
                           child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => GetOTP()),
+                                );
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(

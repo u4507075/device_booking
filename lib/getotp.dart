@@ -71,8 +71,6 @@ class GetOTPState extends State<GetOTP> {
             ],
           ),
         ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-      floatingActionButton: BackHome(),
     );
   }
 
