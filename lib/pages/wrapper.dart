@@ -1,4 +1,5 @@
 import 'package:device_booking/pages/authenticate/authenticate.dart';
+import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/home/home.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,7 +16,7 @@ class Wrapper extends StatelessWidget {
     // print(user);
     if (user != null && user.phoneNumber != null) {
       //TODO Add verification that user has enter phone number before redirect to Home
-      return Home();
+      return SignUp();
     } else {
       return Authenticate();
     }
