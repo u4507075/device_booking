@@ -1,25 +1,32 @@
-import 'package:device_booking/loading.dart';
-import 'package:device_booking/smscode.dart';
+import './pages/authenticate/otpverification.dart';
+import 'package:device_booking/pages/authenticate/authenticate.dart';
+import 'package:device_booking/pages/authenticate/signup.dart';
+import 'package:device_booking/pages/home/home.dart';
+import 'package:device_booking/pages/loading.dart';
+import 'package:device_booking/pages/wrapper.dart';
+import 'package:device_booking/services/auth.dart';
+import 'package:device_booking/style.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:device_booking/home.dart';
-import 'package:device_booking/getotp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/book.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:device_booking/test.dart';
-import 'package:device_booking/status.dart';
-import 'package:device_booking/pages/profile.dart';
-import 'package:device_booking/dev/qrscan.dart';
-import 'package:device_booking/dev/homepage.dart';
-import 'pages/welcome.dart';
-import 'pages/ultrasoundstatus.dart';
-import 'src/button.dart';
+import 'pages/authenticate/signup.dart';
+import 'package:provider/provider.dart';
+import './services/auth.dart';
+import './models/user.dart';
+// import 'package:device_booking/dev/homepage.dart';
+
 import 'package:device_booking/services/firebasedb.dart';
 
 void main() async {
+  LicenseRegistry.addLicense(() async* {
+    final license =
+        await rootBundle.loadString('google_fonts/roboto_LICENSE.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp(
     name: 'db',
@@ -47,24 +54,46 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<UserData>.value(
+      initialData: null,
+      value: AuthService().onAuthStateChangedUserData,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: true,
+        title: 'Medical Device Tracking System',
+        theme: ThemeData(
+          appBarTheme:
+              AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+          textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
+          primaryColor: Colors.blue,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => Wrapper(),
+          '/home': (context) => Home(),
+          '/authenticate': (context) => Authenticate(),
+          '/loading': (context) => Loading(),
+          '/signup': (context) => SignUp(),
+          '/getotp': (context) => GetOTP(),
+        },
+      ),
+    );
+  }
+}
+
+class MyApp1 extends StatelessWidget {
+  const MyApp1({Key key, this.app}) : super(key: key);
+  final FirebaseApp app;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print(Text('hi'));
-    // FirebaseDB2().fetchData('users', '396009414e0329f7');
-
-    // FirebaseDB()
-    //     .fetchData('users', '396009414e0329f7')
-    //     .then((value) => (Map<String, dynamic> data) {
-    //           print(data);
-    //         });
-
-    // FirebaseDB().updateStatus(app, 'spatipan');
-
-    // FirebaseDB().listenStatusChange(app, 'Sun');
-
+    /*FirebaseDB().fetchData("users","396009414e0329f7").then((Map<String, dynamic> data){
+      print(data);
+    });*/
+    //FirebaseDB().updateStatus(app, "Sun");
+    //FirebaseDB().listenStatusChange(app, 'Sun');
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -76,74 +105,41 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primaryColor: Colors.blue.shade300,
+        primarySwatch: Colors.blue,
       ),
       //home: Home(),
-      //home: GetOTP(),
+      // home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
+      //home: Status(app, 'deviceid1'),
+      //home : QR_reader(),
+      // home : ElevatedButton(
+      //   style: ButtonStyle(
+      //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      //           RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(28.0)))),
+      //   child: Padding(
+      //     padding:
+      //     EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
+      //     child: Text("Get OTP", style: TextStyle(fontSize: 30)),
+      //   ),
+      //   onPressed: () {FirebaseDB().updateStatus(app, "Sun");
+      //   },
+      // ),
       // home: ProfilePage(),
-      // home: Status(app, 'deviceid1'),
-      // home: QRScanPage(),
-      // home: HomePage(),
-      // home: Welcome(),
-      // home: UltrasoundStatus(),
-      // home: HomeTest(),
-      // home: Status(app,'deviceid1'),
-      //home: ReportProblem(),
-      //home: MyTestBook(),
     );
   }
 }
 
-class HomeTest extends StatelessWidget {
-  //const name({Key key}) : super(key: key);
+// print(Text('hi'));
+// FirebaseDB2().fetchData('users', '396009414e0329f7');
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Title'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        // children: [CardStatus()],
-      ),
-    );
-  }
-}
+// FirebaseDB()
+//     .fetchData('users', '396009414e0329f7')
+//     .then((value) => (Map<String, dynamic> data) {
+//           print(data);
+//         });
 
-class Example extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Text 1'),
-        Text('Text 2'),
-        Card(
-          elevation: 3.0,
-          child: OutlinedButton(
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.login_rounded,
-                      size: 40.0,
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    Text('Continue with Google')
-                  ],
-                ),
-              )),
-        ),
-      ],
-    );
-  }
-}
+// FirebaseDB().updateStatus(app, 'spatipan');
+
+// FirebaseDB().listenStatusChange(app, 'Sun');

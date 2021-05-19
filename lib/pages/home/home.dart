@@ -1,11 +1,20 @@
-import 'package:device_booking/pages/ultrasoundstatus.dart';
+import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
-import 'package:device_booking/pages/ekgstatus.dart';
+import 'package:device_booking/pages/deviceinfo/devicelist.dart';
+import 'package:provider/provider.dart';
+import 'package:device_booking/models/user.dart';
 
-class Welcome extends StatelessWidget {
+//To use UserData copy this!
+// import 'package:provider/provider.dart';
+// import 'package:device_booking/models/user.dart';
+
+// final user = Provider.of<UserData>(context); //add this below build method
+
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -26,7 +35,7 @@ class Welcome extends StatelessWidget {
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                        text: '\nUser', //TODO: get name of user
+                        text: '\n${user.firstname}', //TODO: get name of user
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.normal,
@@ -34,14 +43,15 @@ class Welcome extends StatelessWidget {
                   ],
                 )),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Icon(Icons.account_circle, size: 50.0),
-                    Text(
-                      'Profile',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        'Profile',
+                        style: b2TextStyle,
+                      ),
                     )
                   ],
                 ),
@@ -76,7 +86,7 @@ class Welcome extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EkgStatus()),
+                    MaterialPageRoute(builder: (context) => UltrasoundStatus()),
                   );
                 },
                 child: CardButton(
@@ -86,42 +96,19 @@ class Welcome extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.grey[100],
-        label: Text(
-          'ยืมอุปกรณ์',
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        label: Text('ยืมอุปกรณ์',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            )),
+        icon: Icon(
+          Icons.qr_code_scanner_outlined,
+          color: Colors.black,
         ),
-        icon: Icon(Icons.qr_code_scanner_outlined),
         onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
-
-// Container(
-//           height: 100.0,
-//           decoration: BoxDecoration(
-//             color: Colors.blue,
-//           ),
-//           child: ListTile(
-//             leading: Icon(
-//               Icons.qr_code_rounded,
-//               size: 70.0,
-//               color: Colors.white,
-//             ),
-//             title: Text(
-//               'Scan QR Code',
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 24.0),
-//             ),
-//             subtitle: Text(
-//               'เพื่อยืมอุปกรณ์',
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.normal,
-//                   fontSize: 20.0),
-//             ),
-//           ),
-//         ),

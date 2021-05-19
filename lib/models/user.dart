@@ -1,55 +1,47 @@
-// class User {
-//   final String firstname;
-//   final String lastname;
-//   final String imagePath;
-//   final String email;
-//   final String telephone;
-//   final String role;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-//   const User({
-//     this.firstname,
-//     this.lastname,
-//     this.imagePath,
-//     this.email,
-//     this.telephone,
-//     this.role,
-//   });
-
-//   static List<User> fetchAll() {
-//     return [
-//       User('First name', 'Lastname')
-//     ];
-//   }
-// }
-
-import 'user_profile.dart';
-
-class User {
+class UserData {
   String firstname;
   String lastname;
-  String telephone;
+  String phoneNumber;
   String role;
   String email;
-  String imagePath;
-  Map<String, dynamic> profileDetail;
+  String photoURL;
+  String uid;
 
-  User(this.firstname, this.lastname, this.telephone, this.role, this.email,
-      this.imagePath);
+  UserData(
+      {this.firstname,
+      this.lastname,
+      this.phoneNumber,
+      this.role,
+      this.email,
+      this.photoURL,
+      this.uid});
 
-  static User fetchAll() {
-    return User(
-      'patipan',
-      'sitthiprawiat',
-      '0982518399',
-      'intern',
-      'patipan120897@gmail.com',
-      'https://i.pinimg.com/originals/1a/1d/7f/1a1d7fc83afe89b6ad0f01d075d210f0.png',
-    );
+  UserData sample() => UserData(
+        firstname: 'Sample',
+        lastname: '',
+        phoneNumber: '',
+        role: '',
+        email: 'sample@elearning.cmu.ac.th',
+        photoURL: '',
+        uid: '',
+      );
+}
+
+class InheritedUserData extends InheritedWidget {
+  InheritedUserData({Key key, Widget child, this.user})
+      : super(key: key, child: child);
+
+  final UserData user;
+
+  static InheritedUserData of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<InheritedUserData>();
   }
 
-  static List<User> fetchDetail() {
-    User data;
-    data = fetchAll();
-    // return [''];
+  @override
+  bool updateShouldNotify(InheritedUserData oldWidget) {
+    return true;
   }
 }
