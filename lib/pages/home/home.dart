@@ -2,10 +2,19 @@ import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
+import 'package:provider/provider.dart';
+import 'package:device_booking/models/user.dart';
+
+//To use UserData copy this!
+// import 'package:provider/provider.dart';
+// import 'package:device_booking/models/user.dart';
+
+// final user = Provider.of<UserData>(context); //add this below build method
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -26,7 +35,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                        text: '\nUser', //TODO: get name of user
+                        text: '\n${user.firstname}', //TODO: get name of user
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.normal,
