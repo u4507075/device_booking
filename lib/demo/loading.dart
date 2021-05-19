@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:device_info/device_info.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:device_booking/book.dart';
-import 'package:device_booking/database.dart';
+import 'book.dart';
+import 'database.dart';
 
 class Load extends StatefulWidget {
   LoadState createState() => LoadState();
@@ -17,11 +17,13 @@ class LoadState extends State<Load> {
     super.initState();
     _controller.add('Loading');
   }
+
   @override
   void dispose() {
     _controller.close();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     // Material is a conceptual piece
@@ -36,34 +38,40 @@ class LoadState extends State<Load> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.all(30),
-                child: StreamBuilder<String>(
-                    stream: _controller.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData){
-                        return Text(snapshot.data);
-                      }
-                      else{
-                        return Text("Loading");
-                      }
-                    }),),
+              padding: EdgeInsets.all(30),
+              child: StreamBuilder<String>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data);
+                    } else {
+                      return Text("Loading");
+                    }
+                  }),
+            ),
           ],
         ),
       ),
     );
   }
+
   void getID(BuildContext context) async {
     var deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) { // import 'dart:io'
+    if (Platform.isIOS) {
+      // import 'dart:io'
       var iosDeviceInfo = await deviceInfo.iosInfo;
       // unique ID on iOS
       _controller.add(iosDeviceInfo.identifierForVendor);
-      Navigator.push(context, MaterialPageRoute(builder: (_) {return Info(iosDeviceInfo.identifierForVendor);}));
+      Navigator.push(context, MaterialPageRoute(builder: (_) {
+        return Info(iosDeviceInfo.identifierForVendor);
+      }));
     } else {
       var androidDeviceInfo = await deviceInfo.androidInfo;
       // unique ID on Android
       _controller.add(androidDeviceInfo.androidId);
-      Navigator.push(context, MaterialPageRoute(builder: (_) {return Info(androidDeviceInfo.androidId);}));
+      Navigator.push(context, MaterialPageRoute(builder: (_) {
+        return Info(androidDeviceInfo.androidId);
+      }));
     }
   }
 }
