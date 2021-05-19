@@ -14,6 +14,8 @@ import 'dart:async';
 import 'dart:io';
 import 'pages/authenticate/signup.dart';
 import 'package:provider/provider.dart';
+import './services/auth.dart';
+import './models/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
 
 import 'package:device_booking/services/firebasedb.dart';
@@ -53,9 +55,9 @@ class MyApp extends StatelessWidget {
   final FirebaseApp app;
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
+    return StreamProvider<UserData>.value(
       initialData: null,
-      value: AuthService().onAuthStateChanged,
+      value: AuthService().onAuthStateChangedUserData,
       child: MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Medical Device Tracking System',
@@ -65,7 +67,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/signup',
+        initialRoute: '/',
         routes: {
           '/': (context) => Wrapper(),
           '/home': (context) => Home(),

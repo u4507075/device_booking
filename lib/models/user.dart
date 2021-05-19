@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class UserData {
   String firstname;
   String lastname;
-  String phomeNumber;
+  String phoneNumber;
   String role;
   String email;
   String photoURL;
@@ -12,7 +13,7 @@ class UserData {
   UserData(
       {this.firstname,
       this.lastname,
-      this.phomeNumber,
+      this.phoneNumber,
       this.role,
       this.email,
       this.photoURL,
@@ -21,10 +22,26 @@ class UserData {
   UserData sample() => UserData(
         firstname: 'Sample',
         lastname: '',
-        phomeNumber: '',
+        phoneNumber: '',
         role: '',
         email: 'sample@elearning.cmu.ac.th',
         photoURL: '',
         uid: '',
       );
+}
+
+class InheritedUserData extends InheritedWidget {
+  InheritedUserData({Key key, Widget child, this.user})
+      : super(key: key, child: child);
+
+  final UserData user;
+
+  static InheritedUserData of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<InheritedUserData>();
+  }
+
+  @override
+  bool updateShouldNotify(InheritedUserData oldWidget) {
+    return true;
+  }
 }

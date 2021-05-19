@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:device_booking/demo/google_signin.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +15,7 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  void signIn() async {
+  Future<void> signIn() async {
     return AuthService().signInWithGoogle().then((user) {
       if (user.uid != null) {
         //login success -> navigate to 'Home' with user data
@@ -89,8 +90,11 @@ class _AuthenticateState extends State<Authenticate> {
                   elevation: 3.0,
                   child: ListTile(
                     onTap: () {
-                      signIn();
                       Navigator.pushNamed(context, '/loading');
+                      AuthService().signInWithGoogle().then((value) {
+                        Navigator.pop(context);
+                        Navigator.pushReplacementNamed(context, '/signup');
+                      });
                     },
                     leading: Icon(
                       Icons.login_outlined,

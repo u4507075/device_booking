@@ -38,7 +38,7 @@ final b1TextStyle = GoogleFonts.roboto(
 
 final b2TextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
         fontSize: smallTextSize,
         color: Colors.black));
 
