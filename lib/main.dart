@@ -74,6 +74,7 @@ class MyApp extends StatelessWidget {
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
           '/devicelist/deviceinfo': (context) => DeviceInfo(),
+          '/report': (context) =>
         },
       ),
     );

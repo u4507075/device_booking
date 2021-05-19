@@ -41,7 +41,9 @@ class DeviceInfo extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/report');
+                            },
                             child: Text('Report'),
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.amber, onPrimary: Colors.black),
