@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:device_booking/pin.dart';
-import 'package:device_booking/backhome.dart';
+import 'pin.dart';
+import 'backhome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/home.dart';
-import 'package:device_booking/alert.dart';
+import 'home.dart';
+import 'alert.dart';
 
 class Book extends StatelessWidget {
   String phone;
-  Book(String phone){
+  Book(String phone) {
     this.phone = phone;
   }
   @override
@@ -27,7 +27,8 @@ class Book extends StatelessWidget {
           children: <Widget>[
             Padding(
                 padding: EdgeInsets.all(30),
-                child: Text("Log in by: "+phone,
+                child: Text(
+                  "Log in by: " + phone,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20),
                 )),
