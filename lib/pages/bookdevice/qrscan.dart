@@ -5,74 +5,6 @@ import 'package:clipboard/clipboard.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
 
-
-//stateful สร้าง state สร้าง column scan qr center
-class MainPageQR extends StatefulWidget {
-
-  @override
-  _MainPageQRState createState() => _MainPageQRState();
-}
-
-class _MainPageQRState extends State<MainPageQR> {
-
-  QRScanPage ScAn = QRScanPage();
-  StreamController<String> _controller = StreamController.broadcast();
-
-  @override
-  void initState() {
-    super.initState();
-    ScAn.fetchAll(_controller);
-
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: StreamBuilder<Object>(
-            stream: _controller.stream,
-            builder: (context, snapshot) {
-              if (snapshot != null &&
-                  snapshot.hasData &&
-                  snapshot.data == "success") {
-                return Text(ScAn.Brrr);
-              } else {
-                return Text('QR Code Scanner');
-              }
-            }),
-      ),
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [StreamBuilder<Object>(
-                stream: _controller.stream,
-                builder: (context, snapshot) {
-                  if (snapshot != null &&
-                      snapshot.hasData &&
-                      snapshot.data == "success") {
-
-                    return ElevatedButton(
-                        child: Text(ScAn.Scan),
-                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => QRScan())));
-                  } else {
-                    return ElevatedButton(
-                        child: Text("Scan QR Code"),
-                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => QRScan())));
-                  }
-                }
-            ),
-            ]),
-      )
-  );
-}
-
 //หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
 class QRScan extends StatefulWidget {
   @override
@@ -85,6 +17,7 @@ class _QRScanState extends State<QRScan> {
   String qrCode = 'Unknown';
 
   QRScanPage ScAn = QRScanPage();
+
   StreamController<String> _controller = StreamController.broadcast();
 
   @override
@@ -216,3 +149,4 @@ class _QRScanState extends State<QRScan> {
     }
   }
 }
+

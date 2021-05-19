@@ -15,6 +15,7 @@ import 'dart:io';
 import 'pages/authenticate/signup.dart';
 import 'package:provider/provider.dart';
 // import 'package:device_booking/dev/homepage.dart';
+import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
 import 'package:device_booking/services/firebasedb.dart';
 
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
+          '/qrscan': (context) => QRScan(),
         },
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 
+
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -97,7 +98,9 @@ class Home extends StatelessWidget {
           Icons.qr_code_scanner_outlined,
           color: Colors.black,
         ),
-        onPressed: () {},
+          onPressed: () {
+          Navigator.pushNamed(context, '/qrscan');
+          },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
