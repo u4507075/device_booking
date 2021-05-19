@@ -9,7 +9,7 @@ class Apple extends StatefulWidget {
 
   @override
   _AppleState createState() => _AppleState();
-}
+} 
 
 class _AppleState extends State<Apple> {
   ReportProblemPage Reportproblem = ReportProblemPage();
