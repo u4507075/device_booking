@@ -1,3 +1,4 @@
+import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/home/home.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
+          '/getotp': (context) => GetOTP(),
         },
       ),
     );
@@ -106,7 +108,7 @@ class MyApp1 extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: Home(),
-      //home: GetOTP(),
+      // home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
       //home: Status(app, 'deviceid1'),

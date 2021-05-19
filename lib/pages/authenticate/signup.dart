@@ -52,8 +52,9 @@ class _SignUpState extends State<SignUp> {
                 onPressed: () {
                   print('Submit Form');
                   print(user.phoneNumber);
-                  Navigator.pushNamed(context, '/home');
+                  // Navigator.pushNamed(context, '/home');
                   if (_formKey.currentState.validate()) {
+                    Navigator.pushReplacementNamed(context, '/getotp');
                   } else {
                     // ScaffoldMessenger.of(context)
                     //     .showSnackBar(SnackBar(content: Text(user.firstname)));
