@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserData {
-  String firstname;
+  String firstname = 'User';
   String lastname;
-  String phomeNumber;
+  String phoneNumber;
   String role;
   String email;
   String photoURL;
@@ -12,12 +12,24 @@ class UserData {
   UserData(
       {this.firstname,
       this.lastname,
-      this.phomeNumber,
+      this.phoneNumber,
       this.role,
       this.email,
       this.photoURL,
       this.uid});
+
+  UserData sample() => UserData(
+        firstname: 'Sample',
+        lastname: 'Sample',
+        phoneNumber: '0981234567',
+        role: 'Intern',
+        email: 'sample@elearning.cmu.ac.th',
+        photoURL:
+            'https://th.jobsdb.com/th-th/cms/employer/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png',
+        uid: 'sdfluioASDFiosdfadsf',
+      );
 }
+
 //   String firstname;
 //   String lastname;
 //   String phomeNumber;

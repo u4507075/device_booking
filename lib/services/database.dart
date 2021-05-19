@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/models/device.dart';
 
 class FirebaseDB {
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
@@ -19,27 +20,39 @@ class FirebaseDB {
     }
   }
 
-  void updateStatus(FirebaseApp app, String deviceId) {
-    FirebaseDatabase database = FirebaseDatabase(app: app);
-    final ref = database.reference();
-    ref.child(deviceId).push().set(<String, String>{
-      "date": DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
-      //Add user id
-      //Add device is
-      //Add status borrow / return
-    });
+  Future<Device> fetchDevice(String document) async {
+    CollectionReference doc = FirebaseFirestore.instance.collection('device');
+    DocumentSnapshot documentSnapshot = await doc.doc(document).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> device = documentSnapshot.data();
+      return Device(
+          deviceId: device['deviceId'],
+          type: device['type'],
+          name: device['name'],
+          operatingZone: device['operatingZone']);
+    } else {
+      return null;
+    }
   }
+
+  // void updateStatus(FirebaseApp app, String deviceId, String uid, , ) {
+  //   FirebaseDatabase database = FirebaseDatabase(app: app);
+  //   final ref = database.reference();
+  //   ref.child(deviceId).push().set(<String, String>{
+  //     "date": DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
+
+  //     //Add user id
+  //     //Add device id
+  //     //Add status borrow / return
+  //   });
+  // }
 
   void listenStatusChange(FirebaseApp app, String deviceId) {
     FirebaseDatabase database = FirebaseDatabase(app: app);
     final ref = database.reference();
-    ref
-        .child(deviceId)
-        .limitToLast(1)
-        .onChildAdded
-        .listen((event) {
-      Map<String, dynamic> data = new Map<String, dynamic>.from(
-          event.snapshot.value);
+    ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
+      Map<String, dynamic> data =
+          new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
     });
   }
@@ -48,45 +61,31 @@ class FirebaseDB {
       StreamController<String> _controllerTime, String deviceId) {
     FirebaseDatabase database = FirebaseDatabase(app: app);
     final ref = database.reference();
-    ref
-        .child(deviceId)
-        .limitToLast(1)
-        .onChildAdded
-        .listen((event) {
-      Map<String, dynamic> data = new Map<String, dynamic>.from(
-          event.snapshot.value);
+    ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
+      Map<String, dynamic> data =
+          new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
       String datetime = data["date"];
       var time = const Duration(milliseconds: 900);
-      Timer.periodic(time, (timer)
-      {
+      Timer.periodic(time, (timer) {
         var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
-        final hrs = DateTime
-            .now()
-            .difference(dateTime1)
-            .inHours;
-        final mins = DateTime
-            .now()
-            .difference(dateTime1)
-            .inMinutes;
-        final secs = DateTime
-            .now()
-            .difference(dateTime1)
-            .inSeconds;
+        final hrs = DateTime.now().difference(dateTime1).inHours;
+        final mins = DateTime.now().difference(dateTime1).inMinutes;
+        final secs = DateTime.now().difference(dateTime1).inSeconds;
         int min = mins % 60;
         int sec = secs % 60;
-        if(hrs == 0) {
+        if (hrs == 0) {
           _controllerTime.add('$min minutes $sec secs');
-          if(min == 0) {
+          if (min == 0) {
             _controllerTime.add('$sec secs');
-          }else{
+          } else {
             _controllerTime.add('$min minutes $sec secs');
           }
-        }else{
+        } else {
           _controllerTime.add('$hrs hours $min minutes $sec secs');
-          if(min == 0) {
+          if (min == 0) {
             _controllerTime.add('$hrs hours $sec secs');
-          }else{
+          } else {
             _controllerTime.add('$hrs hours $min minutes $sec secs');
           }
         }

@@ -1,4 +1,4 @@
-import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/services/database.dart';
 import 'dart:async';
 
 class LogInPage {
@@ -7,6 +7,21 @@ class LogInPage {
   String subtitle;
   String text1;
   String text2;
+
+  // void fetchAll(StreamController<String> _controller) {
+  //   FirebaseDB().fetchData('pages', 'login').then((data) {
+  //     print(data);
+  //     this.header = data['header'];
+  //     this.logoPath = data['logo'];
+  //     this.subtitle = data['subtitle'];
+  //     this.text1 = data['text'];
+  //     this.text2 = data['text2'];
+  //     _controller.add('success');
+  //   });
+  // }
+
+  // LogInPage({this.header, this.subtitle, this.text1, this.text2})
+
   void fetchAll(StreamController<String> _controller) {
     FirebaseDB().fetchData('pages', 'login').then((data) {
       print(data);
@@ -19,7 +34,6 @@ class LogInPage {
     });
   }
 }
-
 
 class QRScanPage {
   String Brrr;
@@ -40,7 +54,6 @@ class QRScanPage {
   }
 }
 
-
 class InUsePage {
   String ApPbAr;
   String DU_RaTION;
@@ -59,7 +72,6 @@ class InUsePage {
     });
   }
 }
-
 
 class BusyDevice {
   String Header;
@@ -89,7 +101,6 @@ class BusyDevice {
     });
   }
 }
-
 
 class SelectLoPage {
   String header;
@@ -122,7 +133,6 @@ class SelectLoPage {
   }
 }
 
-
 class ConfirmBook {
   String header;
   String subheader_1;
@@ -141,7 +151,7 @@ class ConfirmBook {
       this.subheader_1 = data['Subheader_1'];
       this.subheader_2 = data['Subheader_2'];
       this.subheader_3 = data['Subheader_3'];
-      this.picture= data['Picture'];
+      this.picture = data['Picture'];
       this.button_1 = data['Button_1'];
       this.button_2 = data['Button_2'];
       this.text_1 = data['Text_1'];

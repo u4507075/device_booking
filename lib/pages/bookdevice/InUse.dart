@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
-import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 
 class MainPageBusy extends StatefulWidget {
   final FirebaseApp app;
@@ -14,8 +13,6 @@ class MainPageBusy extends StatefulWidget {
 }
 
 class _MainPageBusyState extends State<MainPageBusy> {
-
-
   InUsePage INUSE = InUsePage();
   StreamController<String> _controller = StreamController.broadcast();
   StreamController<String> _controllerTime = StreamController();
@@ -25,15 +22,12 @@ class _MainPageBusyState extends State<MainPageBusy> {
     super.initState();
     INUSE.fetchAll(_controller);
     FirebaseDB().getTime(widget.app, _controllerTime, "Sun");
-
-
   }
 
   @override
   void dispose() {
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -64,21 +58,21 @@ class _MainPageBusyState extends State<MainPageBusy> {
                       if (snapshot != null &&
                           snapshot.hasData &&
                           snapshot.data == "success") {
-
                         return ElevatedButton(
-                            child: Text (INUSE.UppR_LfT_Button),
-                            onPressed: () =>
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) => Report())));
+                            child: Text(INUSE.UppR_LfT_Button),
+                            onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        Report())));
                       } else {
                         return ElevatedButton(
-                            child: Text ("Report"),
-                            onPressed: () =>
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) => Report())));
+                            child: Text("Report"),
+                            onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        Report())));
                       }
-                    }
-                ),
+                    }),
               ],
             ),
             SizedBox(
@@ -125,7 +119,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
                     child: StreamBuilder<String>(
                         stream: _controllerTime.stream,
                         builder: (context, snapshot) {
-                          if (snapshot.hasData){
+                          if (snapshot.hasData) {
                             return Text(
                               snapshot.data,
                               style: TextStyle(
@@ -134,8 +128,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
                                 fontWeight: FontWeight.bold,
                               ),
                             );
-                          }
-                          else{
+                          } else {
                             print(1);
                             return Text(
                               '-- hours -- minutes -- secs',
@@ -146,7 +139,6 @@ class _MainPageBusyState extends State<MainPageBusy> {
                               ),
                             );
                           }
-
                         }), //duration time
                   ),
                   Container(
@@ -157,23 +149,24 @@ class _MainPageBusyState extends State<MainPageBusy> {
                           if (snapshot != null &&
                               snapshot.hasData &&
                               snapshot.data == "success") {
-
                             return ElevatedButton(
                               child: Text(INUSE.re),
                               onPressed: () =>
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) => Back(),
-                                  )),);
+                                builder: (BuildContext context) => Back(),
+                              )),
+                            );
                           } else {
                             return ElevatedButton(
                               child: Text("คืนอุปกรณ์"),
                               onPressed: () =>
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) => Back(),
-                                  )),);
+                                builder: (BuildContext context) => Back(),
+                              )),
+                            );
                           }
-                        }
-                    ),),
+                        }),
+                  ),
                 ],
               ),
             ),

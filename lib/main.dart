@@ -1,3 +1,4 @@
+import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/home/home.dart';
@@ -14,10 +15,12 @@ import 'dart:async';
 import 'dart:io';
 import 'pages/authenticate/signup.dart';
 import 'package:provider/provider.dart';
+import './services/auth.dart';
+import './models/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
-import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/services/database.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
@@ -54,9 +57,9 @@ class MyApp extends StatelessWidget {
   final FirebaseApp app;
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
-      initialData: null,
-      value: AuthService().onAuthStateChanged,
+    return StreamProvider<UserData>.value(
+      initialData: UserData().sample(),
+      value: AuthService().onAuthStateChangedUserData,
       child: MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Medical Device Tracking System',
@@ -73,7 +76,8 @@ class MyApp extends StatelessWidget {
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
-          '/qrscan': (context) => QRScan(),
+          '/getotp': (context) => GetOTP(),
+          '/bookdevice/qrscan': (context) => QRScan(),
         },
       ),
     );
@@ -106,7 +110,7 @@ class MyApp1 extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: Home(),
-      //home: GetOTP(),
+      // home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
       //home: Status(app, 'deviceid1'),
@@ -124,7 +128,7 @@ class MyApp1 extends StatelessWidget {
       //   onPressed: () {FirebaseDB().updateStatus(app, "Sun");
       //   },
       // ),
-      //home: ProfilePage(),
+      // home: ProfilePage(),
     );
   }
 }

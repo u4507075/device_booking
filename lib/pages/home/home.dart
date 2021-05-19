@@ -2,11 +2,19 @@ import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/button.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
+import 'package:provider/provider.dart';
+import 'package:device_booking/models/user.dart';
 
+//To use UserData copy this!
+// import 'package:provider/provider.dart';
+// import 'package:device_booking/models/user.dart';
+
+// final user = Provider.of<UserData>(context); //add this below build method
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserData>(context);
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -98,9 +106,9 @@ class Home extends StatelessWidget {
           Icons.qr_code_scanner_outlined,
           color: Colors.black,
         ),
-          onPressed: () {
-          Navigator.pushNamed(context, '/qrscan');
-          },
+        onPressed: () {
+          Navigator.pushNamed(context, '/bookdevice/qrscan');
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
