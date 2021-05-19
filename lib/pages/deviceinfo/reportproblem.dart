@@ -30,7 +30,7 @@ class _ReportProblemState extends State<ReportProblem> {
     return MaterialApp(
         home: Scaffold(appBar: AppBar(
             leading: BackButton(
-              onPressed: () => Navigator.pushNamed(context, '/devicelist/deviceinfo'),
+              onPressed: () => Navigator.pop(context),
             ),
             elevation:0,
             title: StreamBuilder<Object>(
@@ -114,8 +114,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return ElevatedButton(
                     child: Text(Reportproblem.Submit),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => submit()));
+                      Navigator.pop(context);
                       //Updatedata from TextFieldController.text
                       updateData();
                     }
@@ -124,9 +123,12 @@ class MyCustomFormState extends State<MyCustomForm> {
               else {
                 return ElevatedButton(
                     child: Text('submit'),
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => submit())));
-              }
+                    onPressed: () {
+                      Navigator.pop(context);
+                      updateData();
+                    }
+                    );
+            }
             }
         ),
       ],
@@ -149,25 +151,25 @@ class MyCustomFormState extends State<MyCustomForm> {
 
 }
 //---------------------------------------------------
-class submit extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Color.fromARGB(255, 61, 76, 100)),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: MyWidget(),
-        ),
-      ),
-    );
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text('Submitted!!', style: Theme.of(context).textTheme.headline4);
-  }
-}
+// class submit extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Color.fromARGB(255, 61, 76, 100)),
+//       debugShowCheckedModeBanner: false,
+//       home: Scaffold(
+//         body: Center(
+//           child: MyWidget(),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class MyWidget extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text('Submitted!!', style: Theme.of(context).textTheme.headline4);
+//   }
+// }
 
