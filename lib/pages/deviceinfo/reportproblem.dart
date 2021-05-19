@@ -93,7 +93,9 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(padding: const EdgeInsets.all(20.0),child:Column(
+    return Container(padding: const EdgeInsets.all(20.0),
+      child:SingleChildScrollView(
+      child:Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         TextField(
@@ -141,9 +143,8 @@ class MyCustomFormState extends State<MyCustomForm> {
         ),
       ],
 
-      //width: MediaQuery.of(context).size.width/1,
-      //height: MediaQuery.of(context).size.height/1,
     ),
+      ),
       alignment: Alignment.center,
     );
   }
@@ -159,26 +160,3 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 
 }
-//---------------------------------------------------
-// class submit extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Color.fromARGB(255, 61, 76, 100)),
-//       debugShowCheckedModeBanner: false,
-//       home: Scaffold(
-//         body: Center(
-//           child: MyWidget(),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class MyWidget extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text('Submitted!!', style: Theme.of(context).textTheme.headline4);
-//   }
-// }
-
