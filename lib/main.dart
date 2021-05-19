@@ -1,3 +1,4 @@
+import 'package:device_booking/firebasedb.dart';
 import 'package:device_booking/loading.dart';
 import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'dart:io';
 import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
 import 'package:device_booking/login.dart';
+import 'package:device_booking/firebasedb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +43,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseDB().fetchData('users','366009414e0329f7');
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -57,9 +60,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: Home(),
-      //home: GetOTP(),
+      home: GetOTP(),
       //home: Book('992106606'),
-      home: Load(),
+      //home: Load(),
       //home: Status(app,'deviceid1'),
       //home: Login(),
     );
