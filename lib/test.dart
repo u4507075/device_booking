@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -6,20 +7,34 @@ class MyTestBook extends StatefulWidget {
 }
 
 class MyTestBookState extends State<MyTestBook> {
+
   StreamController<String> _controller = StreamController();
+
   @override
   void initState() {
     super.initState();
     _controller.add("loading");
   }
+
   @override
   void dispose() {
     _controller.close();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Center(
+      child: Text(),
+    );
+  }
+}
+
+
+
+    /*
+
+      Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -47,3 +62,5 @@ class MyTestBookState extends State<MyTestBook> {
     );
   }
 }
+
+   */

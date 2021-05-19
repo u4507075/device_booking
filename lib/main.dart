@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
       //home: GetOTP(),
       //home: Book('992106606'),
       //home: Load(),
-      //home: MyTestBook(),
-      home: ConfiPage(),
+      home: MyTestBook(),
+      //home: ConfiPage(),
     );
   }
 }
