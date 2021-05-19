@@ -21,12 +21,13 @@ class UserData {
 
   UserData sample() => UserData(
         firstname: 'Sample',
-        lastname: '',
-        phoneNumber: '',
-        role: '',
+        lastname: 'Sample',
+        phoneNumber: '0981234567',
+        role: 'Intern',
         email: 'sample@elearning.cmu.ac.th',
-        photoURL: '',
-        uid: '',
+        photoURL:
+            'https://th.jobsdb.com/th-th/cms/employer/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png',
+        uid: 'sdfluioASDFiosdfadsf',
       );
 }
 
