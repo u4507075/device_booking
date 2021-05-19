@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 
 class ReportProblem extends StatefulWidget {
@@ -150,10 +151,17 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
   void updateData() {
     String time = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+    String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+        length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    String documentID = (getRandomString(20));
     try {
-      databaseReference.collection('device')
+      databaseReference.collection('devices')
           .doc('uqxXjSEU2JpgXpcaJfPF')
-          .update({'problem': FieldValue.arrayUnion(["at"+" "+" "+"$time"+" "+" "+"by"+" "+" "+"user"+" "+" "+"said"+" "+" "+TextFieldController.text])});
+          .collection('deviceProblems')
+          .doc('$documentID')
+          .set({'datetime': "$time" , 'problem' : TextFieldController.text , 'uid' : 'UserID'});
     } catch (e) {
       print(e.toString());
     }
