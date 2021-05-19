@@ -1,3 +1,5 @@
+import 'package:device_booking/models/device.dart';
+import 'package:device_booking/services/firebasedb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -130,6 +132,7 @@ class _QRScanState extends State<QRScan> {
     ),
   );
 
+
   Future<void> scanQRCode() async {
     try {
       final qrCode = await FlutterBarcodeScanner.scanBarcode(
@@ -143,10 +146,15 @@ class _QRScanState extends State<QRScan> {
 
       setState(() {
         this.qrCode = qrCode;
+        Device().fetchDevice(qrCode).then((device) =>  print(device.name));
+
       });
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
     }
   }
+
+
+
 }
 
