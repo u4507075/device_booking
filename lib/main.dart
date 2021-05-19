@@ -16,7 +16,7 @@ import 'dart:io';
 import 'pages/authenticate/signup.dart';
 import 'package:provider/provider.dart';
 // import 'package:device_booking/dev/homepage.dart';
-
+import 'package:device_booking/pages/deviceinfo/reportproblem.dart';
 import 'package:device_booking/services/firebasedb.dart';
 
 void main() async {
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
           '/devicelist/deviceinfo': (context) => DeviceInfo(),
-          '/report': (context) =>
+          '/report': (context) => ReportProblem(),
         },
       ),
     );
