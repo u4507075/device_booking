@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 
 class ReportProblem extends StatefulWidget {
@@ -140,10 +141,11 @@ class MyCustomFormState extends State<MyCustomForm> {
     );
   }
   void updateData() {
+    String time = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
     try {
       databaseReference.collection('device')
           .doc('uqxXjSEU2JpgXpcaJfPF')
-          .update({'problem': FieldValue.arrayUnion([TextFieldController.text])});
+          .update({'problem': FieldValue.arrayUnion(["at"+" "+" "+"$time"+" "+" "+"by"+" "+" "+"user"+" "+" "+"said"+" "+" "+TextFieldController.text])});
     } catch (e) {
       print(e.toString());
     }
