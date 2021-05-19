@@ -1,5 +1,6 @@
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
+import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 import 'package:device_booking/pages/home/home.dart';
 import 'package:device_booking/pages/loading.dart';
 import 'package:device_booking/pages/wrapper.dart';
@@ -65,13 +66,14 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/',
+        initialRoute: '/devicelist/deviceinfo',
         routes: {
           '/': (context) => Wrapper(),
           '/home': (context) => Home(),
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
+          '/devicelist/deviceinfo': (context) => DeviceInfo(),
         },
       ),
     );
