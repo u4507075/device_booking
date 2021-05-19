@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 // import 'package:device_booking/dev/homepage.dart';
 import 'package:device_booking/pages/deviceinfo/reportproblem.dart';
 import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/pages/deviceinfo/InUse.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
@@ -66,7 +67,8 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/devicelist/deviceinfo',
+        //initialRoute: '/devicelist/deviceinfo',
+        initialRoute: '/inuse',
         routes: {
           '/': (context) => Wrapper(),
           '/home': (context) => Home(),
@@ -75,6 +77,7 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => SignUp(),
           '/devicelist/deviceinfo': (context) => DeviceInfo(),
           '/report': (context) => ReportProblem(),
+          '/inuse':(context)=> MainPageBusy(),
         },
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:device_booking/models/pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/models/Pages.dart';
 import 'package:device_booking/services/firebasedb.dart';
@@ -68,15 +67,15 @@ class _MainPageBusyState extends State<MainPageBusy> {
 
                         return ElevatedButton(
                             child: Text (INUSE.UppR_LfT_Button),
-                            onPressed: () =>
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) => Report())));
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/report');
+                          },);
                       } else {
                         return ElevatedButton(
                             child: Text ("Report"),
-                            onPressed: () =>
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) => Report())));
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/report');
+                          },);
                       }
                     }
                 ),

@@ -2,6 +2,7 @@ import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/src/qrfloatingbutton.dart';
 import 'package:flutter/material.dart';
 
+
 class DeviceInfo extends StatelessWidget {
   final String _status = 'available';
   static const TextStyle _titlestyle =
