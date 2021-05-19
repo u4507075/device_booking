@@ -1,3 +1,4 @@
+import 'package:device_booking/services/database.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -138,12 +139,11 @@ class _QRScanState extends State<QRScan> {
       );
 
       if (!mounted) return;
-
-      setState(() {
-        this.qrCode = qrCode;
-        device.fetchDevice(qrCode);
-        print(device.name);
-      });
+      FirebaseDB().fetchDevice(qrCode).then((value) => setState(() {
+            this.qrCode = qrCode;
+            this.device = value;
+            print(value.name);
+          }));
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
     }

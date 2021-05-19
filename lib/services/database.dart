@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/models/device.dart';
 
 class FirebaseDB {
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
@@ -14,6 +15,21 @@ class FirebaseDB {
     if (documentSnapshot.exists) {
       Map<String, dynamic> data = documentSnapshot.data();
       return data;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Device> fetchDevice(String document) async {
+    CollectionReference doc = FirebaseFirestore.instance.collection('device');
+    DocumentSnapshot documentSnapshot = await doc.doc(document).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> device = documentSnapshot.data();
+      return Device(
+          deviceId: device['deviceId'],
+          type: device['type'],
+          name: device['name'],
+          operatingZone: device['operatingZone']);
     } else {
       return null;
     }

@@ -6,7 +6,7 @@ class Device {
   String deviceId = '';
   String type = '';
   String name = '';
-  List<String> operatingZone = [];
+  List<dynamic> operatingZone = [];
   // CollectionReference deviceProblems;
 
   Device({
@@ -17,22 +17,28 @@ class Device {
     /*this.deviceProblems*/
   });
 
-  void fetchDevice(String deviceId) {
-    FirebaseDB().fetchData('device', deviceId).then((device) {
-      this.deviceId = device['deviceId'];
-      this.type = device['type'];
-      this.name = device['name'];
-      this.operatingZone = device['operatingZone'];
-      // this.deviceProblems = device['deviceId'];
-    });
-    // return Device(
-    //   deviceId: devices['deviceId'],
-    //   type: devices['type'],
-    //   name: devices['name'],
-    //   operatingZone: devices['operatingZone'],
-    //   problems: devices['problem'],
-    // );
-  }
+  // String fetchDevice(String deviceId){
+  // try {
+  //   FirebaseDB().fetchData('device', deviceId).then((device) {
+  //     this.deviceId = device['deviceId'];
+  //     this.type = device['type'];
+  //     this.name = device['name'];
+  //     this.operatingZone = device['operatingZone'];
+  //   });
+  //   return 'get data success';
+  // } catch (e) {
+  //   print(e);
+  //   return 'get data failed';
+  // }
+
+  // return Device(
+  //   deviceId: devices['deviceId'],
+  //   type: devices['type'],
+  //   name: devices['name'],
+  //   operatingZone: devices['operatingZone'],
+  //   problems: devices['problem'],
+  // );
+  // }
 
   Device defaultValue() =>
       Device(deviceId: '0000', name: "default", operatingZone: ['none']);
