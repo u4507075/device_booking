@@ -101,8 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Text('Telephone',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
-          Text(user.phoneNumber,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24))
+          // Text(user.phoneNumber,
+          //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24))
         ],
       );
 
