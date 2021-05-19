@@ -1,3 +1,4 @@
+import 'package:device_booking/models/user.dart';
 import 'package:device_booking/widget/profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';

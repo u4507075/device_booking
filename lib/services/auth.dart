@@ -12,7 +12,7 @@ class AuthService {
           firstname: capitalize(user.displayName.split(' ')[0]),
           lastname: capitalize(user.displayName.split(' ')[1]),
           email: user.email,
-          phomeNumber: user.phoneNumber,
+          phoneNumber: user.phoneNumber,
           photoURL: user.photoURL,
           uid: user.uid);
     } else {
@@ -39,7 +39,7 @@ class AuthService {
       UserCredential user = await _auth.signInWithCredential(credential);
 
       // print(user);
-      print('login success');
+      // print('login success');
       return _userDataFromFirebaseUser(user.user);
     } catch (e) {
       print(e);
@@ -50,6 +50,10 @@ class AuthService {
   //listen for sign in status
   Stream<User> get onAuthStateChanged => _auth.authStateChanges();
 
+  Stream<UserData> get onAuthStateChangedUserData =>
+      _auth.authStateChanges().map(_userDataFromFirebaseUser);
+
+  //log out - google account
   Future<void> logOut() async {
     final googleSignIn = GoogleSignIn();
     await googleSignIn.disconnect();

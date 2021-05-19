@@ -9,6 +9,20 @@ class LogInPage {
   String text1;
   String text2;
 
+  // void fetchAll(StreamController<String> _controller) {
+  //   FirebaseDB().fetchData('pages', 'login').then((data) {
+  //     print(data);
+  //     this.header = data['header'];
+  //     this.logoPath = data['logo'];
+  //     this.subtitle = data['subtitle'];
+  //     this.text1 = data['text'];
+  //     this.text2 = data['text2'];
+  //     _controller.add('success');
+  //   });
+  // }
+
+  // LogInPage({this.header, this.subtitle, this.text1, this.text2})
+
   void fetchAll(StreamController<String> _controller) {
     FirebaseDB().fetchData('pages', 'login').then((data) {
       print(data);
