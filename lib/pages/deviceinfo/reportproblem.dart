@@ -29,7 +29,9 @@ class _ReportProblemState extends State<ReportProblem> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(appBar: AppBar(
-            leading: BackButton(),
+            leading: BackButton(
+              onPressed: () => Navigator.pushNamed(context, '/devicelist/deviceinfo'),
+            ),
             elevation:0,
             title: StreamBuilder<Object>(
                 stream: _controller.stream,
