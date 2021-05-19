@@ -20,7 +20,7 @@ import './models/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
-import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/services/database.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
           '/getotp': (context) => GetOTP(),
+          '/bookdevice/qrscan': (context) => QRScan(),
         },
       ),
     );

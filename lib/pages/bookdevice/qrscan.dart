@@ -1,3 +1,4 @@
+import 'package:device_booking/models/device.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -13,9 +14,8 @@ class QRScan extends StatefulWidget {
 
 //กำหนดค่าแรกเริ่มให้แสดงเป็น Unknown
 class _QRScanState extends State<QRScan> {
-
   String qrCode = 'Unknown';
-
+  Device device;
   QRScanPage ScAn = QRScanPage();
 
   StreamController<String> _controller = StreamController.broadcast();
@@ -24,7 +24,6 @@ class _QRScanState extends State<QRScan> {
   void initState() {
     super.initState();
     ScAn.fetchAll(_controller);
-
   }
 
   @override
@@ -34,101 +33,100 @@ class _QRScanState extends State<QRScan> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: StreamBuilder<Object>(
-          stream: _controller.stream,
-          builder: (context, snapshot) {
-            if (snapshot != null &&
-                snapshot.hasData &&
-                snapshot.data == "success") {
-
-              return Text(ScAn.Brrr);
-            } else {
-              return Text('QR Code Scanner');
-            }
-          }),
-    ),
-
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          StreamBuilder<Object>(
+        appBar: AppBar(
+          title: StreamBuilder<Object>(
               stream: _controller.stream,
               builder: (context, snapshot) {
                 if (snapshot != null &&
                     snapshot.hasData &&
                     snapshot.data == "success") {
-
-                  return Text(
-                    ScAn.Result,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black45,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
+                  return Text(ScAn.Brrr);
                 } else {
-                  return Text(
-                    'Scan Result',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black45,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
+                  return Text('QR Code Scanner');
                 }
               }),
-          SizedBox(height: 8),
-          Text(
-            '$qrCode',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(device.name),
+              StreamBuilder<Object>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return Text(
+                        ScAn.Result,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black45,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        'Scan Result',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black45,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    }
+                  }),
+              SizedBox(height: 8),
+              Text(
+                '$qrCode',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 72),
+              StreamBuilder<Object>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return ElevatedButton(
+                          child: Text(ScAn.Start),
+                          onPressed: () => scanQRCode());
+                    } else {
+                      return ElevatedButton(
+                          child: Text("Start QR Scan"),
+                          onPressed: () => scanQRCode());
+                    }
+                  }),
+              SizedBox(height: 72),
+              StreamBuilder<Object>(
+                  stream: _controller.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot != null &&
+                        snapshot.hasData &&
+                        snapshot.data == "success") {
+                      return ElevatedButton(
+                          child: Text(ScAn.Copy),
+                          onPressed: () {
+                            FlutterClipboard.copy("$qrCode")
+                                .then((value) => print("copied"));
+                          });
+                    } else {
+                      return ElevatedButton(
+                          child: Text("Copy Details"),
+                          onPressed: () {
+                            FlutterClipboard.copy("$qrCode")
+                                .then((value) => print("copied"));
+                          });
+                    }
+                  }),
+            ],
           ),
-          SizedBox(height: 72),
-          StreamBuilder<Object>(
-              stream: _controller.stream,
-              builder: (context, snapshot) {
-                if (snapshot != null &&
-                    snapshot.hasData &&
-                    snapshot.data == "success") {
-
-                  return ElevatedButton(
-                      child: Text(ScAn.Start),
-                      onPressed: () => scanQRCode());
-                } else {
-                  return ElevatedButton(
-                      child: Text("Start QR Scan"),
-                      onPressed: () => scanQRCode());
-                }
-              }
-          ),
-
-          SizedBox(height: 72),
-          StreamBuilder<Object>(
-              stream: _controller.stream,
-              builder: (context, snapshot) {
-                if (snapshot != null &&
-                    snapshot.hasData &&
-                    snapshot.data == "success") {
-
-                  return ElevatedButton(
-                      child: Text(ScAn.Copy),
-                      onPressed: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
-                } else {
-                  return ElevatedButton(
-                      child: Text("Copy Details"),
-                      onPressed: () {FlutterClipboard.copy("$qrCode").then((value) => print("copied"));});
-                }
-              }
-          ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   Future<void> scanQRCode() async {
     try {
@@ -143,10 +141,10 @@ class _QRScanState extends State<QRScan> {
 
       setState(() {
         this.qrCode = qrCode;
+        device.fetchDevice(qrCode);
       });
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
     }
   }
 }
-

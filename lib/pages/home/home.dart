@@ -11,7 +11,6 @@ import 'package:device_booking/models/user.dart';
 
 // final user = Provider.of<UserData>(context); //add this below build method
 
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -107,9 +106,9 @@ class Home extends StatelessWidget {
           Icons.qr_code_scanner_outlined,
           color: Colors.black,
         ),
-          onPressed: () {
-          Navigator.pushNamed(context, '/qrscan');
-          },
+        onPressed: () {
+          Navigator.pushNamed(context, '/bookdevice/qrscan');
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));

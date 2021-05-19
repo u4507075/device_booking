@@ -18,7 +18,7 @@ class _UltrasoundStatusState extends State<UltrasoundStatus> {
   @override
   void initState() {
     super.initState();
-    devices = Device.fetchAll();
+    devices = Device.fetchSample();
   }
 
   @override
