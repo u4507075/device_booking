@@ -115,9 +115,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return ElevatedButton(
                     child: Text(Reportproblem.Submit),
                     onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop(context);
-                      //Updatedata from TextFieldController.text
-                      updateData();
+                      if (TextFieldController.text == '') {
+                        Navigator.of(context, rootNavigator: true).pop(context);
+                      }else{
+                        Navigator.of(context, rootNavigator: true).pop(context);
+                        updateData();
+                      }
                     }
                 );
               }
@@ -125,8 +128,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return ElevatedButton(
                     child: Text('submit'),
                     onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop(context);
-                      updateData();
+                      if (TextFieldController.text == '') {
+                        Navigator.of(context, rootNavigator: true).pop(context);
+                      }else{
+                        Navigator.of(context, rootNavigator: true).pop(context);
+                        updateData();
+                      }
                     }
                     );
             }
