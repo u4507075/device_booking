@@ -15,7 +15,7 @@ class QRScan extends StatefulWidget {
 //กำหนดค่าแรกเริ่มให้แสดงเป็น Unknown
 class _QRScanState extends State<QRScan> {
   String qrCode = 'Unknown';
-  Device device;
+  Device device = Device().defaultValue();
   QRScanPage ScAn = QRScanPage();
 
   StreamController<String> _controller = StreamController.broadcast();
@@ -142,6 +142,7 @@ class _QRScanState extends State<QRScan> {
       setState(() {
         this.qrCode = qrCode;
         device.fetchDevice(qrCode);
+        print(device.name);
       });
     } on PlatformException {
       qrCode = 'Failed to get platform version.';

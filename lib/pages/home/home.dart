@@ -35,7 +35,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                        text: '\n${user.firstname}', //TODO: get name of user
+                        text: '\nUser', //TODO: get name of user
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.normal,

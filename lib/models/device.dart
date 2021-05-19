@@ -3,10 +3,10 @@ import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
 
 class Device {
-  String deviceId;
-  String type;
-  String name;
-  List<String> operatingZone;
+  String deviceId = '';
+  String type = '';
+  String name = '';
+  List<String> operatingZone = [];
   // CollectionReference deviceProblems;
 
   Device({
@@ -20,9 +20,9 @@ class Device {
   void fetchDevice(String deviceId) {
     FirebaseDB().fetchData('device', deviceId).then((device) {
       this.deviceId = device['deviceId'];
-      this.type = device['deviceId'];
-      this.name = device['deviceId'];
-      this.operatingZone = device['deviceId'];
+      this.type = device['type'];
+      this.name = device['name'];
+      this.operatingZone = device['operatingZone'];
       // this.deviceProblems = device['deviceId'];
     });
     // return Device(
@@ -34,7 +34,10 @@ class Device {
     // );
   }
 
-  static List<Device> fetchSample() {
+  Device defaultValue() =>
+      Device(deviceId: '0000', name: "default", operatingZone: ['none']);
+
+  static List<Device> fetchSamples() {
     return [
       Device(
         deviceId: 'u0001',

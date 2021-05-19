@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserData {
-  String firstname;
+  String firstname = 'User';
   String lastname;
   String phoneNumber;
   String role;
