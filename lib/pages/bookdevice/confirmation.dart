@@ -19,7 +19,7 @@ class ConfiPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ConfiPageState(place:place);
+    return _ConfiPageState(place:place , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
   }
 }
 
@@ -50,6 +50,12 @@ class _ConfiPageState extends State<ConfiPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(email);
+    print(firstname);
+    print(lastname);
+    print(imagePath);
+    print(role);
+    print(telephone);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

@@ -15,7 +15,9 @@ class LocationList extends StatefulWidget {
   LocationList({Key key, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone}): super(key: key);
 
   @override
-  _LocationListState createState() => _LocationListState();
+  _LocationListState createState() {
+    return _LocationListState(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
+  }
 }
 
 class _LocationListState extends State<LocationList> {
@@ -44,6 +46,12 @@ class _LocationListState extends State<LocationList> {
 
   @override
   Widget build(BuildContext context) {
+    print(email);
+    print(firstname);
+    print(lastname);
+    print(imagePath);
+    print(role);
+    print(telephone);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(

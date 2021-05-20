@@ -21,7 +21,7 @@ class MyTest extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return MyTestState(email:email);
+    return MyTestState(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
   }
 }
 
@@ -51,6 +51,11 @@ class MyTestState extends State<MyTest> {
   @override
   Widget build(BuildContext context) {
     print(email);
+    print(firstname);
+    print(lastname);
+    print(imagePath);
+    print(role);
+    print(telephone);
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -302,9 +307,6 @@ class MyTestState extends State<MyTest> {
                     if (snapshot != null &&
                         snapshot.hasData &&
                         snapshot.data == "success") {
-                      print(snapshot);
-                      print(snapshot.data);
-                      print(busy.Suby);
                       return Text(busy.Suby,style: GoogleFonts.kanit(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -312,7 +314,6 @@ class MyTestState extends State<MyTest> {
                       );
                     }
                     else {
-                      print(3);
                       return Text(
                         'ต้องการยืนยันการยืมหรือไม่ ?',
                         style: GoogleFonts.kanit(
@@ -350,7 +351,6 @@ class MyTestState extends State<MyTest> {
                                   if (snapshot != null &&
                                       snapshot.hasData &&
                                       snapshot.data == "success") {
-                                    print(2);
                                     return Text(busy.Button_1,style: GoogleFonts.kanit(
                                         fontSize: 20.0,
                                         color: Colors.grey[600],
@@ -358,7 +358,6 @@ class MyTestState extends State<MyTest> {
                                     ),);
                                   }
                                   else {
-                                    print(1);
                                     return Text('ยกเลิก', style: GoogleFonts.kanit(
                                       fontSize: 20.0,
                                       color: Colors.grey[600],
