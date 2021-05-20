@@ -1,4 +1,4 @@
-import 'package:device_booking/pages/bookdevice/Select location.dart';
+import 'package:device_booking/pages/bookdevice/Select_location.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:google_fonts/google_fonts.dart';

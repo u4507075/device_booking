@@ -20,7 +20,7 @@ import './models/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
 import 'package:device_booking/pages/bookdevice/busy device.dart';
-
+import 'package:device_booking/pages/bookdevice/Select_location.dart';
 import 'package:device_booking/services/database.dart';
 
 void main() async {
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => SignUp(),
           '/getotp': (context) => GetOTP(),
           '/bookdevice/qrscan': (context) => QRScan(),
-          // '/bookdevice/selectLo' : (context) => LocationList(),
+          '/bookdevice/selectLo' : (context) => LocationList(),
           '/bookdevice/busydevice' : (context) => MyTest()
         },
       ),
