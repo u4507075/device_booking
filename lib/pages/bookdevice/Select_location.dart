@@ -5,30 +5,15 @@ import 'package:device_booking/pages/bookdevice/confirmation.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
 class LocationList extends StatefulWidget {
-
-  String email;
-  String firstname;
-  String imagePath;
-  String lastname;
-  String role;
-  String telephone;
-  LocationList({Key key, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone}): super(key: key);
-
   @override
   _LocationListState createState() {
-    return _LocationListState(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
+    return _LocationListState();
   }
 }
 
 class _LocationListState extends State<LocationList> {
 
-  String email;
-  String firstname;
-  String imagePath;
-  String lastname;
-  String role;
-  String telephone;
-  _LocationListState({this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone});
+  _LocationListState();
 
   SelectLoPage selectLo = SelectLoPage();
   StreamController<String> _controller = StreamController.broadcast();
@@ -89,7 +74,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item01 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item01)
                     )
                 );},
             ),
@@ -112,7 +97,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item02 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item02)
                     )
                 );},
             ),
@@ -135,7 +120,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item03 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item03)
                     )
                 );},
             ),
@@ -158,7 +143,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item04 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item04)
                     )
                 );},
             ),
@@ -181,7 +166,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item05 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item05)
                     )
                 );},
             ),
@@ -204,7 +189,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item06 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item06)
                     )
                 );},
             ),
@@ -227,7 +212,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item07 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item07)
                     )
                 );},
             ),
@@ -250,7 +235,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item08 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item08)
                     )
                 );},
             ),
@@ -272,7 +257,7 @@ class _LocationListState extends State<LocationList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>ConfiPage(place:selectLo.item09 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                      builder: (context) =>ConfiPage(place:selectLo.item09)
                   )
               );},
             ),
@@ -295,7 +280,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item10 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item10)
                     )
                 );},
             ),

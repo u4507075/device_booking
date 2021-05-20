@@ -9,18 +9,12 @@ import 'package:intl/intl.dart';
 
 class ConfiPage extends StatefulWidget {
 
-  String email;
-  String firstname;
-  String imagePath;
-  String lastname;
-  String role;
-  String telephone;
   String place;
-  ConfiPage({Key key, this.place, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone}): super(key: key);
+  ConfiPage({Key key, this.place}): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ConfiPageState(place:place , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
+    return _ConfiPageState(place:place);
   }
 }
 
@@ -29,15 +23,9 @@ class _ConfiPageState extends State<ConfiPage> {
   ConfirmBook confibook = ConfirmBook();
   StreamController<String> _controller = StreamController.broadcast();
 
-  String email;
-  String firstname;
-  String imagePath;
-  String lastname;
-  String role;
-  String telephone;
   String place;
   String time;
-  _ConfiPageState({this.place, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone});
+  _ConfiPageState({this.place});
 
   @override
   void initState() {

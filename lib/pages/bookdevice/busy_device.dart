@@ -376,7 +376,7 @@ class MyTestState extends State<MyTest> {
                         ElevatedButton(onPressed: () {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) {
-                            return LocationList(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
+                            return LocationList();
                           }));
                         },
                           style: ElevatedButton.styleFrom(

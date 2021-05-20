@@ -187,7 +187,7 @@ class _QRScanState extends State<QRScan> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>LocationList(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
+                  builder: (context) =>LocationList()));
         }
       }));});
     } on PlatformException {
