@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/devicestatus.dart';
 
 class FirebaseDB {
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
@@ -21,7 +22,7 @@ class FirebaseDB {
   }
 
   Future<Device> fetchDevice(String document) async {
-    CollectionReference doc = FirebaseFirestore.instance.collection('device');
+    CollectionReference doc = FirebaseFirestore.instance.collection('devices');
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
     if (documentSnapshot.exists) {
       Map<String, dynamic> device = documentSnapshot.data();
@@ -30,6 +31,20 @@ class FirebaseDB {
           type: device['type'],
           name: device['name'],
           operatingZone: device['operatingZone']);
+    } else {
+      return null;
+    }
+  }
+
+  Future<DeviceStatus> fetchDeviceStatus(String document) async {
+    CollectionReference doc = FirebaseFirestore.instance.collection('device_status');
+    DocumentSnapshot documentSnapshot = await doc.doc(document).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> device_status = documentSnapshot.data();
+      return DeviceStatus(
+          status: device_status['status'],
+          timestamp: device_status['timestamp'],
+          userid: device_status['userid']);
     } else {
       return null;
     }
@@ -52,7 +67,7 @@ class FirebaseDB {
     final ref = database.reference();
     ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
       Map<String, dynamic> data =
-          new Map<String, dynamic>.from(event.snapshot.value);
+      new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
     });
   }
@@ -63,7 +78,7 @@ class FirebaseDB {
     final ref = database.reference();
     ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
       Map<String, dynamic> data =
-          new Map<String, dynamic>.from(event.snapshot.value);
+      new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
       String datetime = data["date"];
       var time = const Duration(milliseconds: 900);
