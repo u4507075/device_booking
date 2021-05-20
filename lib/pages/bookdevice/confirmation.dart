@@ -1,3 +1,4 @@
+import 'package:device_booking/pages/bookdevice/Select_location.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,9 +7,11 @@ import 'dart:async';
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
 
 class ConfiPage extends StatefulWidget {
+  String place = "";
+  ConfiPage({Key key, this.place}): super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _ConfiPageState();
+    return _ConfiPageState(place:place);
   }
 }
 
@@ -16,6 +19,8 @@ class _ConfiPageState extends State<ConfiPage> {
 
   ConfirmBook confibook = ConfirmBook();
   StreamController<String> _controller = StreamController.broadcast();
+  String place = "";
+  _ConfiPageState({this.place});
 
   @override
   void initState() {
@@ -35,9 +40,9 @@ class _ConfiPageState extends State<ConfiPage> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Backward()),
+                MaterialPageRoute(builder: (context) => LocationList()),
               );
             }),
         centerTitle: true,
@@ -296,8 +301,7 @@ class _ConfiPageState extends State<ConfiPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[ Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "อายุรกรรมชาย 1",
+                  child: Text(place,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.kanit(
                       fontSize: 20.0,
@@ -346,7 +350,10 @@ class _ConfiPageState extends State<ConfiPage> {
                           height: 50,
                           width: 100,
                           child: ElevatedButton(onPressed: () {
-                            ///
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => LocationList()),
+                            );
                           },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.grey[200],
@@ -438,9 +445,11 @@ showAlertDialog(BuildContext context) {
   Widget continueButton = TextButton(
     child: Text("Continue"),
     onPressed:  () {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Yess()),
+        MaterialPageRoute(builder: (context) {
+          ///
+        }),
       );
     },
   );
@@ -462,40 +471,4 @@ showAlertDialog(BuildContext context) {
       return alert;
     },
   );
-}
-
-
-class Yess extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ConfiPage()),
-                );
-              }),
-          title: Text("Confirmation"),
-          backgroundColor: Colors.blue,
-        ),
-        body: Center(child: Text("Y E S")));
-  }
-}
-
-
-
-class Backward extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(icon: Icon(Icons.star), onPressed: () {}),
-          title: Text("Confirmation"),
-          backgroundColor: Colors.blue,
-        ),
-        body: Center(child: Text("you're back!")));
-  }
 }

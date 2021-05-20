@@ -22,7 +22,7 @@ class FirebaseDB {
   }
 
   Future<Device> fetchDevice(String document) async {
-    CollectionReference doc = FirebaseFirestore.instance.collection('device');
+    CollectionReference doc = FirebaseFirestore.instance.collection('devices');
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
     if (documentSnapshot.exists) {
       Map<String, dynamic> device = documentSnapshot.data();
@@ -67,7 +67,7 @@ class FirebaseDB {
     final ref = database.reference();
     ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
       Map<String, dynamic> data =
-          new Map<String, dynamic>.from(event.snapshot.value);
+      new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
     });
   }
@@ -78,7 +78,7 @@ class FirebaseDB {
     final ref = database.reference();
     ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
       Map<String, dynamic> data =
-          new Map<String, dynamic>.from(event.snapshot.value);
+      new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
       String datetime = data["date"];
       var time = const Duration(milliseconds: 900);
