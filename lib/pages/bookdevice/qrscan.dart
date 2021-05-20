@@ -1,5 +1,6 @@
 import 'package:device_booking/services/database.dart';
 import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/devicestatus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -18,6 +19,7 @@ class _QRScanState extends State<QRScan> {
   String qrCode = 'Unknown';
   Device device = Device().defaultValue();
   QRScanPage ScAn = QRScanPage();
+  DeviceStatus devicestatus = DeviceStatus().defaultValue();
 
   StreamController<String> _controller = StreamController.broadcast();
 
@@ -144,6 +146,16 @@ class _QRScanState extends State<QRScan> {
             this.device = value;
             print(value.name);
           }));
+      FirebaseDB().fetchDeviceStatus(qrCode).then((status) => setState(() {
+        this.qrCode = qrCode;
+        this.devicestatus = status;
+        print(status.status);
+        if (status.status == "borrowed") {
+          Navigator.pushNamed(context, '/bookdevice/busydevice');
+        }else {
+          Navigator.pushNamed(context, '/bookdevice/selectLo');
+        }
+      }));
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
     }
