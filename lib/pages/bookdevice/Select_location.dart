@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:device_booking/models/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/pages/bookdevice/confirmation.dart';
+import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
 class LocationList extends StatefulWidget {
 

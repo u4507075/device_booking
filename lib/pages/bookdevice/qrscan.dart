@@ -7,6 +7,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:clipboard/clipboard.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
+import 'package:device_booking/models/Userdetail.dart';
 
 //หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
 class QRScan extends StatefulWidget {
@@ -17,9 +18,19 @@ class QRScan extends StatefulWidget {
 //กำหนดค่าแรกเริ่มให้แสดงเป็น Unknown
 class _QRScanState extends State<QRScan> {
   String qrCode = 'Unknown';
+  String ID;
+  String email;
+  String firstname;
+  String imagePath;
+  String lastname;
+  String role;
+  String telephone;
+
   Device device = Device().defaultValue();
   QRScanPage ScAn = QRScanPage();
   DeviceStatus devicestatus = DeviceStatus().defaultValue();
+  UserDetails userdetails = UserDetails().defaultValue();
+
 
   StreamController<String> _controller = StreamController.broadcast();
 
@@ -150,11 +161,22 @@ class _QRScanState extends State<QRScan> {
         this.qrCode = qrCode;
         this.devicestatus = status;
         print(status.status);
+        this.ID =status.userid;
         if (status.status == "borrowed") {
           Navigator.pushNamed(context, '/bookdevice/busydevice');
         }else {
           Navigator.pushNamed(context, '/bookdevice/selectLo');
         }
+      }));
+      FirebaseDB().fetchUserDetails(ID).then((userr) => setState(() {
+        this.userdetails = userr;
+        email = userr.email;
+        firstname = userr.firstname;
+        imagePath = userr.imagePath;
+        lastname = userr.lastname;
+        role = userr.role;
+        telephone = userr.telephone;
+
       }));
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
