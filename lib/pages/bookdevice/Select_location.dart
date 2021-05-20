@@ -55,7 +55,9 @@ class _LocationListState extends State<LocationList> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          leading: BackButton(),
+          leading: BackButton(
+            onPressed: () => Navigator.pop(context),
+          ),
           elevation: 0,
           title: StreamBuilder<Object>(
               stream: _controller.stream,

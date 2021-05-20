@@ -42,7 +42,8 @@ class FirebaseDB {
       return DeviceStatus(
           status: device_status['status'],
           timestamp: device_status['timestamp'],
-          userid: device_status['userid']);
+          userid: device_status['userid'],
+          BorrowPlace: device_status['BorrowPlace']);
     } else {
       return null;
     }

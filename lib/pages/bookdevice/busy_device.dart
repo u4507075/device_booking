@@ -17,11 +17,13 @@ class MyTest extends StatefulWidget {
   String lastname;
   String role;
   String telephone;
-  MyTest({Key key, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone}): super(key: key);
+  String BorrowTime;
+  String BorrowPlace;
+  MyTest({Key key, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone, this.BorrowTime, this.BorrowPlace}): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return MyTestState(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
+    return MyTestState(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone , BorrowTime:BorrowTime , BorrowPlace:BorrowPlace);
   }
 }
 
@@ -33,7 +35,9 @@ class MyTestState extends State<MyTest> {
   String lastname;
   String role;
   String telephone;
-  MyTestState({this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone});
+  String BorrowTime;
+  String BorrowPlace;
+  MyTestState({this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone, this.BorrowTime, this.BorrowPlace});
 
   BusyDevice busy = BusyDevice();
   StreamController<String> _controller = StreamController.broadcast();
@@ -56,6 +60,8 @@ class MyTestState extends State<MyTest> {
     print(imagePath);
     print(role);
     print(telephone);
+    print(BorrowTime);
+    print(BorrowPlace);
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -163,7 +169,7 @@ class MyTestState extends State<MyTest> {
                           color: Colors.grey[200],
                           margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
                           child: Text(
-                              'ปี 1 ศิวกร ชาญชโลธร', style: GoogleFonts.kanit(
+                              role+' '+' '+firstname+' '+' '+lastname, style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -203,7 +209,7 @@ class MyTestState extends State<MyTest> {
                           color: Colors.grey[200],
                           margin: EdgeInsets.fromLTRB(40.0, 1.0, 16.0, 3.0),
                           child: Text(
-                              '0863315582', style: GoogleFonts.kanit(
+                              telephone , style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -243,7 +249,7 @@ class MyTestState extends State<MyTest> {
                           color: Colors.grey[200],
                           margin: EdgeInsets.fromLTRB(22.0, 0.0, 16.0, 8.0),
                           child: Text(
-                              '12.00', style: GoogleFonts.kanit(
+                              BorrowTime , style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -292,7 +298,7 @@ class MyTestState extends State<MyTest> {
                 children: <Widget>[ Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    "อายุรกรรมชาย 1",
+                    BorrowPlace ,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.kanit(
                       fontSize: 20.0,

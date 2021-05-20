@@ -28,6 +28,8 @@ class _QRScanState extends State<QRScan> {
   String lastname;
   String role;
   String telephone;
+  String BorrowTime;
+  String BorrowPlace;
 
   Device device = Device().defaultValue();
   QRScanPage ScAn = QRScanPage();
@@ -163,7 +165,9 @@ class _QRScanState extends State<QRScan> {
       FirebaseDB().fetchDeviceStatus(qrCode).then((status) {  setState(() {
         this.qrCode = qrCode;
         this.devicestatus = status;
-        this.ID =status.userid;
+        this.ID = status.userid;
+        this.BorrowTime = status.timestamp;
+        this.BorrowPlace = status.BorrowPlace;
       });
       FirebaseDB().fetchUserDetails(ID).then((userr) => setState(() {
         this.userdetails = userr;
@@ -178,7 +182,7 @@ class _QRScanState extends State<QRScan> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>MyTest(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
+                  builder: (context) =>MyTest(BorrowPlace:BorrowPlace , BorrowTime:BorrowTime , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
         }else {
           Navigator.push(
               context,
