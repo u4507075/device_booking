@@ -12,11 +12,12 @@ class LocationList extends StatefulWidget {
   String Mlastname;
   String Mrole;
   String Mtelephone;
-  LocationList({Key key, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
+  String qrCode;
+  LocationList({Key key, this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
 
   @override
   _LocationListState createState() {
-    return _LocationListState(Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
+    return _LocationListState(qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
   }
 }
 
@@ -28,7 +29,8 @@ class _LocationListState extends State<LocationList> {
   String Mlastname;
   String Mrole;
   String Mtelephone;
-  _LocationListState({this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
+  String qrCode;
+  _LocationListState({this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
 
   SelectLoPage selectLo = SelectLoPage();
   StreamController<String> _controller = StreamController.broadcast();
@@ -89,7 +91,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item01 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item01 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -112,7 +114,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item02 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item02 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -135,7 +137,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item03 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item03 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -158,7 +160,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item04 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item04 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -181,7 +183,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item05 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item05 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -204,7 +206,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item06 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item06 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -227,7 +229,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item07 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item07 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -250,7 +252,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item08 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item08 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -272,7 +274,7 @@ class _LocationListState extends State<LocationList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>ConfiPage(place:selectLo.item09 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                      builder: (context) =>ConfiPage(place:selectLo.item09 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                   )
               );},
             ),
@@ -295,7 +297,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item10 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item10 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
