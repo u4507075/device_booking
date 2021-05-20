@@ -2,6 +2,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
+import 'package:device_booking/pages/bookdevice/qrscan.dart';
+import 'package:device_booking/pages/bookdevice/Select_location.dart';
 
 
 
@@ -336,9 +338,10 @@ class MyTestState extends State<MyTest> {
                           height: 50,
                           width: 100,
                           child: ElevatedButton(onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return Cancelled();
-                            }));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>QRScan()));
                           },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.grey[300],side: BorderSide(color: Colors.grey)), child: StreamBuilder<Object>(
@@ -376,7 +379,7 @@ class MyTestState extends State<MyTest> {
                         ElevatedButton(onPressed: () {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) {
-                            return Confirmed();
+                            return LocationList(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone);
                           }));
                         },
                           style: ElevatedButton.styleFrom(
@@ -409,35 +412,3 @@ class MyTestState extends State<MyTest> {
     );
   }
 }
-
-
-
-
-class Cancelled extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.redAccent,
-        title: const Text('Cancelled', style: TextStyle(fontSize: 25.0,
-          fontWeight: FontWeight.bold,
-        )),
-      ),);}}
-
-
-
-
-
-
-class Confirmed extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.lightBlueAccent,
-        title: const Text('Confirmed', style: TextStyle(fontSize: 25.0,
-          fontWeight: FontWeight.bold,
-        )),
-      ),);}}

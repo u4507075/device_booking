@@ -7,8 +7,16 @@ import 'dart:async';
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
 
 class ConfiPage extends StatefulWidget {
-  String place = "";
-  ConfiPage({Key key, this.place}): super(key: key);
+
+  String email;
+  String firstname;
+  String imagePath;
+  String lastname;
+  String role;
+  String telephone;
+  String place;
+  ConfiPage({Key key, this.place, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone}): super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _ConfiPageState(place:place);
@@ -19,8 +27,15 @@ class _ConfiPageState extends State<ConfiPage> {
 
   ConfirmBook confibook = ConfirmBook();
   StreamController<String> _controller = StreamController.broadcast();
+
+  String email;
+  String firstname;
+  String imagePath;
+  String lastname;
+  String role;
+  String telephone;
   String place = "";
-  _ConfiPageState({this.place});
+  _ConfiPageState({this.place, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone});
 
   @override
   void initState() {

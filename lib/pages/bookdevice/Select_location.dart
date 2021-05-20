@@ -85,7 +85,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item01)
+                        builder: (context) =>ConfiPage(place:selectLo.item01 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -108,7 +108,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item02)
+                        builder: (context) =>ConfiPage(place:selectLo.item02 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -131,7 +131,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item03)
+                        builder: (context) =>ConfiPage(place:selectLo.item03 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -154,7 +154,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item04)
+                        builder: (context) =>ConfiPage(place:selectLo.item04 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -177,7 +177,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item05)
+                        builder: (context) =>ConfiPage(place:selectLo.item05 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -200,7 +200,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item06)
+                        builder: (context) =>ConfiPage(place:selectLo.item06 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -223,7 +223,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item07)
+                        builder: (context) =>ConfiPage(place:selectLo.item07 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -246,7 +246,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item08)
+                        builder: (context) =>ConfiPage(place:selectLo.item08 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
@@ -268,7 +268,7 @@ class _LocationListState extends State<LocationList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>ConfiPage(place:selectLo.item09)
+                      builder: (context) =>ConfiPage(place:selectLo.item09 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                   )
               );},
             ),
@@ -291,7 +291,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item10)
+                        builder: (context) =>ConfiPage(place:selectLo.item10 , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)
                     )
                 );},
             ),
