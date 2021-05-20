@@ -4,6 +4,8 @@ import 'package:device_booking/models/pages.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
 
@@ -37,7 +39,11 @@ class _ConfiPageState extends State<ConfiPage> {
   String Mtelephone;
   String place;
   String time;
-  _ConfiPageState({this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
+
+  _ConfiPageState(
+      {this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
+
+  final databaseReference = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -92,8 +98,14 @@ class _ConfiPageState extends State<ConfiPage> {
           children: <Widget>[
             Container(
               margin: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
-              width: (MediaQuery.of(context).size.width)/3,
-              height: (MediaQuery.of(context).size.width)/3,
+              width: (MediaQuery
+                  .of(context)
+                  .size
+                  .width) / 3,
+              height: (MediaQuery
+                  .of(context)
+                  .size
+                  .width) / 3,
               child: StreamBuilder<Object>(
                   stream: _controller.stream,
                   builder: (context, snapshot) {
@@ -153,7 +165,8 @@ class _ConfiPageState extends State<ConfiPage> {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 3.0),
+                        padding: const EdgeInsets.fromLTRB(
+                            30.0, 10.0, 0.0, 3.0),
                         child: SizedBox(
                           height: 25,
                           child:
@@ -185,7 +198,8 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
                           child: Text(
-                              Mrole+' '+' '+Mfirstname+' '+' '+Mlastname, style: GoogleFonts.kanit(
+                              Mrole + ' ' + ' ' + Mfirstname + ' ' + ' ' +
+                                  Mlastname, style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -199,8 +213,9 @@ class _ConfiPageState extends State<ConfiPage> {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0, 1.0, 14.0, 3.0),
-                        child:  StreamBuilder<Object>(
+                        padding: const EdgeInsets.fromLTRB(
+                            30.0, 1.0, 14.0, 3.0),
+                        child: StreamBuilder<Object>(
                             stream: _controller.stream,
                             builder: (context, snapshot) {
                               if (snapshot != null &&
@@ -241,7 +256,8 @@ class _ConfiPageState extends State<ConfiPage> {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0, 0.0, 14.0, 8.0),
+                        padding: const EdgeInsets.fromLTRB(
+                            30.0, 0.0, 14.0, 8.0),
                         child: StreamBuilder<Object>(
                             stream: _controller.stream,
                             builder: (context, snapshot) {
@@ -269,7 +285,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(22.0, 0.0, 16.0, 8.0),
                           child: Text(
-                              time , style: GoogleFonts.kanit(
+                              time, style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -324,7 +340,8 @@ class _ConfiPageState extends State<ConfiPage> {
                     style: GoogleFonts.kanit(
                       fontSize: 20.0,
                     ),),
-                ),],),),
+                ),
+                ],),),
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(120.0, 0.0, 16.0, 5.0),
@@ -370,7 +387,8 @@ class _ConfiPageState extends State<ConfiPage> {
                           child: ElevatedButton(onPressed: () {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => LocationList()),
+                              MaterialPageRoute(
+                                  builder: (context) => LocationList()),
                             );
                           },
                             style: ElevatedButton.styleFrom(
@@ -387,7 +405,8 @@ class _ConfiPageState extends State<ConfiPage> {
                                       style:
                                       GoogleFonts.kanit(
                                           fontSize: 20.0,
-                                          fontWeight: FontWeight.bold, color: Colors.black),
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
                                     );
                                   } else {
                                     return Text(
@@ -447,46 +466,67 @@ class _ConfiPageState extends State<ConfiPage> {
       ),
     );
   }
-}
+
+  void updateLog() {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+    String getRandomString(int length) =>
+        String.fromCharCodes(Iterable.generate(
+            length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+    String documentID = (getRandomString(20));
+    try {
+      databaseReference.collection('devices')
+          .doc('uqxXjSEU2JpgXpcaJfPF')
+          .collection('log')
+          .doc('$documentID')
+          .set({
+        'Location': "$place",
+        'User': '$Mrole + $Mfirstname + $Mlastname',
+        'time': '$time'
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
 
 /////ALERT DIALOG PART
-showAlertDialog(BuildContext context) {
-  // set up the buttons
-  Widget cancelButton = TextButton(
-      child: Text("Cancel"),
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+        child: Text("Cancel"),
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true)
+              .pop(); // dismisses only the dialog and returns nothing
+        }
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
       onPressed: () {
-        Navigator.of(context, rootNavigator: true)
-            .pop(); // dismisses only the dialog and returns nothing
-      }
-  );
-  Widget continueButton = TextButton(
-    child: Text("Continue"),
-    onPressed:  () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) {
-          ///
-        }),
-      );
-    },
-  );
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) =>Placeholder()));
+        updateLog();
+      },
+    );
 
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text('AlertDialog'),
-    content: Text('Would you like to borrow "Device"'),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('AlertDialog'),
+      content: Text('Would you like to borrow "Device"'),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
 
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
