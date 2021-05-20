@@ -8,6 +8,8 @@ import 'package:clipboard/clipboard.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/models/Userdetail.dart';
+import 'package:device_booking/pages/bookdevice/busy_device.dart';
+import 'package:device_booking/pages/bookdevice/Select_location.dart';
 
 //หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
 class QRScan extends StatefulWidget {
@@ -155,19 +157,23 @@ class _QRScanState extends State<QRScan> {
       FirebaseDB().fetchDevice(qrCode).then((value) => setState(() {
         this.qrCode = qrCode;
         this.device = value;
-        print(value.name);
       }));
-      FirebaseDB().fetchDeviceStatus(qrCode).then((status) => setState(() {
+      FirebaseDB().fetchDeviceStatus(qrCode).then((status) {  setState(() {
         this.qrCode = qrCode;
         this.devicestatus = status;
-        print(status.status);
         this.ID =status.userid;
         if (status.status == "borrowed") {
-          Navigator.pushNamed(context, '/bookdevice/busydevice');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+              builder: (context) =>MyTest()));
         }else {
-          Navigator.pushNamed(context, '/bookdevice/selectLo');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+              builder: (context) =>LocationList()));
         }
-      }));
+      });
       FirebaseDB().fetchUserDetails(ID).then((userr) => setState(() {
         this.userdetails = userr;
         email = userr.email;
@@ -176,8 +182,7 @@ class _QRScanState extends State<QRScan> {
         lastname = userr.lastname;
         role = userr.role;
         telephone = userr.telephone;
-
-      }));
+      }));});
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
     }
