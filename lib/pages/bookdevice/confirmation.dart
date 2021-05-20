@@ -411,7 +411,7 @@ class _ConfiPageState extends State<ConfiPage> {
                         width: 100,
                         child:
                         ElevatedButton(onPressed: () {
-                          ///
+                          showAlertDialog(context);
                         },
                           style: ElevatedButton.styleFrom(
                               primary: Colors.blue),
