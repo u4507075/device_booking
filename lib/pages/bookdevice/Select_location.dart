@@ -46,12 +46,6 @@ class _LocationListState extends State<LocationList> {
 
   @override
   Widget build(BuildContext context) {
-    print(email);
-    print(firstname);
-    print(lastname);
-    print(imagePath);
-    print(role);
-    print(telephone);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(

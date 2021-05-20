@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
 
@@ -34,7 +35,8 @@ class _ConfiPageState extends State<ConfiPage> {
   String lastname;
   String role;
   String telephone;
-  String place = "";
+  String place;
+  String time;
   _ConfiPageState({this.place, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone});
 
   @override
@@ -50,12 +52,7 @@ class _ConfiPageState extends State<ConfiPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(email);
-    print(firstname);
-    print(lastname);
-    print(imagePath);
-    print(role);
-    print(telephone);
+    time = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -188,7 +185,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
                           child: Text(
-                              'N A M E', style: GoogleFonts.kanit(
+                              role+' '+' '+firstname+' '+' '+lastname, style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -230,7 +227,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(40.0, 1.0, 16.0, 3.0),
                           child: Text(
-                              '##########', style: GoogleFonts.kanit(
+                              telephone, style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -272,7 +269,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(22.0, 0.0, 16.0, 8.0),
                           child: Text(
-                              '12.00', style: GoogleFonts.kanit(
+                              time , style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )

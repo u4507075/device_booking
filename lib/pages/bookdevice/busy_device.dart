@@ -54,14 +54,6 @@ class MyTestState extends State<MyTest> {
 
   @override
   Widget build(BuildContext context) {
-    print(email);
-    print(firstname);
-    print(lastname);
-    print(imagePath);
-    print(role);
-    print(telephone);
-    print(BorrowTime);
-    print(BorrowPlace);
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
