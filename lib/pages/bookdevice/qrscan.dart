@@ -30,6 +30,13 @@ class _QRScanState extends State<QRScan> {
   String telephone;
   String BorrowTime;
   String BorrowPlace;
+  String Memail;
+  String Mfirstname;
+  String MimagePath;
+  String Mlastname;
+  String Mrole;
+  String Mtelephone;
+  String myID = 'myID';
 
   Device device = Device().defaultValue();
   QRScanPage ScAn = QRScanPage();
@@ -169,7 +176,7 @@ class _QRScanState extends State<QRScan> {
         this.BorrowTime = status.timestamp;
         this.BorrowPlace = status.BorrowPlace;
       });
-      FirebaseDB().fetchUserDetails(ID).then((userr) => setState(() {
+      FirebaseDB().fetchUserDetails(ID).then((userr) { setState(() {
         this.userdetails = userr;
         email = userr.email;
         firstname = userr.firstname;
@@ -177,19 +184,28 @@ class _QRScanState extends State<QRScan> {
         lastname = userr.lastname;
         role = userr.role;
         telephone = userr.telephone;
+      });
+      FirebaseDB().fetchUserDetails(myID).then((me) => setState(() {
+        this.userdetails = me;
+        Memail = me.email;
+        Mfirstname = me.firstname;
+        MimagePath = me.imagePath;
+        Mlastname = me.lastname;
+        Mrole = me.role;
+        Mtelephone = me.telephone;
         Navigator.pop(context);
         if (status.status == "borrowed") {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>MyTest(BorrowPlace:BorrowPlace , BorrowTime:BorrowTime , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
+                  builder: (context) =>MyTest(Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone , BorrowPlace:BorrowPlace , BorrowTime:BorrowTime , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
         }else {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>LocationList()));
+                  builder: (context) =>LocationList(Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)));
         }
-      }));});
+      }));});});
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
     }

@@ -5,15 +5,30 @@ import 'package:device_booking/pages/bookdevice/confirmation.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
 class LocationList extends StatefulWidget {
+
+  String Memail;
+  String Mfirstname;
+  String MimagePath;
+  String Mlastname;
+  String Mrole;
+  String Mtelephone;
+  LocationList({Key key, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
+
   @override
   _LocationListState createState() {
-    return _LocationListState();
+    return _LocationListState(Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
   }
 }
 
 class _LocationListState extends State<LocationList> {
 
-  _LocationListState();
+  String Memail;
+  String Mfirstname;
+  String MimagePath;
+  String Mlastname;
+  String Mrole;
+  String Mtelephone;
+  _LocationListState({this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
 
   SelectLoPage selectLo = SelectLoPage();
   StreamController<String> _controller = StreamController.broadcast();
@@ -74,7 +89,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item01)
+                        builder: (context) =>ConfiPage(place:selectLo.item01 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -97,7 +112,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item02)
+                        builder: (context) =>ConfiPage(place:selectLo.item02 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -120,7 +135,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item03)
+                        builder: (context) =>ConfiPage(place:selectLo.item03 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -143,7 +158,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item04)
+                        builder: (context) =>ConfiPage(place:selectLo.item04 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -166,7 +181,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item05)
+                        builder: (context) =>ConfiPage(place:selectLo.item05 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -189,7 +204,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item06)
+                        builder: (context) =>ConfiPage(place:selectLo.item06 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -212,7 +227,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item07)
+                        builder: (context) =>ConfiPage(place:selectLo.item07 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -235,7 +250,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item08)
+                        builder: (context) =>ConfiPage(place:selectLo.item08 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -257,7 +272,7 @@ class _LocationListState extends State<LocationList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>ConfiPage(place:selectLo.item09)
+                      builder: (context) =>ConfiPage(place:selectLo.item09 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                   )
               );},
             ),
@@ -280,7 +295,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item10)
+                        builder: (context) =>ConfiPage(place:selectLo.item10 , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),

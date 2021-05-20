@@ -9,12 +9,18 @@ import 'package:intl/intl.dart';
 
 class ConfiPage extends StatefulWidget {
 
+  String Memail;
+  String Mfirstname;
+  String MimagePath;
+  String Mlastname;
+  String Mrole;
+  String Mtelephone;
   String place;
-  ConfiPage({Key key, this.place}): super(key: key);
+  ConfiPage({Key key, this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ConfiPageState(place:place);
+    return _ConfiPageState(place:place , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
   }
 }
 
@@ -23,9 +29,15 @@ class _ConfiPageState extends State<ConfiPage> {
   ConfirmBook confibook = ConfirmBook();
   StreamController<String> _controller = StreamController.broadcast();
 
+  String Memail;
+  String Mfirstname;
+  String MimagePath;
+  String Mlastname;
+  String Mrole;
+  String Mtelephone;
   String place;
   String time;
-  _ConfiPageState({this.place});
+  _ConfiPageState({this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
 
   @override
   void initState() {
@@ -173,7 +185,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
                           child: Text(
-                              /*role+' '+' '+firstname+' '+' '+lastname*/ 'someone', style: GoogleFonts.kanit(
+                              Mrole+' '+' '+Mfirstname+' '+' '+Mlastname, style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -215,7 +227,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(40.0, 1.0, 16.0, 3.0),
                           child: Text(
-                              /*telephone*/ '0000000000', style: GoogleFonts.kanit(
+                              Mtelephone, style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
