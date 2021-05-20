@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:device_booking/models/devicestatus.dart';
+import 'package:device_booking/models/Userdetail.dart';
 
 class FirebaseDB {
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
@@ -45,6 +43,23 @@ class FirebaseDB {
           status: device_status['status'],
           timestamp: device_status['timestamp'],
           userid: device_status['userid']);
+    } else {
+      return null;
+    }
+  }
+
+  Future<UserDetails> fetchUserDetails(String document) async {
+    CollectionReference doc = FirebaseFirestore.instance.collection('users_testpull');
+    DocumentSnapshot documentSnapshot = await doc.doc(document).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> users_testpull = documentSnapshot.data();
+      return UserDetails(
+          email: users_testpull['email'],
+          firstname: users_testpull['firstname'],
+          imagePath: users_testpull['imagePath'],
+          lastname: users_testpull['lastname'],
+          role: users_testpull['role'],
+          telephone: users_testpull['telephone']);
     } else {
       return null;
     }
