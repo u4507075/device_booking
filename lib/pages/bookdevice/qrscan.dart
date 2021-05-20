@@ -10,6 +10,7 @@ import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/models/Userdetail.dart';
 import 'package:device_booking/pages/bookdevice/busy_device.dart';
 import 'package:device_booking/pages/bookdevice/Select_location.dart';
+import 'package:device_booking/pages/loading.dart';
 
 //หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
 class QRScan extends StatefulWidget {
@@ -146,6 +147,7 @@ class _QRScanState extends State<QRScan> {
 
   Future<void> scanQRCode() async {
     try {
+      Navigator.pushNamed(context,"/loading");
       final qrCode = await FlutterBarcodeScanner.scanBarcode(
         '#ff6666',
         'Cancel',
@@ -162,17 +164,6 @@ class _QRScanState extends State<QRScan> {
         this.qrCode = qrCode;
         this.devicestatus = status;
         this.ID =status.userid;
-        if (status.status == "borrowed") {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-              builder: (context) =>MyTest()));
-        }else {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-              builder: (context) =>LocationList()));
-        }
       });
       FirebaseDB().fetchUserDetails(ID).then((userr) => setState(() {
         this.userdetails = userr;
@@ -182,6 +173,18 @@ class _QRScanState extends State<QRScan> {
         lastname = userr.lastname;
         role = userr.role;
         telephone = userr.telephone;
+        Navigator.pop(context);
+        if (status.status == "borrowed") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>MyTest(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
+        }else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>LocationList(email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
+        }
       }));});
     } on PlatformException {
       qrCode = 'Failed to get platform version.';

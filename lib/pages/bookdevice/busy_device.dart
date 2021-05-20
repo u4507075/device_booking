@@ -8,13 +8,30 @@ import 'package:device_booking/models/pages.dart';
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
 
 class MyTest extends StatefulWidget {
+
+  String email;
+  String firstname;
+  String imagePath;
+  String lastname;
+  String role;
+  String telephone;
+  MyTest({Key key, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone}): super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return MyTestState();
+    return MyTestState(email:email);
   }
 }
 
 class MyTestState extends State<MyTest> {
+
+  String email;
+  String firstname;
+  String imagePath;
+  String lastname;
+  String role;
+  String telephone;
+  MyTestState({this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone});
 
   BusyDevice busy = BusyDevice();
   StreamController<String> _controller = StreamController.broadcast();
@@ -31,6 +48,7 @@ class MyTestState extends State<MyTest> {
 
   @override
   Widget build(BuildContext context) {
+    print(email);
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,

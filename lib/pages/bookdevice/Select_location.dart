@@ -6,12 +6,28 @@ import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
 class LocationList extends StatefulWidget {
 
+  String email;
+  String firstname;
+  String imagePath;
+  String lastname;
+  String role;
+  String telephone;
+  LocationList({Key key, this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone}): super(key: key);
 
   @override
   _LocationListState createState() => _LocationListState();
 }
 
 class _LocationListState extends State<LocationList> {
+
+  String email;
+  String firstname;
+  String imagePath;
+  String lastname;
+  String role;
+  String telephone;
+  _LocationListState({this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone});
+
   SelectLoPage selectLo = SelectLoPage();
   StreamController<String> _controller = StreamController.broadcast();
 
