@@ -173,7 +173,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
                           child: Text(
-                              role+' '+' '+firstname+' '+' '+lastname, style: GoogleFonts.kanit(
+                              /*role+' '+' '+firstname+' '+' '+lastname*/ 'someone', style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
@@ -215,7 +215,7 @@ class _ConfiPageState extends State<ConfiPage> {
                           color: Colors.grey[300],
                           margin: EdgeInsets.fromLTRB(40.0, 1.0, 16.0, 3.0),
                           child: Text(
-                              telephone, style: GoogleFonts.kanit(
+                              /*telephone*/ '0000000000', style: GoogleFonts.kanit(
                             fontSize: 20.0,
                           )
                           )
