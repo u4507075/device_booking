@@ -1,5 +1,6 @@
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
+import 'package:device_booking/pages/bookdevice/Select%20location.dart';
 import 'package:device_booking/pages/home/home.dart';
 import 'package:device_booking/pages/loading.dart';
 import 'package:device_booking/pages/wrapper.dart';
@@ -46,9 +47,9 @@ void main() async {
                 'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
           ),
   );
-  runApp(MyApp(app: app));
+  runApp(MyApp1(app: app));
 }
-
+/*
 class MyApp extends StatelessWidget {
   const MyApp({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
@@ -79,7 +80,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
+*/
 class MyApp1 extends StatelessWidget {
   const MyApp1({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
@@ -125,6 +126,7 @@ class MyApp1 extends StatelessWidget {
       //   },
       // ),
       //home: ProfilePage(),
+      home: LocationList(),
     );
   }
 }

@@ -2,14 +2,16 @@ import 'dart:async';
 import 'package:device_booking/models/pages.dart';
 import 'package:flutter/material.dart';
 
-class MyApp2 extends StatefulWidget {
+import 'package:device_booking/pages/bookdevice/confirmation.dart';
+
+class LocationList extends StatefulWidget {
 
 
   @override
-  _MyappState createState() => _MyappState();
+  _LocationListState createState() => _LocationListState();
 }
 
-class _MyappState extends State<MyApp2> {
+class _LocationListState extends State<LocationList> {
   SelectLoPage selectLo = SelectLoPage();
   StreamController<String> _controller = StreamController.broadcast();
 
@@ -63,6 +65,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) =>ConfiPage(place:selectLo.item01)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -79,6 +88,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item02)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -95,6 +111,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item03)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -111,6 +134,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item04)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -127,6 +157,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item05)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -143,6 +180,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item06)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -159,6 +203,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item07)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -175,6 +226,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item08)
+                    )
+                );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -190,7 +248,13 @@ class _MyappState extends State<MyApp2> {
                     } else {
                       return Text('Loading',);
                     }
-                  }),
+                  }),onTap: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>ConfiPage(place:selectLo.item09)
+                  )
+              );},
             ),
             ListTile(
               title: StreamBuilder<Object>(
@@ -207,6 +271,13 @@ class _MyappState extends State<MyApp2> {
                       return Text('Loading',);
                     }
                   }),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>ConfiPage(place:selectLo.item10)
+                    )
+                );},
             ),
           ],
         ),
