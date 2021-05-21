@@ -21,7 +21,7 @@ class QRScan extends StatefulWidget {
 //กำหนดค่าแรกเริ่มให้แสดงเป็น Unknown
 class _QRScanState extends State<QRScan> {
   String qrCode = 'Unknown';
-  String ID;
+  String UID;
   String email;
   String firstname;
   String imagePath;
@@ -172,11 +172,12 @@ class _QRScanState extends State<QRScan> {
       FirebaseDB().fetchDeviceStatus(qrCode).then((status) {  setState(() {
         this.qrCode = qrCode;
         this.devicestatus = status;
-        this.ID = status.userid;
+        this.UID = status.userid;
         this.BorrowTime = status.timestamp;
         this.BorrowPlace = status.BorrowPlace;
+        print(UID);
       });
-      FirebaseDB().fetchUserDetails(ID).then((userr) { setState(() {
+      FirebaseDB().fetchUserDetails(UID).then((userr) { setState(() {
         this.userdetails = userr;
         email = userr.email;
         firstname = userr.firstname;
@@ -184,6 +185,7 @@ class _QRScanState extends State<QRScan> {
         lastname = userr.lastname;
         role = userr.role;
         telephone = userr.telephone;
+        print(UID);
       });
       FirebaseDB().fetchUserDetails(myID).then((me) => setState(() {
         this.userdetails = me;

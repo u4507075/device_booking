@@ -498,7 +498,7 @@ class _ConfiPageState extends State<ConfiPage> {
     try {
       databaseReference.collection('device_status')
           .doc(qrCode)
-          .update({'BorrowPlace': place , 'status':'busy' , 'timestamp':time , 'userid':myID});
+          .update({'BorrowPlace': place , 'status':'borrowed' , 'timestamp':time , 'userid':myID});
     } catch (e) {
       print(e.toString());
     }}

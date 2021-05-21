@@ -31,6 +31,8 @@ class _MainPageBusyState extends State<MainPageBusy> {
   void initState() {
     super.initState();
     INUSE.fetchAll(_controller);
+    test(qrCode);
+
     //FirebaseDB().getTime(widget.app, _controllerTime, "Sun");
   }
 
