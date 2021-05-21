@@ -25,6 +25,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
   StreamController<String> _controller = StreamController.broadcast();
   StreamController<String> _controllerTime = StreamController();
   String qrCode;
+  String DeviceID;
   _MainPageBusyState({this.qrCode});
   final databaseReference = FirebaseFirestore.instance;
 
@@ -33,6 +34,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
     super.initState();
     INUSE.fetchAll(_controller);
     test(qrCode);
+    DeviceID = qrCode;
 
     //FirebaseDB().getTime(widget.app, _controllerTime, "Sun");
   }
@@ -76,14 +78,14 @@ class _MainPageBusyState extends State<MainPageBusy> {
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        ReportProblem(qrCode:qrCode))));
+                                        ReportProblem(DeviceID:DeviceID))));
                       } else {
                         return ElevatedButton(
                             child: Text("Report"),
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        ReportProblem(qrCode:qrCode))));
+                                        ReportProblem(DeviceID:DeviceID))));
                       }
                     }),
               ],

@@ -8,20 +8,20 @@ import 'dart:math';
 
 
 class ReportProblem extends StatefulWidget {
-  String qrCode;
-  ReportProblem({Key key, this.qrCode}) : super(key: key);
+  String DeviceID;
+  ReportProblem({Key key, this.DeviceID}) : super(key: key);
 
   @override
   _ReportProblemState createState() {
-    return _ReportProblemState(qrCode:qrCode);
+    return _ReportProblemState(DeviceID:DeviceID);
   }
 }
 
 class _ReportProblemState extends State<ReportProblem> {
   ReportProblemPage Reportproblem = ReportProblemPage();
   StreamController<String> _controller = StreamController.broadcast();
-  String qrCode;
-  _ReportProblemState({this.qrCode});
+  String DeviceID;
+  _ReportProblemState({this.DeviceID});
   @override
   void initState() {
     super.initState();
@@ -66,25 +66,25 @@ class _ReportProblemState extends State<ReportProblem> {
                 }
             )
         ),
-          body: MyCustomForm(qrCode:qrCode),
+          body: MyCustomForm(DeviceID:DeviceID),
         )
     );
   }
 }
 class MyCustomForm extends StatefulWidget {
-  String qrCode;
-  MyCustomForm({Key key, this.qrCode}) : super(key: key);
+  String DeviceID;
+  MyCustomForm({Key key, this.DeviceID}) : super(key: key);
 
   @override
   MyCustomFormState createState() {
-    return MyCustomFormState(qrCode:qrCode);
+    return MyCustomFormState(DeviceID:DeviceID);
   }
 }
 
 class MyCustomFormState extends State<MyCustomForm> {
 
-  String qrCode;
-  MyCustomFormState({this.qrCode});
+  String DeviceID;
+  MyCustomFormState({this.DeviceID});
 
   ReportProblemPage Reportproblem = ReportProblemPage();
 
@@ -171,7 +171,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     String documentID = (getRandomString(20));
     try {
       databaseReference.collection('devices')
-          .doc(qrCode)
+          .doc(DeviceID)
           .collection('deviceProblems')
           .doc('$documentID')
           .set({'datetime': "$time" , 'problem' : TextFieldController.text , 'uid' : 'UserID'});
