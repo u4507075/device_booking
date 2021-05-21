@@ -53,8 +53,18 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                 }
               }),
           const SizedBox(height: 20),
-          //buildName aka Email
-          buildName(user),
+          //Email
+          StreamBuilder<Object>(
+              stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+              builder: (context, snapshot){
+                if (snapshot != null &&
+                    snapshot.hasData &&
+                    snapshot.data == "success") {
+                  return Text(usr.email, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18));
+                } else {
+                  return buildName(user);
+                }
+              }),
           //editButton
           StreamBuilder<Object>(
               stream: _controller.stream,
