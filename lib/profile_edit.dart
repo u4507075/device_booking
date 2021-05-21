@@ -69,8 +69,10 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                         return buildName(user);
                       }
                     }),
+               //SaveButton
                saveButton(),
                 Divider(thickness: 0.2, color: Colors.black,),
+                //FirstNameBox
                 Row(
                   children: [
                     StreamBuilder<Object>(
@@ -110,13 +112,129 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                         }),
                   ],
                 ),
-               firstNameBox(user),
                 Divider(thickness: 0.2, color: Colors.black,),
-               lastNameBox(user),
+               //LastNameBox
+                Row(
+                  children: [
+                    StreamBuilder<Object>(
+                        stream: _controller.stream,
+                        builder: (context, snapshot){
+                          if (snapshot != null &&
+                              snapshot.hasData &&
+                              snapshot.data == "success") {
+                            return Container(
+                              color: Colors.red,
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child: Text(pfp.text2, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child: Text('ErrorText2', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            );
+                          }
+                        }),
+                    StreamBuilder<Object>(
+                        stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+                        builder: (context, snapshot){
+                          if (snapshot != null &&
+                              snapshot.hasData &&
+                              snapshot.data == "success") {
+                            return Text(usr.lastname, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                          } else {
+                            return lastNameBox(user);
+                          }
+                        }),
+                  ],
+                ),
                 Divider(thickness: 0.2, color: Colors.black,),
-               telephoneBox(user),
+                //telephoneBox
+                Row(
+                  children: [
+                    StreamBuilder<Object>(
+                        stream: _controller.stream,
+                        builder: (context, snapshot){
+                          if (snapshot != null &&
+                              snapshot.hasData &&
+                              snapshot.data == "success") {
+                            return Container(
+                              color: Colors.red,
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child: Text(pfp.text3, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child: Text('ErrorText3', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            );
+                          }
+                        }),
+                    StreamBuilder<Object>(
+                        stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+                        builder: (context, snapshot){
+                          if (snapshot != null &&
+                              snapshot.hasData &&
+                              snapshot.data == "success") {
+                            return Text(usr.telephone, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                          } else {
+                            return telephoneBox(user);
+                          }
+                        }),
+                  ],
+                ),
                 Divider(thickness: 0.2, color: Colors.black,),
-               roleBox(user),
+               //roleBox
+                Row(
+                  children: [
+                    StreamBuilder<Object>(
+                        stream: _controller.stream,
+                        builder: (context, snapshot){
+                          if (snapshot != null &&
+                              snapshot.hasData &&
+                              snapshot.data == "success") {
+                            return Container(
+                              color: Colors.red,
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child: Text(pfp.text4, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child: Text('ErrorText4', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                            );
+                          }
+                        }),
+                    StreamBuilder<Object>(
+                        stream: _ucontroller.stream, // Known Bug is when use _contoller.stream it still works lol?!?!?
+                        builder: (context, snapshot){
+                          if (snapshot != null &&
+                              snapshot.hasData &&
+                              snapshot.data == "success") {
+                            return Text(usr.role, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                          } else {
+                            return roleBox(user);
+                          }
+                        }),
+                  ],
+                ),
             ],
           )
         ),
@@ -151,6 +269,7 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
               child: TextFieldWidget(
                 text: user.firstname,
                 onChanged: (firstname) {
+
                 },
               ),
             )
@@ -160,12 +279,6 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
 
   Widget lastNameBox(User user) => Row(
     children: [
-      Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 2.5,
-        height: MediaQuery.of(context).size.height / 15,
-        child: Text('Last Name',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
       Container(
         width: MediaQuery.of(context).size.width / 2.5,
         height: MediaQuery.of(context).size.height / 15,
@@ -182,17 +295,13 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
   Widget telephoneBox(User user) => Row(
     children: [
       Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 2.5,
-        height: MediaQuery.of(context).size.height / 15,
-        child: Text('Telephone',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
-      Container(
         width: MediaQuery.of(context).size.width / 2.5,
         height: MediaQuery.of(context).size.height / 15,
         child: TextFieldWidget(
           text: user.telephone,
-          onChanged: (telephone) {},
+          onChanged: (telephone) {
+
+          },
         ),
       )
     ],
@@ -201,17 +310,13 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
   Widget roleBox(User user) => Row(
     children: [
       Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width / 2.5,
-        height: MediaQuery.of(context).size.height / 15,
-        child: Text('Role',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-      ),
-      Container(
         width: MediaQuery.of(context).size.width / 2.5,
         height: MediaQuery.of(context).size.height / 15,
         child: TextFieldWidget(
           text: user.role,
-          onChanged: (role) {},
+          onChanged: (role) {
+
+          },
         ),
       )
     ],
