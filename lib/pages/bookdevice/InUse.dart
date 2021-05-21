@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
-import 'package:device_booking/services/database.dart';
+import 'package:device_booking/pages/bookdevice/reportproblem.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/pages/home/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +17,6 @@ class MainPageBusy extends StatefulWidget {
   _MainPageBusyState createState() {
     return _MainPageBusyState(qrCode:qrCode);
   }
-
 }
 
 class _MainPageBusyState extends State<MainPageBusy> {
@@ -77,14 +76,14 @@ class _MainPageBusyState extends State<MainPageBusy> {
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        Report())));
+                                        ReportProblem(qrCode:qrCode))));
                       } else {
                         return ElevatedButton(
                             child: Text("Report"),
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        Report())));
+                                        ReportProblem(qrCode:qrCode))));
                       }
                     }),
               ],
@@ -236,48 +235,3 @@ void test(String qrCode) async {
 }
 }}
 
-class Report extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: Color.fromARGB(255, 67, 71, 130)),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: MyWidget(),
-        ),
-      ),
-    );
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text('Reported!', style: Theme.of(context).textTheme.headline4);
-  }
-}
-
-class Back extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: Color.fromARGB(255, 67, 71, 130)),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: MyWidget2(),
-        ),
-      ),
-    );
-  }
-}
-
-class MyWidget2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text('Back!', style: Theme.of(context).textTheme.headline4);
-  }
-}
