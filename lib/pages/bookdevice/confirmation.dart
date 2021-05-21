@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_booking/pages/bookdevice/InUse.dart';
 
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
 
@@ -520,6 +521,12 @@ class _ConfiPageState extends State<ConfiPage> {
         //     MaterialPageRoute(
         //         builder: (context) =>Placeholder()));
         CreateLog();
+        updateLastest();
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) {
+          return MainPageBusy();
+        }));
       },
     );
 

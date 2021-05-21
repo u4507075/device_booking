@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/pages/home/home.dart';
 
 class MainPageBusy extends StatefulWidget {
   final FirebaseApp app;
@@ -153,7 +154,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
                               child: Text(INUSE.re),
                               onPressed: () =>
                                   Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Back(),
+                                builder: (BuildContext context) => Home(),
                               )),
                             );
                           } else {
@@ -161,7 +162,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
                               child: Text("คืนอุปกรณ์"),
                               onPressed: () =>
                                   Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Back(),
+                                builder: (BuildContext context) => Home(),
                               )),
                             );
                           }
