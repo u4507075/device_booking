@@ -4,25 +4,34 @@ import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/pages/home/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class MainPageBusy extends StatefulWidget {
+
   final FirebaseApp app;
-  const MainPageBusy({Key key, this.app}) : super(key: key);
+  String qrCode;
+  MainPageBusy({Key key, this.app, this.qrCode}) : super(key: key);
 
   @override
-  _MainPageBusyState createState() => _MainPageBusyState();
+  _MainPageBusyState createState() {
+    return _MainPageBusyState(qrCode:qrCode);
+  }
+
 }
 
 class _MainPageBusyState extends State<MainPageBusy> {
   InUsePage INUSE = InUsePage();
   StreamController<String> _controller = StreamController.broadcast();
   StreamController<String> _controllerTime = StreamController();
+  String qrCode;
+  _MainPageBusyState({this.qrCode});
 
   @override
   void initState() {
     super.initState();
     INUSE.fetchAll(_controller);
-    FirebaseDB().getTime(widget.app, _controllerTime, "Sun");
+    //FirebaseDB().getTime(widget.app, _controllerTime, "Sun");
   }
 
   @override
@@ -174,7 +183,41 @@ class _MainPageBusyState extends State<MainPageBusy> {
           ],
         ),
       ));
+
+void test(String qrCode) async {
+  CollectionReference collection = FirebaseFirestore.instance.collection('device_status');
+  DocumentSnapshot documentSnapshot = await collection.doc(qrCode).get();
+  if(documentSnapshot.exists){
+    Map<String, dynamic> data = documentSnapshot.data();
+    String datetime = data["timestamp"];
+    var time = const Duration(milliseconds: 900);
+    Timer.periodic(time, (timer) {
+      var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
+      final hrs = DateTime.now().difference(dateTime1).inHours;
+      final mins = DateTime.now().difference(dateTime1).inMinutes;
+      final secs = DateTime.now().difference(dateTime1).inSeconds;
+      int min = mins % 60;
+      int sec = secs % 60;
+      if (hrs == 0) {
+        _controllerTime.add('$min minutes $sec secs');
+        if (min == 0) {
+          _controllerTime.add('$sec secs');
+        } else {
+          _controllerTime.add('$min minutes $sec secs');
+        }
+      } else {
+        _controllerTime.add('$hrs hours $min minutes $sec secs');
+        if (min == 0) {
+          _controllerTime.add('$hrs hours $sec secs');
+        } else {
+          _controllerTime.add('$hrs hours $min minutes $sec secs');
+        }
+      }
+
+  });
+
 }
+}}
 
 class Report extends StatelessWidget {
   @override

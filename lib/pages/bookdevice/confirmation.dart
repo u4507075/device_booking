@@ -516,16 +516,12 @@ class _ConfiPageState extends State<ConfiPage> {
     Widget continueButton = TextButton(
       child: Text("Continue"),
       onPressed: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>Placeholder()));
         CreateLog();
         updateLastest();
         Navigator.of(context, rootNavigator: true).pop();
         Navigator.push(
             context, MaterialPageRoute(builder: (context) {
-          return MainPageBusy();
+          return MainPageBusy(qrCode:qrCode);
         }));
       },
     );
