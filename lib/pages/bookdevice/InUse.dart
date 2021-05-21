@@ -21,11 +21,13 @@ class MainPageBusy extends StatefulWidget {
 }
 
 class _MainPageBusyState extends State<MainPageBusy> {
+  String time = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
   InUsePage INUSE = InUsePage();
   StreamController<String> _controller = StreamController.broadcast();
   StreamController<String> _controllerTime = StreamController();
   String qrCode;
   _MainPageBusyState({this.qrCode});
+  final databaseReference = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -163,18 +165,22 @@ class _MainPageBusyState extends State<MainPageBusy> {
                               snapshot.data == "success") {
                             return ElevatedButton(
                               child: Text(INUSE.re),
-                              onPressed: () =>
+                                onPressed: () {
+                                  updateLastest();
                                   Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Home(),
-                              )),
+                                    builder: (BuildContext context) => Home(),
+                                  ));
+                                }
                             );
                           } else {
                             return ElevatedButton(
                               child: Text("คืนอุปกรณ์"),
-                              onPressed: () =>
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Home(),
-                              )),
+                              onPressed: () {
+                                updateLastest();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) => Home(),
+                                ));
+                              }
                             );
                           }
                         }),
@@ -185,6 +191,15 @@ class _MainPageBusyState extends State<MainPageBusy> {
           ],
         ),
       ));
+
+  void updateLastest() {
+    try {
+      databaseReference.collection('device_status')
+          .doc(qrCode)
+          .update({'status':'available' , 'timestamp':time});
+    } catch (e) {
+      print(e.toString());
+    }}
 
 void test(String qrCode) async {
   CollectionReference collection = FirebaseFirestore.instance.collection('device_status');
