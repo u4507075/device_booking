@@ -13,11 +13,12 @@ class LocationList extends StatefulWidget {
   String Mrole;
   String Mtelephone;
   String qrCode;
-  LocationList({Key key, this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
+  String myID;
+  LocationList({Key key, this.myID, this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
 
   @override
   _LocationListState createState() {
-    return _LocationListState(qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
+    return _LocationListState(myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
   }
 }
 
@@ -30,7 +31,8 @@ class _LocationListState extends State<LocationList> {
   String Mrole;
   String Mtelephone;
   String qrCode;
-  _LocationListState({this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
+  String myID;
+  _LocationListState({this.myID, this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
 
   SelectLoPage selectLo = SelectLoPage();
   StreamController<String> _controller = StreamController.broadcast();
@@ -91,7 +93,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item01 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item01 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -114,7 +116,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item02 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item02 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -137,7 +139,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item03 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item03 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -160,7 +162,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item04 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item04 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -183,7 +185,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item05 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item05 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -206,7 +208,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item06 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item06 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -229,7 +231,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item07 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item07 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -252,7 +254,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item08 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item08 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),
@@ -274,7 +276,7 @@ class _LocationListState extends State<LocationList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>ConfiPage(place:selectLo.item09 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                      builder: (context) =>ConfiPage(place:selectLo.item09 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                   )
               );},
             ),
@@ -297,7 +299,7 @@ class _LocationListState extends State<LocationList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>ConfiPage(place:selectLo.item10 , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
+                        builder: (context) =>ConfiPage(place:selectLo.item10 , myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)
                     )
                 );},
             ),

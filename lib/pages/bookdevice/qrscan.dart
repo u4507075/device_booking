@@ -198,12 +198,12 @@ class _QRScanState extends State<QRScan> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>MyTest(qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone , BorrowPlace:BorrowPlace , BorrowTime:BorrowTime , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
+                  builder: (context) =>MyTest(myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone , BorrowPlace:BorrowPlace , BorrowTime:BorrowTime , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone)));
         }else {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>LocationList(qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)));
+                  builder: (context) =>LocationList(myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)));
         }
       }));});});
     } on PlatformException {

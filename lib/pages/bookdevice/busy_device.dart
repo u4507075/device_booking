@@ -26,11 +26,12 @@ class MyTest extends StatefulWidget {
   String Mrole;
   String Mtelephone;
   String qrCode;
-  MyTest({Key key, this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone , this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone, this.BorrowTime, this.BorrowPlace}): super(key: key);
+  String myID;
+  MyTest({Key key, this.myID, this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone , this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone, this.BorrowTime, this.BorrowPlace}): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return MyTestState(qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone , BorrowTime:BorrowTime , BorrowPlace:BorrowPlace);
+    return MyTestState(myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone , email:email , firstname:firstname , imagePath:imagePath , lastname:lastname , role:role , telephone:telephone , BorrowTime:BorrowTime , BorrowPlace:BorrowPlace);
   }
 }
 
@@ -51,7 +52,8 @@ class MyTestState extends State<MyTest> {
   String Mrole;
   String Mtelephone;
   String qrCode;
-  MyTestState({this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone , this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone, this.BorrowTime, this.BorrowPlace});
+  String myID;
+  MyTestState({this.myID, this.qrCode, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone , this.email, this.firstname, this.imagePath, this.lastname, this.role, this.telephone, this.BorrowTime, this.BorrowPlace});
 
   BusyDevice busy = BusyDevice();
   StreamController<String> _controller = StreamController.broadcast();
@@ -390,7 +392,7 @@ class MyTestState extends State<MyTest> {
                         ElevatedButton(onPressed: () {
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) {
-                            return LocationList(qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
+                            return LocationList(myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
                           }));
                         },
                           style: ElevatedButton.styleFrom(

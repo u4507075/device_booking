@@ -19,11 +19,12 @@ class ConfiPage extends StatefulWidget {
   String Mtelephone;
   String place;
   String qrCode;
-  ConfiPage({Key key, this.qrCode, this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
+  String myID;
+  ConfiPage({Key key, this.myID, this.qrCode, this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone}): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ConfiPageState(qrCode:qrCode , place:place , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
+    return _ConfiPageState(myID:myID , qrCode:qrCode , place:place , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone);
   }
 }
 
@@ -41,9 +42,10 @@ class _ConfiPageState extends State<ConfiPage> {
   String place;
   String time;
   String qrCode;
+  String myID;
 
   _ConfiPageState(
-      {this.qrCode, this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
+      {this.myID, this.qrCode, this.place, this.Memail, this.Mfirstname, this.MimagePath, this.Mlastname, this.Mrole, this.Mtelephone});
 
   final databaseReference = FirebaseFirestore.instance;
 
@@ -478,7 +480,7 @@ class _ConfiPageState extends State<ConfiPage> {
     String documentID = (getRandomString(20));
     try {
       databaseReference.collection('devices')
-          .doc('uqxXjSEU2JpgXpcaJfPF')
+          .doc(qrCode)
           .collection('log')
           .doc('$documentID')
           .set({
@@ -491,29 +493,14 @@ class _ConfiPageState extends State<ConfiPage> {
     }
   }
 
-  // void UpdateLog() {
-  //   const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  //   Random _rnd = Random();
-  //   String getRandomString(int length) =>
-  //       String.fromCharCodes(Iterable.generate(
-  //           length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-  //   String documentID = (getRandomString(20));
-  //   try {
-  //     databaseReference.collection('devices')
-  //         .doc('uqxXjSEU2JpgXpcaJfPF')
-  //         .collection('log')
-  //         .doc('$documentID')
-  //         .set({
-  //       'Location': "$place",
-  //       'User': '$Mrole + $Mfirstname + $Mlastname',
-  //       'time': '$time'
-  //     });
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
-
-
+  void updateLastest() {
+    try {
+      databaseReference.collection('device_status')
+          .doc(qrCode)
+          .update({'BorrowPlace': place , 'status':'busy' , 'timestamp':time , 'userid':myID});
+    } catch (e) {
+      print(e.toString());
+    }}
 
 /////ALERT DIALOG PART
   showAlertDialog(BuildContext context) {
