@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/models/user_page.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/user/user_pref.dart';
@@ -22,6 +23,7 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
   Profilepager pfp = Profilepager();
   StreamController<String> _controller = StreamController.broadcast();
   StreamController<String> _ucontroller = StreamController.broadcast();
+  final databaseReference = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -82,7 +84,7 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                               child: Text(pfp.button2,style: TextStyle(color: Colors.grey, fontSize: 16)),
                               onPressed: (){
                                 Navigator.pop(context);
-
+                                updateData();
                               },
                             )
                         );
@@ -337,6 +339,22 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
         ),
       ),
     );
+  }
+
+  void updateData() {
+    try {
+      databaseReference.collection('users_testpull')
+          .doc('testId')
+          .update({
+            'email': "${usr.email}",
+            'firstname': "${usr.firstname}",
+            'lastname': "${usr.lastname}",
+            'role': "${usr.role}",
+            'telephone': "${usr.telephone}",
+          });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------//
