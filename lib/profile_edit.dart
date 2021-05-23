@@ -70,7 +70,36 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                       }
                     }),
                //SaveButton
-               saveButton(),
+                StreamBuilder<Object>(
+                    stream: _controller.stream,
+                    builder: (context, snapshot){
+                      if (snapshot != null &&
+                          snapshot.hasData &&
+                          snapshot.data == "success") {
+                        return Align(
+                            alignment: Alignment(0.8, 0.5),
+                            child: TextButton(
+                              child: Text(pfp.button2,style: TextStyle(color: Colors.grey, fontSize: 16)),
+                              onPressed: (){
+                                Navigator.pop(context);
+
+                              },
+                            )
+                        );
+                      } else {
+                        return Align(
+                            alignment: Alignment(0.8, 0.5),
+                            child: TextButton(
+                              child: Text('Save',style: TextStyle(color: Colors.grey, fontSize: 16)),
+                              onPressed: () async {
+                                Navigator.pop(context);
+
+                              },
+                            )
+                        );
+                      }
+                    }),
+               //saveButton(),
                 Divider(thickness: 0.2, color: Colors.black,),
                 //FirstNameBox
                 Row(
@@ -105,7 +134,24 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                           if (snapshot != null &&
                               snapshot.hasData &&
                               snapshot.data == "success") {
-                            return Text(usr.firstname, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                            return Container(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child:
+                                TextFormField(
+                                  initialValue: usr.firstname,
+                                  //TODO implement validator
+                                  onChanged: (text) async {
+                                    usr.firstname = text;
+                                    print(usr.firstname);
+                                  },
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    )
+                                  ),
+                                ),
+                            );
                           } else {
                             return firstNameBox(user);
                           }
@@ -146,7 +192,24 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                           if (snapshot != null &&
                               snapshot.hasData &&
                               snapshot.data == "success") {
-                            return Text(usr.lastname, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                            return Container(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child:
+                              TextFormField(
+                                initialValue: usr.lastname,
+                                //TODO implement validator
+                                onChanged: (text) async {
+                                  usr.lastname = text;
+                                  print(usr.lastname);
+                                },
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    )
+                                ),
+                              ),
+                            );
                           } else {
                             return lastNameBox(user);
                           }
@@ -187,7 +250,24 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                           if (snapshot != null &&
                               snapshot.hasData &&
                               snapshot.data == "success") {
-                            return Text(usr.telephone, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                            return Container(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child:
+                              TextFormField(
+                                initialValue: usr.telephone,
+                                //TODO implement validator
+                                onChanged: (text) async {
+                                  usr.telephone = text;
+                                  print(usr.telephone);
+                                },
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    )
+                                ),
+                              ),
+                            );
                           } else {
                             return telephoneBox(user);
                           }
@@ -228,7 +308,24 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                           if (snapshot != null &&
                               snapshot.hasData &&
                               snapshot.data == "success") {
-                            return Text(usr.role, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16));
+                            return Container(
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 15,
+                              child:
+                              TextFormField(
+                                initialValue: usr.role,
+                                //TODO implement validator
+                                onChanged: (text) async {
+                                  usr.role = text;
+                                  print(usr.role);
+                                },
+                                decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    )
+                                ),
+                              ),
+                            );
                           } else {
                             return roleBox(user);
                           }
