@@ -5,6 +5,8 @@ import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/pages/bookdevice/Select_location.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import 'package:device_booking/style.dart';
+
 
 
 //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
@@ -85,14 +87,12 @@ class MyTestState extends State<MyTest> {
                 if (snapshot != null &&
                     snapshot.hasData &&
                     snapshot.data == "success") {
-                  return Text(busy.Header,style: TextStyle(fontSize: 25.0,
-                    fontWeight: FontWeight.bold,));
+                  return Text(busy.Header,style: appBarTextStyle);
                 }
                 else {
                   return Text(
                     'Busy Device',
-                    style: TextStyle(
-                        fontSize: 35.0, fontWeight: FontWeight.bold),
+                    style: appBarTextStyle,
                   );
                 }})),
       body: Center(
@@ -123,10 +123,8 @@ class MyTestState extends State<MyTest> {
                       if (snapshot != null &&
                           snapshot.hasData &&
                           snapshot.data == "success") {
-                        return Text(busy.Subheader_1,style: GoogleFonts.kanit(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),);
+                        return Text(busy.Subheader_1,style: h3TextStyle,
+                        );
                       }
                       else {
                         return Text(
@@ -285,18 +283,13 @@ class MyTestState extends State<MyTest> {
                       if (snapshot != null &&
                           snapshot.hasData &&
                           snapshot.data == "success") {
-                        return Text(busy.Subheader_2,style: GoogleFonts.kanit(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),);
+                        return Text(busy.Subheader_2,style: h3TextStyle);
                       }
                       else {
                         return Text(
                           'ยืมไปใช้งานที่',
-                          style: GoogleFonts.kanit(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: h3TextStyle
+
                         );
                       }}),
                 ],
