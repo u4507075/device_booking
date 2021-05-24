@@ -2,7 +2,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
-import 'package:device_booking/pages/bookdevice/qrscan.dart';
 import 'package:device_booking/pages/bookdevice/Select_location.dart';
 
 
@@ -72,6 +71,11 @@ class MyTestState extends State<MyTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/bookdevice/qrscan');
+            },
+          ),
           centerTitle: true,
           backgroundColor: Colors.redAccent,
           title: StreamBuilder<Object>(
@@ -353,10 +357,7 @@ class MyTestState extends State<MyTest> {
                           height: 50,
                           width: 100,
                           child: ElevatedButton(onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>QRScan()));
+                            Navigator.pushNamed(context, '/bookdevice/qrscan');
                           },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.grey[300],side: BorderSide(color: Colors.grey)), child: StreamBuilder<Object>(
