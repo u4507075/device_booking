@@ -1,3 +1,5 @@
+import 'package:device_booking/pages/profile/profile_edit.dart';
+import 'package:device_booking/pages/profile/profile.dart';
 import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
@@ -68,7 +70,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/home',
+        initialRoute: '/profile',
         routes: {
           '/': (context) => Wrapper(),
           '/home': (context) => Home(),
@@ -76,6 +78,8 @@ class MyApp extends StatelessWidget {
           '/loading': (context) => Loading(),
           '/signup': (context) => SignUp(),
           '/getotp': (context) => GetOTP(),
+          '/profile' : (context) => ProfilePage(),
+          '/profileedit' : (context) => ProfilePageEdit(),
         },
       ),
     );
