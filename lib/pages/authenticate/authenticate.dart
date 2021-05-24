@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:device_booking/demo/google_signin.dart';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/services/auth.dart';
+import 'package:device_booking/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,20 +16,20 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  Future<void> signIn() async {
-    return AuthService().signInWithGoogle().then((user) {
-      if (user.uid != null) {
-        //login success -> navigate to 'Home' with user data
-        Navigator.pushReplacementNamed(context, '/signup',
-            arguments: {'user': user});
-        print('log in success');
-      } else {
-        //login failed -> reload 'Auth'
-        Navigator.pushReplacementNamed(context, '/authenticate');
-        print('log in failed');
-      }
-    });
-  }
+  // Future<void> signIn() async {
+  //   return AuthService().signInWithGoogle().then((user) {
+  //     if (user.uid != null) {
+  //       //login success -> navigate to 'Home' with user data
+  //       Navigator.pushReplacementNamed(context, '/signup',
+  //           arguments: {'user': user});
+  //       print('log in success');
+  //     } else {
+  //       //login failed -> reload 'Auth'
+  //       Navigator.pushReplacementNamed(context, '/authenticate');
+  //       print('log in failed');
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
@@ -91,9 +92,10 @@ class _AuthenticateState extends State<Authenticate> {
                   child: ListTile(
                     onTap: () {
                       Navigator.pushNamed(context, '/loading');
-                      AuthService().signInWithGoogle().then((value) {
+                      AuthService().signInWithGoogle().then((userData) {
+                        DBService().addUser(userData);
                         Navigator.pop(context);
-                        Navigator.pushReplacementNamed(context, '/signup');
+                        Navigator.pushNamed(context, '/signup');
                       });
                     },
                     leading: Icon(

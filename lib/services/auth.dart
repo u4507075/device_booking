@@ -6,7 +6,7 @@ class AuthService {
   //convert FirebaseUser to custom UserData model
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserData _userDataFromFirebaseUser(User user) {
+  UserData userDataFromFirebaseUser(User user) {
     if (user != null) {
       return UserData(
           firstname: capitalize(user.displayName.split(' ')[0]),
@@ -40,7 +40,7 @@ class AuthService {
 
       // print(user);
       // print('login success');
-      return _userDataFromFirebaseUser(user.user);
+      return userDataFromFirebaseUser(user.user);
     } catch (e) {
       print(e);
       return null;
@@ -60,7 +60,7 @@ class AuthService {
   Stream<User> get onAuthStateChanged => _auth.authStateChanges();
 
   Stream<UserData> get onAuthStateChangedUserData =>
-      _auth.authStateChanges().map(_userDataFromFirebaseUser);
+      _auth.authStateChanges().map(userDataFromFirebaseUser);
 
   //log out - google account
   Future<void> logOut() async {

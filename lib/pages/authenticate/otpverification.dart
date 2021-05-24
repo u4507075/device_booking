@@ -122,7 +122,7 @@ class GetOTP extends StatelessWidget {
             SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/home');
+                  Navigator.pushNamed(context, '/home');
                 },
                 child: Text('Continue')),
             SizedBox(height: 50),

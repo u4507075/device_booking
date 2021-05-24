@@ -1,4 +1,3 @@
-import 'package:device_booking/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,11 +6,8 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/models/user.dart';
 
-class DBService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-
+class FirebaseDB {
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
     CollectionReference doc = FirebaseFirestore.instance.collection(field);
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
@@ -41,43 +37,6 @@ class DBService {
       Map<String, dynamic> data =
           new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
-    });
-  }
-
-  //Get UserData one time
-  Future<UserData> getUser(String id) async {
-    var snap = await _db.collection('users').doc(id).get();
-    return UserData.fromMap(snap.data());
-  }
-
-  Future<bool> checkUser(String id) {
-    return _db.collection('users').doc(id).get().then((snap) {
-      return snap.exists;
-    });
-  }
-
-  //Stream UserData
-  Stream<UserData> streamUserData(String uid) {
-    try {
-      return _db
-          .collection('users')
-          .doc(uid)
-          .snapshots()
-          .map((snap) => UserData.fromMap(snap.data()));
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  } //ref: https://www.youtube.com/watch?v=vFxk_KJCqgk ['Provider and flutterfire']
-
-  Future<void> addUser(UserData userData) {
-    return _db.collection('users').doc(userData.uid).set({
-      'firstname': userData.firstname,
-      'lastname': userData.lastname,
-      'email': userData.email,
-      'phoneNumber': userData.phoneNumber,
-      'role': userData.role,
-      'uid': userData.uid,
     });
   }
 }

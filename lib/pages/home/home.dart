@@ -4,6 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/models/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:device_booking/models/user.dart';
 
 //To use UserData copy this!
 // import 'package:provider/provider.dart';
@@ -36,7 +46,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                        text: '\n${user.firstname}', //TODO: get name of user
+                        text: '', //TODO: get name of user
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.normal,
@@ -96,7 +106,9 @@ class Home extends StatelessWidget {
                         'EKG', 'assets/images/electrocardiogram.png', 100.0)),
                 ElevatedButton(
                     onPressed: () async {
-                      await AuthService().logOut();
+                      await AuthService().signOut();
+                      Navigator.popUntil(context,
+                          ModalRoute.withName(Navigator.defaultRouteName));
                     },
                     child: Text('Sign out'))
               ]),
