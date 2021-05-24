@@ -54,7 +54,9 @@ class _LocationListState extends State<LocationList> {
       home: Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pushNamed(context, '/bookdevice/qrscan');
+            },
           ),
           elevation: 0,
           title: StreamBuilder<Object>(

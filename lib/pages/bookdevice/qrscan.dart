@@ -67,6 +67,9 @@ class _QRScanState extends State<QRScan> {
         true,
         ScanMode.QR,
       );
+      if(qrCode == '-1'){
+        Navigator.pushNamed(context, '/home');
+      }else{
       Navigator.pushNamed(context,"/loading");
       if (!mounted) return;
       FirebaseDB().fetchDevice(qrCode).then((value) => setState(() {
@@ -111,7 +114,7 @@ class _QRScanState extends State<QRScan> {
               MaterialPageRoute(
                   builder: (context) =>LocationList(myID:myID , qrCode:qrCode , Memail:Memail , Mfirstname:Mfirstname , MimagePath:MimagePath , Mlastname:Mlastname , Mrole:Mrole , Mtelephone:Mtelephone)));
         }
-      }));});});
+      }));});});}
     } on PlatformException {
       qrCode = 'Failed to get platform version.';
     }
