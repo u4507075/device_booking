@@ -50,6 +50,8 @@ class _QRScanState extends State<QRScan> {
   void initState() {
     super.initState();
     ScAn.fetchAll(_controller);
+    scanQRCode();
+
   }
 
   @override
@@ -156,14 +158,14 @@ class _QRScanState extends State<QRScan> {
 
   Future<void> scanQRCode() async {
     try {
-      Navigator.pushNamed(context,"/loading");
+
       final qrCode = await FlutterBarcodeScanner.scanBarcode(
         '#ff6666',
         'Cancel',
         true,
         ScanMode.QR,
       );
-
+      Navigator.pushNamed(context,"/loading");
       if (!mounted) return;
       FirebaseDB().fetchDevice(qrCode).then((value) => setState(() {
         this.qrCode = qrCode;
