@@ -99,7 +99,7 @@ class FirebaseDB {
       String datetime = data["date"];
       var time = const Duration(milliseconds: 900);
       Timer.periodic(time, (timer) {
-        var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
+        var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
         final hrs = DateTime.now().difference(dateTime1).inHours;
         final mins = DateTime.now().difference(dateTime1).inMinutes;
         final secs = DateTime.now().difference(dateTime1).inSeconds;

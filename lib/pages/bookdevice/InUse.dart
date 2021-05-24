@@ -35,8 +35,6 @@ class _MainPageBusyState extends State<MainPageBusy> {
     INUSE.fetchAll(_controller);
     test(qrCode);
     DeviceID = qrCode;
-
-    //FirebaseDB().getTime(widget.app, _controllerTime, "Sun");
   }
 
   @override
@@ -144,7 +142,6 @@ class _MainPageBusyState extends State<MainPageBusy> {
                               ),
                             );
                           } else {
-                            print(1);
                             return Text(
                               '-- hours -- minutes -- secs',
                               style: TextStyle(
@@ -202,7 +199,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
       print(e.toString());
     }}
 
-void test(String qrCode) async {
+  void test(qrCode) async {
   CollectionReference collection = FirebaseFirestore.instance.collection('device_status');
   DocumentSnapshot documentSnapshot = await collection.doc(qrCode).get();
   if(documentSnapshot.exists){
@@ -210,7 +207,7 @@ void test(String qrCode) async {
     String datetime = data["timestamp"];
     var time = const Duration(milliseconds: 900);
     Timer.periodic(time, (timer) {
-      var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
+      var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
       final hrs = DateTime.now().difference(dateTime1).inHours;
       final mins = DateTime.now().difference(dateTime1).inMinutes;
       final secs = DateTime.now().difference(dateTime1).inSeconds;
