@@ -19,7 +19,7 @@ import './services/auth.dart';
 import './models/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
 
-import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/services/database.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
@@ -54,11 +54,20 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
+
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<UserData>.value(
-      initialData: null,
-      value: AuthService().onAuthStateChangedUserData,
+    return MultiProvider(
+      providers: [
+        StreamProvider<User>.value(
+          initialData: null,
+          value: AuthService().onAuthStateChanged,
+        ),
+        // StreamProvider<UserData>.value(
+        //   initialData: UserData(),
+        //   value: DBService().streamUserData(user.uid),
+        // ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Medical Device Tracking System',

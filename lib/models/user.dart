@@ -9,22 +9,44 @@ class UserData {
   String email;
   String photoURL;
   String uid;
+  // bool inAction;
+  // String lastDeviceId;
+  // DateTime lastUseTime;
 
-  UserData(
-      {this.firstname,
-      this.lastname,
-      this.phoneNumber,
-      this.role,
-      this.email,
-      this.photoURL,
-      this.uid});
+  UserData({
+    this.firstname,
+    this.lastname,
+    this.phoneNumber,
+    this.role,
+    this.email,
+    this.photoURL,
+    this.uid,
+    // this.inAction,
+    // this.lastDeviceId,
+    // this.lastUseTime,
+  });
 
-  UserData sample() => UserData(
-        firstname: 'Sample',
+  factory UserData.fromMap(Map map) {
+    return UserData(
+      firstname: map['firstname'] ?? '',
+      lastname: map['lastname'] ?? '',
+      phoneNumber: map['phoneNumber'] ?? '',
+      role: map['role'] ?? '',
+      email: map['email'] ?? '',
+      photoURL: map['photoURL'] ?? '',
+      uid: map['uid'] ?? '',
+      // inAction: map['inAction'] ?? false,
+      // lastDeviceId: map['lastDeviceId'] ?? '',
+      // lastUseTime: map['lastUseTime'] ?? '',
+    );
+  }
+
+  factory UserData.initialValue() => UserData(
+        firstname: '',
         lastname: '',
         phoneNumber: '',
         role: '',
-        email: 'sample@elearning.cmu.ac.th',
+        email: '',
         photoURL: '',
         uid: '',
       );

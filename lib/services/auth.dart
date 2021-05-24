@@ -47,6 +47,15 @@ class AuthService {
     }
   }
 
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   //listen for sign in status
   Stream<User> get onAuthStateChanged => _auth.authStateChanges();
 
@@ -57,7 +66,7 @@ class AuthService {
   Future<void> logOut() async {
     final googleSignIn = GoogleSignIn();
     await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
+    _auth.signOut();
   }
 }
 

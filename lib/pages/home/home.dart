@@ -1,6 +1,6 @@
+import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
-import 'package:device_booking/src/button.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/models/user.dart';
@@ -15,6 +15,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
+
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -67,30 +68,39 @@ class Home extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
-            Container(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UltrasoundStatus()),
-                  );
-                },
-                child: CardButton(
-                    'Ultrasound', 'assets/images/ultrasonography.png', 100.0),
-              ),
+            Expanded(
+              child: ListView(children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UltrasoundStatus()),
+                    );
+                  },
+                  child: CardButton(
+                      'Ultrasound', 'assets/images/ultrasonography.png', 100.0),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UltrasoundStatus()),
+                      );
+                    },
+                    child: CardButton(
+                        'EKG', 'assets/images/electrocardiogram.png', 100.0)),
+                ElevatedButton(
+                    onPressed: () async {
+                      await AuthService().logOut();
+                    },
+                    child: Text('Sign out'))
+              ]),
             ),
-            SizedBox(
-              height: 5.0,
-            ),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UltrasoundStatus()),
-                  );
-                },
-                child: CardButton(
-                    'EKG', 'assets/images/electrocardiogram.png', 100.0)),
           ],
         ),
       ),
@@ -110,5 +120,69 @@ class Home extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
+  }
+}
+
+class CardButton extends StatelessWidget {
+  static const double _edge = 10.0;
+  static const double _elevation = 3.0;
+  final double _height;
+  final String _assetPath;
+  final String _title;
+
+  CardButton(this._title, this._assetPath, this._height);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Card(
+          elevation: _elevation,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(_edge)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                height: _height,
+                alignment: Alignment.center,
+                child: ListTile(
+                  leading: LoadingImageContain(_assetPath, 60.0),
+                  title: Text(
+                    _title,
+                    style:
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+                  ),
+                  // subtitle: Text('Subtitle'),
+                  isThreeLine: false,
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 30,
+                    color: Colors.grey[300],
+                  ),
+                ),
+              )
+            ],
+          )),
+    );
+  }
+}
+
+class LoadingImageContain extends StatelessWidget {
+  final _assetPath;
+  final _maxSize;
+
+  LoadingImageContain(this._assetPath, this._maxSize);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(maxHeight: _maxSize),
+      child: Image.asset(
+        _assetPath,
+        fit: BoxFit.contain,
+      ),
+    );
   }
 }
