@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/pages/bookdevice/Select_location.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 
 
@@ -161,7 +162,7 @@ class MyTestState extends State<MyTest> {
                                 if (snapshot != null &&
                                     snapshot.hasData &&
                                     snapshot.data == "success") {
-                                  return Text(busy.Text_1,style: GoogleFonts.ubuntu(
+                                  return AutoSizeText(busy.Text_1,style: GoogleFonts.ubuntu(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
                                   ),);
@@ -179,11 +180,13 @@ class MyTestState extends State<MyTest> {
                       ),
                       Container(
                           color: Colors.grey[200],
-                          margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
-                          child: Text(
+                          height: 30,
+                          width: 230.0,
+                          margin: EdgeInsets.fromLTRB(40.0, 16.0, 0.0, 5.0),
+                          child: AutoSizeText(
                               role+' '+' '+firstname+' '+' '+lastname, style: GoogleFonts.kanit(
                             fontSize: 20.0,
-                          )
+                          ),stepGranularity: 2,
                           )
                       ),
                     ],
@@ -318,7 +321,7 @@ class MyTestState extends State<MyTest> {
                 ),],),),
             Card(
               elevation: 0.0,
-              margin: EdgeInsets.fromLTRB(120.0, 0.0, 16.0, 5.0),
+              margin: EdgeInsets.fromLTRB(110.0, 0.0, 16.0, 5.0),
               child: StreamBuilder<Object>(
                   stream: _controller.stream,
                   builder: (context, snapshot) {
