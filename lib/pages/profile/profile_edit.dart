@@ -9,6 +9,7 @@ import 'package:device_booking/style.dart';
 import 'package:device_booking/widget/profile_widget.dart';
 import 'package:device_booking/models/user.dart';
 import 'package:provider/provider.dart';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 
 class ProfilePageEdit extends StatefulWidget{
   @override
@@ -213,14 +214,46 @@ class _ProfilePageEditState extends State<ProfilePageEdit> {
                                 'Staff'
                               ],
                             )*/
-                            TextFormField(
-                              initialValue: usr.role,
-                              //TODO implement validator
-                              onChanged: (text) async {
-                                usr.role = text;
-                                print(usr.role);
-                              },
-                            ),
+
+                                  // TextFormField(
+                                  //   initialValue: usr.role,
+                                  //   //TODO implement validator
+                                  //   onChanged: (text) async {
+                                  //     usr.role = text;
+                                  //     print(usr.role);
+                                  //   },
+                                  // ),
+                                  DropdownButtonFormField(
+                                    validator: (value) => value == null
+                                        ? 'Please select your role'
+                                        : null,
+                                    isExpanded: true,
+                                    hint: Text('Select you role'),
+                                    value: valueChoose,
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                    iconSize: mediumTextSize,
+                                    elevation: 16,
+                                    style: b1TextStyle,
+                                    onChanged: (value) async {
+                                      setState(() {
+                                        valueChoose = value;
+                                        usr.role = value;
+                                      });
+                                    },
+                                    items: <String>[
+                                      'Medical Student 4',
+                                      'Medical Student 5',
+                                      'Extern',
+                                      'Intern',
+                                      'Resident',
+                                      'Staff'
+                                    ].map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
                           ),
                         ],
                       ),

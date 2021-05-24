@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/profile',
+        initialRoute: '/profileedit',
         routes: {
           '/': (context) => Wrapper(),
           '/home': (context) => Home(),

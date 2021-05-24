@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/models/Userdetail.dart';
 
 class FirebaseDB {
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
@@ -38,5 +39,22 @@ class FirebaseDB {
           new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
     });
+  }
+
+  Future<UserDetails> fetchUserDetails(String document) async {
+    CollectionReference doc = FirebaseFirestore.instance.collection('users_testpull');
+    DocumentSnapshot documentSnapshot = await doc.doc(document).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> users_testpull = documentSnapshot.data();
+      return UserDetails(
+          email: users_testpull['email'],
+          firstname: users_testpull['firstname'],
+          imagePath: users_testpull['imagePath'],
+          lastname: users_testpull['lastname'],
+          role: users_testpull['role'],
+          telephone: users_testpull['telephone']);
+    } else {
+      return null;
+    }
   }
 }
