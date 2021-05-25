@@ -19,7 +19,7 @@ class Device {
 
   // String fetchDevice(String deviceId){
   // try {
-  //   FirebaseDB().fetchData('device', deviceId).then((device) {
+  //   DBService().fetchData('device', deviceId).then((device) {
   //     this.deviceId = device['deviceId'];
   //     this.type = device['type'];
   //     this.name = device['name'];

@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:device_info/device_info.dart';
 import 'dart:async';
-import 'dart:io';
-import 'package:device_booking/demo/book.dart';
-import 'package:device_booking/demo/database.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class Status extends StatefulWidget {
-  FirebaseApp app;
-  String deviceId;
-  Status(FirebaseApp app, String deviceId) {
-    this.app = app;
-    this.deviceId = deviceId;
-  }
+  final FirebaseApp app;
+  final String deviceId;
+  Status(this.app, this.deviceId);
   StatusState createState() => StatusState(app, deviceId);
 }
 

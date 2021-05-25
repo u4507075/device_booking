@@ -9,7 +9,7 @@ class LogInPage {
   String text2;
 
   // void fetchAll(StreamController<String> _controller) {
-  //   FirebaseDB().fetchData('pages', 'login').then((data) {
+  //   DBService().fetchData('pages', 'login').then((data) {
   //     print(data);
   //     this.header = data['header'];
   //     this.logoPath = data['logo'];
@@ -23,7 +23,8 @@ class LogInPage {
   // LogInPage({this.header, this.subtitle, this.text1, this.text2})
 
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'login').then((data) {
+    DBService().fetchData('pages', 'login').then((data) {
+      print(data);
       this.header = data['header'];
       this.logoPath = data['logo'];
       this.subtitle = data['subtitle'];
@@ -35,35 +36,35 @@ class LogInPage {
 }
 
 class QRScanPage {
-  String Brrr;
-  String Copy;
-  String Result;
-  String Scan;
-  String Start;
+  String brrr;
+  String copy;
+  String result;
+  String scan;
+  String start;
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'QR_reader').then((data) {
-      this.Brrr = data['Brrr'];
-      this.Copy = data['Copy'];
-      this.Result = data['Result'];
-      this.Scan = data['Scan'];
-      this.Start = data['Start'];
+    DBService().fetchData('pages', 'QR_reader').then((data) {
+      this.brrr = data['Brrr'];
+      this.copy = data['Copy'];
+      this.result = data['Result'];
+      this.scan = data['Scan'];
+      this.start = data['Start'];
       _controller.add('success');
     });
   }
 }
 
 class InUsePage {
-  String ApPbAr;
-  String DU_RaTION;
-  String Piggure;
-  String UppR_LfT_Button;
+  String appBar;
+  String duration;
+  String picture;
+  String upperLeftButton;
   String re;
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'INusE').then((data) {
-      this.ApPbAr = data['ApPbAr'];
-      this.DU_RaTION = data['DU_RaTION'];
-      this.Piggure = data['Piggure'];
-      this.UppR_LfT_Button = data['UppR_LfT_Button'];
+    DBService().fetchData('pages', 'INusE').then((data) {
+      this.appBar = data['ApPbAr'];
+      this.duration = data['DU_RaTION'];
+      this.picture = data['Piggure'];
+      this.upperLeftButton = data['UppR_LfT_Button'];
       this.re = data['re'];
       _controller.add('success');
     });
@@ -82,7 +83,7 @@ class BusyDevice {
   String Button_1;
   String Button_2;
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'Busy Device').then((data) {
+    DBService().fetchData('pages', 'Busy Device').then((data) {
       this.Header = data['Header'];
       this.Picture = data['Picture'];
       this.Subheader_1 = data['Subheader_1'];
@@ -111,7 +112,7 @@ class SelectLoPage {
   String item09;
   String item10;
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'select_location').then((data) {
+    DBService().fetchData('pages', 'select_location').then((data) {
       this.header = data['header'];
       this.item01 = data['item01'];
       this.item02 = data['item02'];
@@ -140,7 +141,7 @@ class ConfirmBook {
   String text_2;
   String text_3;
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'Confirm').then((data) {
+    DBService().fetchData('pages', 'Confirm').then((data) {
       this.header = data['Header'];
       this.subheader_1 = data['Subheader_1'];
       this.subheader_2 = data['Subheader_2'];
@@ -161,7 +162,7 @@ class ReportProblemPage {
   String Submit;
 
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'Report_problem').then((data) {
+    DBService().fetchData('pages', 'Report_problem').then((data) {
       print(data);
       this.Header = data['Header'];
       this.Submit = data['Submit'];

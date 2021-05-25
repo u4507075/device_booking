@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'home.dart';
 
 class BackHome extends StatelessWidget {
@@ -18,6 +17,5 @@ class BackHome extends StatelessWidget {
           child: const Icon(Icons.home),
           backgroundColor: Colors.blue,
         ));
-    throw UnimplementedError();
   }
 }

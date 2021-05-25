@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'dart:async';
 import 'dart:io';
 import 'pages/authenticate/signup.dart';
 import 'package:provider/provider.dart';
@@ -19,14 +18,13 @@ import './services/auth.dart';
 import './models/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
-import 'package:device_booking/pages/bookdevice/busy_device.dart';
-import 'package:device_booking/pages/bookdevice/Select_location.dart';
+
 import 'package:device_booking/services/database.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
     final license =
-    await rootBundle.loadString('google_fonts/roboto_LICENSE.txt');
+        await rootBundle.loadString('google_fonts/roboto_LICENSE.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,21 +32,21 @@ void main() async {
     name: 'db',
     options: Platform.isIOS || Platform.isMacOS
         ? const FirebaseOptions(
-      appId: '1:780797690669:ios:b2cdff48c7ca58a231c9a4',
-      apiKey: 'AIzaSyB2FxL38uNcqlhuRql7fJHceaSBeIUDBgU',
-      projectId: 'med-cmu-device-tracking-system',
-      messagingSenderId: '780797690669',
-      databaseURL:
-      'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
-    )
+            appId: '1:780797690669:ios:b2cdff48c7ca58a231c9a4',
+            apiKey: 'AIzaSyB2FxL38uNcqlhuRql7fJHceaSBeIUDBgU',
+            projectId: 'med-cmu-device-tracking-system',
+            messagingSenderId: '780797690669',
+            databaseURL:
+                'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
+          )
         : const FirebaseOptions(
-      appId: '1:780797690669:android:33ab63eb3bed0cd131c9a4',
-      apiKey: 'AIzaSyDiCLAMpx1JS4AHNdw0rWhgOf6HxD_EvCs',
-      messagingSenderId: '780797690669',
-      projectId: 'med-cmu-device-tracking-system',
-      databaseURL:
-      'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
-    ),
+            appId: '1:780797690669:android:33ab63eb3bed0cd131c9a4',
+            apiKey: 'AIzaSyDiCLAMpx1JS4AHNdw0rWhgOf6HxD_EvCs',
+            messagingSenderId: '780797690669',
+            projectId: 'med-cmu-device-tracking-system',
+            databaseURL:
+                'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
+          ),
   );
   runApp(MyApp(app: app));
 }
@@ -56,23 +54,43 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
+
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<UserData>.value(
-      initialData: UserData().sample(),
-      value: AuthService().onAuthStateChangedUserData,
+    return MultiProvider(
+      providers: [
+        StreamProvider<User>.value(
+          initialData: null,
+          value: AuthService().onAuthStateChanged,
+        ),
+        StreamProvider(
+          create: (context) {
+            return DBService().streamUserData(Provider.of<User>(context,
+                    listen: false)
+                .uid); //Ref: https://github.com/rrousselGit/provider/issues/120
+          },
+          initialData: UserData.initialValue(),
+          catchError: (context, error) {
+            // AuthService().signOut();
+            print(error.toString());
+            return UserData.initialValue();
+          },
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Medical Device Tracking System',
         theme: ThemeData(
           appBarTheme:
-          AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+              AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/home',
+        initialRoute: '/',
+        // home: WrapperAuth(),
         routes: {
           '/': (context) => Wrapper(),
+          // '/wrapper': (content) => WrapperSignUp(),
           '/home': (context) => Home(),
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),
@@ -93,11 +111,11 @@ class MyApp1 extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    /*FirebaseDB().fetchData("users","396009414e0329f7").then((Map<String, dynamic> data){
+    /*DBService().fetchData("users","396009414e0329f7").then((Map<String, dynamic> data){
       print(data);
     });*/
-    //FirebaseDB().updateStatus(app, "Sun");
-    //FirebaseDB().listenStatusChange(app, 'Sun');
+    //DBService().updateStatus(app, "Sun");
+    //DBService().listenStatusChange(app, 'Sun');
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -128,7 +146,7 @@ class MyApp1 extends StatelessWidget {
       //     EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
       //     child: Text("Get OTP", style: TextStyle(fontSize: 30)),
       //   ),
-      //   onPressed: () {FirebaseDB().updateStatus(app, "Sun");
+      //   onPressed: () {DBService().updateStatus(app, "Sun");
       //   },
       // ),
       // home: ProfilePage(),
@@ -139,12 +157,12 @@ class MyApp1 extends StatelessWidget {
 // print(Text('hi'));
 // FirebaseDB2().fetchData('users', '396009414e0329f7');
 
-// FirebaseDB()
+// DBService()
 //     .fetchData('users', '396009414e0329f7')
 //     .then((value) => (Map<String, dynamic> data) {
 //           print(data);
 //         });
 
-// FirebaseDB().updateStatus(app, 'spatipan');
+// DBService().updateStatus(app, 'spatipan');
 
-// FirebaseDB().listenStatusChange(app, 'Sun');
+// DBService().listenStatusChange(app, 'Sun');

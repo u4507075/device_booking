@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_booking/dev/firebasedb.dart';
 
 void main() {
   runApp(Busy());
@@ -14,14 +13,14 @@ class Busy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData(
-      primaryColor: Color.fromARGB(255, 218, 105, 98),
-      scaffoldBackgroundColor: Colors.white,
-    ),
-    home: MainPage(title: title),
-  );
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(
+          primaryColor: Color.fromARGB(255, 218, 105, 98),
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: MainPage(title: title),
+      );
 }
 
 class MainPage extends StatefulWidget {
@@ -36,27 +35,27 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   StreamController<String> _controller = StreamController();
   @override
   void initState() {
     super.initState();
     _controller.add("-- hours -- minutes");
   }
+
   @override
   void dispose() {
     _controller.close();
     super.dispose();
   }
-  @override
+
   var appBar = AppBar(
     title: Text(Busy.title, style: TextStyle(fontSize: 28)),
     centerTitle: true,
   );
   Widget build(BuildContext context) => Scaffold(
-    appBar: appBar,
-    body: Center(
-        child: Container(
+        appBar: appBar,
+        body: Center(
+            child: Container(
           padding: const EdgeInsets.all(20),
           height: (MediaQuery.of(context).size.height -
               appBar.preferredSize.height),
@@ -71,14 +70,14 @@ class _MainPageState extends State<MainPage> {
                     text: 'Report', //สร้างปุ่ม+copy to clipboard
                     onClicked: () =>
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => Report(),
-                        )),
+                      builder: (BuildContext context) => Report(),
+                    )),
                   ),
                 ],
               ),
               SizedBox(
                 height: (MediaQuery.of(context).size.height -
-                    appBar.preferredSize.height) /
+                        appBar.preferredSize.height) /
                     20,
               ),
               Container(
@@ -109,7 +108,7 @@ class _MainPageState extends State<MainPage> {
                       child: StreamBuilder<String>(
                           stream: _controller.stream,
                           builder: (context, snapshot) {
-                            if (snapshot.hasData){
+                            if (snapshot.hasData) {
                               return Text(
                                 snapshot.data,
                                 style: TextStyle(
@@ -118,8 +117,7 @@ class _MainPageState extends State<MainPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               );
-                            }
-                            else{
+                            } else {
                               return Text(
                                 '-- hours -- minutes',
                                 style: TextStyle(
@@ -129,7 +127,6 @@ class _MainPageState extends State<MainPage> {
                                 ),
                               );
                             }
-
                           }),
                     ),
                     Container(
@@ -138,14 +135,15 @@ class _MainPageState extends State<MainPage> {
                           text: 'คืนอุปกรณ์', //สร้างปุ่ม+copy to clipboard
                           onClicked: () =>
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Back(),
-                              )),
+                            builder: (BuildContext context) => Back(),
+                          )),
                         )),
                     Container(
                         padding: const EdgeInsets.all(10),
                         child: ButtonWidget(
                           text: 'Refresh', //สร้างปุ่ม+copy to clipboard
-                          onClicked: () => fetchData().then((String value) => _controller.add(value)),
+                          onClicked: () => fetchData()
+                              .then((String value) => _controller.add(value)),
                         ))
                   ],
                 ),
@@ -153,9 +151,8 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
         )),
-  );
+      );
 }
-
 
 //buttonwidget
 class ButtonWidget extends StatelessWidget {
@@ -170,16 +167,16 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RaisedButton(
-    child: Text(
-      text,
-      style: TextStyle(fontSize: 24),
-    ),
-    shape: StadiumBorder(),
-    color: Theme.of(context).primaryColor,
-    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    textColor: Colors.white,
-    onPressed: onClicked,
-  );
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 24),
+        ),
+        shape: StadiumBorder(),
+        color: Theme.of(context).primaryColor,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        textColor: Colors.white,
+        onPressed: onClicked,
+      );
 }
 
 class Report extends StatelessWidget {
@@ -228,19 +225,19 @@ class MyWidget2 extends StatelessWidget {
   }
 }
 
-Future <String> fetchData() async {
+Future<String> fetchData() async {
   String userid = '300da4192f5db344';
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   DocumentSnapshot documentSnapshot = await users.doc(userid).get();
-  if(documentSnapshot.exists){
+  if (documentSnapshot.exists) {
     Map<String, dynamic> data = documentSnapshot.data();
     String datetime = data["date"];
     var dateTime1 = DateFormat('yyyy-MM-dd hh:mm:ss').parse(datetime);
     final hrs = DateTime.now().difference(dateTime1).inHours;
     final mins = DateTime.now().difference(dateTime1).inMinutes;
     final secs = DateTime.now().difference(dateTime1).inSeconds;
-    int min = mins%60;
-    int sec = secs%60;
+    int min = mins % 60;
+    int sec = secs % 60;
     return '$hrs hours $min minutes';
   }
 }

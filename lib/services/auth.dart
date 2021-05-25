@@ -6,15 +6,15 @@ class AuthService {
   //convert FirebaseUser to custom UserData model
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserData _userDataFromFirebaseUser(User user) {
+  UserData userDataFromFirebaseUser(User user) {
     if (user != null) {
       return UserData(
           firstname: capitalize(user.displayName.split(' ')[0]),
           lastname: capitalize(user.displayName.split(' ')[1]),
-          email: user.email,
-          phoneNumber: user.phoneNumber,
-          photoURL: user.photoURL,
-          uid: user.uid);
+          email: user.email != null ? user.email : '',
+          phoneNumber: user.phoneNumber != null ? user.phoneNumber : '',
+          photoURL: user.photoURL != null ? user.photoURL : '',
+          uid: user.uid != null ? user.uid : '');
     } else {
       return null;
     }
@@ -23,7 +23,10 @@ class AuthService {
   Future<UserData> signInWithGoogle() async {
     // Trigger the authentication flow
     try {
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount googleUser =
+          await GoogleSignIn().signIn().catchError((e) {
+        print('Sign in error: ${e.toString()}');
+      });
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
@@ -40,9 +43,18 @@ class AuthService {
 
       // print(user);
       // print('login success');
-      return _userDataFromFirebaseUser(user.user);
+      return userDataFromFirebaseUser(user.user);
     } catch (e) {
       print(e);
+      return null;
+    }
+  }
+
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {
+      print(e.toString());
       return null;
     }
   }
@@ -51,13 +63,13 @@ class AuthService {
   Stream<User> get onAuthStateChanged => _auth.authStateChanges();
 
   Stream<UserData> get onAuthStateChangedUserData =>
-      _auth.authStateChanges().map(_userDataFromFirebaseUser);
+      _auth.authStateChanges().map(userDataFromFirebaseUser);
 
   //log out - google account
   Future<void> logOut() async {
     final googleSignIn = GoogleSignIn();
     await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
+    _auth.signOut();
   }
 }
 

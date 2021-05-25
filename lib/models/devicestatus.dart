@@ -6,19 +6,18 @@ class DeviceStatus {
   String status;
   String timestamp;
   String userid;
-  String BorrowPlace;
-
+  String borrowPlace;
 
   DeviceStatus({
     this.status,
     this.timestamp,
     this.userid,
-    this.BorrowPlace,
+    this.borrowPlace,
   });
 
-  DeviceStatus defaultValue() =>
-      DeviceStatus(status: 'unknown',
-          timestamp: "0000-00-00 00:00:00",
-          userid: "000000",
-          BorrowPlace: "unknown");
+  DeviceStatus defaultValue() => DeviceStatus(
+      status: 'unknown',
+      timestamp: "0000-00-00 00:00:00",
+      userid: "000000",
+      borrowPlace: "unknown");
 }

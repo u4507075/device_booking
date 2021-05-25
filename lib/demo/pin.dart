@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:io';
 
 class PINcode {
   List<Widget> textFields;
   List<String> values;
   StreamController<bool> _controller;
-  Widget genTextFields(BuildContext context, StreamController<bool> _controller, int fields, double fontSize, fieldSize) {
+  Widget genTextFields(BuildContext context, StreamController<bool> _controller,
+      int fields, double fontSize, fieldSize) {
     this._controller = _controller;
-    values = List<String>(fields);
+    values = [fields.toString()];
     textFields = List.generate(fields, (index) {
       return bTextField(context, index, fields, fontSize, fieldSize);
     });
@@ -17,11 +17,10 @@ class PINcode {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         verticalDirection: VerticalDirection.down,
-        children: textFields
-    );
+        children: textFields);
   }
 
-  String getValues(){
+  String getValues() {
     return values.join("");
   }
 
@@ -45,13 +44,12 @@ class PINcode {
             color: Colors.black,
             fontSize: fontSize),
         controller: tc,
-        onChanged:(String str){
-          if (str.length>0) {
+        onChanged: (String str) {
+          if (str.length > 0) {
             tc.text = str.substring(str.length - 1);
             values[i] = str.substring(str.length - 1);
             FocusScope.of(context).nextFocus();
-          }
-          else{
+          } else {
             tc.text = str;
             values[i] = str;
             FocusScope.of(context).previousFocus();
@@ -59,11 +57,9 @@ class PINcode {
 
           if (values.join("").length == fields) {
             _controller.add(true);
-          }
-          else {
+          } else {
             _controller.add(false);
           }
-
         },
       ),
     );

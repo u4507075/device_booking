@@ -8,14 +8,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class MainPageBusy extends StatefulWidget {
-
   final FirebaseApp app;
   String qrCode;
   MainPageBusy({Key key, this.app, this.qrCode}) : super(key: key);
 
   @override
   _MainPageBusyState createState() {
-    return _MainPageBusyState(qrCode:qrCode);
+    return _MainPageBusyState(qrCode: qrCode);
   }
 }
 
@@ -51,7 +50,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
               if (snapshot != null &&
                   snapshot.hasData &&
                   snapshot.data == "success") {
-                return Text(INUSE.ApPbAr, style: TextStyle(fontSize: 28));
+                return Text(INUSE.appBar, style: TextStyle(fontSize: 28));
               } else {
                 return Text('Using Device');
               }
@@ -72,18 +71,18 @@ class _MainPageBusyState extends State<MainPageBusy> {
                           snapshot.hasData &&
                           snapshot.data == "success") {
                         return ElevatedButton(
-                            child: Text(INUSE.UppR_LfT_Button),
+                            child: Text(INUSE.upperLeftButton),
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        ReportProblem(DeviceID:DeviceID))));
+                                        ReportProblem(DeviceID: DeviceID))));
                       } else {
                         return ElevatedButton(
                             child: Text("Report"),
                             onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        ReportProblem(DeviceID:DeviceID))));
+                                        ReportProblem(DeviceID: DeviceID))));
                       }
                     }),
               ],
@@ -106,7 +105,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
                           if (snapshot != null &&
                               snapshot.hasData &&
                               snapshot.data == "success") {
-                            return Image.network(INUSE.Piggure);
+                            return Image.network(INUSE.picture);
                           } else {
                             return Image.network(
                                 'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/device.png');
@@ -121,7 +120,7 @@ class _MainPageBusyState extends State<MainPageBusy> {
                           if (snapshot != null &&
                               snapshot.hasData &&
                               snapshot.data == "success") {
-                            return Text(INUSE.DU_RaTION);
+                            return Text(INUSE.duration);
                           } else {
                             return Text('Duration');
                           }
@@ -162,24 +161,22 @@ class _MainPageBusyState extends State<MainPageBusy> {
                               snapshot.hasData &&
                               snapshot.data == "success") {
                             return ElevatedButton(
-                              child: Text(INUSE.re),
+                                child: Text(INUSE.re),
                                 onPressed: () {
                                   updateLastest();
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (BuildContext context) => Home(),
                                   ));
-                                }
-                            );
+                                });
                           } else {
                             return ElevatedButton(
-                              child: Text("คืนอุปกรณ์"),
-                              onPressed: () {
-                                updateLastest();
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) => Home(),
-                                ));
-                              }
-                            );
+                                child: Text("คืนอุปกรณ์"),
+                                onPressed: () {
+                                  updateLastest();
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) => Home(),
+                                  ));
+                                });
                           }
                         }),
                   ),
@@ -192,45 +189,46 @@ class _MainPageBusyState extends State<MainPageBusy> {
 
   void updateLastest() {
     try {
-      databaseReference.collection('device_status')
+      databaseReference
+          .collection('device_status')
           .doc(qrCode)
-          .update({'status':'available' , 'timestamp':time});
+          .update({'status': 'available', 'timestamp': time});
     } catch (e) {
       print(e.toString());
-    }}
+    }
+  }
 
   void test(qrCode) async {
-  CollectionReference collection = FirebaseFirestore.instance.collection('device_status');
-  DocumentSnapshot documentSnapshot = await collection.doc(qrCode).get();
-  if(documentSnapshot.exists){
-    Map<String, dynamic> data = documentSnapshot.data();
-    String datetime = data["timestamp"];
-    var time = const Duration(milliseconds: 900);
-    Timer.periodic(time, (timer) {
-      var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
-      final hrs = DateTime.now().difference(dateTime1).inHours;
-      final mins = DateTime.now().difference(dateTime1).inMinutes;
-      final secs = DateTime.now().difference(dateTime1).inSeconds;
-      int min = mins % 60;
-      int sec = secs % 60;
-      if (hrs == 0) {
-        _controllerTime.add('$min minutes $sec secs');
-        if (min == 0) {
-          _controllerTime.add('$sec secs');
-        } else {
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection('device_status');
+    DocumentSnapshot documentSnapshot = await collection.doc(qrCode).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> data = documentSnapshot.data();
+      String datetime = data["timestamp"];
+      var time = const Duration(milliseconds: 900);
+      Timer.periodic(time, (timer) {
+        var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
+        final hrs = DateTime.now().difference(dateTime1).inHours;
+        final mins = DateTime.now().difference(dateTime1).inMinutes;
+        final secs = DateTime.now().difference(dateTime1).inSeconds;
+        int min = mins % 60;
+        int sec = secs % 60;
+        if (hrs == 0) {
           _controllerTime.add('$min minutes $sec secs');
-        }
-      } else {
-        _controllerTime.add('$hrs hours $min minutes $sec secs');
-        if (min == 0) {
-          _controllerTime.add('$hrs hours $sec secs');
+          if (min == 0) {
+            _controllerTime.add('$sec secs');
+          } else {
+            _controllerTime.add('$min minutes $sec secs');
+          }
         } else {
           _controllerTime.add('$hrs hours $min minutes $sec secs');
+          if (min == 0) {
+            _controllerTime.add('$hrs hours $sec secs');
+          } else {
+            _controllerTime.add('$hrs hours $min minutes $sec secs');
+          }
         }
-      }
-
-  });
-
+      });
+    }
+  }
 }
-}}
-

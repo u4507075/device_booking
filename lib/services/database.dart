@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/models/user.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:device_booking/models/devicestatus.dart';
 import 'package:device_booking/models/Userdetail.dart';
 
-class FirebaseDB {
+class DBService {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
     CollectionReference doc = FirebaseFirestore.instance.collection(field);
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
@@ -35,7 +38,8 @@ class FirebaseDB {
   }
 
   Future<DeviceStatus> fetchDeviceStatus(String document) async {
-    CollectionReference doc = FirebaseFirestore.instance.collection('device_status');
+    CollectionReference doc =
+        FirebaseFirestore.instance.collection('device_status');
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
     if (documentSnapshot.exists) {
       Map<String, dynamic> device_status = documentSnapshot.data();
@@ -43,14 +47,15 @@ class FirebaseDB {
           status: device_status['status'],
           timestamp: device_status['timestamp'],
           userid: device_status['userid'],
-          BorrowPlace: device_status['BorrowPlace']);
+          borrowPlace: device_status['BorrowPlace']);
     } else {
       return null;
     }
   }
 
   Future<UserDetails> fetchUserDetails(String document) async {
-    CollectionReference doc = FirebaseFirestore.instance.collection('users_testpull');
+    CollectionReference doc =
+        FirebaseFirestore.instance.collection('users_testpull');
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
     if (documentSnapshot.exists) {
       Map<String, dynamic> users_testpull = documentSnapshot.data();
@@ -78,12 +83,23 @@ class FirebaseDB {
   //   });
   // }
 
+  void updateStatus(FirebaseApp app, String deviceId) {
+    FirebaseDatabase database = FirebaseDatabase(app: app);
+    final ref = database.reference();
+    ref.child(deviceId).push().set(<String, String>{
+      "date": DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
+      //Add user id
+      //Add device is
+      //Add status borrow / return
+    });
+  }
+
   void listenStatusChange(FirebaseApp app, String deviceId) {
     FirebaseDatabase database = FirebaseDatabase(app: app);
     final ref = database.reference();
     ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
       Map<String, dynamic> data =
-      new Map<String, dynamic>.from(event.snapshot.value);
+          new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
     });
   }
@@ -94,7 +110,7 @@ class FirebaseDB {
     final ref = database.reference();
     ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
       Map<String, dynamic> data =
-      new Map<String, dynamic>.from(event.snapshot.value);
+          new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
       String datetime = data["date"];
       var time = const Duration(milliseconds: 900);
@@ -123,5 +139,42 @@ class FirebaseDB {
         print('$hrs hours $min minutes $sec secs');
       });
     });
+  }
+
+  //Get UserData one time
+  Future<UserData> getUser(String id) async {
+    var snap = await _db.collection('users').doc(id).get();
+    return UserData.fromMap(snap.data());
+  }
+
+  Future<bool> checkUser(String id) {
+    return _db.collection('users').doc(id).get().then((snap) {
+      return snap.exists;
+    });
+  }
+
+  //Stream UserData
+  Stream<UserData> streamUserData(String uid) {
+    try {
+      return _db
+          .collection('users')
+          .doc(uid)
+          .snapshots()
+          .map((snap) => UserData.fromMap(snap.data()));
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  } //ref: https://www.youtube.com/watch?v=vFxk_KJCqgk ['Provider and flutterfire']
+
+  Future<void> addUser(UserData userData) {
+    return _db.collection('users').doc(userData.uid).set({
+      'firstname': userData.firstname,
+      'lastname': userData.lastname,
+      'email': userData.email,
+      'phoneNumber': userData.phoneNumber,
+      'role': userData.role,
+      'uid': userData.uid,
+    }, SetOptions(merge: true));
   }
 }
