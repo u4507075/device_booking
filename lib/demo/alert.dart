@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-class Alert extends StatelessWidget {
 
+class Alert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
+    return null;
   }
 
   Future<void> show(BuildContext context, String text) async {

@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/models/user.dart';
 
-class FirebaseDB {
+class DBService {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+
   Future<Map<String, dynamic>> fetchData(String field, String document) async {
     CollectionReference doc = FirebaseFirestore.instance.collection(field);
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
@@ -21,6 +24,9 @@ class FirebaseDB {
     final ref = database.reference();
     ref.child(deviceId).push().set(<String, String>{
       "date": DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())
+      //Add user id
+      //Add device is
+      //Add status borrow / return
     });
   }
 
@@ -31,6 +37,43 @@ class FirebaseDB {
       Map<String, dynamic> data =
           new Map<String, dynamic>.from(event.snapshot.value);
       print(data["date"]);
+    });
+  }
+
+  //Get UserData one time
+  Future<UserData> getUser(String id) async {
+    var snap = await _db.collection('users').doc(id).get();
+    return UserData.fromMap(snap.data());
+  }
+
+  Future<bool> checkUser(String id) {
+    return _db.collection('users').doc(id).get().then((snap) {
+      return snap.exists;
+    });
+  }
+
+  //Stream UserData
+  Stream<UserData> streamUserData(String uid) {
+    try {
+      return _db
+          .collection('users')
+          .doc(uid)
+          .snapshots()
+          .map((snap) => UserData.fromMap(snap.data()));
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  } //ref: https://www.youtube.com/watch?v=vFxk_KJCqgk ['Provider and flutterfire']
+
+  Future<void> addUser(UserData userData) {
+    return _db.collection('users').doc(userData.uid).set({
+      'firstname': userData.firstname,
+      'lastname': userData.lastname,
+      'email': userData.email,
+      'phoneNumber': userData.phoneNumber,
+      'role': userData.role,
+      'uid': userData.uid,
     });
   }
 }

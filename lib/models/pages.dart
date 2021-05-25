@@ -1,5 +1,5 @@
 import 'package:device_booking/pages/authenticate/authenticate.dart';
-import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/services/database.dart';
 import 'dart:async';
 
 class LogInPage {
@@ -24,7 +24,7 @@ class LogInPage {
   // LogInPage({this.header, this.subtitle, this.text1, this.text2})
 
   void fetchAll(StreamController<String> _controller) {
-    FirebaseDB().fetchData('pages', 'login').then((data) {
+    DBService().fetchData('pages', 'login').then((data) {
       print(data);
       this.header = data['header'];
       this.logoPath = data['logo'];

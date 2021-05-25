@@ -122,7 +122,8 @@ class GetOTP extends StatelessWidget {
             SizedBox(height: 30),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/home');
+                  Navigator.popUntil(
+                      context, ModalRoute.withName(Navigator.defaultRouteName));
                 },
                 child: Text('Continue')),
             SizedBox(height: 50),
