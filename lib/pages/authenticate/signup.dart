@@ -1,12 +1,9 @@
-import 'package:device_booking/models/userform.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_booking/models/user.dart';
 import 'package:device_booking/style.dart';
-import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/services/database.dart';
 
@@ -34,7 +31,12 @@ class _SignUpState extends State<SignUp> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            leading: BackButton(),
+            leading: BackButton(
+              onPressed: () {
+                AuthService().signOut();
+                Navigator.maybePop(context);
+              },
+            ),
             elevation: 0.0,
             title: Text(
               'Sign Up',
@@ -46,14 +48,17 @@ class _SignUpState extends State<SignUp> {
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.blue, padding: EdgeInsets.all(4)),
                 onPressed: () {
-                  print('Submit Form');
-                  print(user.phoneNumber);
+                  // print('Submit Form');
+                  // print(user.phoneNumber);
                   // Navigator.pushNamed(context, '/home');
                   if (_formKey.currentState.validate()) {
-                    print(userData.phoneNumber);
-                    print(userData.uid);
-                    DBService().addUser(userData);
-                    Navigator.pushNamed(context, '/getotp');
+                    // print(userData.phoneNumber);
+                    // print(userData.uid);
+                    Navigator.pushNamed(context, '/loading');
+                    DBService().addUser(userData).then((user) {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/getotp');
+                    });
                   } else {
                     // ScaffoldMessenger.of(context)
                     //     .showSnackBar(SnackBar(content: Text(user.firstname)));

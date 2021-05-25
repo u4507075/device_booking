@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:device_info/device_info.dart';
 import 'dart:async';
-import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// ignore: must_be_immutable
 class Info extends StatefulWidget {
   String userid;
   Info(String userid) {
@@ -88,7 +86,6 @@ class InfoState extends State<Info> {
   }
 
   void fetchData(CollectionReference users, userid) async {
-    List contactList = [];
     DocumentSnapshot documentSnapshot = await users.doc(userid).get();
     if (documentSnapshot.exists) {
       Map<String, dynamic> data = documentSnapshot.data();

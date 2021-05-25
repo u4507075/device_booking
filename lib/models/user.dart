@@ -28,13 +28,13 @@ class UserData {
 
   factory UserData.fromMap(Map map) {
     return UserData(
-      firstname: map['firstname'] ?? '',
-      lastname: map['lastname'] ?? '',
-      phoneNumber: map['phoneNumber'] ?? '',
-      role: map['role'] ?? '',
-      email: map['email'] ?? '',
-      photoURL: map['photoURL'] ?? '',
-      uid: map['uid'] ?? '',
+      firstname: map['firstname'] ?? null,
+      lastname: map['lastname'] ?? null,
+      phoneNumber: map['phoneNumber'] ?? null,
+      role: map['role'] ?? null,
+      email: map['email'] ?? null,
+      photoURL: map['photoURL'] ?? null,
+      uid: map['uid'] ?? null,
       // inAction: map['inAction'] ?? false,
       // lastDeviceId: map['lastDeviceId'] ?? '',
       // lastUseTime: map['lastUseTime'] ?? '',

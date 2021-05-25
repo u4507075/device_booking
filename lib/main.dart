@@ -64,12 +64,18 @@ class MyApp extends StatelessWidget {
           value: AuthService().onAuthStateChanged,
         ),
         StreamProvider(
-            create: (context) {
-              return DBService().streamUserData(Provider.of<User>(context,
-                      listen: false)
-                  .uid); //Ref: https://github.com/rrousselGit/provider/issues/120
-            },
-            initialData: UserData.initialValue()),
+          create: (context) {
+            return DBService().streamUserData(Provider.of<User>(context,
+                    listen: false)
+                .uid); //Ref: https://github.com/rrousselGit/provider/issues/120
+          },
+          initialData: UserData.initialValue(),
+          catchError: (context, error) {
+            // AuthService().signOut();
+            print(error.toString());
+            return UserData.initialValue();
+          },
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: true,
@@ -84,7 +90,7 @@ class MyApp extends StatelessWidget {
         // home: WrapperAuth(),
         routes: {
           '/': (context) => Wrapper(),
-          '/wrapper': (content) => WrapperSignUp(),
+          // '/wrapper': (content) => WrapperSignUp(),
           '/home': (context) => Home(),
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),

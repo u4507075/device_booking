@@ -11,10 +11,10 @@ class AuthService {
       return UserData(
           firstname: capitalize(user.displayName.split(' ')[0]),
           lastname: capitalize(user.displayName.split(' ')[1]),
-          email: user.email,
-          phoneNumber: user.phoneNumber,
-          photoURL: user.photoURL,
-          uid: user.uid);
+          email: user.email != null ? user.email : '',
+          phoneNumber: user.phoneNumber != null ? user.phoneNumber : '',
+          photoURL: user.photoURL != null ? user.photoURL : '',
+          uid: user.uid != null ? user.uid : '');
     } else {
       return null;
     }
@@ -23,7 +23,10 @@ class AuthService {
   Future<UserData> signInWithGoogle() async {
     // Trigger the authentication flow
     try {
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount googleUser =
+          await GoogleSignIn().signIn().catchError((e) {
+        print('Sign in error: ${e.toString()}');
+      });
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =

@@ -1,14 +1,8 @@
-import 'dart:async';
 import 'dart:ui';
-import 'package:device_booking/demo/google_signin.dart';
-import 'package:device_booking/models/pages.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:device_booking/pages/loading.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -93,9 +87,17 @@ class _AuthenticateState extends State<Authenticate> {
                     onTap: () {
                       Navigator.pushNamed(context, '/loading');
                       AuthService().signInWithGoogle().then((userData) {
-                        DBService().addUser(userData);
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, '/signup');
+                        if (userData == null) {
+                          Navigator.pop(context);
+                          print('Log in unsuccessful');
+                        } else {
+                          DBService().addUser(userData).then((value) {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/signup');
+                          });
+
+                          //Change to update user
+                        }
                       });
                     },
                     leading: Icon(

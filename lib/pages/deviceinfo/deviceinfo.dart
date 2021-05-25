@@ -1,4 +1,3 @@
-import 'package:device_booking/dev/qrscan.dart';
 import 'package:device_booking/src/qrfloatingbutton.dart';
 import 'package:flutter/material.dart';
 
