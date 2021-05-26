@@ -1,3 +1,7 @@
+import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/device2.dart';
+import 'package:device_booking/models/ultrasounddevice.dart';
+
 import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
@@ -86,11 +90,11 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/',
+        initialRoute: '/tester',
         // home: WrapperAuth(),
         routes: {
-          '/': (context) => Wrapper(),
-          // '/wrapper': (content) => WrapperSignUp(),
+          '/tester': (context) => Tester(),
+          '/wrapper': (context) => Wrapper(),
           '/home': (context) => Home(),
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),
@@ -105,64 +109,35 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyApp1 extends StatelessWidget {
-  const MyApp1({Key key, this.app}) : super(key: key);
-  final FirebaseApp app;
-  // This widget is the root of your application.
+//Function Tester
+class Tester extends StatelessWidget {
+  const Tester({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    /*DBService().fetchData("users","396009414e0329f7").then((Map<String, dynamic> data){
-      print(data);
-    });*/
-    //DBService().updateStatus(app, "Sun");
-    //DBService().listenStatusChange(app, 'Sun');
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      //home: Home(),
-      // home: GetOTP(),
-      //home: Book('992106606'),
-      //home: Load(),
-      //home: Status(app, 'deviceid1'),
-      //home : QR_reader(),
-      // home : ElevatedButton(
-      //   style: ButtonStyle(
-      //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      //           RoundedRectangleBorder(
-      //               borderRadius: BorderRadius.circular(28.0)))),
-      //   child: Padding(
-      //     padding:
-      //     EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
-      //     child: Text("Get OTP", style: TextStyle(fontSize: 30)),
-      //   ),
-      //   onPressed: () {DBService().updateStatus(app, "Sun");
-      //   },
-      // ),
-      // home: ProfilePage(),
+    return Scaffold(
+      body: Center(
+          child: ElevatedButton(
+              onPressed: () {
+                print('Test');
+                // UltrasoundDevice().fetchDevice('QxAvyuVhlhdYA8hL0gw0');
+
+                // UltrasoundDevice().takeDevice(
+                //     deviceId: 'QxAvyuVhlhdYA8hL0gw0',
+                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
+                //     location: 'บ้าน');
+
+                // Device().fetchDevice('UnJ9w5JS8XnLXOqHhKSv');
+
+                Device().takeDevice(
+                    deviceId: 'ZKUFINrPPKGWfZiiFk5E',
+                    userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
+                    location: 'โรงเรียน');
+
+                // Device().addNewDevice(Device().sample());
+                // Device().addNewDevice(Device().sample());
+              },
+              child: Text('Test'))),
     );
   }
 }
-
-// print(Text('hi'));
-// FirebaseDB2().fetchData('users', '396009414e0329f7');
-
-// DBService()
-//     .fetchData('users', '396009414e0329f7')
-//     .then((value) => (Map<String, dynamic> data) {
-//           print(data);
-//         });
-
-// DBService().updateStatus(app, 'spatipan');
-
-// DBService().listenStatusChange(app, 'Sun');

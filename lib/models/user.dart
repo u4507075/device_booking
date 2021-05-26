@@ -48,3 +48,12 @@ class UserData {
         uid: '',
       );
 }
+
+class Userlog {
+  String userId;
+  String deviceId;
+  bool take;
+  DateTime time;
+
+  Userlog({this.userId, this.deviceId, this.take, this.time});
+}

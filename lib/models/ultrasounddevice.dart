@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
 
-class Device {
+class UltrasoundDevice {
   String name; //deviceName
   String deviceId; //deviceId
-  String deviceType; //type of device e.g. ultrasound / ekg
   String location; //Current location
   String lastUserId; //last user's uid
   String lastUser; //last user's name
@@ -16,10 +14,9 @@ class Device {
   List<dynamic> operatingZone;
   String defaultLocation;
 
-  Device(
+  UltrasoundDevice(
       {this.name,
       this.deviceId,
-      this.deviceType,
       this.location,
       this.lastUserId,
       this.lastUser,
@@ -30,11 +27,10 @@ class Device {
       this.operatingZone,
       this.defaultLocation});
 
-  factory Device.fromMap(Map map) {
-    return Device(
+  factory UltrasoundDevice.fromMap(Map map) {
+    return UltrasoundDevice(
       name: map['name'] ?? '',
       deviceId: map['deviceId'] ?? '',
-      deviceType: map['deviceType'] ?? '',
       location: map['location'] ?? '',
       lastUserId: map['lastUserId'] ?? '',
       lastUser: map['lastUser'] ?? '',
@@ -48,29 +44,9 @@ class Device {
   }
   //fetch info, take, return, report
 
-  Device sample() {
-    return Device(
-        name: 'tester1',
-        deviceId: 'defaultId',
-        deviceType: 'ultrasound',
-        location: 'defaultLocation',
-        lastUserId: 'xxx',
-        lastUser: 'xxx',
-        lastUserPhoneNumber: 'xxx',
-        lastUseTime: DateTime.now(),
-        inUse: false,
-        maintenance: false,
-        operatingZone: ['หอ1', 'หอ2', 'หอ3'],
-        defaultLocation: 'defaultDefaultLocation');
-  }
-
   //fetch info
-  Future<Device> fetchDevice(String deviceId) async {
-    return DBService().fetchDevice(deviceId);
-  }
-
-  Future<void> addNewDevice(Device device) async {
-    return DBService().addNewDevice(device);
+  Future<UltrasoundDevice> fetchDevice(String deviceId) async {
+    return DBService().fetchUltrasoundDevice(deviceId);
   }
 
   //take
@@ -78,6 +54,6 @@ class Device {
       {@required String deviceId,
       @required String userId,
       @required String location}) async {
-    return DBService().takeDevice(deviceId, userId, location);
+    return DBService().takeUltrasoundDevice(deviceId, userId, location);
   }
 }

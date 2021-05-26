@@ -99,7 +99,9 @@ class _AuthenticateState extends State<Authenticate> {
                             //check previous data
                             if (hasData) {
                               //check complete data
-                              DBService().getUser(user.uid).then((userData) {
+                              DBService()
+                                  .fetchUserData(user.uid)
+                                  .then((userData) {
                                 Navigator.popUntil(
                                     context,
                                     ModalRoute.withName(
@@ -110,6 +112,11 @@ class _AuthenticateState extends State<Authenticate> {
                                     userData.role == null) {
                                   Navigator.pushNamed(context, '/signup');
                                 }
+                              });
+                            } else {
+                              DBService().addUser(user).then((value) {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(context, '/signup');
                               });
                             }
                           });

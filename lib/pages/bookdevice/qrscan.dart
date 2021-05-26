@@ -1,5 +1,5 @@
 import 'package:device_booking/services/database.dart';
-import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/device2.dart';
 import 'package:device_booking/models/devicestatus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +38,7 @@ class _QRScanState extends State<QRScan> {
   String Mtelephone;
   String myID = 'myID';
 
-  Device device = Device().defaultValue();
+  Device2 device = Device2().defaultValue();
   DeviceStatus devicestatus = DeviceStatus().defaultValue();
   UserDetails userdetails = UserDetails().defaultValue();
 
@@ -70,7 +70,7 @@ class _QRScanState extends State<QRScan> {
       } else {
         Navigator.pushNamed(context, "/loading");
         if (!mounted) return;
-        DBService().fetchDevice(qrCode).then((value) => setState(() {
+        DBService().fetchDevice2(qrCode).then((value) => setState(() {
               this.qrCode = qrCode;
               this.device = value;
             }));

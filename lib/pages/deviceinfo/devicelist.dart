@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/device2.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/qrfloatingbutton.dart';
 
@@ -10,12 +10,12 @@ class UltrasoundStatus extends StatefulWidget {
 
 class _UltrasoundStatusState extends State<UltrasoundStatus> {
   final String _assetPath = "assets/images/ultrasonography.png";
-  List<Device> devices;
+  List<Device2> devices;
 
   @override
   void initState() {
     super.initState();
-    devices = Device.fetchSamples();
+    devices = Device2.fetchSamples();
   }
 
   @override
