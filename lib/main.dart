@@ -1,6 +1,6 @@
-import 'package:device_booking/models/device.dart';
-import 'package:device_booking/models/device2.dart';
-import 'package:device_booking/models/ultrasounddevice.dart';
+import 'package:device_booking/models/device/device.dart';
+import 'package:device_booking/models/device/device2.dart';
+import 'package:device_booking/models/device/ultrasounddevice.dart';
 
 import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
@@ -19,7 +19,7 @@ import 'dart:io';
 import 'pages/authenticate/signup.dart';
 import 'package:provider/provider.dart';
 import './services/auth.dart';
-import './models/user.dart';
+import 'models/user/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
@@ -90,11 +90,11 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
           primaryColor: Colors.blue,
         ),
-        initialRoute: '/tester',
+        initialRoute: 'tester',
         // home: WrapperAuth(),
         routes: {
-          '/tester': (context) => Tester(),
-          '/wrapper': (context) => Wrapper(),
+          'tester': (context) => Tester(),
+          '/': (context) => Wrapper(),
           '/home': (context) => Home(),
           '/authenticate': (context) => Authenticate(),
           '/loading': (context) => Loading(),
@@ -129,10 +129,19 @@ class Tester extends StatelessWidget {
 
                 // Device().fetchDevice('UnJ9w5JS8XnLXOqHhKSv');
 
-                Device().takeDevice(
+                // Device().takeDevice(
+                //     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
+                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
+                //     location: 'โรงเรียน');
+
+                // Device().returnDevice(
+                //     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
+                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2');
+
+                Device().reportDevice(
                     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
                     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
-                    location: 'โรงเรียน');
+                    reportText: 'เครื่องหนักจังเลย');
 
                 // Device().addNewDevice(Device().sample());
                 // Device().addNewDevice(Device().sample());

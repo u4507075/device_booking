@@ -5,7 +5,7 @@ import 'package:device_booking/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:device_booking/models/user.dart';
+import 'package:device_booking/models/user/user.dart';
 
 //listen for auth changes
 class Wrapper extends StatelessWidget {
@@ -33,12 +33,14 @@ class Wrapper extends StatelessWidget {
           userData?.firstname != '' &&
           userData?.lastname != '' &&
           userData?.role != null) {
+        print('User Signed up');
         return Home();
       } else {
+        print('Incompleted Sign Up');
         return Authenticate();
       }
       //TODO Add verification that user has enter phone number before redirect to Home
-      print('User Signed up');
+
       // return Home();
       // } else if (user != null && userData?.phoneNumber == '') {
       //   print('to Sign up page');

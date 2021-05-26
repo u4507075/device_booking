@@ -2,7 +2,7 @@ import 'package:device_booking/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:device_booking/models/user.dart';
+import 'package:device_booking/models/user/user.dart';
 import 'package:device_booking/style.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/services/database.dart';

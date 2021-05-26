@@ -3,9 +3,9 @@ import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:provider/provider.dart';
-import 'package:device_booking/models/user.dart';
-import 'package:device_booking/models/user.dart';
-import 'package:device_booking/models/user.dart';
+import 'package:device_booking/models/user/user.dart';
+import 'package:device_booking/models/user/user.dart';
+import 'package:device_booking/models/user/user.dart';
 
 //To use UserData copy this!
 // import 'package:provider/provider.dart';

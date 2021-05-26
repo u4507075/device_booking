@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:device_booking/models/device2.dart';
+import 'package:device_booking/models/device/device2.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/qrfloatingbutton.dart';
 

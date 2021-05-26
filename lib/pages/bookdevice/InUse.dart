@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:device_booking/models/pages.dart';
+import 'package:device_booking/models/pages/pages.dart';
 import 'package:device_booking/pages/bookdevice/reportproblem.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/pages/home/home.dart';

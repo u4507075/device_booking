@@ -1,13 +1,13 @@
 import 'package:device_booking/services/database.dart';
-import 'package:device_booking/models/device2.dart';
-import 'package:device_booking/models/devicestatus.dart';
+import 'package:device_booking/models/device/device2.dart';
+import 'package:device_booking/models/device/devicestatus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:clipboard/clipboard.dart';
 import 'dart:async';
-import 'package:device_booking/models/pages.dart';
-import 'package:device_booking/models/Userdetail.dart';
+import 'package:device_booking/models/pages/pages.dart';
+import 'package:device_booking/models/user/Userdetail.dart';
 import 'package:device_booking/pages/bookdevice/busy_device.dart';
 import 'package:device_booking/pages/bookdevice/Select_location.dart';
 import 'package:device_booking/pages/loading.dart';

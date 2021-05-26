@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_booking/models/device.dart';
-import 'package:device_booking/models/ultrasounddevice.dart';
+import 'package:device_booking/models/device/device.dart';
+import 'package:device_booking/models/device/ultrasounddevice.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/models/user.dart';
-import 'package:device_booking/models/device2.dart';
-import 'package:device_booking/models/devicestatus.dart';
-import 'package:device_booking/models/Userdetail.dart';
+import 'package:device_booking/models/user/user.dart';
+import 'package:device_booking/models/device/device2.dart';
+import 'package:device_booking/models/device/devicestatus.dart';
+import 'package:device_booking/models/user/Userdetail.dart';
 
 class DBService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -260,6 +260,9 @@ class DBService {
         'deviceType': device.deviceType,
         'location': device.location,
         'defaultLocation': device.defaultLocation,
+        'lastUserId': device.lastUserId,
+        'lastUser': device.lastUser,
+        'lastUserPhoneNumber': device.lastUserPhoneNumber,
         'inUse': false,
         'maintenance': false,
         'operatingZone': device.operatingZone,
@@ -289,10 +292,10 @@ class DBService {
       String deviceId, String userId, String location) async {
     //TODO may consider to change userId to Provider<UserData> in the future to lower read&write
     //update device inUse, deviceLogs, UserLogs
-    print('Device: takeDevice()');
+
     CollectionReference user = _db.collection('users');
     CollectionReference devices = _db.collection('devices');
-    CollectionReference deviceLog =
+    CollectionReference deviceLogs =
         devices.doc(deviceId).collection('deviceLogs');
     Timestamp now = Timestamp.fromDate(DateTime.now());
 
@@ -311,7 +314,7 @@ class DBService {
       });
 
       //add deviceLog
-      DocumentReference docRef = deviceLog.doc();
+      DocumentReference docRef = deviceLogs.doc();
       docRef.set({
         'deviceId': deviceId,
         'logId': docRef.id,
@@ -320,17 +323,83 @@ class DBService {
         'useTime': now,
       });
 
-      user.doc(userData.uid).collection('userLog').doc(docRef.id).set({
+      //add userLog
+      user.doc(userData.uid).collection('userLogs').doc(docRef.id).set({
         'uid': userData.uid,
         'deviceId': deviceId,
         'take': true,
         'logId': docRef.id,
         'time': now,
       });
+      print('Device - takeDevice() successful');
+    } catch (e) {
+      print('Device - takeDevice() unsuccessful: return error ${e.toString()}');
+    }
+  }
+
+  Future<void> returnDevice(String deviceId, String userId) async {
+    CollectionReference user = _db.collection('users');
+    CollectionReference devices = _db.collection('devices');
+    CollectionReference deviceLogs =
+        devices.doc(deviceId).collection('deviceLogs');
+    Timestamp now = Timestamp.fromDate(DateTime.now());
+
+    try {
+      //fetch userData to
+      UserData userData = await fetchUserData(userId);
+      Device device = await fetchDevice(deviceId);
+      //update device inUse
+      devices.doc(deviceId).update({
+        'inUse': false, //not inUse
+        'lastUser':
+            '${userData.role} ${userData.firstname} ${userData.lastname}',
+        'lastUserId': userData.uid,
+        'lastUserPhoneNumber': userData.phoneNumber,
+        'location': device.defaultLocation, //location back to default location
+        'lastUseTime': now,
+      });
+
+      //add deviceLog
+      DocumentReference docRef = deviceLogs.doc();
+      docRef.set({
+        'deviceId': deviceId,
+        'logId': docRef.id,
+        'userId': userData.uid,
+        'take': false, //return
+        'useTime': now,
+      });
 
       //add userLog
+      user.doc(userData.uid).collection('userLogs').doc(docRef.id).set({
+        'uid': userData.uid,
+        'deviceId': deviceId,
+        'take': false, //return
+        'logId': docRef.id,
+        'time': now,
+      });
+      print('Device - returnDevice() successful');
     } catch (e) {
-      print('Take device unsuccessful: return error ${e.toString()}');
+      print(
+          'Device - returnDevice() unsuccessful : return error ${e.toString()}');
     }
+  }
+
+  //report device problem
+  Future<void> reportDevice(
+      String deviceId, String userId, String reportText) async {
+    CollectionReference deviceProblems =
+        _db.collection('devices').doc(deviceId).collection('deviceProblems');
+    Timestamp now = Timestamp.fromDate(DateTime.now());
+    DocumentReference docRef = deviceProblems.doc();
+
+    try {
+      docRef.set({
+        'deviceId': deviceId,
+        'userId': userId,
+        'reportId': docRef.id,
+        'reportTime': now,
+        'problem': reportText,
+      });
+    } catch (e) {}
   }
 }

@@ -46,7 +46,6 @@ class Device {
       defaultLocation: map['defaultLocation'] ?? '',
     );
   }
-  //fetch info, take, return, report
 
   Device sample() {
     return Device(
@@ -64,6 +63,8 @@ class Device {
         defaultLocation: 'defaultDefaultLocation');
   }
 
+//fetch info, take, return, report
+
   //fetch info
   Future<Device> fetchDevice(String deviceId) async {
     return DBService().fetchDevice(deviceId);
@@ -80,4 +81,35 @@ class Device {
       @required String location}) async {
     return DBService().takeDevice(deviceId, userId, location);
   }
+
+  //return
+  Future<void> returnDevice(
+      {@required String deviceId, @required String userId}) async {
+    return DBService().returnDevice(deviceId, userId);
+  }
+
+  //report{
+  Future<void> reportDevice(
+      {@required String deviceId,
+      @required String userId,
+      @required String reportText}) {
+    return DBService().reportDevice(deviceId, userId, reportText);
+  }
 }
+
+// Map<String, dynamic> toMap(Device device) {
+//   Map<String, dynamic> map;
+//   return map = {
+//     'name': device.name,
+//       'deviceId': docRef.id,
+//       'deviceType': device.deviceType,
+//       'location': device.location,
+//       'defaultLocation': device.defaultLocation,
+//       'lastUserId': device.lastUserId,
+//       'lastUser':device.lastUser,
+//       'lastUserPhoneNumber': device.lastUserPhoneNumber,
+//       'inUse': false,
+//       'maintenance': false,
+//       'operatingZone': device.operatingZone,
+//   };
+// }
