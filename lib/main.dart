@@ -11,6 +11,7 @@ import 'dart:io';
 import 'package:device_booking/test.dart';
 import 'package:device_booking/status.dart';
 import 'package:device_booking/login.dart';
+import 'package:device_booking/firebasedb.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +42,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
+    //FirebaseDB().fetchData('users', '396009414e0329f7');
+    //FirebaseDB().updateStatus(app, "Piyapong");
+    FirebaseDB().listenStatusChange(app, "Sun");
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
