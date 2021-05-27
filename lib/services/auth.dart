@@ -1,3 +1,4 @@
+import 'package:device_booking/services/database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_booking/models/user/user.dart';
@@ -41,9 +42,13 @@ class AuthService {
       // Once signed in, return the UserCredential
       UserCredential user = await _auth.signInWithCredential(credential);
 
-      // print(user);
-      // print('login success');
-      return userDataFromFirebaseUser(user.user);
+      UserData userData = await UserData().fetchUser(userId: user.user.uid);
+      if (userData != null) {
+        return userData;
+      } else {
+        UserData().registerNewUser(user: userDataFromFirebaseUser(user.user));
+        return userDataFromFirebaseUser(user.user);
+      }
     } catch (e) {
       print(e);
       return null;
@@ -53,8 +58,9 @@ class AuthService {
   Future signOut() async {
     try {
       final googleSignIn = GoogleSignIn();
-      await googleSignIn.disconnect();
-      _auth.signOut();
+      // await googleSignIn.disconnect();
+      await _auth.signOut();
+      await googleSignIn.signOut();
     } catch (e) {
       print(e.toString());
       return null;
@@ -72,6 +78,17 @@ class AuthService {
     final googleSignIn = GoogleSignIn();
     await googleSignIn.disconnect();
     _auth.signOut();
+  }
+
+  Future<void> signInWithPhone() async {
+//verify phone number
+    await _auth.verifyPhoneNumber(
+      phoneNumber: '+44 7123 123 456',
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {},
+      codeSent: (String verificationId, int resendToken) {},
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
   }
 }
 

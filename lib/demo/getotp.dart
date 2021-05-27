@@ -9,11 +9,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'book.dart';
 import 'alert.dart';
 
-class GetOTP extends StatefulWidget {
-  GetOTPState createState() => GetOTPState();
+class GetOTP2 extends StatefulWidget {
+  GetOTP2State createState() => GetOTP2State();
 }
 
-class GetOTPState extends State<GetOTP> {
+class GetOTP2State extends State<GetOTP2> {
   PINcode pincode = PINcode();
   StreamController<bool> _controller = StreamController();
   @override

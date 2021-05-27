@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:device_booking/pages/loading.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -81,83 +82,9 @@ class _AuthenticateState extends State<Authenticate> {
               SizedBox(
                 height: 50.0,
               ),
-              SizedBox(
-                width: 300.0,
-                child: Card(
-                  margin: EdgeInsets.all(5.0),
-                  elevation: 3.0,
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/loading');
-                      AuthService().signInWithGoogle().then((user) {
-                        if (user == null) {
-                          Navigator.pop(context);
-                          print('Log in unsuccessful');
-                        } else {
-                          //Log in success
-                          DBService().checkUser(user.uid).then((hasData) {
-                            //check previous data
-                            if (hasData) {
-                              //check complete data
-                              DBService()
-                                  .fetchUserData(user.uid)
-                                  .then((userData) {
-                                Navigator.popUntil(
-                                    context,
-                                    ModalRoute.withName(
-                                        Navigator.defaultRouteName));
-                                if (userData.firstname.length < 2 ||
-                                    userData.lastname.length < 2 ||
-                                    userData.phoneNumber.length < 10 ||
-                                    userData.role == null) {
-                                  Navigator.pushNamed(context, '/signup');
-                                }
-                              });
-                            } else {
-                              DBService().addUser(user).then((value) {
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, '/signup');
-                              });
-                            }
-                          });
-                        }
-                      });
-                    },
-                    leading: Icon(
-                      Icons.login_outlined,
-                      color: Color(0xFF02589D),
-                      size: 40.0,
-                    ),
-                    title: Text('Continue with Gmail \nelearning.cmu.ac.th',
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54)),
-                  ),
-                ),
-              ),
+              LogInWithGoogleButton(),
               SizedBox(height: 20.0),
-              SizedBox(
-                width: 300.0,
-                child: Card(
-                  margin: EdgeInsets.all(5.0),
-                  elevation: 3.0,
-                  child: ListTile(
-                    onTap: () {},
-                    // TODO Apple free developer license can't perform login with phone number, Ref: https://help.apple.com/developer-account/#/dev21218dfd6
-                    leading: Icon(
-                      Icons.phone,
-                      color: Color(0xFF02589D),
-                      size: 40.0,
-                    ),
-                    title: Text('Continue with\nPhone number',
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54)),
-                  ),
-                ),
-              ),
+              LogInWithPhoneButton(),
             ]),
         bottomNavigationBar: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -170,6 +97,75 @@ class _AuthenticateState extends State<Authenticate> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class LogInWithPhoneButton extends StatelessWidget {
+  const LogInWithPhoneButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 300.0,
+      child: Card(
+        margin: EdgeInsets.all(5.0),
+        elevation: 3.0,
+        child: ListTile(
+          onTap: () {},
+          // TODO Apple free developer license can't perform login with phone number, Ref: https://help.apple.com/developer-account/#/dev21218dfd6
+          leading: Icon(
+            Icons.phone,
+            color: Color(0xFF02589D),
+            size: 40.0,
+          ),
+          title: Text('Continue with\nPhone number',
+              style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54)),
+        ),
+      ),
+    );
+  }
+}
+
+class LogInWithGoogleButton extends StatelessWidget {
+  const LogInWithGoogleButton({
+    Key key,
+  }) : super(key: key);
+
+  void _fetchUser(context, userId) {
+    // Provider.of<UserData>(context, listen: false).fetchUser(userId: userId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final user = Provider.of<UserData>(context);
+    return SizedBox(
+      width: 300.0,
+      child: Card(
+        margin: EdgeInsets.all(5.0),
+        elevation: 3.0,
+        child: ListTile(
+          onTap: () async {
+            AuthService().signOut();
+            AuthService().signInWithGoogle();
+          },
+          leading: Icon(
+            Icons.login_outlined,
+            color: Color(0xFF02589D),
+            size: 40.0,
+          ),
+          title: Text('Continue with Gmail \nelearning.cmu.ac.th',
+              style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54)),
         ),
       ),
     );

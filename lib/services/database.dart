@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/models/device/device.dart';
-import 'package:device_booking/models/device/ultrasounddevice.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -23,6 +22,305 @@ class DBService {
       return null;
     }
   }
+
+  Future<String> getTime(FirebaseApp app,
+      StreamController<String> _controllerTime, String deviceId) {
+    FirebaseDatabase database = FirebaseDatabase(app: app);
+    final ref = database.reference();
+    ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
+      Map<String, dynamic> data =
+          new Map<String, dynamic>.from(event.snapshot.value);
+      print(data["date"]);
+      String datetime = data["date"];
+      var time = const Duration(milliseconds: 900);
+      Timer.periodic(time, (timer) {
+        var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
+        final hrs = DateTime.now().difference(dateTime1).inHours;
+        final mins = DateTime.now().difference(dateTime1).inMinutes;
+        final secs = DateTime.now().difference(dateTime1).inSeconds;
+        int min = mins % 60;
+        int sec = secs % 60;
+        if (hrs == 0) {
+          _controllerTime.add('$min minutes $sec secs');
+          if (min == 0) {
+            _controllerTime.add('$sec secs');
+          } else {
+            _controllerTime.add('$min minutes $sec secs');
+          }
+        } else {
+          _controllerTime.add('$hrs hours $min minutes $sec secs');
+          if (min == 0) {
+            _controllerTime.add('$hrs hours $sec secs');
+          } else {
+            _controllerTime.add('$hrs hours $min minutes $sec secs');
+          }
+        }
+        print('$hrs hours $min minutes $sec secs');
+      });
+    });
+  }
+
+/* -------------------------------User------------------------------------ */
+
+  Future<bool> checkUser(String id) {
+    return _db.collection('users').doc(id).get().then((snap) {
+      return snap.exists;
+    });
+  }
+
+  //Stream UserData
+  Stream<UserData> streamUserData(String uid) {
+    try {
+      return _db
+          .collection('users')
+          .doc(uid)
+          .snapshots()
+          .map((snap) => UserData.fromMap(snap.data()));
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  } //ref: https://www.youtube.com/watch?v=vFxk_KJCqgk ['Provider and flutterfire']
+
+  Future<void> registerNewUser(UserData user) async {
+    try {
+      _db.collection('users').doc(user.uid).set({
+        'firstname': user.firstname,
+        'lastname': user.lastname,
+        'email': user.email,
+        'phoneNumber': user.phoneNumber,
+        'role': user.role,
+        'uid': user.uid,
+        'inUse': false
+      }).then((value) => print('Register user successful: ${user.firstname} '));
+    } catch (e) {
+      print('Register user failed: ${e.toString()} ');
+    }
+  }
+
+  Future<void> updateUser(UserData user) async {
+    try {
+      _db.collection('users').doc(user.uid).update({
+        'firstname': user.firstname,
+        'lastname': user.lastname,
+        'role': user.role,
+      }).then((value) => print('Update user successful ${user.firstname}'));
+    } catch (e) {
+      print('Update user failed ${e.toString()}');
+    }
+  }
+
+  //Get UserData one time
+  Future<UserData> fetchUser(String id) async {
+    var snap = await _db.collection('users').doc(id).get();
+    if (snap.exists) {
+      return UserData.fromMap(snap.data());
+    } else {
+      return null;
+    }
+  }
+
+/* -------------------------------Device------------------------------------ */
+
+  Future<void> addNewDevice(Device device) async {
+    CollectionReference devices = _db.collection('devices');
+    DocumentReference docRef = devices.doc();
+    try {
+      return docRef.set({
+        'name': device.name,
+        'deviceId': docRef.id,
+        'deviceType': device.deviceType,
+        'location': device.location,
+        'defaultLocation': device.defaultLocation,
+        'lastUserId': device.lastUserId,
+        'lastUser': device.lastUser,
+        'lastUserPhoneNumber': device.lastUserPhoneNumber,
+        'inUse': false,
+        'maintenance': false,
+        'operatingZone': device.operatingZone,
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<Device> fetchDevice(String deviceId) async {
+    CollectionReference devices =
+        FirebaseFirestore.instance.collection('devices');
+    DocumentSnapshot documentSnapshot = await devices.doc(deviceId).get();
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> device = documentSnapshot.data();
+      print(
+          'Retrieve device info successful: ${device['name']}, ${device['deviceType']}');
+      print(device['lastUseTime']?.toDate().toString());
+      return Device.fromMap(device);
+    } else {
+      print('Failed to retrieve device info');
+      return null;
+    }
+  }
+
+  Future<void> takeDevice(
+      String deviceId, String userId, String location) async {
+    //TODO may consider to change userId to Provider<UserData> in the future to lower read&write
+    //update device inUse, deviceLogs, UserLogs
+
+    CollectionReference user = _db.collection('users');
+    CollectionReference devices = _db.collection('devices');
+    CollectionReference deviceLogs =
+        devices.doc(deviceId).collection('deviceLogs');
+    Timestamp now = Timestamp.fromDate(DateTime.now());
+
+    try {
+      //fetch userData to
+      UserData userData = await fetchUser(userId);
+      //update device inUse
+      devices.doc(deviceId).update({
+        'inUse': true,
+        'lastUser':
+            '${userData.role} ${userData.firstname} ${userData.lastname}',
+        'lastUserId': userData.uid,
+        'lastUserPhoneNumber': userData.phoneNumber,
+        'location': location,
+        'lastUseTime': now,
+      });
+
+      //add deviceLog
+      DocumentReference docRef = deviceLogs.doc();
+      docRef.set({
+        'deviceId': deviceId,
+        'logId': docRef.id,
+        'userId': userData.uid,
+        'take': true,
+        'useTime': now,
+      });
+
+      //add userLog
+      user.doc(userData.uid).collection('userLogs').doc(docRef.id).set({
+        'uid': userData.uid,
+        'deviceId': deviceId,
+        'take': true,
+        'logId': docRef.id,
+        'time': now,
+      });
+
+      //switch user inUse status
+      user.doc(userData.uid).update({'inUse': true});
+      userData.userInUse();
+
+      print('Device - takeDevice() successful');
+    } catch (e) {
+      print('Device - takeDevice() unsuccessful: return error ${e.toString()}');
+    }
+  }
+
+  Future<void> returnDevice(String deviceId, String userId) async {
+    CollectionReference user = _db.collection('users');
+    CollectionReference devices = _db.collection('devices');
+    CollectionReference deviceLogs =
+        devices.doc(deviceId).collection('deviceLogs');
+    Timestamp now = Timestamp.fromDate(DateTime.now());
+
+    try {
+      //fetch userData to
+      UserData userData = await fetchUser(userId);
+      Device device = await fetchDevice(deviceId);
+      //update device inUse
+      devices.doc(deviceId).update({
+        'inUse': false, //not inUse
+        'lastUser':
+            '${userData.role} ${userData.firstname} ${userData.lastname}',
+        'lastUserId': userData.uid,
+        'lastUserPhoneNumber': userData.phoneNumber,
+        'location': device.defaultLocation, //location back to default location
+        'lastUseTime': now,
+      });
+
+      //add deviceLog
+      DocumentReference docRef = deviceLogs.doc();
+      docRef.set({
+        'deviceId': deviceId,
+        'logId': docRef.id,
+        'userId': userData.uid,
+        'take': false, //return
+        'useTime': now,
+      });
+
+      //add userLog
+      user.doc(userData.uid).collection('userLogs').doc(docRef.id).set({
+        'uid': userData.uid,
+        'deviceId': deviceId,
+        'take': false, //return
+        'logId': docRef.id,
+        'time': now,
+      });
+
+      //switch user inUse status
+      user.doc(userData.uid).update({'inUse': false});
+      userData.userReturn();
+
+      print('Device - returnDevice() successful');
+    } catch (e) {
+      print(
+          'Device - returnDevice() unsuccessful : return error ${e.toString()}');
+    }
+  }
+
+  //report device problem
+  Future<void> reportDevice(
+      String deviceId, String userId, String reportText) async {
+    CollectionReference deviceProblems =
+        _db.collection('devices').doc(deviceId).collection('deviceProblems');
+    Timestamp now = Timestamp.fromDate(DateTime.now());
+    DocumentReference docRef = deviceProblems.doc();
+
+    try {
+      docRef.set({
+        'deviceId': deviceId,
+        'userId': userId,
+        'reportId': docRef.id,
+        'reportTime': now,
+        'problem': reportText,
+      });
+    } catch (e) {}
+  }
+
+/* -----------------------------DeviceList--------------------------------- */
+
+  Future<List<Device>> fetchDeviceList(String deviceType) async {
+    try {
+      QuerySnapshot querySnapshot = await _db
+          .collection("devices")
+          .where('deviceType', isEqualTo: deviceType)
+          .get();
+      print('${querySnapshot.size} device(s) found');
+      return querySnapshot.docs.map((doc) {
+        Map<String, dynamic> device = doc.data();
+        if (doc.exists) {
+          return Device.fromMap(device);
+        } else {
+          return null;
+        }
+      }).toList();
+
+      // return querySnapshot.docs;
+
+      // querySnapshot.docs.forEach((doc) {
+      //   print(doc['name']);
+      // });
+
+    } catch (e) {
+      print('fetch list failed with error: ${e.toString()}');
+      return null;
+    }
+  }
+}
+
+/*
+
+
+
+
 
   Future<Device2> fetchDevice2(String document) async {
     CollectionReference doc = FirebaseFirestore.instance.collection('devices');
@@ -106,83 +404,7 @@ class DBService {
     });
   }
 
-  Future<String> getTime(FirebaseApp app,
-      StreamController<String> _controllerTime, String deviceId) {
-    FirebaseDatabase database = FirebaseDatabase(app: app);
-    final ref = database.reference();
-    ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
-      Map<String, dynamic> data =
-          new Map<String, dynamic>.from(event.snapshot.value);
-      print(data["date"]);
-      String datetime = data["date"];
-      var time = const Duration(milliseconds: 900);
-      Timer.periodic(time, (timer) {
-        var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
-        final hrs = DateTime.now().difference(dateTime1).inHours;
-        final mins = DateTime.now().difference(dateTime1).inMinutes;
-        final secs = DateTime.now().difference(dateTime1).inSeconds;
-        int min = mins % 60;
-        int sec = secs % 60;
-        if (hrs == 0) {
-          _controllerTime.add('$min minutes $sec secs');
-          if (min == 0) {
-            _controllerTime.add('$sec secs');
-          } else {
-            _controllerTime.add('$min minutes $sec secs');
-          }
-        } else {
-          _controllerTime.add('$hrs hours $min minutes $sec secs');
-          if (min == 0) {
-            _controllerTime.add('$hrs hours $sec secs');
-          } else {
-            _controllerTime.add('$hrs hours $min minutes $sec secs');
-          }
-        }
-        print('$hrs hours $min minutes $sec secs');
-      });
-    });
-  }
 
-  //Get UserData one time
-  Future<UserData> fetchUserData(String id) async {
-    var snap = await _db.collection('users').doc(id).get();
-    if (snap.exists) {
-      return UserData.fromMap(snap.data());
-    } else {
-      return null;
-    }
-  }
-
-  Future<bool> checkUser(String id) {
-    return _db.collection('users').doc(id).get().then((snap) {
-      return snap.exists;
-    });
-  }
-
-  //Stream UserData
-  Stream<UserData> streamUserData(String uid) {
-    try {
-      return _db
-          .collection('users')
-          .doc(uid)
-          .snapshots()
-          .map((snap) => UserData.fromMap(snap.data()));
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  } //ref: https://www.youtube.com/watch?v=vFxk_KJCqgk ['Provider and flutterfire']
-
-  Future<void> addUser(UserData userData) {
-    return _db.collection('users').doc(userData.uid).set({
-      'firstname': userData.firstname,
-      'lastname': userData.lastname,
-      'email': userData.email,
-      'phoneNumber': userData.phoneNumber,
-      'role': userData.role,
-      'uid': userData.uid,
-    });
-  }
 
   Future<UltrasoundDevice> fetchUltrasoundDevice(String deviceId) async {
     CollectionReference ultrasoundDevices =
@@ -247,159 +469,4 @@ class DBService {
       print('Take device unsuccessful: return error ${e.toString()}');
     }
   }
-
-/* -------------------------------Device------------------------------------ */
-
-  Future<void> addNewDevice(Device device) async {
-    CollectionReference devices = _db.collection('devices');
-    DocumentReference docRef = devices.doc();
-    try {
-      return docRef.set({
-        'name': device.name,
-        'deviceId': docRef.id,
-        'deviceType': device.deviceType,
-        'location': device.location,
-        'defaultLocation': device.defaultLocation,
-        'lastUserId': device.lastUserId,
-        'lastUser': device.lastUser,
-        'lastUserPhoneNumber': device.lastUserPhoneNumber,
-        'inUse': false,
-        'maintenance': false,
-        'operatingZone': device.operatingZone,
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<Device> fetchDevice(String deviceId) async {
-    CollectionReference devices =
-        FirebaseFirestore.instance.collection('devices');
-    DocumentSnapshot documentSnapshot = await devices.doc(deviceId).get();
-    if (documentSnapshot.exists) {
-      Map<String, dynamic> device = documentSnapshot.data();
-      print(
-          'Retrieve device info successful: ${device['name']}, ${device['deviceType']}');
-      print(device['lastUseTime']?.toDate().toString());
-      return Device.fromMap(device);
-    } else {
-      print('Failed to retrieve device info');
-      return null;
-    }
-  }
-
-  Future<void> takeDevice(
-      String deviceId, String userId, String location) async {
-    //TODO may consider to change userId to Provider<UserData> in the future to lower read&write
-    //update device inUse, deviceLogs, UserLogs
-
-    CollectionReference user = _db.collection('users');
-    CollectionReference devices = _db.collection('devices');
-    CollectionReference deviceLogs =
-        devices.doc(deviceId).collection('deviceLogs');
-    Timestamp now = Timestamp.fromDate(DateTime.now());
-
-    try {
-      //fetch userData to
-      UserData userData = await fetchUserData(userId);
-      //update device inUse
-      devices.doc(deviceId).update({
-        'inUse': true,
-        'lastUser':
-            '${userData.role} ${userData.firstname} ${userData.lastname}',
-        'lastUserId': userData.uid,
-        'lastUserPhoneNumber': userData.phoneNumber,
-        'location': location,
-        'lastUseTime': now,
-      });
-
-      //add deviceLog
-      DocumentReference docRef = deviceLogs.doc();
-      docRef.set({
-        'deviceId': deviceId,
-        'logId': docRef.id,
-        'userId': userData.uid,
-        'take': true,
-        'useTime': now,
-      });
-
-      //add userLog
-      user.doc(userData.uid).collection('userLogs').doc(docRef.id).set({
-        'uid': userData.uid,
-        'deviceId': deviceId,
-        'take': true,
-        'logId': docRef.id,
-        'time': now,
-      });
-      print('Device - takeDevice() successful');
-    } catch (e) {
-      print('Device - takeDevice() unsuccessful: return error ${e.toString()}');
-    }
-  }
-
-  Future<void> returnDevice(String deviceId, String userId) async {
-    CollectionReference user = _db.collection('users');
-    CollectionReference devices = _db.collection('devices');
-    CollectionReference deviceLogs =
-        devices.doc(deviceId).collection('deviceLogs');
-    Timestamp now = Timestamp.fromDate(DateTime.now());
-
-    try {
-      //fetch userData to
-      UserData userData = await fetchUserData(userId);
-      Device device = await fetchDevice(deviceId);
-      //update device inUse
-      devices.doc(deviceId).update({
-        'inUse': false, //not inUse
-        'lastUser':
-            '${userData.role} ${userData.firstname} ${userData.lastname}',
-        'lastUserId': userData.uid,
-        'lastUserPhoneNumber': userData.phoneNumber,
-        'location': device.defaultLocation, //location back to default location
-        'lastUseTime': now,
-      });
-
-      //add deviceLog
-      DocumentReference docRef = deviceLogs.doc();
-      docRef.set({
-        'deviceId': deviceId,
-        'logId': docRef.id,
-        'userId': userData.uid,
-        'take': false, //return
-        'useTime': now,
-      });
-
-      //add userLog
-      user.doc(userData.uid).collection('userLogs').doc(docRef.id).set({
-        'uid': userData.uid,
-        'deviceId': deviceId,
-        'take': false, //return
-        'logId': docRef.id,
-        'time': now,
-      });
-      print('Device - returnDevice() successful');
-    } catch (e) {
-      print(
-          'Device - returnDevice() unsuccessful : return error ${e.toString()}');
-    }
-  }
-
-  //report device problem
-  Future<void> reportDevice(
-      String deviceId, String userId, String reportText) async {
-    CollectionReference deviceProblems =
-        _db.collection('devices').doc(deviceId).collection('deviceProblems');
-    Timestamp now = Timestamp.fromDate(DateTime.now());
-    DocumentReference docRef = deviceProblems.doc();
-
-    try {
-      docRef.set({
-        'deviceId': deviceId,
-        'userId': userId,
-        'reportId': docRef.id,
-        'reportTime': now,
-        'problem': reportText,
-      });
-    } catch (e) {}
-  }
-}
+ */

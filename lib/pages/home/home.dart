@@ -16,7 +16,7 @@ import 'package:device_booking/models/user/user.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserData>(context);
+    final user = context.watch<UserData>();
 
     return SafeArea(
         child: Scaffold(
@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                        text: '\nUser', //TODO: get name of user
+                        text: '\n${user.firstname}', //TODO: get name of user
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.normal,
@@ -99,10 +99,10 @@ class Home extends StatelessWidget {
                 ElevatedButton(
                     onPressed: () async {
                       await AuthService().signOut();
-                      Navigator.popUntil(context,
-                          ModalRoute.withName(Navigator.defaultRouteName));
+                      // Navigator.popUntil(context,
+                      //     ModalRoute.withName(Navigator.defaultRouteName));
                     },
-                    child: Text('Sign out'))
+                    child: Text('Sign out')),
               ]),
             ),
           ],

@@ -23,10 +23,16 @@ class _SignUpState extends State<SignUp> {
     super.initState();
   }
 
+  void _registerNewUser(context, user) {
+    Provider.of<UserData>(context, listen: false).registerNewUser(user: user);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-    final userData = Provider.of<UserData>(context);
+    // final user = Provider.of<User>(context);
+    // final userData = Provider.of<UserData>(context);
+    final user = context.watch<UserData>();
+    valueChoose = user.role;
 
     return SafeArea(
       child: Scaffold(
@@ -54,15 +60,19 @@ class _SignUpState extends State<SignUp> {
                   if (_formKey.currentState.validate()) {
                     // print(userData.phoneNumber);
                     // print(userData.uid);
-                    Navigator.pushNamed(context, '/loading');
-                    DBService().addUser(userData).then((user) {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/getotp');
-                    });
+                    // Navigator.pushNamed(context, '/loading');
+                    // DBService().registerNewUser(userData).then((user) {
+                    //   Navigator.pop(context);
+                    //   Navigator.pushNamed(context, '/getotp');
+                    // });
+                    print('Submit Form Successful');
+                    _registerNewUser(context, user);
+                    // print(user.uid);
                   } else {
                     // ScaffoldMessenger.of(context)
                     //     .showSnackBar(SnackBar(content: Text(user.firstname)));
                     print('Submit Form failed');
+                    // print(user.uid);
                   }
                 },
                 child: Text(
@@ -83,8 +93,8 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 4,
                     child: ClipOval(
-                      child: (user.photoURL != '')
-                          ? Image.network(user.photoURL)
+                      child: (user.photoURL != null)
+                          ? Image.network(user?.photoURL)
                           : Image.asset(
                               'assets/images/profile_placeholder.png',
                               fit: BoxFit
@@ -94,11 +104,12 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                    child: Text(user.email, style: b1TextStyle),
+                    child: Text(user?.email != null ? user.email : '',
+                        style: b1TextStyle),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
-                    child: Text('UID: ${user.uid}', style: b2TextStyle),
+                    child: Text('UID: ${user?.uid}', style: b2TextStyle),
                   ),
                   Form(
                       key: _formKey,
@@ -107,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                           children: [
                             //Enter firstname
                             TextFormField(
-                                initialValue: userData?.firstname,
+                                initialValue: user?.firstname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -116,7 +127,7 @@ class _SignUpState extends State<SignUp> {
                                       : null;
                                 },
                                 onChanged: (text) async {
-                                  userData.firstname = text;
+                                  user.firstname = text;
                                 },
                                 decoration: InputDecoration(
                                     labelText: "First name",
@@ -127,7 +138,7 @@ class _SignUpState extends State<SignUp> {
                                             BorderRadius.circular(4.0)))),
                             //Enter lastname
                             TextFormField(
-                                initialValue: userData?.lastname,
+                                initialValue: user?.lastname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -136,7 +147,7 @@ class _SignUpState extends State<SignUp> {
                                       : null;
                                 },
                                 onChanged: (text) async {
-                                  userData.lastname = text;
+                                  user.lastname = text;
                                 },
                                 decoration: InputDecoration(
                                     labelText: "Last name",
@@ -147,7 +158,7 @@ class _SignUpState extends State<SignUp> {
                                             BorderRadius.circular(4.0)))),
                             //Enter phonenumber
                             TextFormField(
-                                initialValue: userData.phoneNumber,
+                                initialValue: user.phoneNumber,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -161,8 +172,8 @@ class _SignUpState extends State<SignUp> {
                                       : null;
                                 },
                                 onChanged: (text) async {
-                                  userData.phoneNumber = text;
-                                  print(userData.phoneNumber);
+                                  user.phoneNumber = text;
+                                  print(user.phoneNumber);
                                 },
                                 decoration: InputDecoration(
                                     labelText: "Phone number",
@@ -187,7 +198,7 @@ class _SignUpState extends State<SignUp> {
                               onChanged: (value) async {
                                 setState(() {
                                   valueChoose = value;
-                                  userData.role = value;
+                                  user.role = value;
                                 });
                               },
                               items: <String>[

@@ -1,8 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Device {
+class DeviceList extends ChangeNotifier {
+  List<Device> devices;
+
+  DeviceList(this.devices);
+
+  //get list of device (ultrasound / ekg)
+  // Future<void> fetchUltrasoundDeviceList() {
+  //   DBService()
+  //       .fetchDeviceList('ultrasound')
+  //       .then((devices) => DeviceList(devices));
+  //   notifyListeners();
+  // }
+}
+
+class Device extends ChangeNotifier {
   String name; //deviceName
   String deviceId; //deviceId
   String deviceType; //type of device e.g. ultrasound / ekg
@@ -39,8 +54,10 @@ class Device {
       lastUserId: map['lastUserId'] ?? '',
       lastUser: map['lastUser'] ?? '',
       lastUserPhoneNumber: map['lastUserPhoneNumber'] ?? '',
-      lastUseTime: DateTime.parse(map['lastUseTime'].toDate().toString()),
-      //ref: https://flutteragency.com/how-to-print-firestore-timestamp-as-formatted-date-and-time-in-flutter/
+      lastUseTime:
+          DateTime.tryParse(map['lastUseTime']?.toDate()?.toString() ?? ''),
+      // timestamp & Datetime conversion - ref: https://flutteragency.com/how-to-print-firestore-timestamp-as-formatted-date-and-time-in-flutter/
+      // try parse = parse + null safety - ref: https://stackoverflow.com/questions/63019766/how-to-handle-dates-if-they-are-null-on-dart
       maintenance: map['maintenance'] ?? false,
       operatingZone: map['operatingZone'] ?? [],
       defaultLocation: map['defaultLocation'] ?? '',

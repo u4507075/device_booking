@@ -46,7 +46,7 @@ class _QRScanState extends State<QRScan> {
   void initState() {
     super.initState();
 
-    scanQRCode();
+    // scanQRCode();
   }
 
   @override
@@ -57,93 +57,93 @@ class _QRScanState extends State<QRScan> {
   @override
   Widget build(BuildContext context) => Scaffold();
 
-  Future<void> scanQRCode() async {
-    try {
-      final qrCode = await FlutterBarcodeScanner.scanBarcode(
-        '#ff6666',
-        'Cancel',
-        true,
-        ScanMode.QR,
-      );
-      if (qrCode == '-1') {
-        Navigator.pushNamed(context, '/home');
-      } else {
-        Navigator.pushNamed(context, "/loading");
-        if (!mounted) return;
-        DBService().fetchDevice2(qrCode).then((value) => setState(() {
-              this.qrCode = qrCode;
-              this.device = value;
-            }));
-        DBService().fetchDeviceStatus(qrCode).then((status) {
-          setState(() {
-            this.qrCode = qrCode;
-            this.devicestatus = status;
-            this.UID = status.userid;
-            this.BorrowTime = status.timestamp;
-            this.borrowPlace = status.borrowPlace;
-            print(UID);
-          });
-          DBService().fetchUserDetails(UID).then((userr) {
-            setState(() {
-              this.userdetails = userr;
-              email = userr.email;
-              firstname = userr.firstname;
-              imagePath = userr.imagePath;
-              lastname = userr.lastname;
-              role = userr.role;
-              telephone = userr.telephone;
-              print(UID);
-            });
-            DBService().fetchUserDetails(myID).then((me) => setState(() {
-                  this.userdetails = me;
-                  Memail = me.email;
-                  Mfirstname = me.firstname;
-                  MimagePath = me.imagePath;
-                  Mlastname = me.lastname;
-                  Mrole = me.role;
-                  Mtelephone = me.telephone;
-                  Navigator.pop(context);
-                  if (status.status == "borrowed") {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyTest(
-                                myID: myID,
-                                qrCode: qrCode,
-                                Memail: Memail,
-                                Mfirstname: Mfirstname,
-                                MimagePath: MimagePath,
-                                Mlastname: Mlastname,
-                                Mrole: Mrole,
-                                Mtelephone: Mtelephone,
-                                BorrowPlace: borrowPlace,
-                                BorrowTime: BorrowTime,
-                                email: email,
-                                firstname: firstname,
-                                imagePath: imagePath,
-                                lastname: lastname,
-                                role: role,
-                                telephone: telephone)));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationList(
-                                myID: myID,
-                                qrCode: qrCode,
-                                Memail: Memail,
-                                Mfirstname: Mfirstname,
-                                MimagePath: MimagePath,
-                                Mlastname: Mlastname,
-                                Mrole: Mrole,
-                                Mtelephone: Mtelephone)));
-                  }
-                }));
-          });
-        });
-      }
-    } on PlatformException {
-      qrCode = 'Failed to get platform version.';
-    }
-  }
+//   Future<void> scanQRCode() async {
+//     try {
+//       final qrCode = await FlutterBarcodeScanner.scanBarcode(
+//         '#ff6666',
+//         'Cancel',
+//         true,
+//         ScanMode.QR,
+//       );
+//       if (qrCode == '-1') {
+//         Navigator.pushNamed(context, '/home');
+//       } else {
+//         Navigator.pushNamed(context, "/loading");
+//         if (!mounted) return;
+//         DBService().fetchDevice2(qrCode).then((value) => setState(() {
+//               this.qrCode = qrCode;
+//               this.device = value;
+//             }));
+//         DBService().fetchDeviceStatus(qrCode).then((status) {
+//           setState(() {
+//             this.qrCode = qrCode;
+//             this.devicestatus = status;
+//             this.UID = status.userid;
+//             this.BorrowTime = status.timestamp;
+//             this.borrowPlace = status.borrowPlace;
+//             print(UID);
+//           });
+//           DBService().fetchUserDetails(UID).then((userr) {
+//             setState(() {
+//               this.userdetails = userr;
+//               email = userr.email;
+//               firstname = userr.firstname;
+//               imagePath = userr.imagePath;
+//               lastname = userr.lastname;
+//               role = userr.role;
+//               telephone = userr.telephone;
+//               print(UID);
+//             });
+//             DBService().fetchUserDetails(myID).then((me) => setState(() {
+//                   this.userdetails = me;
+//                   Memail = me.email;
+//                   Mfirstname = me.firstname;
+//                   MimagePath = me.imagePath;
+//                   Mlastname = me.lastname;
+//                   Mrole = me.role;
+//                   Mtelephone = me.telephone;
+//                   Navigator.pop(context);
+//                   if (status.status == "borrowed") {
+//                     Navigator.push(
+//                         context,
+//                         MaterialPageRoute(
+//                             builder: (context) => MyTest(
+//                                 myID: myID,
+//                                 qrCode: qrCode,
+//                                 Memail: Memail,
+//                                 Mfirstname: Mfirstname,
+//                                 MimagePath: MimagePath,
+//                                 Mlastname: Mlastname,
+//                                 Mrole: Mrole,
+//                                 Mtelephone: Mtelephone,
+//                                 BorrowPlace: borrowPlace,
+//                                 BorrowTime: BorrowTime,
+//                                 email: email,
+//                                 firstname: firstname,
+//                                 imagePath: imagePath,
+//                                 lastname: lastname,
+//                                 role: role,
+//                                 telephone: telephone)));
+//                   } else {
+//                     Navigator.push(
+//                         context,
+//                         MaterialPageRoute(
+//                             builder: (context) => LocationList(
+//                                 myID: myID,
+//                                 qrCode: qrCode,
+//                                 Memail: Memail,
+//                                 Mfirstname: Mfirstname,
+//                                 MimagePath: MimagePath,
+//                                 Mlastname: Mlastname,
+//                                 Mrole: Mrole,
+//                                 Mtelephone: Mtelephone)));
+//                   }
+//                 }));
+//           });
+//         });
+//       }
+//     } on PlatformException {
+//       qrCode = 'Failed to get platform version.';
+//     }
+//   }
 }

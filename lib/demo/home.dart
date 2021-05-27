@@ -41,7 +41,7 @@ class HomeDemo extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return GetOTP();
+                      return GetOTP2();
                     }));
                   },
                 )),

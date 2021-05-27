@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:device_booking/checkdeviceinfo.dart';
+import 'package:device_booking/demo/getotp.dart';
 import 'package:device_booking/models/device/device.dart';
 import 'package:device_booking/models/device/device2.dart';
-import 'package:device_booking/models/device/ultrasounddevice.dart';
+import 'package:device_booking/models/user/user2.dart';
+import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 
 import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
@@ -24,6 +29,7 @@ import 'models/user/user.dart';
 import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
 import 'package:device_booking/services/database.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
@@ -80,6 +86,11 @@ class MyApp extends StatelessWidget {
             return UserData.initialValue();
           },
         ),
+        // ChangeNotifierProvider<UserData>(
+        //   // ref: https://pub.dev/documentation/provider/latest/provider/ChangeNotifierProxyProvider-class.html
+        //   create: (_) => UserData(),
+        // ),
+        // ChangeNotifierProvider(create: (_) => USER()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: true,
@@ -101,6 +112,8 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => SignUp(),
           '/getotp': (context) => GetOTP(),
           '/bookdevice/qrscan': (context) => QRScan(),
+          'checkuserdevice': (context) => CheckDeviceInfo(),
+          'getotp': (context) => GetOTP2(),
           // '/bookdevice/selectLo' : (context) => LocationList(),
           // '/bookdevice/busydevice' : (context) => MyTest()
         },
@@ -115,17 +128,14 @@ class Tester extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // var counter = Provider.of<USER>(context).count;
+    // var count = context.watch<USER>().count;
+
     return Scaffold(
       body: Center(
           child: ElevatedButton(
               onPressed: () {
                 print('Test');
-                // UltrasoundDevice().fetchDevice('QxAvyuVhlhdYA8hL0gw0');
-
-                // UltrasoundDevice().takeDevice(
-                //     deviceId: 'QxAvyuVhlhdYA8hL0gw0',
-                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
-                //     location: 'บ้าน');
 
                 // Device().fetchDevice('UnJ9w5JS8XnLXOqHhKSv');
 
@@ -138,13 +148,19 @@ class Tester extends StatelessWidget {
                 //     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
                 //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2');
 
-                Device().reportDevice(
-                    deviceId: 'ZKUFINrPPKGWfZiiFk5E',
-                    userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
-                    reportText: 'เครื่องหนักจังเลย');
+                // Device().reportDevice(
+                //     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
+                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
+                //     reportText: 'เครื่องหนักจังเลย');
 
                 // Device().addNewDevice(Device().sample());
                 // Device().addNewDevice(Device().sample());
+
+                DBService().fetchDeviceList('ultrasound').then((devices) {
+                  devices.forEach((device) {
+                    print(device.name);
+                  });
+                });
               },
               child: Text('Test'))),
     );
