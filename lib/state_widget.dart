@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:device_booking/models/user/user.dart';
+import 'package:device_booking/models/user.dart';
 
 class InheritedUserData extends InheritedWidget {
   InheritedUserData({Key key, this.child, this.user})

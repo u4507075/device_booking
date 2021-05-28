@@ -1,7 +1,7 @@
 import 'package:device_booking/controller/auth_controller.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:get/get.dart';
-import 'package:device_booking/models/user/user.dart';
+import 'package:device_booking/models/user.dart';
 
 class UserController extends GetxController {
   Rxn<UserData> _userData = Rxn<UserData>();
@@ -12,7 +12,7 @@ class UserController extends GetxController {
   @override
   onInit() {
     super.onInit();
-    String userId = Get.find<AuthController>().firebaseUser?.uid;
+    String userId = Get.find<AuthController>().firebaseUser.uid;
     _userData.bindStream(DBService().streamUserData(userId));
   }
 

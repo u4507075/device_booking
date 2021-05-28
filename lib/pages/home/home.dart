@@ -1,11 +1,12 @@
 import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/style.dart';
+import 'package:device_booking/widget/qrscanbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:device_booking/models/user/user.dart';
+import 'package:device_booking/models/user.dart';
 
 //To use UserData copy this!
 // import 'package:provider/provider.dart';
@@ -96,26 +97,13 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.grey[100],
-        label: Text('ยืมอุปกรณ์',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            )),
-        icon: Icon(
-          Icons.qr_code_scanner_outlined,
-          color: Colors.black,
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, '/bookdevice/qrscan');
-        },
-      ),
+      floatingActionButton: _qrScanButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
+
+Widget _qrScanButton() => qrScanButton();
 
 class CardButton extends StatelessWidget {
   static const double _edge = 10.0;

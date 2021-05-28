@@ -1,61 +1,71 @@
-import 'package:device_booking/services/database.dart';
-import 'package:device_booking/models/device/device2.dart';
-import 'package:device_booking/models/device/devicestatus.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:clipboard/clipboard.dart';
-import 'dart:async';
-import 'package:device_booking/models/pages/pages.dart';
-import 'package:device_booking/models/user/Userdetail.dart';
-import 'package:device_booking/pages/bookdevice/busy_device.dart';
-import 'package:device_booking/pages/bookdevice/Select_location.dart';
-import 'package:device_booking/pages/loading.dart';
+// import 'package:device_booking/services/database.dart';
+// import 'package:device_booking/models/device/device2.dart';
+// import 'package:device_booking/models/device/devicestatus.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:clipboard/clipboard.dart';
+// import 'dart:async';
+// import 'package:device_booking/models/pages/pages.dart';
+// import 'package:device_booking/models/user/Userdetail.dart';
+// import 'package:device_booking/pages/bookdevice/busy_device.dart';
+// import 'package:device_booking/pages/bookdevice/Select_location.dart';
+// import 'package:device_booking/pages/loading.dart';
 
-//หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
-class QRScan extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _QRScanState();
-}
+// class QrScan extends StatelessWidget {
+//   const QrScan({Key key}) : super(key: key);
 
-//กำหนดค่าแรกเริ่มให้แสดงเป็น Unknown
-class _QRScanState extends State<QRScan> {
-  String qrCode = 'Unknown';
-  String UID;
-  String email;
-  String firstname;
-  String imagePath;
-  String lastname;
-  String role;
-  String telephone;
-  String BorrowTime;
-  String borrowPlace;
-  String Memail;
-  String Mfirstname;
-  String MimagePath;
-  String Mlastname;
-  String Mrole;
-  String Mtelephone;
-  String myID = 'myID';
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: child,
+//     );
+//   }
+// }
 
-  Device2 device = Device2().defaultValue();
-  DeviceStatus devicestatus = DeviceStatus().defaultValue();
-  UserDetails userdetails = UserDetails().defaultValue();
+// //หน้า qr มี ค่าอ่านได้ กับปุ่มสแกน
+// class QRScan extends StatefulWidget {
+//   @override
+//   State<StatefulWidget> createState() => _QRScanState();
+// }
 
-  @override
-  void initState() {
-    super.initState();
+// //กำหนดค่าแรกเริ่มให้แสดงเป็น Unknown
+// class _QRScanState extends State<QRScan> {
 
-    // scanQRCode();
-  }
+//   @override
+//   void initState() {
+//     super.initState();
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+//     // scanQRCode();
+//   }
 
-  @override
-  Widget build(BuildContext context) => Scaffold();
+//   @override
+//   void dispose() {
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) => Scaffold(
+//         appBar: AppBar(),
+//       );
+
+//  Future<void> scanQR() async {
+//     String qrScanRes;
+//     // Platform messages may fail, so we use a try/catch PlatformException.
+//     try {
+//       qrScanRes = await FlutterBarcodeScanner.scanBarcode(
+//           '#ff6666', 'Cancel', true, ScanMode.QR);
+//       print(qrScanRes);
+//     } on PlatformException {
+//       qrScanRes = 'Failed to get platform version.';
+//     }
+
+//     // If the widget was removed from the tree while the asynchronous platform
+//     // message was in flight, we want to discard the reply rather than calling
+//     // setState to update our non-existent appearance.
+//     if (!mounted) return;
+//       _qrCode = qrScanRes;
+//   }
 
 //   Future<void> scanQRCode() async {
 //     try {
@@ -146,4 +156,4 @@ class _QRScanState extends State<QRScan> {
 //       qrCode = 'Failed to get platform version.';
 //     }
 //   }
-}
+// }

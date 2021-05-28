@@ -1,4 +1,4 @@
-import 'package:device_booking/models/device/device.dart';
+import 'package:device_booking/models/device.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:get/get.dart';
 

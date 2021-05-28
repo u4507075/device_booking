@@ -1,7 +1,7 @@
 import 'package:device_booking/controller/user_controller.dart';
-import 'package:device_booking/models/device/device.dart';
+import 'package:device_booking/models/device.dart';
 import 'package:device_booking/models/pages/pages.dart';
-import 'package:device_booking/models/user/user.dart';
+import 'package:device_booking/models/user.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/cupertino.dart';
