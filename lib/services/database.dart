@@ -160,6 +160,20 @@ class DBService {
     }
   }
 
+  Stream<Device> streamDevice(String deviceId) {
+    try {
+      // print('Stream $deviceId');
+      return _db
+          .collection('devices')
+          .doc(deviceId)
+          .snapshots()
+          .map((snap) => Device.fromMap(snap.data()));
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Future<void> takeDevice(
       String deviceId, String userId, String location) async {
     //TODO may consider to change userId to Provider<UserData> in the future to lower read&write
@@ -302,15 +316,62 @@ class DBService {
           return null;
         }
       }).toList();
-
-      // return querySnapshot.docs;
-
-      // querySnapshot.docs.forEach((doc) {
-      //   print(doc['name']);
-      // });
-
     } catch (e) {
       print('fetch list failed with error: ${e.toString()}');
+      return null;
+    }
+  }
+
+  Stream<DeviceList> streamDeviceList(String deviceType) {
+    try {
+      return _db
+          .collection("devices")
+          .where('deviceType', isEqualTo: deviceType)
+          .snapshots()
+          .map((QuerySnapshot querySnapshot) {
+        return DeviceList(
+            devices: querySnapshot.docs.map((doc) {
+          return Device.fromMap(doc.data());
+        }).toList());
+      });
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Stream<UltrasoundDeviceList> streamUltrasoundDeviceList(String deviceType) {
+    try {
+      return _db
+          .collection("devices")
+          .where('deviceType', isEqualTo: deviceType)
+          .snapshots()
+          .map((QuerySnapshot querySnapshot) {
+        return UltrasoundDeviceList(
+            devices: querySnapshot.docs.map((doc) {
+          return Device.fromMap(doc.data());
+        }).toList());
+      });
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  Stream<EkgDeviceList> streamEkgDeviceList(String deviceType) {
+    try {
+      return _db
+          .collection("devices")
+          .where('deviceType', isEqualTo: deviceType)
+          .snapshots()
+          .map((QuerySnapshot querySnapshot) {
+        return EkgDeviceList(
+            devices: querySnapshot.docs.map((doc) {
+          return Device.fromMap(doc.data());
+        }).toList());
+      });
+    } catch (e) {
+      print(e.toString());
       return null;
     }
   }

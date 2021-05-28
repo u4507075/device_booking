@@ -1,5 +1,7 @@
+import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/src/qrfloatingbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DeviceInfo extends StatelessWidget {
   final String _status = 'available';
@@ -7,6 +9,8 @@ class DeviceInfo extends StatelessWidget {
       TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
   static const TextStyle _subtitlestyle =
       TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold);
+
+  final String deviceId = Get.arguments.toString();
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,20 @@ class DeviceInfo extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      GetX<DeviceController>(
+                          init: Get.put(DeviceController(deviceId)),
+                          builder: (deviceController) {
+                            if (deviceController != null &&
+                                deviceController.deviceInfo != null) {
+                              return Text(
+                                  '${deviceController.deviceInfo.deviceType.capitalize} ${deviceController.deviceInfo.name.capitalize}',
+                                  style: Theme.of(context).textTheme.headline1);
+                            } else {
+                              print(deviceController.deviceInfo?.name);
+                              return Text('Loading',
+                                  style: Theme.of(context).textTheme.headline1);
+                            }
+                          }),
                       Table(
                         children: [
                           TableRow(

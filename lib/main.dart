@@ -1,11 +1,14 @@
 import 'dart:developer';
 
 import 'package:device_booking/checkdeviceinfo.dart';
+import 'package:device_booking/controller/count_controller.dart';
+import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/demo/getotp.dart';
 import 'package:device_booking/models/device/device.dart';
 import 'package:device_booking/models/device/device2.dart';
 import 'package:device_booking/models/user/user2.dart';
 import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
+import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 
 import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
@@ -30,6 +33,7 @@ import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
 import 'package:device_booking/services/database.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:get/get.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
@@ -86,13 +90,14 @@ class MyApp extends StatelessWidget {
             return UserData.initialValue();
           },
         ),
-        // ChangeNotifierProvider<UserData>(
-        //   // ref: https://pub.dev/documentation/provider/latest/provider/ChangeNotifierProxyProvider-class.html
-        //   create: (_) => UserData(),
-        // ),
-        // ChangeNotifierProvider(create: (_) => USER()),
+        StreamProvider<UltrasoundDeviceList>(
+            create: (context) => UltrasoundDeviceList().streamDeviceList(),
+            initialData: UltrasoundDeviceList.initialValue()),
+        StreamProvider<EkgDeviceList>(
+            create: (context) => EkgDeviceList().streamDeviceList(),
+            initialData: EkgDeviceList.initialValue())
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: true,
         title: 'Medical Device Tracking System',
         theme: ThemeData(
@@ -114,6 +119,7 @@ class MyApp extends StatelessWidget {
           '/bookdevice/qrscan': (context) => QRScan(),
           'checkuserdevice': (context) => CheckDeviceInfo(),
           'getotp': (context) => GetOTP2(),
+          '/home/devicelist': (context) => DeviceListPage(),
           // '/bookdevice/selectLo' : (context) => LocationList(),
           // '/bookdevice/busydevice' : (context) => MyTest()
         },
@@ -124,18 +130,31 @@ class MyApp extends StatelessWidget {
 
 //Function Tester
 class Tester extends StatelessWidget {
-  const Tester({Key key}) : super(key: key);
-
+  final CountController countController = Get.put(CountController());
   @override
   Widget build(BuildContext context) {
     // var counter = Provider.of<USER>(context).count;
     // var count = context.watch<USER>().count;
-
+    String deviceId = '123';
     return Scaffold(
       body: Center(
-          child: ElevatedButton(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GetBuilder<CountController>(
+              init: CountController(),
+              builder: (controller) {
+                return Text('${controller.count ?? ''}');
+              }),
+          ElevatedButton(
               onPressed: () {
                 print('Test');
+                countController.increment();
+                Get.to(() => DeviceInfo(), arguments: deviceId);
+
+                // Get.find<DeviceController>().setId('');
+
+                // Get.find<DeviceController>().setId('');
 
                 // Device().fetchDevice('UnJ9w5JS8XnLXOqHhKSv');
 
@@ -156,13 +175,27 @@ class Tester extends StatelessWidget {
                 // Device().addNewDevice(Device().sample());
                 // Device().addNewDevice(Device().sample());
 
-                DBService().fetchDeviceList('ultrasound').then((devices) {
-                  devices.forEach((device) {
-                    print(device.name);
-                  });
-                });
+                // DBService().fetchDeviceList('ultrasound').then((devices) {
+                //   devices.forEach((device) {
+                //     print(device.name);
+                //   });
+                // });
               },
-              child: Text('Test'))),
+              child: Text('Test')),
+          ElevatedButton(
+              onPressed: () {
+                deviceId = '6PpTwPAVDtVswJ13aCOo';
+                Get.to(() => DeviceInfo(), arguments: deviceId);
+              },
+              child: Text('Device 1')),
+          ElevatedButton(
+              onPressed: () {
+                deviceId = '7qfPYOiGbJWQAddGpN9x';
+                Get.to(() => DeviceInfo(), arguments: deviceId);
+              },
+              child: Text('Device 2'))
+        ],
+      )),
     );
   }
 }

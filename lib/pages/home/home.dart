@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/models/user/user.dart';
-import 'package:device_booking/models/user/user.dart';
-import 'package:device_booking/models/user/user.dart';
 
 //To use UserData copy this!
 // import 'package:provider/provider.dart';
@@ -35,14 +33,12 @@ class Home extends StatelessWidget {
               children: <Widget>[
                 Text.rich(TextSpan(
                   text: 'Welcome,',
-                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                  style: h1TextStyle,
                   children: [
                     TextSpan(
-                        text: '\n${user.firstname}', //TODO: get name of user
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.normal,
-                        ))
+                      text: '\n${user.firstname}', //TODO: get name of user
+                      style: h1TextStyle,
+                    ),
                   ],
                 )),
                 Column(
@@ -74,11 +70,8 @@ class Home extends StatelessWidget {
               child: ListView(children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UltrasoundStatus()),
-                    );
+                    Navigator.pushNamed(context, '/home/devicelist',
+                        arguments: {'deviceType': 'ultrasound'});
                   },
                   child: CardButton(
                       'Ultrasound', 'assets/images/ultrasonography.png', 100.0),
@@ -88,11 +81,8 @@ class Home extends StatelessWidget {
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UltrasoundStatus()),
-                      );
+                      Navigator.pushNamed(context, '/home/devicelist',
+                          arguments: {'deviceType': 'ekg'});
                     },
                     child: CardButton(
                         'EKG', 'assets/images/electrocardiogram.png', 100.0)),

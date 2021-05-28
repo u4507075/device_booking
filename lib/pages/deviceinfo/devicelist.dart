@@ -1,25 +1,64 @@
 import 'dart:ui';
+import 'package:device_booking/models/device/device.dart';
 import 'package:device_booking/models/device/device2.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/src/qrfloatingbutton.dart';
+import 'package:provider/provider.dart';
 
-class UltrasoundStatus extends StatefulWidget {
+// class DeviceListPageWrapper extends StatelessWidget {
+//   const DeviceListPageWrapper({Key key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamProvider<DeviceList>(
+//       create: (context) => DeviceList().streamUltrasoundDeviceList(),
+//       initialData: DeviceList.initialValue(),
+//       child: DeviceListPage(),
+//     );
+//   }
+// }
+
+class DeviceListPage extends StatefulWidget {
+  DeviceListPage({Key key, String deviceType}) : super(key: key);
+  String deviceType; //Recieve from card button (select device type)
+
   @override
-  _UltrasoundStatusState createState() => _UltrasoundStatusState();
+  _DeviceListPageState createState() =>
+      _DeviceListPageState(deviceType: deviceType);
 }
 
-class _UltrasoundStatusState extends State<UltrasoundStatus> {
-  final String _assetPath = "assets/images/ultrasonography.png";
-  List<Device2> devices;
+class _DeviceListPageState extends State<DeviceListPage> {
+  // DeviceList _devices;
+  String deviceType;
+
+  _DeviceListPageState({this.deviceType});
 
   @override
   void initState() {
     super.initState();
-    devices = Device2.fetchSamples();
+    // DeviceList().fetchDeviceList(deviceType).then;
   }
 
   @override
   Widget build(BuildContext context) {
+    final ultrasoundDeviceList = Provider.of<UltrasoundDeviceList>(context);
+    final ekgDeviceList = Provider.of<EkgDeviceList>(context);
+    List<Device> ultrasounddevices = ultrasoundDeviceList.devices;
+    List<Device> ekgdevices = ekgDeviceList.devices;
+    List<Device> devices;
+    Map map = ModalRoute.of(context).settings.arguments;
+    deviceType = map['deviceType'];
+
+    if (deviceType == 'ultrasound') {
+      devices = ultrasounddevices;
+    } else if (deviceType == 'ekg') {
+      devices = ekgdevices;
+    } else {
+      devices = [];
+    }
+
+    print(deviceType);
+
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -55,23 +94,9 @@ class _UltrasoundStatusState extends State<UltrasoundStatus> {
                   itemBuilder: (context, index) {
                     print(devices[index]);
                     return deviceStatus(
-                        name: devices[index].name, type: devices[index].type);
-                    // return Text(devices[index].name);
-                    // return CardStatus(
-                    //   name: devices[index].name,
-                    //   type: 'ultrasound',
-
-                    // return Card(
-                    //   child: ListTile(
-                    //     onTap: () {},
-                    //     title: Text(devices[index].name),
-                    //     subtitle: Text('Location'),
-                    //     leading: Image.asset(
-                    //       _assetPath,
-                    //       fit: BoxFit.cover,
-                    //     ),
-                    //   ),
-                    // );
+                        name: devices[index].name,
+                        type: devices[index].deviceType,
+                        location: devices[index].location);
                   },
                 ),
               ),
@@ -85,22 +110,25 @@ class _UltrasoundStatusState extends State<UltrasoundStatus> {
   }
 }
 
-Widget deviceStatus({String name, String type}) {
+Widget deviceStatus({String name, String type, String location}) {
   String assetPath;
   if (type == 'ultrasound') {
     assetPath = "assets/images/ultrasonography.png";
   } else if (type == 'ekg') {
     assetPath = "assets/images/electrocardiogram.png";
   }
-  return CardStatus(name: name, type: type, assetPath: assetPath);
+  return CardStatus(
+      name: name, type: type, assetPath: assetPath, location: location);
 }
 
 class CardStatus extends StatelessWidget {
-  const CardStatus({Key key, this.name, this.type, this.assetPath})
+  const CardStatus(
+      {Key key, this.name, this.type, this.assetPath, this.location})
       : super(key: key);
   final String name;
   final String type;
   final String assetPath;
+  final String location;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +136,7 @@ class CardStatus extends StatelessWidget {
       child: ListTile(
         onTap: () {},
         title: Text(name),
-        subtitle: Text('Location'),
+        subtitle: Text(location ?? ''),
         leading: Image.asset(
           assetPath,
           fit: BoxFit.cover,
