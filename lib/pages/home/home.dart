@@ -1,7 +1,9 @@
+import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/models/user/user.dart';
 
@@ -12,9 +14,12 @@ import 'package:device_booking/models/user/user.dart';
 // final user = Provider.of<UserData>(context); //add this below build method
 
 class Home extends StatelessWidget {
+  final UserController controller = Get.put(UserController());
   @override
+
+  // Get.put(UserController());
   Widget build(BuildContext context) {
-    final user = context.watch<UserData>();
+    // final user = context.watch<UserData>();
 
     return SafeArea(
         child: Scaffold(
@@ -28,19 +33,14 @@ class Home extends StatelessWidget {
               height: 30,
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text.rich(TextSpan(
-                  text: 'Welcome,',
-                  style: h1TextStyle,
-                  children: [
-                    TextSpan(
-                      text: '\n${user.firstname}', //TODO: get name of user
-                      style: h1TextStyle,
-                    ),
-                  ],
-                )),
+                Obx(
+                  () => Text(
+                      'Welcome,\n${Get.find<UserController>().user.firstname}',
+                      style: h1TextStyle),
+                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -70,8 +70,7 @@ class Home extends StatelessWidget {
               child: ListView(children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/home/devicelist',
-                        arguments: {'deviceType': 'ultrasound'});
+                    Get.toNamed('/devicelist', arguments: 'ultrasound');
                   },
                   child: CardButton(
                       'Ultrasound', 'assets/images/ultrasonography.png', 100.0),
@@ -81,8 +80,7 @@ class Home extends StatelessWidget {
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/home/devicelist',
-                          arguments: {'deviceType': 'ekg'});
+                      Get.toNamed('/devicelist', arguments: 'ekg');
                     },
                     child: CardButton(
                         'EKG', 'assets/images/electrocardiogram.png', 100.0)),

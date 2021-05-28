@@ -54,25 +54,13 @@ class _SignUpState extends State<SignUp> {
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.blue, padding: EdgeInsets.all(4)),
                 onPressed: () {
-                  // print('Submit Form');
-                  // print(user.phoneNumber);
-                  // Navigator.pushNamed(context, '/home');
                   if (_formKey.currentState.validate()) {
-                    // print(userData.phoneNumber);
-                    // print(userData.uid);
-                    // Navigator.pushNamed(context, '/loading');
-                    // DBService().registerNewUser(userData).then((user) {
-                    //   Navigator.pop(context);
-                    //   Navigator.pushNamed(context, '/getotp');
-                    // });
                     print('Submit Form Successful');
                     _registerNewUser(context, user);
-                    // print(user.uid);
                   } else {
                     // ScaffoldMessenger.of(context)
                     //     .showSnackBar(SnackBar(content: Text(user.firstname)));
                     print('Submit Form failed');
-                    // print(user.uid);
                   }
                 },
                 child: Text(

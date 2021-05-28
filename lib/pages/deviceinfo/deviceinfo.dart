@@ -14,166 +14,162 @@ class DeviceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SafeArea(
-        child: Scaffold(
-          body: Scrollbar(
-            isAlwaysShown: true,
-            child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  decoration: BoxDecoration(color: Colors.grey),
-                  // padding: EdgeInsets.all(10.0),
-                  alignment: Alignment.topLeft,
-                  child: Stack(
+    return SafeArea(
+      child: Scaffold(
+        body: ListView(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: BoxDecoration(color: Colors.grey),
+              // padding: EdgeInsets.all(10.0),
+              alignment: Alignment.topLeft,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: Icon(Icons.close, size: 30.0),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  _reportButton(),
+                ],
+              ), //TODO add image of the device
+            ),
+            Container(
+              padding: EdgeInsets.all(30.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GetX<DeviceController>(
+                      init: Get.put(DeviceController(deviceId)),
+                      builder: (deviceController) {
+                        if (deviceController != null &&
+                            deviceController.deviceInfo != null) {
+                          return Text(
+                              '${deviceController.deviceInfo.deviceType.capitalize} ${deviceController.deviceInfo.name.capitalize}',
+                              style: Theme.of(context).textTheme.headline1);
+                        } else {
+                          print(deviceController.deviceInfo?.name);
+                          return Text('Loading',
+                              style: Theme.of(context).textTheme.headline1);
+                        }
+                      }),
+                  Table(
                     children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: IconButton(
-                          icon: Icon(Icons.close, size: 30.0),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(10.0),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: Text('Report'),
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.amber, onPrimary: Colors.black),
+                      TableRow(
+                        children: [
+                          Text(
+                            'Status',
+                            style: _titlestyle,
                           ),
-                        ),
+                          Text(
+                            'Location',
+                            style: _titlestyle,
+                          )
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 2.0, 10.0, 2.0),
+                            child: Container(
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(color: Colors.grey),
+                                child: Text(_status)),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 2.0, 10.0, 2.0),
+                            child: Container(
+                                padding: EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(color: Colors.grey),
+                                child: Text('Here')),
+                          )
+                        ],
                       ),
                     ],
-                  ), //TODO add image of the device
-                ),
-                Container(
-                  padding: EdgeInsets.all(30.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GetX<DeviceController>(
-                          init: Get.put(DeviceController(deviceId)),
-                          builder: (deviceController) {
-                            if (deviceController != null &&
-                                deviceController.deviceInfo != null) {
-                              return Text(
-                                  '${deviceController.deviceInfo.deviceType.capitalize} ${deviceController.deviceInfo.name.capitalize}',
-                                  style: Theme.of(context).textTheme.headline1);
-                            } else {
-                              print(deviceController.deviceInfo?.name);
-                              return Text('Loading',
-                                  style: Theme.of(context).textTheme.headline1);
-                            }
-                          }),
-                      Table(
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text('Last use', style: _titlestyle),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Container(
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(color: Colors.grey),
+                      child: Table(
+                        border: TableBorder(horizontalInside: BorderSide()),
                         children: [
                           TableRow(
                             children: [
-                              Text(
-                                'Status',
-                                style: _titlestyle,
-                              ),
-                              Text(
-                                'Location',
-                                style: _titlestyle,
-                              )
+                              Text('User', style: _subtitlestyle),
+                              Text('Intern Patipan')
                             ],
                           ),
                           TableRow(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    0.0, 2.0, 10.0, 2.0),
-                                child: Container(
-                                    padding: EdgeInsets.all(5.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey),
-                                    child: Text(_status)),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    0.0, 2.0, 10.0, 2.0),
-                                child: Container(
-                                    padding: EdgeInsets.all(5.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey),
-                                    child: Text('Here')),
-                              )
+                              Text('Tel', style: _subtitlestyle),
+                              Text('091-223-2323')
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              Text('Date', style: _subtitlestyle),
+                              Text('12 May 2021')
+                            ],
+                          ),
+                          TableRow(
+                            children: [
+                              Text('Time', style: _subtitlestyle),
+                              Text('12.00 - 12.15')
                             ],
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text('Last use', style: _titlestyle),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: Container(
-                          padding: EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(color: Colors.grey),
-                          child: Table(
-                            border: TableBorder(horizontalInside: BorderSide()),
-                            children: [
-                              TableRow(
-                                children: [
-                                  Text('User', style: _subtitlestyle),
-                                  Text('Intern Patipan')
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Text('Tel', style: _subtitlestyle),
-                                  Text('091-223-2323')
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Text('Date', style: _subtitlestyle),
-                                  Text('12 May 2021')
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Text('Time', style: _subtitlestyle),
-                                  Text('12.00 - 12.15')
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text('Problems'),
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(color: Colors.grey),
-                          child: Text('\n\n\n\n\n\n\n\n\n\n\n\n\n'))
-                    ],
+                    ),
                   ),
-                )
-              ],
-            ),
-          ),
-          floatingActionButton: ScanQrCode(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text('Problems'),
+                  Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(color: Colors.grey),
+                      child: Text('\n\n\n\n\n\n\n\n\n\n\n\n\n'))
+                ],
+              ),
+            )
+          ],
         ),
+        floatingActionButton: ScanQrCode(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
+
+  Widget _reportButton() => Container(
+        margin: EdgeInsets.all(10.0),
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton(
+            onPressed: () {
+              Get.toNamed('/reportproblem', arguments: deviceId);
+            },
+            child: Text('Report'),
+            style: ElevatedButton.styleFrom(
+                primary: Colors.amber, onPrimary: Colors.black),
+          ),
+        ),
+      );
 }
 
 // Row(

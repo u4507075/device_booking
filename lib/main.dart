@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:device_booking/checkdeviceinfo.dart';
+import 'package:device_booking/controller/bindings/authBinding.dart';
 import 'package:device_booking/controller/count_controller.dart';
 import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/demo/getotp.dart';
 import 'package:device_booking/models/device/device.dart';
 import 'package:device_booking/models/device/device2.dart';
 import 'package:device_booking/models/user/user2.dart';
+import 'package:device_booking/pages/bookdevice/reportproblem.dart';
 import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 
@@ -15,7 +17,7 @@ import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/home/home.dart';
 import 'package:device_booking/pages/loading.dart';
-import 'package:device_booking/pages/wrapper.dart';
+import 'package:device_booking/pages/root.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/foundation.dart';
@@ -71,59 +73,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        StreamProvider<User>.value(
-          initialData: null,
-          value: AuthService().onAuthStateChanged,
-        ),
-        StreamProvider(
-          create: (context) {
-            return DBService().streamUserData(Provider.of<User>(context,
-                    listen: false)
-                .uid); //Ref: https://github.com/rrousselGit/provider/issues/120
-          },
-          initialData: UserData.initialValue(),
-          catchError: (context, error) {
-            // AuthService().signOut();
-            print(error.toString());
-            return UserData.initialValue();
-          },
-        ),
-        StreamProvider<UltrasoundDeviceList>(
-            create: (context) => UltrasoundDeviceList().streamDeviceList(),
-            initialData: UltrasoundDeviceList.initialValue()),
-        StreamProvider<EkgDeviceList>(
-            create: (context) => EkgDeviceList().streamDeviceList(),
-            initialData: EkgDeviceList.initialValue())
-      ],
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: true,
-        title: 'Medical Device Tracking System',
-        theme: ThemeData(
-          appBarTheme:
-              AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
-          textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
-          primaryColor: Colors.blue,
-        ),
-        initialRoute: 'tester',
-        // home: WrapperAuth(),
-        routes: {
-          'tester': (context) => Tester(),
-          '/': (context) => Wrapper(),
-          '/home': (context) => Home(),
-          '/authenticate': (context) => Authenticate(),
-          '/loading': (context) => Loading(),
-          '/signup': (context) => SignUp(),
-          '/getotp': (context) => GetOTP(),
-          '/bookdevice/qrscan': (context) => QRScan(),
-          'checkuserdevice': (context) => CheckDeviceInfo(),
-          'getotp': (context) => GetOTP2(),
-          '/home/devicelist': (context) => DeviceListPage(),
-          // '/bookdevice/selectLo' : (context) => LocationList(),
-          // '/bookdevice/busydevice' : (context) => MyTest()
-        },
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: true,
+      title: 'Medical Device Tracking System',
+      theme: ThemeData(
+        appBarTheme:
+            AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+        textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
+        primaryColor: Colors.blue,
       ),
+      initialBinding: AuthBinding(),
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => Root()),
+        GetPage(name: 'tester', page: () => Tester()),
+        GetPage(name: '/home', page: () => Home()),
+        GetPage(name: 'authenticate', page: () => Authenticate()),
+        GetPage(name: '/loading', page: () => Loading()),
+        GetPage(name: '/qrscan', page: () => QRScan()),
+        GetPage(name: '/signup', page: () => SignUp()),
+        GetPage(name: '/devicelist', page: () => DeviceListPage()),
+        GetPage(name: '/deviceinfo', page: () => DeviceInfo()),
+        GetPage(name: '/reportproblem', page: () => ReportProblem()),
+      ],
     );
   }
 }
@@ -199,3 +171,76 @@ class Tester extends StatelessWidget {
     );
   }
 }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key key, this.app}) : super(key: key);
+//   final FirebaseApp app;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         StreamProvider<User>.value(
+//           initialData: null,
+//           value: AuthService().onAuthStateChanged,
+//         ),
+//         // StreamProvider(
+//         //   create: (context) {
+//         //     return DBService().streamUserData(Provider.of<User>(context,
+//         //             listen: false)
+//         //         .uid); //Ref: https://github.com/rrousselGit/provider/issues/120
+//         //   },
+//         //   initialData: UserData.initialValue(),
+//         //   catchError: (context, error) {
+//         //     // AuthService().signOut();
+//         //     print(error.toString());
+//         //     return UserData.initialValue();
+//         //   },
+//         // ),
+//         StreamProvider<UltrasoundDeviceList>(
+//             create: (context) => UltrasoundDeviceList().streamDeviceList(),
+//             initialData: UltrasoundDeviceList.initialValue()),
+//         StreamProvider<EkgDeviceList>(
+//             create: (context) => EkgDeviceList().streamDeviceList(),
+//             initialData: EkgDeviceList.initialValue())
+//       ],
+//       child: GetMaterialApp(
+//         debugShowCheckedModeBanner: true,
+//         title: 'Medical Device Tracking System',
+//         theme: ThemeData(
+//           appBarTheme:
+//               AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+//           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
+//           primaryColor: Colors.blue,
+//         ),
+//         initialRoute: '/',
+//         // home: WrapperAuth(),
+//         routes: {
+//           'tester': (context) => Tester(),
+//           '/': (context) => Wrapper(),
+//           '/home': (context) => Home(),
+//           '/authenticate': (context) => Authenticate(),
+//           '/loading': (context) => Loading(),
+//           '/signup': (context) => SignUp(),
+//           '/getotp': (context) => GetOTP(),
+//           '/bookdevice/qrscan': (context) => QRScan(),
+//           'checkuserdevice': (context) => CheckDeviceInfo(),
+//           'getotp': (context) => GetOTP2(),
+//           '/home/devicelist': (context) => DeviceListPage(),
+//           // '/bookdevice/selectLo' : (context) => LocationList(),
+//           // '/bookdevice/busydevice' : (context) => MyTest()
+//         },
+//         getPages: [
+//           GetPage(name: '/', page: () => Wrapper()),
+//           GetPage(name: 'tester', page: () => Tester()),
+//           GetPage(name: '/home', page: () => Home()),
+//           GetPage(name: 'authenticate', page: () => Authenticate()),
+//           GetPage(name: '/loading', page: () => Loading()),
+//           GetPage(name: '/qrscan', page: () => QRScan()),
+//           GetPage(name: '/signup', page: () => SignUp()),
+//           GetPage(name: '/devicelist', page: () => DeviceListPage()),
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -1,3 +1,5 @@
+import 'package:device_booking/controller/auth_controller.dart';
+import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/models/pages/pages.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
@@ -7,32 +9,46 @@ import 'package:device_booking/pages/loading.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/models/user/user.dart';
 
 //listen for auth changes
-class Wrapper extends StatelessWidget {
-
+class Root extends GetWidget<AuthController> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-
-    if (user != null) {
-      //Google signed in
-      final userData = Provider.of<UserData>(context);
-
-      if (userData.phoneNumber.length < 10 ||
-          userData.phoneNumber.substring(0, 1) != '0') {
-        return SignUp();
-      } else {
-        return Home();
-      }
-    } else {
-      return Authenticate();
-    }
-
+    // return Text('data');
+    return Obx(() {
+      return (Get.find<AuthController>().firebaseUser != null
+          ? Home()
+          : Authenticate());
+    });
   }
 }
+
+// //listen for auth changes
+// class Wrapper extends StatelessWidget {
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final user = Provider.of<User>(context);
+
+//     if (user != null) {
+//       //Google signed in
+//       final userData = Provider.of<UserData>(context);
+
+//       if (userData.phoneNumber.length < 10 ||
+//           userData.phoneNumber.substring(0, 1) != '0') {
+//         return SignUp();
+//       } else {
+//         return Home();
+//       }
+//     } else {
+//       return Authenticate();
+//     }
+
+//   }
+// }
 
 // class WrapperSignUp extends StatelessWidget {
 //   @override
