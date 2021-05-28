@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:device_booking/controller/devicelist_controller.dart';
 import 'package:device_booking/models/device.dart';
+import 'package:device_booking/widget/qrscanbutton.dart';
 import 'package:flutter/material.dart';
-import 'package:device_booking/src/qrfloatingbutton.dart';
+
 import 'package:get/get.dart';
 
 class DeviceListPage extends StatelessWidget {
@@ -65,11 +66,13 @@ class DeviceListPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: ScanQrCode(),
+      floatingActionButton: _qrScanButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
+
+Widget _qrScanButton() => qrScanButton();
 
 Widget _deviceInfo(Device device) {
   String assetPath;

@@ -1,5 +1,6 @@
 import 'package:device_booking/controller/device_controller.dart';
-import 'package:device_booking/src/qrfloatingbutton.dart';
+import 'package:device_booking/widget/qrscanbutton.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -150,11 +151,13 @@ class DeviceInfo extends StatelessWidget {
             )
           ],
         ),
-        floatingActionButton: ScanQrCode(),
+        floatingActionButton: _qrScanButton(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
+
+  Widget _qrScanButton() => qrScanButton();
 
   Widget _reportButton() => Container(
         margin: EdgeInsets.all(10.0),
