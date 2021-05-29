@@ -36,6 +36,9 @@ class SelectLocation extends StatelessWidget {
 Widget _location(String location) {
   return ListTile(
     title: Text('$location'),
+    onTap: () {
+      Get.toNamed('/confirmation', arguments: location);
+    },
   );
 }
 

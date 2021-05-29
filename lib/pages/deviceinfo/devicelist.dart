@@ -53,7 +53,7 @@ class DeviceListPage extends StatelessWidget {
                       padding: EdgeInsets.all(5.0),
                       itemCount: devices.length,
                       itemBuilder: (context, index) {
-                        print(devices[index]);
+                        // print(devices[index]);
                         return _deviceInfo(devices[index]);
                       },
                     );

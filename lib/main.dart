@@ -6,6 +6,7 @@ import 'package:device_booking/controller/count_controller.dart';
 import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/demo/getotp.dart';
 import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/pages/pages.dart';
 
 import 'package:device_booking/pages/bookdevice/reportproblem.dart';
 import 'package:device_booking/pages/bookdevice/takedevice.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/deviceinfo', page: () => DeviceInfo()),
         GetPage(name: '/reportproblem', page: () => ReportProblem()),
         GetPage(name: '/takedevice', page: () => TakeDevice()),
+        // GetPage(name: '/confirmation', page: ()=> ConfirmBook()),
       ],
     );
   }
