@@ -30,7 +30,7 @@ class QrCodeController extends GetxController {
 
   Future<void> scanQrCode() async {
     String barcodeScanRes;
-
+    clear(); //clear before new scan
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
@@ -40,8 +40,8 @@ class QrCodeController extends GetxController {
         print('Qr code cancelled');
       } else {
         print('QR code scanned: ${barcodeScanRes}');
-        qrCode.value = barcodeScanRes;
       }
+      qrCode.value = barcodeScanRes;
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }

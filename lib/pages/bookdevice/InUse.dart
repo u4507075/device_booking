@@ -1,11 +1,34 @@
-// import 'package:flutter/material.dart';
-// import 'dart:async';
-// import 'package:device_booking/models/pages/pages.dart';
-// import 'package:device_booking/pages/bookdevice/reportproblem.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:device_booking/pages/home/home.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:intl/intl.dart';
+import 'package:device_booking/controller/device_controller.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:device_booking/models/pages/pages.dart';
+import 'package:device_booking/pages/bookdevice/reportproblem.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:device_booking/pages/home/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+class InUse extends StatelessWidget {
+  String deviceId = Get.parameters['devideId'];
+  String location = Get.parameters['location'];
+
+  // DeviceController controller = Get.put(DeviceController(deviceId))
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(
+            onPressed: () => Get.back(),
+          ),
+        ),
+        body: Center(child: Text('$deviceId, to $location')),
+      ),
+    );
+  }
+}
 
 // class MainPageBusy extends StatefulWidget {
 //   final FirebaseApp app;

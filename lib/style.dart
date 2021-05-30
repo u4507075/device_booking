@@ -5,39 +5,39 @@ const headingTextSize = 30.0;
 const largeTextSize = 24.0;
 const mediumTextSize = 20.0;
 const smallTextSize = 16.0;
-const fontFamily1 = 'roboto';
+// const fontFamily1 = 'roboto';
 
-final appBarTextStyle = GoogleFonts.kanit(
+final appBarTextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: mediumTextSize,
         color: Colors.white));
 
-final h1TextStyle = GoogleFonts.kanit(
+final h1TextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: headingTextSize,
         color: Colors.black));
 
-final h2TextStyle = GoogleFonts.kanit(
+final h2TextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: largeTextSize,
         color: Colors.black));
 
-final h3TextStyle = GoogleFonts.kanit(
+final h3TextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: mediumTextSize,
         color: Colors.black));
 
-final b1TextStyle = GoogleFonts.kanit(
+final b1TextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: mediumTextSize,
         color: Colors.black));
 
-final b2TextStyle = GoogleFonts.kanit(
+final b2TextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: smallTextSize,

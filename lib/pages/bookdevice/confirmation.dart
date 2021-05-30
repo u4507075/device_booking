@@ -1,52 +1,338 @@
-// // import 'package:device_booking/pages/bookdevice/Select_location.dart';
-// // import 'package:flutter/material.dart';
-// // import 'package:device_booking/models/pages/pages.dart';
-// // import 'package:google_fonts/google_fonts.dart';
-// // import 'dart:async';
-// // import 'package:intl/intl.dart';
-// // import 'dart:math';
-// // import 'package:cloud_firestore/cloud_firestore.dart';
-// // import 'package:device_booking/pages/bookdevice/InUse.dart';
+import 'package:flutter/material.dart';
+import 'package:device_booking/models/pages/pages.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:async';
+import 'package:intl/intl.dart';
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_booking/pages/bookdevice/InUse.dart';
+import 'package:get/get.dart';
 
-// // //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
+class Confirmation extends StatelessWidget {
+  String deviceId = Get.parameters['deviceId'].toString();
+  String location = Get.parameters['location'].toString();
+
+  // DeviceController controller = Get.put(DeviceController(deviceId))
+
+  @override
+  Widget build(BuildContext context) {
+    // return SafeArea(
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       leading: BackButton(
+    //         onPressed: () => Get.back(),
+    //       ),
+    //     ),
+    //     body: Center(child: Text('$deviceId, to $location')),
+    //   ),
+    // );
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Get.back();
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => LocationList()),
+              // );
+            }),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        title: Text(
+          'Confirmation',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: Center(
+        child: ListView(padding: EdgeInsets.all(20.0), children: [
+          Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
+                width: (MediaQuery.of(context).size.width) / 3,
+                height: (MediaQuery.of(context).size.width) / 3,
+                // child: Image.network(confibook.picture),
+                decoration: BoxDecoration(color: Colors.grey),
+              ),
+              Card(
+                margin: EdgeInsets.fromLTRB(30.0, 15.0, 16.0, 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text(
+                      'Confirmation',
+                      style: GoogleFonts.kanit(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Card(
+                color: Colors.grey[300],
+                margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 10.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 3.0),
+                          child: SizedBox(
+                            height: 25,
+                            child: Text(
+                              'User',
+                              style: GoogleFonts.ubuntu(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                            color: Colors.grey[300],
+                            margin: EdgeInsets.fromLTRB(40.0, 10.0, 16.0, 3.0),
+                            child: Text('',
+                                style: GoogleFonts.kanit(
+                                  fontSize: 20.0,
+                                ))),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                      color: Colors.grey[400],
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(30.0, 1.0, 14.0, 3.0),
+                          child: Text(
+                            'Tel',
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                            color: Colors.grey[300],
+                            margin: EdgeInsets.fromLTRB(40.0, 1.0, 16.0, 3.0),
+                            child: Text('',
+                                style: GoogleFonts.kanit(
+                                  fontSize: 20.0,
+                                ))),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                      color: Colors.grey[400],
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(30.0, 0.0, 14.0, 8.0),
+                          child: Text(
+                            'Time',
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                            color: Colors.grey[300],
+                            margin: EdgeInsets.fromLTRB(22.0, 0.0, 16.0, 8.0),
+                            child: Text('',
+                                style: GoogleFonts.kanit(
+                                  fontSize: 20.0,
+                                ))),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.fromLTRB(30.0, 10.0, 16.0, 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text(
+                      'ยืมไปใช้งานที่',
+                      style: GoogleFonts.kanit(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Card(
+                margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                color: Colors.grey[300],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        '',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.kanit(
+                          fontSize: 20.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                'ต้องการยืนยันการยืมหรือไม่ ?',
+                style: GoogleFonts.kanit(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: Container(),
+                  ),
+                  Flexible(
+                      flex: 1,
+                      child: OutlinedButton(
+                          onPressed: () {}, child: Text('แก้ไข'))),
+                  Flexible(
+                      flex: 1,
+                      child: ElevatedButton(
+                          onPressed: () {}, child: Text('ยืนยัน'))),
+                ],
+              ),
+
+              // Container(
+              //   margin: EdgeInsets.fromLTRB(140.0, 5.0, 16.0, 16.0),
+              //   color: Colors.white,
+              //   child: Row(
+              //     children: <Widget>[
+              //       Padding(
+              //         padding: const EdgeInsets.fromLTRB(0.0, 1.0, 14.0, 3.0),
+              //         child: Card(
+              //           color: Colors.white,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(8.0),
+              //           ),
+              //           child: SizedBox(
+              //               height: 50,
+              //               width: 100,
+              //               child: ElevatedButton(
+              //                 onPressed: () {
+              //                   // Navigator.pushReplacement(
+              //                   //   context,
+              //                   //   MaterialPageRoute(
+              //                   //       builder: (context) => LocationList()),
+              //                   // );
+              //                 },
+              //                 style: ElevatedButton.styleFrom(
+              //                     primary: Colors.grey[200],
+              //                     side: BorderSide(color: Colors.grey)),
+              //                 child: Text(
+              //                   'แก้้ไข',
+              //                   style: GoogleFonts.kanit(
+              //                     fontSize: 20.0,
+              //                     fontWeight: FontWeight.bold,
+              //                   ),
+              //                 ),
+              //               )),
+              //         ),
+              //       ),
+              //       Card(
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(8.0),
+              //         ),
+              //         //color: Colors.redAccent,
+              //         child: SizedBox(
+              //             height: 50,
+              //             width: 100,
+              //             child: ElevatedButton(
+              //               onPressed: () {
+              //                 // showAlertDialog(context);
+              //               },
+              //               style:
+              //                   ElevatedButton.styleFrom(primary: Colors.blue),
+              //               child: Text(
+              //                 'ยืนยัน',
+              //                 style: GoogleFonts.kanit(
+              //                   fontSize: 20.0,
+              //                   fontWeight: FontWeight.bold,
+              //                 ),
+              //               ),
+              //             )),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
+        ]),
+      ),
+    );
+  }
+}
 
 // class ConfiPage extends StatefulWidget {
-//   String Memail;
-//   String Mfirstname;
-//   String MimagePath;
-//   String Mlastname;
-//   String Mrole;
-//   String Mtelephone;
-//   String place;
-//   String qrCode;
-//   String myID;
-//   ConfiPage(
-//       {Key key,
-//       this.myID,
-//       this.qrCode,
-//       this.place,
-//       this.Memail,
-//       this.Mfirstname,
-//       this.MimagePath,
-//       this.Mlastname,
-//       this.Mrole,
-//       this.Mtelephone})
-//       : super(key: key);
+//   // String Memail;
+//   // String Mfirstname;
+//   // String MimagePath;
+//   // String Mlastname;
+//   // String Mrole;
+//   // String Mtelephone;
+//   // String place;
+//   // String qrCode;
+//   // String myID;
+//   // ConfiPage(
+//   //     {Key key,
+//   //     this.myID,
+//   //     this.qrCode,
+//   //     this.place,
+//   //     this.Memail,
+//   //     this.Mfirstname,
+//   //     this.MimagePath,
+//   //     this.Mlastname,
+//   //     this.Mrole,
+//   //     this.Mtelephone})
+//   //     : super(key: key);
 
 //   @override
-//   State<StatefulWidget> createState() {
-//     return _ConfiPageState(
-//         myID: myID,
-//         qrCode: qrCode,
-//         place: place,
-//         Memail: Memail,
-//         Mfirstname: Mfirstname,
-//         MimagePath: MimagePath,
-//         Mlastname: Mlastname,
-//         Mrole: Mrole,
-//         Mtelephone: Mtelephone);
-//   }
-// }
+// //   State<StatefulWidget> createState() {
+// //     return _ConfiPageState(
+// //         myID: myID,
+// //         qrCode: qrCode,
+// //         place: place,
+// //         Memail: Memail,
+// //         Mfirstname: Mfirstname,
+// //         MimagePath: MimagePath,
+// //         Mlastname: Mlastname,
+// //         Mrole: Mrole,
+// //         Mtelephone: Mtelephone);
+// //   }
+// // }
 
 // class _ConfiPageState extends State<ConfiPage> {
 //   ConfirmBook confibook = ConfirmBook();
@@ -95,90 +381,41 @@
 //         leading: IconButton(
 //             icon: Icon(Icons.arrow_back),
 //             onPressed: () {
-//               Navigator.pushReplacement(
-//                 context,
-//                 MaterialPageRoute(builder: (context) => LocationList()),
-//               );
+//               // Navigator.pushReplacement(
+//               //   context,
+//               //   MaterialPageRoute(builder: (context) => LocationList()),
+//               // );
 //             }),
 //         centerTitle: true,
 //         backgroundColor: Colors.blue,
-//         title: StreamBuilder<Object>(
-//             stream: _controller.stream,
-//             builder: (context, snapshot) {
-//               if (snapshot != null &&
-//                   snapshot.hasData &&
-//                   snapshot.data == "success") {
-//                 return Text(
-//                   confibook.header,
-//                   style: TextStyle(
-//                     fontSize: 25.0,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 );
-//               } else {
-//                 return Text(
-//                   'Confirmation',
-//                   style: TextStyle(
-//                     fontSize: 25.0,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 );
-//               }
-//             }),
+//         title: Text(
+//           'Confirmation',
+//           style: TextStyle(
+//             fontSize: 25.0,
+//             fontWeight: FontWeight.bold,
+//           ),
+//         ),
 //       ),
 //       body: Center(
 //         child: Column(
 //           children: <Widget>[
 //             Container(
-//               margin: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
-//               width: (MediaQuery.of(context).size.width) / 3,
-//               height: (MediaQuery.of(context).size.width) / 3,
-//               child: StreamBuilder<Object>(
-//                   stream: _controller.stream,
-//                   builder: (context, snapshot) {
-//                     if (snapshot != null &&
-//                         snapshot.hasData &&
-//                         snapshot.data == "success") {
-//                       return Image.network(confibook.picture);
-//                     } else {
-//                       return Text(
-//                         'Confirmation',
-//                         style: TextStyle(
-//                           fontSize: 25.0,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       );
-//                     }
-//                   }),
-//             ),
+//                 margin: EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
+//                 width: (MediaQuery.of(context).size.width) / 3,
+//                 height: (MediaQuery.of(context).size.width) / 3,
+//                 child: Image.network(confibook.picture)),
 //             Card(
 //               margin: EdgeInsets.fromLTRB(30.0, 15.0, 16.0, 0.0),
 //               child: Column(
 //                 crossAxisAlignment: CrossAxisAlignment.stretch,
 //                 children: <Widget>[
-//                   StreamBuilder<Object>(
-//                       stream: _controller.stream,
-//                       builder: (context, snapshot) {
-//                         if (snapshot != null &&
-//                             snapshot.hasData &&
-//                             snapshot.data == "success") {
-//                           return Text(
-//                             confibook.subheader_1,
-//                             style: GoogleFonts.kanit(
-//                               fontSize: 20.0,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           );
-//                         } else {
-//                           return Text(
-//                             'Confirmation',
-//                             style: GoogleFonts.kanit(
-//                               fontSize: 20.0,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           );
-//                         }
-//                       }),
+//                   Text(
+//                     'Confirmation',
+//                     style: GoogleFonts.kanit(
+//                       fontSize: 20.0,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
 //                 ],
 //               ),
 //             ),
@@ -199,29 +436,13 @@
 //                             const EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 3.0),
 //                         child: SizedBox(
 //                           height: 25,
-//                           child: StreamBuilder<Object>(
-//                               stream: _controller.stream,
-//                               builder: (context, snapshot) {
-//                                 if (snapshot != null &&
-//                                     snapshot.hasData &&
-//                                     snapshot.data == "success") {
-//                                   return Text(
-//                                     confibook.text_1,
-//                                     style: GoogleFonts.ubuntu(
-//                                       fontSize: 20.0,
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   );
-//                                 } else {
-//                                   return Text(
-//                                     'User',
-//                                     style: GoogleFonts.ubuntu(
-//                                       fontSize: 20.0,
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   );
-//                                 }
-//                               }),
+//                           child: Text(
+//                             'User',
+//                             style: GoogleFonts.ubuntu(
+//                               fontSize: 20.0,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
 //                         ),
 //                       ),
 //                       Container(
@@ -291,29 +512,13 @@
 //                       Padding(
 //                         padding:
 //                             const EdgeInsets.fromLTRB(30.0, 0.0, 14.0, 8.0),
-//                         child: StreamBuilder<Object>(
-//                             stream: _controller.stream,
-//                             builder: (context, snapshot) {
-//                               if (snapshot != null &&
-//                                   snapshot.hasData &&
-//                                   snapshot.data == "success") {
-//                                 return Text(
-//                                   confibook.text_3,
-//                                   style: GoogleFonts.ubuntu(
-//                                     fontSize: 20.0,
-//                                     fontWeight: FontWeight.bold,
-//                                   ),
-//                                 );
-//                               } else {
-//                                 return Text(
-//                                   'Time',
-//                                   style: GoogleFonts.ubuntu(
-//                                     fontSize: 20.0,
-//                                     fontWeight: FontWeight.bold,
-//                                   ),
-//                                 );
-//                               }
-//                             }),
+//                         child: Text(
+//                           'Time',
+//                           style: GoogleFonts.ubuntu(
+//                             fontSize: 20.0,
+//                             fontWeight: FontWeight.bold,
+//                           ),
+//                         ),
 //                       ),
 //                       Container(
 //                           color: Colors.grey[300],
@@ -332,29 +537,13 @@
 //               child: Column(
 //                 crossAxisAlignment: CrossAxisAlignment.stretch,
 //                 children: <Widget>[
-//                   StreamBuilder<Object>(
-//                       stream: _controller.stream,
-//                       builder: (context, snapshot) {
-//                         if (snapshot != null &&
-//                             snapshot.hasData &&
-//                             snapshot.data == "success") {
-//                           return Text(
-//                             confibook.subheader_2,
-//                             style: GoogleFonts.kanit(
-//                               fontSize: 20.0,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           );
-//                         } else {
-//                           return Text(
-//                             'ยืมไปใช้งานที่',
-//                             style: GoogleFonts.kanit(
-//                               fontSize: 20.0,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           );
-//                         }
-//                       }),
+//                   Text(
+//                     'ยืมไปใช้งานที่',
+//                     style: GoogleFonts.kanit(
+//                       fontSize: 20.0,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
 //                 ],
 //               ),
 //             ),
@@ -383,29 +572,13 @@
 //             Card(
 //               elevation: 0.0,
 //               margin: EdgeInsets.fromLTRB(120.0, 0.0, 16.0, 5.0),
-//               child: StreamBuilder<Object>(
-//                   stream: _controller.stream,
-//                   builder: (context, snapshot) {
-//                     if (snapshot != null &&
-//                         snapshot.hasData &&
-//                         snapshot.data == "success") {
-//                       return Text(
-//                         confibook.subheader_3,
-//                         style: GoogleFonts.kanit(
-//                           fontSize: 20.0,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       );
-//                     } else {
-//                       return Text(
-//                         'ต้องการยืนยันการยืมหรือไม่ ?',
-//                         style: GoogleFonts.kanit(
-//                           fontSize: 20.0,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       );
-//                     }
-//                   }),
+//               child: Text(
+//                 'ต้องการยืนยันการยืมหรือไม่ ?',
+//                 style: GoogleFonts.kanit(
+//                   fontSize: 20.0,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
 //             ),
 //             Container(
 //               margin: EdgeInsets.fromLTRB(140.0, 5.0, 16.0, 16.0),
@@ -424,38 +597,22 @@
 //                           width: 100,
 //                           child: ElevatedButton(
 //                             onPressed: () {
-//                               Navigator.pushReplacement(
-//                                 context,
-//                                 MaterialPageRoute(
-//                                     builder: (context) => LocationList()),
-//                               );
+//                               // Navigator.pushReplacement(
+//                               //   context,
+//                               //   MaterialPageRoute(
+//                               //       builder: (context) => LocationList()),
+//                               // );
 //                             },
 //                             style: ElevatedButton.styleFrom(
 //                                 primary: Colors.grey[200],
 //                                 side: BorderSide(color: Colors.grey)),
-//                             child: StreamBuilder<Object>(
-//                                 stream: _controller.stream,
-//                                 builder: (context, snapshot) {
-//                                   if (snapshot != null &&
-//                                       snapshot.hasData &&
-//                                       snapshot.data == "success") {
-//                                     return Text(
-//                                       confibook.button_1,
-//                                       style: GoogleFonts.kanit(
-//                                           fontSize: 20.0,
-//                                           fontWeight: FontWeight.bold,
-//                                           color: Colors.black),
-//                                     );
-//                                   } else {
-//                                     return Text(
-//                                       'แก้้ไข',
-//                                       style: GoogleFonts.kanit(
-//                                         fontSize: 20.0,
-//                                         fontWeight: FontWeight.bold,
-//                                       ),
-//                                     );
-//                                   }
-//                                 }),
+//                             child: Text(
+//                               'แก้้ไข',
+//                               style: GoogleFonts.kanit(
+//                                 fontSize: 20.0,
+//                                 fontWeight: FontWeight.bold,
+//                               ),
+//                             ),
 //                           )),
 //                     ),
 //                   ),
@@ -472,29 +629,13 @@
 //                             showAlertDialog(context);
 //                           },
 //                           style: ElevatedButton.styleFrom(primary: Colors.blue),
-//                           child: StreamBuilder<Object>(
-//                               stream: _controller.stream,
-//                               builder: (context, snapshot) {
-//                                 if (snapshot != null &&
-//                                     snapshot.hasData &&
-//                                     snapshot.data == "success") {
-//                                   return Text(
-//                                     confibook.button_2,
-//                                     style: GoogleFonts.kanit(
-//                                       fontSize: 20.0,
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   );
-//                                 } else {
-//                                   return Text(
-//                                     'ยืนยัน',
-//                                     style: GoogleFonts.kanit(
-//                                       fontSize: 20.0,
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   );
-//                                 }
-//                               }),
+//                           child: Text(
+//                             'ยืนยัน',
+//                             style: GoogleFonts.kanit(
+//                               fontSize: 20.0,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
 //                         )),
 //                   ),
 //                 ],
@@ -506,80 +647,79 @@
 //     );
 //   }
 
-//   void CreateLog() {
-//     const _chars =
-//         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-//     Random _rnd = Random();
-//     String getRandomString(int length) =>
-//         String.fromCharCodes(Iterable.generate(
-//             length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-//     String documentID = (getRandomString(20));
-//     try {
-//       databaseReference
-//           .collection('devices')
-//           .doc(qrCode)
-//           .collection('log')
-//           .doc('$documentID')
-//           .set({
-//         'Location': "$place",
-//         'User': '$Mrole + $Mfirstname + $Mlastname',
-//         'time': '$time'
-//       });
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//   }
-
-//   void updateLastest() {
-//     try {
-//       databaseReference.collection('device_status').doc(qrCode).update({
-//         'BorrowPlace': place,
-//         'status': 'borrowed',
-//         'timestamp': time,
-//         'userid': myID
-//       });
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//   }
-
-// /////ALERT DIALOG PART
-//   showAlertDialog(BuildContext context) {
-//     // set up the buttons
-//     Widget cancelButton = TextButton(
-//         child: Text("Cancel"),
-//         onPressed: () {
-//           Navigator.of(context, rootNavigator: true)
-//               .pop(); // dismisses only the dialog and returns nothing
-//         });
-//     Widget continueButton = TextButton(
-//       child: Text("Continue"),
-//       onPressed: () {
-//         CreateLog();
-//         updateLastest();
-//         Navigator.of(context, rootNavigator: true).pop();
-//         Navigator.push(context, MaterialPageRoute(builder: (context) {
-//           return MainPageBusy(qrCode: qrCode);
-//         }));
-//       },
-//     );
-
-//     // set up the AlertDialog
-//     AlertDialog alert = AlertDialog(
-//       title: Text('AlertDialog'),
-//       content: Text('Would you like to borrow "Device"'),
-//       actions: [
-//         cancelButton,
-//         continueButton,
-//       ],
-//     );
-
-//     // show the dialog
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return alert;
-//       },
-//     );
+// void CreateLog() {
+//   const _chars =
+//       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+//   Random _rnd = Random();
+//   String getRandomString(int length) =>
+//       String.fromCharCodes(Iterable.generate(
+//           length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+//   String documentID = (getRandomString(20));
+//   try {
+//     databaseReference
+//         .collection('devices')
+//         .doc(qrCode)
+//         .collection('log')
+//         .doc('$documentID')
+//         .set({
+//       'Location': "$place",
+//       'User': '$Mrole + $Mfirstname + $Mlastname',
+//       'time': '$time'
+//     });
+//   } catch (e) {
+//     print(e.toString());
 //   }
 // }
+
+// void updateLastest() {
+//   try {
+//     databaseReference.collection('device_status').doc(qrCode).update({
+//       'BorrowPlace': place,
+//       'status': 'borrowed',
+//       'timestamp': time,
+//       'userid': myID
+//     });
+//   } catch (e) {
+//     print(e.toString());
+//   }
+// }
+
+/////ALERT DIALOG PART
+showAlertDialog(BuildContext context) {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true)
+            .pop(); // dismisses only the dialog and returns nothing
+      });
+  Widget continueButton = TextButton(
+    child: Text("Continue"),
+    onPressed: () {
+      // CreateLog();
+      // updateLastest();
+      // Navigator.of(context, rootNavigator: true).pop();
+      // Navigator.push(context, MaterialPageRoute(builder: (context) {
+      //   return MainPageBusy(qrCode: qrCode);
+      // }));
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text('AlertDialog'),
+    content: Text('Would you like to borrow "Device"'),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

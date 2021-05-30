@@ -1,5 +1,6 @@
 import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/widget/qrscanbutton.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,16 +16,17 @@ class DeviceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DeviceController deviceController = Get.put(DeviceController(deviceId));
+
     return SafeArea(
       child: Scaffold(
         body: ListView(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Obx(() => Text(
+            //     '${deviceController.deviceInfo.name}\n${deviceController.deviceInfo.inUse}\n${deviceController.deviceInfo.maintenance}\n')),
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
               decoration: BoxDecoration(color: Colors.grey),
-              // padding: EdgeInsets.all(10.0),
               alignment: Alignment.topLeft,
               child: Stack(
                 children: [
@@ -33,7 +35,7 @@ class DeviceInfo extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(Icons.close, size: 30.0),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Get.back();
                       },
                     ),
                   ),
@@ -47,51 +49,57 @@ class DeviceInfo extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GetX<DeviceController>(
-                      init: Get.put(DeviceController(deviceId)),
-                      builder: (deviceController) {
-                        if (deviceController != null &&
-                            deviceController.deviceInfo != null) {
-                          return Text(
-                              '${deviceController.deviceInfo.deviceType.capitalize} ${deviceController.deviceInfo.name.capitalize}',
-                              style: Theme.of(context).textTheme.headline1);
-                        } else {
-                          print(deviceController.deviceInfo?.name);
-                          return Text('Loading',
-                              style: Theme.of(context).textTheme.headline1);
-                        }
-                      }),
+                  Obx(() => Text(
+                      '${deviceController.deviceInfo?.deviceType?.capitalize ?? ''} ${deviceController.deviceInfo?.name?.capitalize ?? ''}',
+                      style: Theme.of(context).textTheme.headline1)),
+                  SizedBox(
+                    height: 20.0,
+                  ),
                   Table(
                     children: [
                       TableRow(
                         children: [
                           Text(
                             'Status',
-                            style: _titlestyle,
+                            style: Theme.of(context).textTheme.headline3,
                           ),
                           Text(
                             'Location',
-                            style: _titlestyle,
+                            style: Theme.of(context).textTheme.headline3,
                           )
                         ],
                       ),
                       TableRow(
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 2.0, 10.0, 2.0),
-                            child: Container(
-                                padding: EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(color: Colors.grey),
-                                child: Text(_status)),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0.0, 5.0, 10.0, 5.0),
+                            padding: EdgeInsets.all(10.0),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Obx(
+                              () => Text(
+                                '${!deviceController.deviceInfo.inUse ? 'Available' : 'Busy'}', //TODO: add color
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 2.0, 10.0, 2.0),
-                            child: Container(
-                                padding: EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(color: Colors.grey),
-                                child: Text('Here')),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0),
+                            padding: EdgeInsets.all(10.0),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            child: Obx(
+                              () => Text(
+                                '${deviceController.deviceInfo.location}',
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -100,52 +108,109 @@ class DeviceInfo extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Text('Last use', style: _titlestyle),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      padding: EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(color: Colors.grey),
-                      child: Table(
-                        border: TableBorder(horizontalInside: BorderSide()),
-                        children: [
-                          TableRow(
-                            children: [
-                              Text('User', style: _subtitlestyle),
-                              Text('Intern Patipan')
-                            ],
-                          ),
-                          TableRow(
-                            children: [
-                              Text('Tel', style: _subtitlestyle),
-                              Text('091-223-2323')
-                            ],
-                          ),
-                          TableRow(
-                            children: [
-                              Text('Date', style: _subtitlestyle),
-                              Text('12 May 2021')
-                            ],
-                          ),
-                          TableRow(
-                            children: [
-                              Text('Time', style: _subtitlestyle),
-                              Text('12.00 - 12.15')
-                            ],
-                          ),
-                        ],
-                      ),
+                  Text('Last use',
+                      style: Theme.of(context).textTheme.headline3),
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: Table(
+                      columnWidths: {0: FractionColumnWidth(0.25)},
+                      border: TableBorder(
+                          horizontalInside:
+                              BorderSide(width: 1.0, color: Colors.grey[400])),
+                      children: [
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('User',
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Obx(() => Text(
+                                  '${deviceController.deviceInfo.lastUser}',
+                                  style:
+                                      Theme.of(context).textTheme.bodyText2)),
+                            ),
+                          ],
+                        ),
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Tel.',
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Obx(
+                                  () => Text(
+                                      '${deviceController.deviceInfo?.lastUserPhoneNumber}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2),
+                                )),
+                          ],
+                        ),
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Date',
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Obx(
+                                  () => Text(
+                                      '${deviceController.deviceInfo.lastUseTime != null ? DateFormat('E, d/MM/yyyy').format(deviceController.deviceInfo.lastUseTime) : ''}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2),
+                                )),
+                          ],
+                        ),
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text('Time',
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Obx(
+                                  () => Text(
+                                      '${deviceController.deviceInfo.lastUseTime != null ? DateFormat('H:m').format(deviceController.deviceInfo.lastUseTime) : ''}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2),
+                                )),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
-                  Text('Problems'),
+                  Text(
+                    'Problems',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
                   Container(
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(color: Colors.grey),
-                      child: Text('\n\n\n\n\n\n\n\n\n\n\n\n\n'))
+                      decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: Text('\n\n\n\n\n\n\n\n\n\n\n\n\n')),
+                  SizedBox(
+                    height: 100.0,
+                  )
                 ],
               ),
             )

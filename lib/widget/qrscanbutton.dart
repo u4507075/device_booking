@@ -20,8 +20,13 @@ Widget qrScanButton() {
     onPressed: () async {
       await controller.scanQrCode();
       print('${controller.qrCode}');
-      Get.toNamed('/takedevice',
-          arguments: controller.qrCode); //send deviceId to TakeDevice()
+
+      //cancel scan qr -> not navigate
+      if (controller.qrCode != '-1') {
+        Get.toNamed('/takedevice', arguments: controller.qrCode);
+      }
+
+      //send deviceId to TakeDevice()
     },
   );
 }

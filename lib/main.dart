@@ -7,8 +7,11 @@ import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/demo/getotp.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:device_booking/models/pages/pages.dart';
+import 'package:device_booking/pages/bookdevice/InUse.dart';
+import 'package:device_booking/pages/bookdevice/confirmation.dart';
 
 import 'package:device_booking/pages/bookdevice/reportproblem.dart';
+import 'package:device_booking/pages/bookdevice/selectlocation.dart';
 import 'package:device_booking/pages/bookdevice/takedevice.dart';
 import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
@@ -82,22 +85,39 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme:
             AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
-        textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
+        textTheme: TextTheme(
+            headline1: h1TextStyle,
+            headline2: h2TextStyle,
+            headline3: h3TextStyle,
+            bodyText1: b1TextStyle,
+            bodyText2: b2TextStyle),
         primaryColor: Colors.blue,
       ),
       initialBinding: AuthBinding(),
       initialRoute: '/',
       getPages: [
+        GetPage(
+            name: 'tester', page: () => Tester()), //Test field for new function
         GetPage(name: '/', page: () => Root()),
-        GetPage(name: 'tester', page: () => Tester()),
-        GetPage(name: '/home', page: () => Home()),
+        GetPage(name: '/loading', page: () => Loading()), //Global loading page
+
+        //Sign in features
         GetPage(name: 'authenticate', page: () => Authenticate()),
-        GetPage(name: '/loading', page: () => Loading()),
         GetPage(name: '/signup', page: () => SignUp()),
+        GetPage(name: '/home', page: () => Home()),
+
+        //Device info features
         GetPage(name: '/devicelist', page: () => DeviceListPage()),
         GetPage(name: '/deviceinfo', page: () => DeviceInfo()),
         GetPage(name: '/reportproblem', page: () => ReportProblem()),
+
+        //Take device features
         GetPage(name: '/takedevice', page: () => TakeDevice()),
+        GetPage(name: '/selectlocation', page: () => SelectLocation()),
+        GetPage(name: '/confirmation', page: () => Confirmation()),
+        GetPage(name: '/inuse', page: () => InUse()),
+
+        //Profile features
         GetPage(name: '/profile', page: () => Profile()),
         GetPage(name: '/editprofile', page: () => EditProfile()),
         // GetPage(name: '/confirmation', page: ()=> ConfirmBook()),

@@ -91,6 +91,7 @@ class Device {
         // timestamp & Datetime conversion - ref: https://flutteragency.com/how-to-print-firestore-timestamp-as-formatted-date-and-time-in-flutter/
         // try parse = parse + null safety - ref: https://stackoverflow.com/questions/63019766/how-to-handle-dates-if-they-are-null-on-dart
         maintenance: map['maintenance'] ?? false,
+        inUse: map['inUse'],
         operatingZone: map['operatingZone'] ?? [],
         defaultLocation: map['defaultLocation'] ?? '',
       );
