@@ -17,11 +17,25 @@ import 'package:device_booking/models/user.dart';
 class Root extends GetWidget<AuthController> {
   @override
   Widget build(BuildContext context) {
-    // return Text('data');
+    // UserController userController = Get.put(UserController());
+
     return Obx(() {
       return (Get.find<AuthController>().firebaseUser != null
           ? Home()
           : Authenticate());
+      // return Obx(() {
+      //   if (Get.find<AuthController>().firebaseUser != null) {
+      //     if (Get.find<UserController>().user?.phoneNumber.length < 10 ||
+      //         Get.find<UserController>().user?.phoneNumber.substring(0, 1) !=
+      //             '0') {
+      //       return SignUp();
+      //     } else {
+      //       return Home();
+      //     }
+      //   } else {
+      //     return Authenticate();
+      //   }
+      // });
     });
   }
 }

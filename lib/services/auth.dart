@@ -44,9 +44,11 @@ class AuthService {
 
       UserData userData = await UserData().fetchUser(userId: user.user.uid);
       if (userData != null) {
+        //already has UserData in Firestore
         return userData;
       } else {
-        UserData().registerNewUser(user: userDataFromFirebaseUser(user.user));
+        UserData().registerNewUser(
+            user: userDataFromFirebaseUser(user.user)); //New user
         return userDataFromFirebaseUser(user.user);
       }
     } catch (e) {

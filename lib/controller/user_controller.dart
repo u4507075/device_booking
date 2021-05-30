@@ -1,13 +1,13 @@
 import 'package:device_booking/controller/auth_controller.dart';
 import 'package:device_booking/services/database.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:device_booking/models/user.dart';
 
 class UserController extends GetxController {
   Rxn<UserData> _userData = Rxn<UserData>();
-  // String userId;
+
   UserData get user => _userData.value;
-  // UserController(this.userId);
 
   @override
   onInit() {
@@ -20,5 +20,31 @@ class UserController extends GetxController {
 
   void clear() {
     _userData.value = UserData();
+  }
+
+  //register new user
+  Future<void> registerNewUser({@required UserData user}) async {
+    await DBService().registerNewUser(user);
+  }
+
+//update user
+  Future<void> updateUser({@required UserData user}) async {
+    await DBService().updateUser(user);
+    UserData _user;
+  }
+
+//delete user
+  Future<void> deleteUser(String uid) async {
+    await DBService().deleteUser(uid);
+  }
+
+//user InUse
+  void userInUse() {
+    user.inUse = true;
+  }
+
+//user return
+  void userReturn() {
+    user.inUse = false;
   }
 }

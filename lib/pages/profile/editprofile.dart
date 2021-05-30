@@ -1,15 +1,12 @@
 import 'package:device_booking/controller/user_controller.dart';
+import 'package:device_booking/models/user.dart';
 import 'package:device_booking/services/auth.dart';
+import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:device_booking/models/user.dart';
-import 'package:device_booking/style.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:device_booking/services/database.dart';
 
-class SignUp extends StatelessWidget {
+class EditProfile extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   String valueChoose;
@@ -19,16 +16,13 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _user = controller.user;
-
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
             leading: BackButton(
               onPressed: () async {
-                await Get.find<UserController>()
-                    .deleteUser(controller.user.uid);
-                await AuthService().signOut();
-                Get.back();
+                print('Get back to profile page');
+                // Get.back();
               },
             ),
             elevation: 0.0,
@@ -205,62 +199,4 @@ class SignUp extends StatelessWidget {
           ])),
     );
   }
-
-  // String validateName(String value) {
-  //   if (value.length < 3)
-  //     return 'Must be more than 2 charater';
-  //   else
-  //     return null;
-  // }
-
-  // String validatePhoneNumber(String value) {
-  //   if (value.length != 10)
-  //     return 'Must have 10 digits';
-  //   else if (value.substring(0, 1) != '0')
-  //     return 'Phone number must start with 0';
-  //   else
-  //     return null;
-  //   return null;
-  // }
-  // // //customized textFormField function here!
-  // Widget textFormField(String collectVar, String labelText, String hintText,
-  //         String errorText) =>
-  //     TextFormField(
-  //         initialValue: collectVar,
-  //         validator: (value) {
-  //           return (value == null || value.isEmpty) ? errorText : null;
-  //         },
-  //         onChanged: (text) {
-  //           collectVar = text;
-  //         },
-  //         decoration: InputDecoration(
-  //             labelText: labelText,
-  //             labelStyle: h3TextStyle,
-  //             hintText: hintText,
-  //             border: UnderlineInputBorder(
-  //                 borderRadius: BorderRadius.circular(4.0))));
-
-  // //add additional TextFormField here!
-  // UserTextFormFields userForm;
-  // setUserForm() {
-  //   userForm = UserTextFormFields([
-  //     UserTextFormField(user.firstname, 'First name', 'Enter your first name',
-  //         'Please enter your first name'),
-  //     UserTextFormField(user.lastname, 'Last name', 'Enter your last name',
-  //         'Please enter your first name'),
-  //     UserTextFormField(user.phomeNumber, 'Phone number',
-  //         'Enter your first name', 'Please enter your phone number'),
-  //     // UserTextFormField(user.role, 'Role', 'Medical student / Intern / Resident',
-  //     //     'Please enter your first name'),
-  //   ]);
-  // }
-
-  // //add to column
-  // List<Widget> textFormFields(UserTextFormFields userForm) {
-  //   return userForm.formFields
-  //       .map((formField) => textFormField(formField.collectVar,
-  //           formField.labelText, formField.hintText, formField.errorText))
-  //       .toList();
-  // }
-
 }

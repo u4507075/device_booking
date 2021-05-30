@@ -27,8 +27,4 @@ class DeviceController extends GetxController {
   void clear() {
     device.value = Device();
   }
-  // void setId(String newDeviceId) {
-  //   print('set Id');
-  //   deviceId = newDeviceId;
-  // }
 }

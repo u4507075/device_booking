@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-class UserData extends ChangeNotifier implements ReassembleHandler {
+class UserData /*implements ReassembleHandler*/ {
   String firstname;
   String lastname;
   String phoneNumber;
@@ -28,21 +28,21 @@ class UserData extends ChangeNotifier implements ReassembleHandler {
     this.inUse,
   });
 
-  @override
-  void reassemble() {
-    print('Did Hot Reload');
-  }
+  // @override
+  // void reassemble() {
+  //   print('Did Hot Reload');
+  // }
 
   factory UserData.fromMap(Map map) {
     return UserData(
-      firstname: map['firstname'] ?? null,
-      lastname: map['lastname'] ?? null,
-      phoneNumber: map['phoneNumber'] ?? null,
-      role: map['role'] ?? null,
-      email: map['email'] ?? null,
-      photoURL: map['photoURL'] ?? null,
-      uid: map['uid'] ?? null,
-      inUse: map['inUse'] ?? null,
+      firstname: map['firstname'] ?? '',
+      lastname: map['lastname'] ?? '',
+      phoneNumber: map['phoneNumber'] ?? '',
+      role: map['role'] ?? '',
+      email: map['email'] ?? '',
+      photoURL: map['photoURL'] ?? '',
+      uid: map['uid'] ?? '',
+      inUse: map['inUse'] ?? false,
     );
   }
 
@@ -86,25 +86,24 @@ class UserData extends ChangeNotifier implements ReassembleHandler {
     }
   }
 
-  void updateFirstName(UserData userData) {
-    print('before ${userData.firstname}');
-    firstname = userData.firstname;
-    print('after $firstname');
-    notifyListeners();
-  }
+  // void updateFirstName(UserData userData) {
+  //   print('before ${userData.firstname}');
+  //   firstname = userData.firstname;
+  //   print('after $firstname');
+  //   notifyListeners();
+  // }
 
-  void transferFromFireBaseUser(User fbUser) {
-    var user = AuthService().userDataFromFirebaseUser(fbUser);
-    firstname = user?.firstname;
-    lastname = user?.lastname;
-    phoneNumber = user?.phoneNumber;
-    role = user?.role;
-    email = user?.email;
-    photoURL = user?.photoURL;
-    uid = user?.uid;
-    inUse = false;
-    notifyListeners();
-  }
+  // void transferFromFireBaseUser(User fbUser) {
+  //   var user = AuthService().userDataFromFirebaseUser(fbUser);
+  //   firstname = user?.firstname;
+  //   lastname = user?.lastname;
+  //   phoneNumber = user?.phoneNumber;
+  //   role = user?.role;
+  //   email = user?.email;
+  //   photoURL = user?.photoURL;
+  //   uid = user?.uid;
+  //   inUse = false;
+  // }
 
 //register new user
   Future<void> registerNewUser({@required UserData user}) async {
@@ -117,7 +116,6 @@ class UserData extends ChangeNotifier implements ReassembleHandler {
     photoURL = user.photoURL;
     uid = user.uid;
     inUse = false;
-    notifyListeners();
   }
 
 //update user
@@ -127,7 +125,6 @@ class UserData extends ChangeNotifier implements ReassembleHandler {
     lastname = user.lastname;
     role = user.role;
     photoURL = user.photoURL;
-    notifyListeners();
   }
 
 //fetch user
@@ -143,7 +140,6 @@ class UserData extends ChangeNotifier implements ReassembleHandler {
       photoURL = user?.photoURL;
       uid = user?.uid;
       inUse = false;
-      notifyListeners();
       return user;
     } catch (e) {
       print('user not found, ${e.toString()}');
@@ -154,13 +150,11 @@ class UserData extends ChangeNotifier implements ReassembleHandler {
 //user InUse
   void userInUse() {
     inUse = true;
-    notifyListeners();
   }
 
 //user return
   void userReturn() {
     inUse = false;
-    notifyListeners();
   }
 
 // class Userlog {

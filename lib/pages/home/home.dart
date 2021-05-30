@@ -39,22 +39,29 @@ class Home extends StatelessWidget {
               children: <Widget>[
                 Obx(
                   () => Text(
-                      'Welcome,\n${Get.find<UserController>().user.firstname}',
+                      'Welcome,\n${Get.find<UserController>().user?.firstname}',
                       style: h1TextStyle),
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(Icons.account_circle, size: 50.0),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        'Profile',
-                        style: b2TextStyle,
-                      ),
-                    )
-                  ],
+                IconButton(
+                  onPressed: () {
+                    Get.toNamed('/profile');
+                  },
+                  icon: Icon(Icons.account_circle_sharp),
+                  iconSize: 60,
                 ),
+                // Column(
+                //   mainAxisSize: MainAxisSize.min,
+                //   children: <Widget>[
+                //     Icon(Icons.account_circle, size: 50.0),
+                //     Padding(
+                //       padding: const EdgeInsets.all(5.0),
+                //       child: Text(
+                //         'Profile',
+                //         style: b2TextStyle,
+                //       ),
+                //     )
+                //   ],
+                // ),
               ],
             ),
             SizedBox(

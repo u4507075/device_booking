@@ -88,6 +88,7 @@ class DBService {
         'lastname': user.lastname,
         'email': user.email,
         'phoneNumber': user.phoneNumber,
+        'photoURL': user.photoURL,
         'role': user.role,
         'uid': user.uid,
         'inUse': false
@@ -103,6 +104,7 @@ class DBService {
         'firstname': user.firstname,
         'lastname': user.lastname,
         'role': user.role,
+        'phoneNumber': user.phoneNumber,
       }).then((value) => print('Update user successful ${user.firstname}'));
     } catch (e) {
       print('Update user failed ${e.toString()}');
@@ -117,6 +119,16 @@ class DBService {
     } else {
       return null;
     }
+  }
+
+  //delete user
+  Future<void> deleteUser(String uid) async {
+    return _db
+        .collection('users')
+        .doc(uid)
+        .delete()
+        .then((value) => print('User deleted'))
+        .catchError((e) => print('Failed to delete user: ${e.toString()}'));
   }
 
 /* -------------------------------Device------------------------------------ */

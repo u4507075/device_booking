@@ -5,40 +5,16 @@ import 'package:device_booking/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/models/user.dart';
 
-class Authenticate extends StatefulWidget {
-  @override
-  _AuthenticateState createState() => _AuthenticateState();
-}
+// class Authenticate extends StatefulWidget {
+//   @override
+//   _AuthenticateState createState() => _AuthenticateState();
+// }
 
-class _AuthenticateState extends State<Authenticate> {
-  // Future<void> signIn() async {
-  //   return AuthService().signInWithGoogle().then((user) {
-  //     if (user.uid != null) {
-  //       //login success -> navigate to 'Home' with user data
-  //       Navigator.pushReplacementNamed(context, '/signup',
-  //           arguments: {'user': user});
-  //       print('log in success');
-  //     } else {
-  //       //login failed -> reload 'Auth'
-  //       Navigator.pushReplacementNamed(context, '/authenticate');
-  //       print('log in failed');
-  //     }
-  //   });
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
+class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -139,10 +115,6 @@ class LogInWithGoogleButton extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  void _fetchUser(context, userId) {
-    // Provider.of<UserData>(context, listen: false).fetchUser(userId: userId);
-  }
-
   @override
   Widget build(BuildContext context) {
     // final user = Provider.of<UserData>(context);
@@ -153,8 +125,13 @@ class LogInWithGoogleButton extends StatelessWidget {
         elevation: 3.0,
         child: ListTile(
           onTap: () async {
-            AuthService().signOut();
-            AuthService().signInWithGoogle();
+            await AuthService().signOut();
+            Get.toNamed('/loading');
+            await AuthService().signInWithGoogle().then((user) {
+              user.phoneNumber.length < 10 //Incomplete signup
+                  ? Get.offAndToNamed('/signup')
+                  : Get.back();
+            });
           },
           leading: Icon(
             Icons.login_outlined,
