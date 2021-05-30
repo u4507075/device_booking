@@ -15,19 +15,19 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    valueChoose = controller.user.role ?? 'Extern'; //initialized user role
     _user = controller.user;
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
             leading: BackButton(
               onPressed: () async {
-                print('Get back to profile page');
-                // Get.back();
+                Get.back();
               },
             ),
             elevation: 0.0,
             title: Text(
-              'Sign Up',
+              'Edit Profile',
               style: appBarTextStyle,
             ),
             centerTitle: true,
@@ -38,20 +38,16 @@ class EditProfile extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     print('Submit Form Successful');
-                    print('${controller.user.email}');
-                    await Get.find<UserController>()
-                        .registerNewUser(user: _user);
-                    Get.back();
-                    // _registerNewUser(context, user);
+                    await Get.find<UserController>().updateUser(user: _user);
+                    Get.offNamed('/profile');
                   } else {
-                    // ScaffoldMessenger.of(context)
-                    //     .showSnackBar(SnackBar(content: Text(user.firstname)));
+                    //TODO add snack bar
                     print('Submit Form failed');
-                    print('${controller.user.email}');
+                    // print('${controller.user.email}');
                   }
                 },
                 child: Text(
-                  'Next',
+                  'Save',
                   style: appBarTextStyle,
                 ),
               )

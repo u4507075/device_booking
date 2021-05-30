@@ -18,21 +18,22 @@ class DeviceListPage extends StatelessWidget {
 
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackButton(
+          onPressed: () {
+            Get.back();
+          },
+          color: Colors.black,
+        ),
+      ),
       body: Container(
         padding: EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back_ios_rounded, size: 30.0),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
             Text(
               'Device Location',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -40,8 +41,7 @@ class DeviceListPage extends StatelessWidget {
             SizedBox(
               height: 20.0,
             ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.7,
+            Expanded(
               child: GetX<DeviceListController>(
                 init: Get.put(DeviceListController(deviceType)),
                 builder: (controller) {

@@ -1,7 +1,7 @@
-import 'package:device_booking/controller/profile_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/models/user.dart';
-import 'package:device_booking/widget/profile_widget.dart';
+import 'package:device_booking/utils/loading.dart';
+import 'package:device_booking/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -26,7 +26,7 @@ class Profile extends StatelessWidget {
           actions: [
             TextButton(
                 onPressed: () {
-                  Get.toNamed('/editprofile');
+                  Get.offNamed('/editprofile');
                 },
                 child: Text('Edit', style: appBarTextStyle))
           ],
@@ -71,7 +71,8 @@ class Profile extends StatelessWidget {
                   height: 10.0,
                 ),
                 TextButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await AuthService().signOut();
                       Get.offAllNamed('/');
                     },
                     child: Text('Log out',
@@ -90,38 +91,52 @@ class ProfileInfo extends StatelessWidget {
   // UserController controller;
 
   // ProfileInfo(this.controller);
-
-  ProfileController controller = Get.put(ProfileController());
+  UserController userController = Get.put(UserController());
+  // ProfileController controller = Get.put(ProfileController());
 
   List<List<String>> _profileList;
 
   @override
   Widget build(BuildContext context) {
-    _profileList = controller.profileList;
-    print(_profileList);
+    // _profileList = controller.list;
+    // print(_profileList);
+    return GetBuilder<UserController>(
+        init: userController,
+        builder: (controller) {
+          if (controller != null && controller.user != null) {
+            _profileList = [
+              ['First name', controller.user.firstname],
+              ['Last name', controller.user.lastname],
+              ['Tel.', controller.user.phoneNumber],
+              ['Role', controller.user.role]
+            ];
 
-    return Table(
-      border: TableBorder(
-          horizontalInside: BorderSide(width: 1, color: Colors.grey)),
-      children: [
-        for (var item in _profileList)
-          TableRow(children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                '${item[0] ?? ''}',
-                style: b1TextStyle,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                '${item[1] ?? ''}',
-                style: b1TextStyle,
-              ),
-            ),
-          ]),
-      ],
-    );
+            return Table(
+              border: TableBorder(
+                  horizontalInside: BorderSide(width: 1, color: Colors.grey)),
+              children: [
+                for (var item in _profileList)
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        '${item[0] ?? ''}',
+                        style: b1TextStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        '${item[1] ?? ''}',
+                        style: b1TextStyle,
+                      ),
+                    ),
+                  ]),
+              ],
+            );
+          } else {
+            return Loading();
+          }
+        });
   }
 }

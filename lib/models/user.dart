@@ -57,15 +57,7 @@ class UserData /*implements ReassembleHandler*/ {
         inUse: false,
       );
 
-  // bool iscom(){
-
-  // }
-
   bool isCompleted(UserData user) {
-    // print(user.firstname);
-    // print(user.lastname);
-    // print(user.phoneNumber);
-    // print(user.role);
     if (user.firstname != null ||
         user.lastname != null ||
         user.phoneNumber != null ||
@@ -85,25 +77,6 @@ class UserData /*implements ReassembleHandler*/ {
       return false;
     }
   }
-
-  // void updateFirstName(UserData userData) {
-  //   print('before ${userData.firstname}');
-  //   firstname = userData.firstname;
-  //   print('after $firstname');
-  //   notifyListeners();
-  // }
-
-  // void transferFromFireBaseUser(User fbUser) {
-  //   var user = AuthService().userDataFromFirebaseUser(fbUser);
-  //   firstname = user?.firstname;
-  //   lastname = user?.lastname;
-  //   phoneNumber = user?.phoneNumber;
-  //   role = user?.role;
-  //   email = user?.email;
-  //   photoURL = user?.photoURL;
-  //   uid = user?.uid;
-  //   inUse = false;
-  // }
 
 //register new user
   Future<void> registerNewUser({@required UserData user}) async {

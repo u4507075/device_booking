@@ -30,7 +30,6 @@ class UserController extends GetxController {
 //update user
   Future<void> updateUser({@required UserData user}) async {
     await DBService().updateUser(user);
-    UserData _user;
   }
 
 //delete user

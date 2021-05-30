@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:device_booking/checkdeviceinfo.dart';
+import 'package:device_booking/dev/checkdeviceinfo.dart';
 import 'package:device_booking/controller/bindings/authBinding.dart';
 import 'package:device_booking/controller/count_controller.dart';
 import 'package:device_booking/controller/device_controller.dart';
@@ -19,8 +19,8 @@ import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/home/home.dart';
-import 'package:device_booking/pages/loading.dart';
-import 'package:device_booking/pages/root.dart';
+import 'package:device_booking/utils/loading.dart';
+import 'package:device_booking/utils/root.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/foundation.dart';

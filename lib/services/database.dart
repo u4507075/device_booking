@@ -131,6 +131,22 @@ class DBService {
         .catchError((e) => print('Failed to delete user: ${e.toString()}'));
   }
 
+  Stream<List<List<String>>> streamProfileList(String uid) {
+    try {
+      return _db.collection('users').doc(uid).snapshots().map((snap) {
+        return [
+          ['First name'],
+          ['Last name'],
+          ['Tel.'],
+          ['Role']
+        ];
+      });
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
 /* -------------------------------Device------------------------------------ */
 
   Future<void> addNewDevice(Device device) async {

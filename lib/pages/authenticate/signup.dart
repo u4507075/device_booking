@@ -44,16 +44,12 @@ class SignUp extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     print('Submit Form Successful');
-                    print('${controller.user.email}');
-                    await Get.find<UserController>()
-                        .registerNewUser(user: _user);
+                    await DBService().registerNewUser(_user);
                     Get.back();
-                    // _registerNewUser(context, user);
                   } else {
-                    // ScaffoldMessenger.of(context)
-                    //     .showSnackBar(SnackBar(content: Text(user.firstname)));
+                    //TODO add snack bar
                     print('Submit Form failed');
-                    print('${controller.user.email}');
+                    // print('${controller.user.email}');
                   }
                 },
                 child: Text(
@@ -73,18 +69,18 @@ class SignUp extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 5,
-                    child: ClipOval(
-                      child: (_user.photoURL != null)
-                          ? Image.network(
-                              controller.user?.photoURL,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              'assets/images/profile_placeholder.png',
-                              fit:
-                                  BoxFit.cover, //TODO fit this image to the box
-                            ),
-                    ),
+                    child: Obx(() => ClipOval(
+                          child: (_user.photoURL != null)
+                              ? Image.network(
+                                  controller.user?.photoURL ?? '',
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/images/profile_placeholder.png',
+                                  fit: BoxFit
+                                      .cover, //TODO fit this image to the box
+                                ),
+                        )),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),

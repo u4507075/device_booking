@@ -65,7 +65,7 @@ class Home extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 50,
+              height: 20.0,
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -92,13 +92,13 @@ class Home extends StatelessWidget {
                     },
                     child: CardButton(
                         'EKG', 'assets/images/electrocardiogram.png', 100.0)),
-                ElevatedButton(
-                    onPressed: () async {
-                      await AuthService().signOut();
-                      // Navigator.popUntil(context,
-                      //     ModalRoute.withName(Navigator.defaultRouteName));
-                    },
-                    child: Text('Sign out')),
+                // ElevatedButton(
+                //     onPressed: () async {
+                //       await AuthService().signOut();
+                //       // Navigator.popUntil(context,
+                //       //     ModalRoute.withName(Navigator.defaultRouteName));
+                //     },
+                //     child: Text('Sign out')),
               ]),
             ),
           ],
