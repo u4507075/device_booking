@@ -1,3 +1,4 @@
+import 'package:device_booking/controller/auth_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -13,20 +14,20 @@ class SignUp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   String valueChoose;
-  UserController controller = Get.put(UserController());
+  // UserController controller = Get.put(UserController());
   UserData _user;
+  AuthController controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    _user = controller.user;
+    // _user = controller.user;
+    _user = AuthService().userDataFromFirebaseUser(controller.firebaseUser);
 
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
             leading: BackButton(
               onPressed: () async {
-                await Get.find<UserController>()
-                    .deleteUser(controller.user.uid);
                 await AuthService().signOut();
                 Get.back();
               },
@@ -69,28 +70,26 @@ class SignUp extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 5,
-                    child: Obx(() => ClipOval(
-                          child: (_user.photoURL != null)
-                              ? Image.network(
-                                  controller.user?.photoURL ?? '',
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  'assets/images/profile_placeholder.png',
-                                  fit: BoxFit
-                                      .cover, //TODO fit this image to the box
-                                ),
-                        )),
+                    child: ClipOval(
+                      child: (_user.photoURL != null)
+                          ? Obx(() => Image.network(
+                                controller.firebaseUser.photoURL ?? '',
+                                fit: BoxFit.cover,
+                              ))
+                          : Image.asset(
+                              'assets/images/profile_placeholder.png',
+                              fit:
+                                  BoxFit.cover, //TODO fit this image to the box
+                            ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                    child: Text('${controller.user.email ?? ''}',
-                        style: b1TextStyle),
+                    child: Text('${_user.email ?? ''}', style: b1TextStyle),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
-                    child: Text('UID: ${controller.user?.uid ?? ''}',
-                        style: b2TextStyle),
+                    child: Text('UID: ${_user?.uid ?? ''}', style: b2TextStyle),
                   ),
                   Form(
                       key: _formKey,
@@ -99,7 +98,7 @@ class SignUp extends StatelessWidget {
                           children: [
                             //Enter firstname
                             TextFormField(
-                                initialValue: controller.user?.firstname,
+                                initialValue: _user?.firstname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -119,7 +118,7 @@ class SignUp extends StatelessWidget {
                                             BorderRadius.circular(4.0)))),
                             //Enter lastname
                             TextFormField(
-                                initialValue: controller.user?.lastname,
+                                initialValue: _user?.lastname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||

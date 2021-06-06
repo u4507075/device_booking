@@ -1,4 +1,5 @@
 import 'package:device_booking/controller/auth_controller.dart';
+import 'package:device_booking/models/device.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,8 +7,10 @@ import 'package:device_booking/models/user.dart';
 
 class UserController extends GetxController {
   Rxn<UserData> _userData = Rxn<UserData>();
+  final _userLog = UserLog().obs;
 
   UserData get user => _userData.value;
+  UserLog get log => _userLog.value;
 
   @override
   onInit() {
@@ -45,5 +48,11 @@ class UserController extends GetxController {
 //user return
   void userReturn() {
     user.inUse = false;
+  }
+
+  Future<UserLog> lastUserLog() async {
+    _userLog.value = await DBService()
+        .lastUserLog(Get.find<AuthController>().firebaseUser.uid);
+    return _userLog.value;
   }
 }

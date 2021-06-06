@@ -10,9 +10,10 @@ import 'package:get/get.dart';
 class SelectLocation extends StatelessWidget {
   // const SelectLocation({Key key}) : super(key: key);
   List<dynamic> operatingZone =
-      Get.find<DeviceController>().deviceInfo.operatingZone;
+      Get.find<DeviceController>().device?.operatingZone;
   @override
   Widget build(BuildContext context) {
+    print('${Get.find<DeviceController>().device?.operatingZone}');
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -24,7 +25,7 @@ class SelectLocation extends StatelessWidget {
         title: Text('Select location'),
       ),
       body: ListView.builder(
-        itemCount: operatingZone.length,
+        itemCount: Get.find<DeviceController>().device.operatingZone.length,
         itemBuilder: (context, index) {
           return _location(operatingZone[index]);
         },
@@ -38,7 +39,7 @@ Widget _location(String location) {
     title: Text('$location'),
     onTap: () {
       Get.toNamed('/confirmation', parameters: {
-        'deviceId': Get.find<DeviceController>().deviceInfo.deviceId,
+        'deviceId': Get.find<DeviceController>().device.deviceId,
         'location': location,
       });
     },

@@ -7,12 +7,12 @@ import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/demo/getotp.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:device_booking/models/pages/pages.dart';
-import 'package:device_booking/pages/bookdevice/InUse.dart';
+import 'package:device_booking/pages/bookdevice/inuse.dart';
 import 'package:device_booking/pages/bookdevice/confirmation.dart';
 
 import 'package:device_booking/pages/bookdevice/reportproblem.dart';
 import 'package:device_booking/pages/bookdevice/selectlocation.dart';
-import 'package:device_booking/pages/bookdevice/takedevice.dart';
+import 'package:device_booking/pages/bookdevice/takedeviceroot.dart';
 import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:device_booking/pages/profile/editprofile.dart';
@@ -120,7 +120,6 @@ class MyApp extends StatelessWidget {
         //Profile features
         GetPage(name: '/profile', page: () => Profile()),
         GetPage(name: '/editprofile', page: () => EditProfile()),
-        // GetPage(name: '/confirmation', page: ()=> ConfirmBook()),
       ],
     );
   }

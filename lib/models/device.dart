@@ -52,7 +52,7 @@ class DeviceList {
 
 class Device {
   String name; //deviceName
-  String deviceId; //deviceId
+  String deviceId = ''; //deviceId
   String deviceType; //type of device e.g. ultrasound / ekg
   String location; //Current location
   String lastUserId; //last user's uid

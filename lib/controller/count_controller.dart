@@ -6,6 +6,6 @@ class CountController extends GetxController {
 
   void increment() {
     count++;
-    update();
+    // update();
   }
 }

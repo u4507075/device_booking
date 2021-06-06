@@ -1,4 +1,10 @@
 import 'package:device_booking/controller/device_controller.dart';
+import 'package:device_booking/controller/timer_controller.dart';
+import 'package:device_booking/controller/user_controller.dart';
+import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/user.dart';
+import 'package:device_booking/services/database.dart';
+import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:device_booking/models/pages/pages.dart';
@@ -9,22 +15,78 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class InUse extends StatelessWidget {
-  String deviceId = Get.parameters['devideId'];
-  String location = Get.parameters['location'];
+class InUse extends StatefulWidget {
+  // DeviceController controller = Get.put(DeviceController(deviceId));
 
-  // DeviceController controller = Get.put(DeviceController(deviceId))
+  @override
+  _InUseState createState() => _InUseState();
+}
+
+class _InUseState extends State<InUse> {
+  final UserController userController = Get.put(UserController());
+  final TimerController timerController = Get.put(TimerController());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(
-            onPressed: () => Get.back(),
+          backgroundColor: Colors.red[800],
+          title: Text(
+            'Using Device',
+            style: appBarTextStyle,
           ),
         ),
-        body: Center(child: Text('$deviceId, to $location')),
+        body: GetX<UserController>(
+          builder: (controller) {
+            DateTime now = DateTime.now();
+            return FutureBuilder(
+                future: controller.lastUserLog(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    DateTime takeTime = snapshot.data.time;
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Duration',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(5.0)),
+                            margin: EdgeInsets.all(5.0),
+                            padding:
+                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                            child: Obx(() {
+                              timerController.timeDifference(takeTime);
+                              return Text(
+                                  '${timerController.duration.toString().split('.').first.padLeft(8, "0")}');
+                            }),
+                          ),
+                          ElevatedButton(
+                              onPressed: () async {
+                                DBService().returnDevice(
+                                    userController.log.deviceId,
+                                    userController.user.uid);
+                                Get.offAllNamed('/');
+                              },
+                              child: Text('Return Device')),
+                        ],
+                      ),
+                    );
+                    //https://flutterigniter.com/how-to-format-duration/
+                  }
+                });
+          },
+        ),
       ),
     );
   }

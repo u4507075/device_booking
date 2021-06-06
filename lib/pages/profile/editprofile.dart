@@ -15,7 +15,7 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    valueChoose = controller.user.role ?? 'Extern'; //initialized user role
+    valueChoose = controller.user?.role ?? 'Extern'; //initialized user role
     _user = controller.user;
     return SafeArea(
       child: Scaffold(
@@ -64,11 +64,11 @@ class EditProfile extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 5,
                     child: ClipOval(
-                      child: (_user.photoURL != null)
-                          ? Image.network(
-                              controller.user?.photoURL,
-                              fit: BoxFit.cover,
-                            )
+                      child: (_user?.photoURL != null)
+                          ? Obx(() => Image.network(
+                                controller.user?.photoURL ?? '',
+                                fit: BoxFit.cover,
+                              ))
                           : Image.asset(
                               'assets/images/profile_placeholder.png',
                               fit:
@@ -78,7 +78,7 @@ class EditProfile extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                    child: Text('${controller.user.email ?? ''}',
+                    child: Text('${controller.user?.email ?? ''}',
                         style: b1TextStyle),
                   ),
                   Padding(
@@ -133,7 +133,7 @@ class EditProfile extends StatelessWidget {
                                             BorderRadius.circular(4.0)))),
                             //Enter phonenumber
                             TextFormField(
-                                initialValue: _user.phoneNumber,
+                                initialValue: _user?.phoneNumber,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly

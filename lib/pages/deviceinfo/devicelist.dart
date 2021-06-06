@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/controller/devicelist_controller.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:device_booking/widget/qrscanbutton.dart';
@@ -89,7 +90,8 @@ Widget _deviceInfo(Device device) {
       onTap: () {
         final String deviceId = device.deviceId;
         print('$deviceId');
-        Get.toNamed('/deviceinfo', arguments: deviceId);
+        Get.find<DeviceController>().fetchDevice(deviceId);
+        Get.toNamed('/deviceinfo');
       },
       title: Text(device.name ?? ''),
       subtitle: Text(device.location ?? ''),

@@ -15,13 +15,12 @@ import 'package:device_booking/models/user.dart';
 // final user = Provider.of<UserData>(context); //add this below build method
 
 class Home extends StatelessWidget {
-  final UserController controller = Get.put(UserController());
   @override
 
   // Get.put(UserController());
   Widget build(BuildContext context) {
     // final user = context.watch<UserData>();
-
+    UserController controller = Get.put(UserController());
     return SafeArea(
         child: Scaffold(
       body: Container(

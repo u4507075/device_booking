@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_booking/models/device.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
@@ -130,6 +132,10 @@ class UserData /*implements ReassembleHandler*/ {
     inUse = false;
   }
 
+  Future<Device> lastUseDevice({@required String userId}) async {
+    return DBService().lastUseDevice(userId);
+  }
+
 // class Userlog {
 //   String userId;
 //   String deviceId;
@@ -139,4 +145,24 @@ class UserData /*implements ReassembleHandler*/ {
 //   Userlog({this.userId, this.deviceId, this.take, this.time});
 // }
 
+}
+
+class UserLog {
+  String deviceId;
+  DateTime time;
+  String logId;
+  bool take;
+  String userId;
+
+  UserLog({this.deviceId, this.logId, this.take, this.time, this.userId});
+
+  factory UserLog.fromMap(Map map) {
+    return UserLog(
+      deviceId: map['deviceId'] ?? '',
+      logId: map['logId'] ?? '',
+      take: map['take'] ?? false,
+      time: DateTime.tryParse(map['time']?.toDate()?.toString() ?? ''),
+      userId: map['uid'] ?? '',
+    );
+  }
 }

@@ -14,14 +14,13 @@ class TakeDevice extends StatelessWidget {
     print('TakeDevice recieved deviceId: $deviceId');
     return SafeArea(
       child: GetX<DeviceController>(
-          init: Get.put(DeviceController(deviceId)),
+          init: Get.put(DeviceController()),
           builder: (controller) {
             if (controller != null &&
                 controller.deviceInfo != null &&
                 controller.deviceInfo.name != null) {
               return SelectLocation();
             } else {
-              // Future.delayed(Duration(seconds: 5)).then((value) => Get.back());
               return DeviceNotFound();
               //redirect to device notfound dialog & have return button
               //or implement getx worker to check duration of value being null

@@ -16,14 +16,14 @@ class DeviceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DeviceController deviceController = Get.put(DeviceController(deviceId));
+    DeviceController deviceController = Get.put(DeviceController());
 
     return SafeArea(
       child: Scaffold(
         body: ListView(
           children: [
             // Obx(() => Text(
-            //     '${deviceController.deviceInfo.name}\n${deviceController.deviceInfo.inUse}\n${deviceController.deviceInfo.maintenance}\n')),
+            //     '${deviceController.device.name}\n${deviceController.device.inUse}\n${deviceController.device.maintenance}\n')),
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
               decoration: BoxDecoration(color: Colors.grey),
@@ -50,7 +50,7 @@ class DeviceInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Obx(() => Text(
-                      '${deviceController.deviceInfo?.deviceType?.capitalize ?? ''} ${deviceController.deviceInfo?.name?.capitalize ?? ''}',
+                      '${deviceController.device?.deviceType?.capitalize ?? ''} ${deviceController.device?.name?.capitalize ?? ''}',
                       style: Theme.of(context).textTheme.headline1)),
                   SizedBox(
                     height: 20.0,
@@ -81,7 +81,7 @@ class DeviceInfo extends StatelessWidget {
                             ),
                             child: Obx(
                               () => Text(
-                                '${!deviceController.deviceInfo.inUse ? 'Available' : 'Busy'}', //TODO: add color
+                                '${!deviceController.device.inUse ? 'Available' : 'Busy'}', //TODO: add color
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ),
@@ -96,7 +96,7 @@ class DeviceInfo extends StatelessWidget {
                             ),
                             child: Obx(
                               () => Text(
-                                '${deviceController.deviceInfo.location}',
+                                '${deviceController.device.location}',
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
                             ),
@@ -131,7 +131,7 @@ class DeviceInfo extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Obx(() => Text(
-                                  '${deviceController.deviceInfo.lastUser}',
+                                  '${deviceController.device.lastUser}',
                                   style:
                                       Theme.of(context).textTheme.bodyText2)),
                             ),
@@ -148,7 +148,7 @@ class DeviceInfo extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Obx(
                                   () => Text(
-                                      '${deviceController.deviceInfo?.lastUserPhoneNumber}',
+                                      '${deviceController.device?.lastUserPhoneNumber}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2),
@@ -166,7 +166,7 @@ class DeviceInfo extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Obx(
                                   () => Text(
-                                      '${deviceController.deviceInfo.lastUseTime != null ? DateFormat('E, d/MM/yyyy').format(deviceController.deviceInfo.lastUseTime) : ''}',
+                                      '${deviceController.device.lastUseTime != null ? DateFormat('E, d/MM/yyyy').format(deviceController.device.lastUseTime) : ''}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2),
@@ -184,7 +184,7 @@ class DeviceInfo extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Obx(
                                   () => Text(
-                                      '${deviceController.deviceInfo.lastUseTime != null ? DateFormat('H:m').format(deviceController.deviceInfo.lastUseTime) : ''}',
+                                      '${deviceController.device.lastUseTime != null ? DateFormat('H:m').format(deviceController.device.lastUseTime) : ''}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2),

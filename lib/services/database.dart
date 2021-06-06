@@ -22,42 +22,42 @@ class DBService {
     }
   }
 
-  Future<String> getTime(FirebaseApp app,
-      StreamController<String> _controllerTime, String deviceId) {
-    FirebaseDatabase database = FirebaseDatabase(app: app);
-    final ref = database.reference();
-    ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
-      Map<String, dynamic> data =
-          new Map<String, dynamic>.from(event.snapshot.value);
-      print(data["date"]);
-      String datetime = data["date"];
-      var time = const Duration(milliseconds: 900);
-      Timer.periodic(time, (timer) {
-        var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
-        final hrs = DateTime.now().difference(dateTime1).inHours;
-        final mins = DateTime.now().difference(dateTime1).inMinutes;
-        final secs = DateTime.now().difference(dateTime1).inSeconds;
-        int min = mins % 60;
-        int sec = secs % 60;
-        if (hrs == 0) {
-          _controllerTime.add('$min minutes $sec secs');
-          if (min == 0) {
-            _controllerTime.add('$sec secs');
-          } else {
-            _controllerTime.add('$min minutes $sec secs');
-          }
-        } else {
-          _controllerTime.add('$hrs hours $min minutes $sec secs');
-          if (min == 0) {
-            _controllerTime.add('$hrs hours $sec secs');
-          } else {
-            _controllerTime.add('$hrs hours $min minutes $sec secs');
-          }
-        }
-        print('$hrs hours $min minutes $sec secs');
-      });
-    });
-  }
+  // Future<String> getTime(FirebaseApp app,
+  //     StreamController<String> _controllerTime, String deviceId) {
+  //   FirebaseDatabase database = FirebaseDatabase(app: app);
+  //   final ref = database.reference();
+  //   ref.child(deviceId).limitToLast(1).onChildAdded.listen((event) {
+  //     Map<String, dynamic> data =
+  //         new Map<String, dynamic>.from(event.snapshot.value);
+  //     print(data["date"]);
+  //     String datetime = data["date"];
+  //     var time = const Duration(milliseconds: 900);
+  //     Timer.periodic(time, (timer) {
+  //       var dateTime1 = DateFormat('yyyy-MM-dd HH:mm:ss').parse(datetime);
+  //       final hrs = DateTime.now().difference(dateTime1).inHours;
+  //       final mins = DateTime.now().difference(dateTime1).inMinutes;
+  //       final secs = DateTime.now().difference(dateTime1).inSeconds;
+  //       int min = mins % 60;
+  //       int sec = secs % 60;
+  //       if (hrs == 0) {
+  //         _controllerTime.add('$min minutes $sec secs');
+  //         if (min == 0) {
+  //           _controllerTime.add('$sec secs');
+  //         } else {
+  //           _controllerTime.add('$min minutes $sec secs');
+  //         }
+  //       } else {
+  //         _controllerTime.add('$hrs hours $min minutes $sec secs');
+  //         if (min == 0) {
+  //           _controllerTime.add('$hrs hours $sec secs');
+  //         } else {
+  //           _controllerTime.add('$hrs hours $min minutes $sec secs');
+  //         }
+  //       }
+  //       print('$hrs hours $min minutes $sec secs');
+  //     });
+  //   });
+  // }
 
 /* -------------------------------User------------------------------------ */
 
@@ -131,21 +131,55 @@ class DBService {
         .catchError((e) => print('Failed to delete user: ${e.toString()}'));
   }
 
-  Stream<List<List<String>>> streamProfileList(String uid) {
+  Future<Device> lastUseDevice(String uid) async {
     try {
-      return _db.collection('users').doc(uid).snapshots().map((snap) {
-        return [
-          ['First name'],
-          ['Last name'],
-          ['Tel.'],
-          ['Role']
-        ];
-      });
+      QuerySnapshot querySnapshot = await _db
+          .collection('users')
+          .doc(uid)
+          .collection('userLogs')
+          .orderBy('time')
+          .limitToLast(1)
+          .get();
+      Map<String, dynamic> map = querySnapshot.docs[0].data();
+      String deviceId = map['deviceId'];
+      return fetchDevice(deviceId);
     } catch (e) {
-      print(e.toString());
+      print('getLastDeviceUse failed: ${e.toString()}');
       return null;
     }
   }
+
+  Future<UserLog> lastUserLog(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await _db
+          .collection('users')
+          .doc(userId)
+          .collection('userLogs')
+          .orderBy('time')
+          .limitToLast(1)
+          .get();
+      Map<String, dynamic> map = querySnapshot.docs[0].data();
+      return UserLog.fromMap(map);
+    } catch (e) {
+      print('Get last userlog failed: ${e.toString()}');
+    }
+  }
+
+  // Stream<List<List<String>>> streamProfileList(String uid) {
+  //   try {
+  //     return _db.collection('users').doc(uid).snapshots().map((snap) {
+  //       return [
+  //         ['First name'],
+  //         ['Last name'],
+  //         ['Tel.'],
+  //         ['Role']
+  //       ];
+  //     });
+  //   } catch (e) {
+  //     print(e.toString());
+  //     return null;
+  //   }
+  // }
 
 /* -------------------------------Device------------------------------------ */
 
@@ -323,7 +357,9 @@ class DBService {
         'reportTime': now,
         'problem': reportText,
       });
-    } catch (e) {}
+    } catch (e) {
+      print('Report device error: ${e.toString()}');
+    }
   }
 
 /* -----------------------------DeviceList--------------------------------- */

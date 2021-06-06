@@ -34,52 +34,55 @@ class Profile extends StatelessWidget {
         body: ListView(
           padding: EdgeInsets.all(20.0),
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 5,
-                  child: ClipOval(
+            Container(
+              child: Column(
+                children: [
+                  ClipOval(
                     child: (controller.user?.photoURL != null)
-                        ? Image.network(
-                            controller.user?.photoURL,
-                            fit: BoxFit.cover,
-                          )
+                        ? Obx(() => Image.network(
+                              controller.user?.photoURL ?? '',
+                              fit: BoxFit.cover,
+                              height: MediaQuery.of(context).size.height / 5,
+                              // width: MediaQuery.of(context).size.width / 5,
+                            ))
                         : Image.asset(
                             'assets/images/profile_placeholder.png',
                             fit: BoxFit.cover, //TODO fit this image to the box
                           ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                  child: Obx(() => Text('${controller.user?.email ?? ''}',
-                      style: b1TextStyle)),
-                ),
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                    child: Obx(
-                      () => Text('UID: ${controller.user?.uid ?? ''}',
-                          style: b2TextStyle),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                  child: ProfileInfo(),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                TextButton(
-                    onPressed: () async {
-                      await AuthService().signOut();
-                      Get.offAllNamed('/');
-                    },
-                    child: Text('Log out',
-                        style: GoogleFonts.kanit(
-                            fontSize: mediumTextSize, color: Colors.redAccent)))
-              ],
+                ],
+              ),
             ),
+            Align(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                child: Obx(() => Text('${controller.user?.email ?? ''}',
+                    style: b1TextStyle)),
+              ),
+            ),
+            Align(
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                  child: Obx(
+                    () => Text('UID: ${controller.user?.uid ?? ''}',
+                        style: b2TextStyle),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+              child: ProfileInfo(),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            TextButton(
+                onPressed: () async {
+                  await AuthService().signOut();
+                  Get.offAllNamed('/');
+                },
+                child: Text('Log out',
+                    style: GoogleFonts.kanit(
+                        fontSize: mediumTextSize, color: Colors.redAccent))),
           ],
         ),
       ),
@@ -94,49 +97,125 @@ class ProfileInfo extends StatelessWidget {
   UserController userController = Get.put(UserController());
   // ProfileController controller = Get.put(ProfileController());
 
-  List<List<String>> _profileList;
+  // List<List<String>> _profileList;
 
   @override
   Widget build(BuildContext context) {
-    // _profileList = controller.list;
-    // print(_profileList);
     return GetBuilder<UserController>(
         init: userController,
-        builder: (controller) {
-          if (controller != null && controller.user != null) {
-            _profileList = [
-              ['First name', controller.user.firstname],
-              ['Last name', controller.user.lastname],
-              ['Tel.', controller.user.phoneNumber],
-              ['Role', controller.user.role]
-            ];
-
-            return Table(
+        builder: (controller) => Table(
               border: TableBorder(
                   horizontalInside: BorderSide(width: 1, color: Colors.grey)),
               children: [
-                for (var item in _profileList)
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        '${item[0] ?? ''}',
-                        style: b1TextStyle,
-                      ),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'First name',
+                      style: b1TextStyle,
                     ),
-                    Padding(
+                  ),
+                  Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        '${item[1] ?? ''}',
-                        style: b1TextStyle,
-                      ),
+                      child: Obx(
+                        () => Text(
+                          '${controller.user?.firstname ?? ''}',
+                          style: b1TextStyle,
+                        ),
+                      )),
+                ]),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'Last name',
+                      style: b1TextStyle,
                     ),
-                  ]),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Obx(
+                        () => Text(
+                          '${controller.user?.lastname ?? ''}',
+                          style: b1TextStyle,
+                        ),
+                      )),
+                ]),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'Tel.',
+                      style: b1TextStyle,
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Obx(
+                        () => Text(
+                          '${controller.user?.phoneNumber ?? ''}',
+                          style: b1TextStyle,
+                        ),
+                      )),
+                ]),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      'Role',
+                      style: b1TextStyle,
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Obx(
+                        () => Text(
+                          '${controller.user?.role ?? ''}',
+                          style: b1TextStyle,
+                        ),
+                      )),
+                ]),
               ],
-            );
-          } else {
-            return Loading();
-          }
-        });
+            ));
+    // _profileList = controller.list;
+    // print(_profileList);
+    // return GetBuilder<UserController>(
+    //     init: userController,
+    //     builder: (controller) {
+    //       if (controller != null && controller.user != null) {
+    //         _profileList = [
+    //           ['First name', controller.user?.firstname ?? ''],
+    //           ['Last name', controller.user?.lastname ?? ''],
+    //           ['Tel.', controller.user?.phoneNumber ?? ''],
+    //           ['Role', controller.user?.role ?? '']
+    //         ];
+
+    //         return Table(
+    //           border: TableBorder(
+    //               horizontalInside: BorderSide(width: 1, color: Colors.grey)),
+    //           children: [
+    //             for (var item in _profileList)
+    //               TableRow(children: [
+    //                 Padding(
+    //                   padding: const EdgeInsets.all(10.0),
+    //                   child: Text(
+    //                     '${item[0] ?? ''}',
+    //                     style: b1TextStyle,
+    //                   ),
+    //                 ),
+    //                 Padding(
+    //                   padding: const EdgeInsets.all(10.0),
+    //                   child: Text(
+    //                     '${item[1] ?? ''}',
+    //                     style: b1TextStyle,
+    //                   ),
+    //                 ),
+    //               ]),
+    //           ],
+    //         );
+    //       } else {
+    //         return Loading();
+    //       }
+    //     });
   }
 }
