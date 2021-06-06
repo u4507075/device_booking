@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:device_info/device_info.dart';
 import 'dart:async';
-import 'dart:io';
-import 'package:device_booking/demo/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:device_booking/demo/getotp.dart';
 import 'package:device_booking/demo/book.dart';
 
@@ -66,7 +61,7 @@ class LoginState extends State<Login> {
     print(user);
     if (user == null) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return GetOTP();
+        return GetOTP2();
       }));
     } else {
       Navigator.push(context, MaterialPageRoute(builder: (_) {

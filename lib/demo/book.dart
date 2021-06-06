@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'pin.dart';
 import 'backhome.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'home.dart';
-import 'alert.dart';
 
-class Book extends StatelessWidget {
+class Book extends StatefulWidget {
+  final String phone;
+  Book(this.phone);
+
+  @override
+  _BookState createState() => _BookState(phone: phone);
+}
+
+class _BookState extends State<Book> {
   String phone;
-  Book(String phone) {
-    this.phone = phone;
-  }
+
+  _BookState({this.phone});
+
+  // _BookState(this.phone);
+
   @override
   Widget build(BuildContext context) {
     // Material is a conceptual piece

@@ -5,6 +5,7 @@ const headingTextSize = 30.0;
 const largeTextSize = 24.0;
 const mediumTextSize = 20.0;
 const smallTextSize = 16.0;
+// const fontFamily1 = 'roboto';
 
 final appBarTextStyle = GoogleFonts.roboto(
     textStyle: TextStyle(

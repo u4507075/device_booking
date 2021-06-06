@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:device_booking/services/auth.dart';
-import 'dart:async';
 
 class LoadingArgument {
   Function function;

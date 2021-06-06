@@ -1,23 +1,19 @@
-import 'home.dart';
 import 'dart:async';
-import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'smscode.dart';
 import 'pin.dart';
 import 'backhome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'home.dart';
 import 'book.dart';
 import 'alert.dart';
 
-class GetOTP extends StatefulWidget {
-  GetOTPState createState() => GetOTPState();
+class GetOTP2 extends StatefulWidget {
+  GetOTP2State createState() => GetOTP2State();
 }
 
-class GetOTPState extends State<GetOTP> {
+class GetOTP2State extends State<GetOTP2> {
   PINcode pincode = PINcode();
   StreamController<bool> _controller = StreamController();
   @override

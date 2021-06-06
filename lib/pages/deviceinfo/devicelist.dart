@@ -1,45 +1,40 @@
 import 'dart:ui';
+import 'package:device_booking/controller/device_controller.dart';
+import 'package:device_booking/controller/devicelist_controller.dart';
 import 'package:device_booking/models/device.dart';
-import 'package:device_booking/pages/home/home.dart';
+import 'package:device_booking/widget/qrscanbutton.dart';
 import 'package:flutter/material.dart';
-import 'package:device_booking/src/button.dart';
-import 'package:device_booking/src/qrfloatingbutton.dart';
-import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 
-class UltrasoundStatus extends StatefulWidget {
-  @override
-  _UltrasoundStatusState createState() => _UltrasoundStatusState();
-}
+import 'package:get/get.dart';
 
-class _UltrasoundStatusState extends State<UltrasoundStatus> {
-  final String _assetPath = "assets/images/ultrasonography.png";
-  List<Device> devices;
-
-  @override
-  void initState() {
-    super.initState();
-    devices = Device.fetchAll();
-  }
-
+class DeviceListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Device> devices;
+    final String deviceType = Get.arguments.toString();
+    DeviceListController controller = Get.put(DeviceListController(deviceType));
+    devices = Get.find<DeviceListController>().value?.devices;
+
+    print(deviceType);
+
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackButton(
+          onPressed: () {
+            Get.back();
+          },
+          color: Colors.black,
+        ),
+      ),
       body: Container(
         padding: EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back_ios_rounded, size: 30.0),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
             Text(
               'Device Location',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
@@ -47,76 +42,63 @@ class _UltrasoundStatusState extends State<UltrasoundStatus> {
             SizedBox(
               height: 20.0,
             ),
-            Scrollbar(
-              isAlwaysShown: true,
-              showTrackOnHover: true,
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                child: ListView.builder(
-                  padding: EdgeInsets.all(5.0),
-                  itemCount: devices.length,
-                  itemBuilder: (context, index) {
-                    print(devices[index]);
-                    return deviceStatus(
-                        name: devices[index].name, type: devices[index].type);
-                    // return Text(devices[index].name);
-                    // return CardStatus(
-                    //   name: devices[index].name,
-                    //   type: 'ultrasound',
-
-                    // return Card(
-                    //   child: ListTile(
-                    //     onTap: () {},
-                    //     title: Text(devices[index].name),
-                    //     subtitle: Text('Location'),
-                    //     leading: Image.asset(
-                    //       _assetPath,
-                    //       fit: BoxFit.cover,
-                    //     ),
-                    //   ),
-                    // );
-                  },
-                ),
+            Expanded(
+              child: GetX<DeviceListController>(
+                init: Get.put(DeviceListController(deviceType)),
+                builder: (controller) {
+                  if (controller != null && controller.value != null) {
+                    print('${controller.value}');
+                    // return Text('Data');
+                    devices = controller.value.devices;
+                    return ListView.builder(
+                      padding: EdgeInsets.all(5.0),
+                      itemCount: devices.length,
+                      itemBuilder: (context, index) {
+                        // print(devices[index]);
+                        return _deviceInfo(devices[index]);
+                      },
+                    );
+                  } else {
+                    return Text('Loading');
+                  }
+                },
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: ScanQrCode(),
+      floatingActionButton: _qrScanButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
 
-Widget deviceStatus({String name, String type}) {
+Widget _qrScanButton() => qrScanButton();
+
+Widget _deviceInfo(Device device) {
   String assetPath;
-  if (type == 'ultrasound') {
+  if (device.deviceType == 'ultrasound') {
     assetPath = "assets/images/ultrasonography.png";
-  } else if (type == 'ekg') {
+  } else if (device.deviceType == 'ekg') {
     assetPath = "assets/images/electrocardiogram.png";
+  } else {
+    assetPath = '';
   }
-  return CardStatus(name: name, type: type, assetPath: assetPath);
-}
 
-class CardStatus extends StatelessWidget {
-  const CardStatus({Key key, this.name, this.type, this.assetPath})
-      : super(key: key);
-  final String name;
-  final String type;
-  final String assetPath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        onTap: () {},
-        title: Text(name),
-        subtitle: Text('Location'),
-        leading: Image.asset(
-          assetPath,
-          fit: BoxFit.cover,
-        ),
+  return Card(
+    child: ListTile(
+      onTap: () {
+        final String deviceId = device.deviceId;
+        print('$deviceId');
+        Get.find<DeviceController>().fetchDevice(deviceId);
+        Get.toNamed('/deviceinfo');
+      },
+      title: Text(device.name ?? ''),
+      subtitle: Text(device.location ?? ''),
+      leading: Image.asset(
+        assetPath,
+        fit: BoxFit.cover,
       ),
-    );
-  }
+    ),
+  );
 }

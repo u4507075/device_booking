@@ -1,9 +1,29 @@
+import 'dart:developer';
+
+import 'package:device_booking/dev/checkdeviceinfo.dart';
+import 'package:device_booking/controller/bindings/authBinding.dart';
+import 'package:device_booking/controller/count_controller.dart';
+import 'package:device_booking/controller/device_controller.dart';
+import 'package:device_booking/demo/getotp.dart';
+import 'package:device_booking/models/device.dart';
+import 'package:device_booking/models/pages/pages.dart';
+import 'package:device_booking/pages/bookdevice/inuse.dart';
+import 'package:device_booking/pages/bookdevice/confirmation.dart';
+
+import 'package:device_booking/pages/bookdevice/reportproblem.dart';
+import 'package:device_booking/pages/bookdevice/selectlocation.dart';
+import 'package:device_booking/pages/bookdevice/takedeviceroot.dart';
+import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
+import 'package:device_booking/pages/deviceinfo/devicelist.dart';
+import 'package:device_booking/pages/profile/editprofile.dart';
+import 'package:device_booking/pages/profile/profile.dart';
+
 import './pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/home/home.dart';
-import 'package:device_booking/pages/loading.dart';
-import 'package:device_booking/pages/wrapper.dart';
+import 'package:device_booking/utils/loading.dart';
+import 'package:device_booking/utils/root.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/foundation.dart';
@@ -11,15 +31,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'dart:async';
 import 'dart:io';
 import 'pages/authenticate/signup.dart';
 import 'package:provider/provider.dart';
 import './services/auth.dart';
-import './models/user.dart';
+import 'models/user.dart';
 // import 'package:device_booking/dev/homepage.dart';
+import 'package:device_booking/pages/bookdevice/qrscan.dart';
 
-import 'package:device_booking/services/firebasedb.dart';
+import 'package:device_booking/services/database.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:get/get.dart';
 
 void main() async {
   LicenseRegistry.addLicense(() async* {
@@ -54,92 +76,196 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key key, this.app}) : super(key: key);
   final FirebaseApp app;
-  @override
-  Widget build(BuildContext context) {
-    return StreamProvider<UserData>.value(
-      initialData: null,
-      value: AuthService().onAuthStateChangedUserData,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: true,
-        title: 'Medical Device Tracking System',
-        theme: ThemeData(
-          appBarTheme:
-              AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
-          textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
-          primaryColor: Colors.blue,
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => Wrapper(),
-          '/home': (context) => Home(),
-          '/authenticate': (context) => Authenticate(),
-          '/loading': (context) => Loading(),
-          '/signup': (context) => SignUp(),
-          '/getotp': (context) => GetOTP(),
-        },
-      ),
-    );
-  }
-}
 
-class MyApp1 extends StatelessWidget {
-  const MyApp1({Key key, this.app}) : super(key: key);
-  final FirebaseApp app;
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    /*FirebaseDB().fetchData("users","396009414e0329f7").then((Map<String, dynamic> data){
-      print(data);
-    });*/
-    //FirebaseDB().updateStatus(app, "Sun");
-    //FirebaseDB().listenStatusChange(app, 'Sun');
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: true,
+      title: 'Medical Device Tracking System',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        appBarTheme:
+            AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+        textTheme: TextTheme(
+            headline1: h1TextStyle,
+            headline2: h2TextStyle,
+            headline3: h3TextStyle,
+            bodyText1: b1TextStyle,
+            bodyText2: b2TextStyle),
+        primaryColor: Colors.blue,
       ),
-      //home: Home(),
-      // home: GetOTP(),
-      //home: Book('992106606'),
-      //home: Load(),
-      //home: Status(app, 'deviceid1'),
-      //home : QR_reader(),
-      // home : ElevatedButton(
-      //   style: ButtonStyle(
-      //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-      //           RoundedRectangleBorder(
-      //               borderRadius: BorderRadius.circular(28.0)))),
-      //   child: Padding(
-      //     padding:
-      //     EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50, right: 50),
-      //     child: Text("Get OTP", style: TextStyle(fontSize: 30)),
-      //   ),
-      //   onPressed: () {FirebaseDB().updateStatus(app, "Sun");
-      //   },
-      // ),
-      // home: ProfilePage(),
+      initialBinding: AuthBinding(),
+      initialRoute: '/',
+      getPages: [
+        GetPage(
+            name: 'tester', page: () => Tester()), //Test field for new function
+        GetPage(name: '/', page: () => Root()),
+        GetPage(name: '/loading', page: () => Loading()), //Global loading page
+
+        //Sign in features
+        GetPage(name: 'authenticate', page: () => Authenticate()),
+        GetPage(name: '/signup', page: () => SignUp()),
+        GetPage(name: '/home', page: () => Home()),
+
+        //Device info features
+        GetPage(name: '/devicelist', page: () => DeviceListPage()),
+        GetPage(name: '/deviceinfo', page: () => DeviceInfo()),
+        GetPage(name: '/reportproblem', page: () => ReportProblem()),
+
+        //Take device features
+        GetPage(name: '/takedevice', page: () => TakeDevice()),
+        GetPage(name: '/selectlocation', page: () => SelectLocation()),
+        GetPage(name: '/confirmation', page: () => Confirmation()),
+        GetPage(name: '/inuse', page: () => InUse()),
+
+        //Profile features
+        GetPage(name: '/profile', page: () => Profile()),
+        GetPage(name: '/editprofile', page: () => EditProfile()),
+      ],
     );
   }
 }
 
-// print(Text('hi'));
-// FirebaseDB2().fetchData('users', '396009414e0329f7');
+//Function Tester
+class Tester extends StatelessWidget {
+  final CountController countController = Get.put(CountController());
+  @override
+  Widget build(BuildContext context) {
+    // var counter = Provider.of<USER>(context).count;
+    // var count = context.watch<USER>().count;
+    String deviceId = '123';
+    return Scaffold(
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GetBuilder<CountController>(
+              init: CountController(),
+              builder: (controller) {
+                return Text('${controller.count ?? ''}');
+              }),
+          ElevatedButton(
+              onPressed: () {
+                print('Test');
+                countController.increment();
+                Get.to(() => DeviceInfo(), arguments: deviceId);
 
-// FirebaseDB()
-//     .fetchData('users', '396009414e0329f7')
-//     .then((value) => (Map<String, dynamic> data) {
-//           print(data);
-//         });
+                // Get.find<DeviceController>().setId('');
 
-// FirebaseDB().updateStatus(app, 'spatipan');
+                // Get.find<DeviceController>().setId('');
 
-// FirebaseDB().listenStatusChange(app, 'Sun');
+                // Device().fetchDevice('UnJ9w5JS8XnLXOqHhKSv');
+
+                // Device().takeDevice(
+                //     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
+                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
+                //     location: 'โรงเรียน');
+
+                // Device().returnDevice(
+                //     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
+                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2');
+
+                // Device().reportDevice(
+                //     deviceId: 'ZKUFINrPPKGWfZiiFk5E',
+                //     userId: 'dNE6ctStgzTeCiZ6YIjVnJGQQJf2',
+                //     reportText: 'เครื่องหนักจังเลย');
+
+                // Device().addNewDevice(Device().sample());
+                // Device().addNewDevice(Device().sample());
+
+                // DBService().fetchDeviceList('ultrasound').then((devices) {
+                //   devices.forEach((device) {
+                //     print(device.name);
+                //   });
+                // });
+              },
+              child: Text('Test')),
+          ElevatedButton(
+              onPressed: () {
+                deviceId = '6PpTwPAVDtVswJ13aCOo';
+                Get.to(() => DeviceInfo(), arguments: deviceId);
+              },
+              child: Text('Device 1')),
+          ElevatedButton(
+              onPressed: () {
+                deviceId = '7qfPYOiGbJWQAddGpN9x';
+                Get.to(() => DeviceInfo(), arguments: deviceId);
+              },
+              child: Text('Device 2'))
+        ],
+      )),
+    );
+  }
+}
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key key, this.app}) : super(key: key);
+//   final FirebaseApp app;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         StreamProvider<User>.value(
+//           initialData: null,
+//           value: AuthService().onAuthStateChanged,
+//         ),
+//         // StreamProvider(
+//         //   create: (context) {
+//         //     return DBService().streamUserData(Provider.of<User>(context,
+//         //             listen: false)
+//         //         .uid); //Ref: https://github.com/rrousselGit/provider/issues/120
+//         //   },
+//         //   initialData: UserData.initialValue(),
+//         //   catchError: (context, error) {
+//         //     // AuthService().signOut();
+//         //     print(error.toString());
+//         //     return UserData.initialValue();
+//         //   },
+//         // ),
+//         StreamProvider<UltrasoundDeviceList>(
+//             create: (context) => UltrasoundDeviceList().streamDeviceList(),
+//             initialData: UltrasoundDeviceList.initialValue()),
+//         StreamProvider<EkgDeviceList>(
+//             create: (context) => EkgDeviceList().streamDeviceList(),
+//             initialData: EkgDeviceList.initialValue())
+//       ],
+//       child: GetMaterialApp(
+//         debugShowCheckedModeBanner: true,
+//         title: 'Medical Device Tracking System',
+//         theme: ThemeData(
+//           appBarTheme:
+//               AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+//           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
+//           primaryColor: Colors.blue,
+//         ),
+//         initialRoute: '/',
+//         // home: WrapperAuth(),
+//         routes: {
+//           'tester': (context) => Tester(),
+//           '/': (context) => Wrapper(),
+//           '/home': (context) => Home(),
+//           '/authenticate': (context) => Authenticate(),
+//           '/loading': (context) => Loading(),
+//           '/signup': (context) => SignUp(),
+//           '/getotp': (context) => GetOTP(),
+//           '/bookdevice/qrscan': (context) => QRScan(),
+//           'checkuserdevice': (context) => CheckDeviceInfo(),
+//           'getotp': (context) => GetOTP2(),
+//           '/home/devicelist': (context) => DeviceListPage(),
+//           // '/bookdevice/selectLo' : (context) => LocationList(),
+//           // '/bookdevice/busydevice' : (context) => MyTest()
+//         },
+//         getPages: [
+//           GetPage(name: '/', page: () => Wrapper()),
+//           GetPage(name: 'tester', page: () => Tester()),
+//           GetPage(name: '/home', page: () => Home()),
+//           GetPage(name: 'authenticate', page: () => Authenticate()),
+//           GetPage(name: '/loading', page: () => Loading()),
+//           GetPage(name: '/qrscan', page: () => QRScan()),
+//           GetPage(name: '/signup', page: () => SignUp()),
+//           GetPage(name: '/devicelist', page: () => DeviceListPage()),
+//         ],
+//       ),
+//     );
+//   }
+// }
