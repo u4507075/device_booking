@@ -22,23 +22,23 @@ Widget qrScanButton() {
         color: Colors.black,
       ),
       onPressed: () async {
-        // await controller.scanQrCode();
-        // print('${controller.qrCode}');
-        // await deviceController.fetchDevice('ZKUFINrPPKGWfZiiFk5E');
-        // //cancel scan qr -> not navigate
-        // if (controller.qrCode == '-1') {
-        //   Get.snackbar('QR Scan cancelled', 'QE scanner was cancelled by user');
-        // } else if (deviceController.device != null) {
-        //   Get.toNamed('/takedevice');
-        // } else {
-        //   Get.snackbar('QR scan error', 'QR code not found');
-        // }
+        await controller.scanQrCode();
+        print('${controller.qrCode}');
         await deviceController.fetchDevice('ZKUFINrPPKGWfZiiFk5E');
-        if (deviceController.device != null) {
-          Get.toNamed('/selectlocation');
+        //cancel scan qr -> not navigate
+        if (controller.qrCode == '-1') {
+          Get.snackbar('QR Scan cancelled', 'QE scanner was cancelled by user');
+        } else if (deviceController.device != null) {
+          Get.toNamed('/takedevice');
         } else {
           Get.snackbar('QR scan error', 'QR code not found');
         }
+        // await deviceController.fetchDevice('ZKUFINrPPKGWfZiiFk5E');
+        // if (deviceController.device != null) {
+        //   Get.toNamed('/selectlocation');
+        // } else {
+        //   Get.snackbar('QR scan error', 'QR code not found');
+        // }
         // Get.toNamed('/selectlocation');
       }
 
