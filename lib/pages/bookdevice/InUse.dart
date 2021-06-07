@@ -75,7 +75,7 @@ class _InUseState extends State<InUse> {
                               onPressed: () async {
                                 DBService().returnDevice(
                                     userController.log.deviceId,
-                                    userController.user.uid);
+                                    userController.streamUser.uid);
                                 Get.offAllNamed('/');
                               },
                               child: Text('Return Device')),

@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:device_booking/models/user.dart';
 
 class UserController extends GetxController {
+  Rxn<UserData> _streamUserData = Rxn<UserData>();
   Rxn<UserData> _userData = Rxn<UserData>();
   final _userLog = UserLog().obs;
 
+  UserData get streamUser => _streamUserData.value;
   UserData get user => _userData.value;
   UserLog get log => _userLog.value;
 
@@ -16,13 +18,23 @@ class UserController extends GetxController {
   onInit() {
     super.onInit();
     String userId = Get.find<AuthController>().firebaseUser.uid;
-    _userData.bindStream(DBService().streamUserData(userId));
+    _streamUserData.bindStream(DBService().streamUserData(userId));
   }
 
-  set user(UserData value) => this._userData.value = value;
+  set user(UserData value) => this._streamUserData.value = value;
 
   void clear() {
-    _userData.value = UserData();
+    _streamUserData.value = UserData();
+  }
+
+  //For sign up
+  void updateLocalUser(UserData user) {
+    _userData.value = user;
+  }
+
+  //fetch user
+  Future<void> fetchUser() async {
+    return DBService().fetchUser(Get.find<AuthController>().firebaseUser.uid);
   }
 
   //register new user
@@ -42,12 +54,12 @@ class UserController extends GetxController {
 
 //user InUse
   void userInUse() {
-    user.inUse = true;
+    streamUser.inUse = true;
   }
 
 //user return
   void userReturn() {
-    user.inUse = false;
+    streamUser.inUse = false;
   }
 
   Future<UserLog> lastUserLog() async {

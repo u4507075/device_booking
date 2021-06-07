@@ -15,8 +15,9 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    valueChoose = controller.user?.role ?? 'Extern'; //initialized user role
-    _user = controller.user;
+    valueChoose =
+        controller.streamUser?.role ?? 'Extern'; //initialized user role
+    _user = controller.streamUser;
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -66,7 +67,7 @@ class EditProfile extends StatelessWidget {
                     child: ClipOval(
                       child: (_user?.photoURL != null)
                           ? Obx(() => Image.network(
-                                controller.user?.photoURL ?? '',
+                                controller.streamUser?.photoURL ?? '',
                                 fit: BoxFit.cover,
                               ))
                           : Image.asset(
@@ -78,12 +79,12 @@ class EditProfile extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                    child: Text('${controller.user?.email ?? ''}',
+                    child: Text('${controller.streamUser?.email ?? ''}',
                         style: b1TextStyle),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
-                    child: Text('UID: ${controller.user?.uid ?? ''}',
+                    child: Text('UID: ${controller.streamUser?.uid ?? ''}',
                         style: b2TextStyle),
                   ),
                   Form(
@@ -93,7 +94,7 @@ class EditProfile extends StatelessWidget {
                           children: [
                             //Enter firstname
                             TextFormField(
-                                initialValue: controller.user?.firstname,
+                                initialValue: controller.streamUser?.firstname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -113,7 +114,7 @@ class EditProfile extends StatelessWidget {
                                             BorderRadius.circular(4.0)))),
                             //Enter lastname
                             TextFormField(
-                                initialValue: controller.user?.lastname,
+                                initialValue: controller.streamUser?.lastname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||

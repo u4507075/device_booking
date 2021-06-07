@@ -15,13 +15,17 @@ class SignUp extends StatelessWidget {
 
   String valueChoose;
   // UserController controller = Get.put(UserController());
-  UserData _user;
+  UserData _user = UserData();
   AuthController controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     // _user = controller.user;
-    _user = AuthService().userDataFromFirebaseUser(controller.firebaseUser);
+
+    //Google signin / other sign in method
+    if (Get.find<AuthController>().firebaseUser != null) {
+      _user = AuthService().userDataFromFirebaseUser(controller.firebaseUser);
+    }
 
     return SafeArea(
       child: Scaffold(
@@ -45,8 +49,10 @@ class SignUp extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     print('Submit Form Successful');
-                    await DBService().registerNewUser(_user);
-                    Get.back();
+                    // await DBService().registerNewUser(_user);
+
+                    Get.toNamed('/getotp');
+                    // Get.back();
                   } else {
                     //TODO add snack bar
                     print('Submit Form failed');

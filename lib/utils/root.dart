@@ -25,8 +25,8 @@ class Root extends GetWidget<AuthController> {
     return Obx(() {
       if (Get.find<AuthController>().firebaseUser != null) {
         UserController userController = Get.put(UserController());
-        if (userController.user != null) {
-          if (Get.find<UserController>().user.inUse) {
+        if (userController.streamUser != null) {
+          if (Get.find<UserController>().streamUser.inUse) {
             return InUse();
           } else {
             return Home();

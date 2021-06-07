@@ -38,9 +38,9 @@ class Profile extends StatelessWidget {
               child: Column(
                 children: [
                   ClipOval(
-                    child: (controller.user?.photoURL != null)
+                    child: (controller.streamUser?.photoURL != null)
                         ? Obx(() => Image.network(
-                              controller.user?.photoURL ?? '',
+                              controller.streamUser?.photoURL ?? '',
                               fit: BoxFit.cover,
                               height: MediaQuery.of(context).size.height / 5,
                               // width: MediaQuery.of(context).size.width / 5,
@@ -56,7 +56,7 @@ class Profile extends StatelessWidget {
             Align(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                child: Obx(() => Text('${controller.user?.email ?? ''}',
+                child: Obx(() => Text('${controller.streamUser?.email ?? ''}',
                     style: b1TextStyle)),
               ),
             ),
@@ -64,7 +64,7 @@ class Profile extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
                   child: Obx(
-                    () => Text('UID: ${controller.user?.uid ?? ''}',
+                    () => Text('UID: ${controller.streamUser?.uid ?? ''}',
                         style: b2TextStyle),
                   )),
             ),
@@ -119,7 +119,7 @@ class ProfileInfo extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Obx(
                         () => Text(
-                          '${controller.user?.firstname ?? ''}',
+                          '${controller.streamUser?.firstname ?? ''}',
                           style: b1TextStyle,
                         ),
                       )),
@@ -136,7 +136,7 @@ class ProfileInfo extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Obx(
                         () => Text(
-                          '${controller.user?.lastname ?? ''}',
+                          '${controller.streamUser?.lastname ?? ''}',
                           style: b1TextStyle,
                         ),
                       )),
@@ -153,7 +153,7 @@ class ProfileInfo extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Obx(
                         () => Text(
-                          '${controller.user?.phoneNumber ?? ''}',
+                          '${controller.streamUser?.phoneNumber ?? ''}',
                           style: b1TextStyle,
                         ),
                       )),
@@ -170,7 +170,7 @@ class ProfileInfo extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Obx(
                         () => Text(
-                          '${controller.user?.role ?? ''}',
+                          '${controller.streamUser?.role ?? ''}',
                           style: b1TextStyle,
                         ),
                       )),

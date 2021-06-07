@@ -101,7 +101,7 @@ class Confirmation extends StatelessWidget {
                                 // print('$deviceId $location ');
                                 await Device().takeDevice(
                                     deviceId: deviceId,
-                                    userId: userController.user.uid,
+                                    userId: userController.streamUser.uid,
                                     location: location);
                                 Get.offNamedUntil('/inuse', (route) => false);
                               },
@@ -146,7 +146,7 @@ class _deviceInfo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Obx(() => Text(
-                    '${userController.user.role.capitalize} ${userController.user.firstname.capitalize} ${userController.user.lastname.capitalize}',
+                    '${userController.streamUser.role.capitalize} ${userController.streamUser.firstname.capitalize} ${userController.streamUser.lastname.capitalize}',
                     style: Theme.of(context).textTheme.bodyText2)),
               ),
             ],
@@ -161,7 +161,7 @@ class _deviceInfo extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Obx(
-                    () => Text('${userController.user.phoneNumber}',
+                    () => Text('${userController.streamUser.phoneNumber}',
                         style: Theme.of(context).textTheme.bodyText2),
                   )),
             ],

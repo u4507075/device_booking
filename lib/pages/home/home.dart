@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
               children: <Widget>[
                 Obx(
                   () => Text(
-                      'Welcome,\n${Get.find<UserController>().user?.firstname}',
+                      'Welcome,\n${Get.find<UserController>().streamUser?.firstname}',
                       style: h1TextStyle),
                 ),
                 IconButton(

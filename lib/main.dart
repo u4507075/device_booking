@@ -12,7 +12,7 @@ import 'package:device_booking/pages/bookdevice/confirmation.dart';
 
 import 'package:device_booking/pages/deviceinfo/reportproblem.dart';
 import 'package:device_booking/pages/bookdevice/selectlocation.dart';
-import 'package:device_booking/pages/bookdevice/takedeviceroot.dart';
+import 'package:device_booking/utils/takedeviceroot.dart';
 import 'package:device_booking/pages/deviceinfo/deviceinfo.dart';
 import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:device_booking/pages/profile/editprofile.dart';
@@ -104,6 +104,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: 'authenticate', page: () => Authenticate()),
         GetPage(name: '/signup', page: () => SignUp()),
         GetPage(name: '/home', page: () => Home()),
+        GetPage(name: '/getotp', page: () => GetOTP()),
 
         //Device info features
         GetPage(name: '/devicelist', page: () => DeviceListPage()),
