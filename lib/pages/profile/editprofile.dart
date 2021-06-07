@@ -38,7 +38,7 @@ class EditProfile extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     print('Submit Form Successful');
-                    await Get.find<UserController>().updateUser(user: _user);
+                    await controller.updateUser(user: _user);
                     Get.offNamed('/profile');
                   } else {
                     //TODO add snack bar

@@ -1,3 +1,5 @@
+import 'package:device_booking/controller/auth_controller.dart';
+import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:device_booking/models/pages/pages.dart';
@@ -17,8 +19,10 @@ class ReportProblem extends StatelessWidget {
   // StreamController<String> _controller = StreamController.broadcast();
 
   // UserController controller = Get.find<UserController>();
-  String deviceId = Get.arguments.toString();
-  String userId = Get.find<UserController>().user.uid;
+  // String deviceId = Get.arguments.toString();
+  DeviceController deviceController = Get.put(DeviceController());
+
+  // String userId = Get.find<UserController>().user.uid;
   TextEditingController textFieldController = TextEditingController();
 
   // ReportProblem({this.deviceId});
@@ -31,7 +35,7 @@ class ReportProblem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('$deviceId');
+    // print('$deviceId');
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -49,8 +53,8 @@ class ReportProblem extends StatelessWidget {
                 if (textFieldController.text.length != 0) {
                   print('Problem submitted');
                   _updateData(
-                      deviceId: deviceId,
-                      userId: userId,
+                      deviceId: deviceController.device.deviceId,
+                      userId: Get.find<AuthController>().firebaseUser.uid,
                       reportText: reportText);
                   Get.back();
                 } else {

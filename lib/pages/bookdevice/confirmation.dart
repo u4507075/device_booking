@@ -30,6 +30,9 @@ class Confirmation extends StatelessWidget {
             child: Stack(
               children: [
                 Align(
+                    child: Obx(() => Text(
+                        '${deviceController.device.deviceType.capitalize} ${deviceController.device.name.capitalize}'))),
+                Align(
                   alignment: Alignment.topLeft,
                   child: BackButton(
                     onPressed: () {
