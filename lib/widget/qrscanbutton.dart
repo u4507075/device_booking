@@ -23,10 +23,10 @@ Widget qrScanButton() {
       ),
       onPressed: () async {
         await controller.scanQrCode();
-        print('${controller.qrCode}');
-        await deviceController.fetchDevice('ZKUFINrPPKGWfZiiFk5E');
+        // print('${controller.qrCode}');
+        await deviceController.fetchDevice(controller.qrCode.value);
         //cancel scan qr -> not navigate
-        if (controller.qrCode == '-1') {
+        if (controller.qrCode.value == '-1') {
           Get.snackbar('QR Scan cancelled', 'QE scanner was cancelled by user');
         } else if (deviceController.device != null) {
           Get.toNamed('/takedevice');

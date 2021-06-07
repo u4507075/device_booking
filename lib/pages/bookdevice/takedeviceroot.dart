@@ -17,8 +17,7 @@ class TakeDevice extends StatelessWidget {
           init: Get.put(DeviceController()),
           builder: (controller) {
             if (controller != null &&
-                controller.deviceInfo != null &&
-                controller.deviceInfo.name != null) {
+                controller.device != null && !controller.device.inUse) {
               return SelectLocation();
             } else {
               return DeviceNotFound();
