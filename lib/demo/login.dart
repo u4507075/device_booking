@@ -61,7 +61,7 @@ class LoginState extends State<Login> {
     print(user);
     if (user == null) {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return GetOTP();
+        return GetOTP2();
       }));
     } else {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
