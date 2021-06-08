@@ -1,6 +1,7 @@
 import 'package:device_booking/controller/bindings/authBinding.dart';
 import 'package:device_booking/controller/count_controller.dart';
 import 'package:device_booking/models/pages/pages.dart';
+import 'package:device_booking/pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/bookdevice/busydevice.dart';
 import 'package:device_booking/pages/bookdevice/inuse.dart';
 import 'package:device_booking/pages/bookdevice/confirmation.dart';
