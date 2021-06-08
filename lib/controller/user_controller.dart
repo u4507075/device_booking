@@ -67,4 +67,8 @@ class UserController extends GetxController {
         .lastUserLog(Get.find<AuthController>().firebaseUser.uid);
     return _userLog.value;
   }
+
+  void setUser(UserData user) {
+    _userData.value = user;
+  }
 }

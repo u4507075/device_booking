@@ -5,8 +5,10 @@ import 'package:get/get.dart';
 class TimerController extends GetxController {
   // var _now = DateTime.now().obs;
   var _duration = Duration().obs;
+  var _count = 0.obs;
 
   Duration get duration => _duration.value;
+  int get count => _count.value;
 
   @override
   void onInit() {
@@ -30,13 +32,14 @@ class TimerController extends GetxController {
     });
   }
 
-  void countDown(Duration duration) {
-    DateTime target = DateTime.now().add(duration);
+  void countDownSeconds(int seconds) {
+    _count.value = seconds;
     Timer.periodic(Duration(seconds: 1), (timer) {
-      DateTime now = DateTime.now();
-      Duration diff = target.difference(now);
-      _duration.value = diff;
-      if (now.isAfter(target)) {
+      _count.value -= 1;
+      // if (now.isAfter(target)) {
+      //   timer.cancel();
+      // }
+      if (_count.value == 0) {
         timer.cancel();
       }
     });

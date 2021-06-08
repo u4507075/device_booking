@@ -16,7 +16,9 @@ class Home extends StatelessWidget {
   // Get.put(UserController());
   Widget build(BuildContext context) {
     // final user = context.watch<UserData>();
-    UserController controller = Get.put(UserController());
+    UserController userController = Get.put(UserController());
+    userController.fetchUser();
+    // print('${userController.user.firstname}');
     return SafeArea(
         child: Scaffold(
       body: Container(

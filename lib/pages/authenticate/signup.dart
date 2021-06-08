@@ -10,22 +10,39 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/services/database.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
   String valueChoose;
-  // UserController controller = Get.put(UserController());
+
   UserData _user = UserData();
+
   AuthController controller = Get.put(AuthController());
+
+  UserController userController = Get.put(UserController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userController.setUser(
+        AuthService().userDataFromFirebaseUser(controller.firebaseUser));
+    _user = userController.user;
+  }
 
   @override
   Widget build(BuildContext context) {
     // _user = controller.user;
 
     //Google signin / other sign in method
-    if (Get.find<AuthController>().firebaseUser != null) {
-      _user = AuthService().userDataFromFirebaseUser(controller.firebaseUser);
-    }
+    // if (controller.firebaseUser != null) {
+    //   _user = AuthService().userDataFromFirebaseUser(controller.firebaseUser);
+    // }
 
     return SafeArea(
       child: Scaffold(
@@ -51,6 +68,8 @@ class SignUp extends StatelessWidget {
                     print('Submit Form Successful');
                     // await DBService().registerNewUser(_user);
 
+                    userController.setUser(_user);
+                    print('${userController.user.phoneNumber}');
                     Get.toNamed('/getotp');
                     // Get.back();
                   } else {
@@ -77,7 +96,7 @@ class SignUp extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 5,
                     child: ClipOval(
-                      child: (_user.photoURL != null)
+                      child: (controller.firebaseUser.photoURL != null)
                           ? Obx(() => Image.network(
                                 controller.firebaseUser.photoURL ?? '',
                                 fit: BoxFit.cover,
@@ -91,11 +110,13 @@ class SignUp extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                    child: Text('${_user.email ?? ''}', style: b1TextStyle),
+                    child: Text('${controller.firebaseUser.email ?? ''}',
+                        style: b1TextStyle),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
-                    child: Text('UID: ${_user?.uid ?? ''}', style: b2TextStyle),
+                    child: Text('UID: ${controller.firebaseUser.uid ?? ''}',
+                        style: b2TextStyle),
                   ),
                   Form(
                       key: _formKey,
@@ -104,7 +125,10 @@ class SignUp extends StatelessWidget {
                           children: [
                             //Enter firstname
                             TextFormField(
-                                initialValue: _user?.firstname,
+                                initialValue: AuthService()
+                                    .userDataFromFirebaseUser(
+                                        controller.firebaseUser)
+                                    .firstname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -124,7 +148,10 @@ class SignUp extends StatelessWidget {
                                             BorderRadius.circular(4.0)))),
                             //Enter lastname
                             TextFormField(
-                                initialValue: _user?.lastname,
+                                initialValue: AuthService()
+                                    .userDataFromFirebaseUser(
+                                        controller.firebaseUser)
+                                    .lastname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -144,7 +171,8 @@ class SignUp extends StatelessWidget {
                                             BorderRadius.circular(4.0)))),
                             //Enter phonenumber
                             TextFormField(
-                                initialValue: _user.phoneNumber,
+                                initialValue:
+                                    controller.firebaseUser.phoneNumber,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
@@ -206,62 +234,4 @@ class SignUp extends StatelessWidget {
           ])),
     );
   }
-
-  // String validateName(String value) {
-  //   if (value.length < 3)
-  //     return 'Must be more than 2 charater';
-  //   else
-  //     return null;
-  // }
-
-  // String validatePhoneNumber(String value) {
-  //   if (value.length != 10)
-  //     return 'Must have 10 digits';
-  //   else if (value.substring(0, 1) != '0')
-  //     return 'Phone number must start with 0';
-  //   else
-  //     return null;
-  //   return null;
-  // }
-  // // //customized textFormField function here!
-  // Widget textFormField(String collectVar, String labelText, String hintText,
-  //         String errorText) =>
-  //     TextFormField(
-  //         initialValue: collectVar,
-  //         validator: (value) {
-  //           return (value == null || value.isEmpty) ? errorText : null;
-  //         },
-  //         onChanged: (text) {
-  //           collectVar = text;
-  //         },
-  //         decoration: InputDecoration(
-  //             labelText: labelText,
-  //             labelStyle: h3TextStyle,
-  //             hintText: hintText,
-  //             border: UnderlineInputBorder(
-  //                 borderRadius: BorderRadius.circular(4.0))));
-
-  // //add additional TextFormField here!
-  // UserTextFormFields userForm;
-  // setUserForm() {
-  //   userForm = UserTextFormFields([
-  //     UserTextFormField(user.firstname, 'First name', 'Enter your first name',
-  //         'Please enter your first name'),
-  //     UserTextFormField(user.lastname, 'Last name', 'Enter your last name',
-  //         'Please enter your first name'),
-  //     UserTextFormField(user.phomeNumber, 'Phone number',
-  //         'Enter your first name', 'Please enter your phone number'),
-  //     // UserTextFormField(user.role, 'Role', 'Medical student / Intern / Resident',
-  //     //     'Please enter your first name'),
-  //   ]);
-  // }
-
-  // //add to column
-  // List<Widget> textFormFields(UserTextFormFields userForm) {
-  //   return userForm.formFields
-  //       .map((formField) => textFormField(formField.collectVar,
-  //           formField.labelText, formField.hintText, formField.errorText))
-  //       .toList();
-  // }
-
 }
