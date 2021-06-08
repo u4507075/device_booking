@@ -1,18 +1,11 @@
 import 'package:device_booking/controller/auth_controller.dart';
 import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
-import 'package:device_booking/models/device.dart';
-import 'package:device_booking/models/pages/pages.dart';
-import 'package:device_booking/models/user.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'dart:math';
 
 class ReportProblem extends StatelessWidget {
   // ReportProblemPage Reportproblem = ReportProblemPage();

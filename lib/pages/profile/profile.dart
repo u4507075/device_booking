@@ -1,16 +1,13 @@
 import 'package:device_booking/controller/user_controller.dart';
-import 'package:device_booking/models/user.dart';
-import 'package:device_booking/utils/loading.dart';
 import 'package:device_booking/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:device_booking/models/user.dart';
 import 'package:device_booking/style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Profile extends StatelessWidget {
-  UserController controller = Get.put(UserController());
+  final UserController controller = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -77,8 +74,31 @@ class Profile extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () async {
-                  await AuthService().signOut();
-                  Get.offAllNamed('/');
+                  Get.defaultDialog(
+                    // confirm: InkWell(
+                    //   child: Container(
+                    //     decoration: BoxDecoration(color: Colors.blue),
+                    //     child: Text('Confirm'),
+                    //   ),
+                    // ),
+                    // cancel:
+                    //     OutlinedButton(onPressed: () {}, child: Text('Cancel')),
+                    // textConfirm: 'Confirm',
+                    title: 'Confirmation',
+                    textConfirm: 'Log out',
+                    confirmTextColor: Colors.white,
+                    cancelTextColor: Colors.black,
+                    buttonColor: Colors.red[800],
+                    middleText: 'Do you want to log out?',
+                    textCancel: 'Cancel',
+                    onConfirm: () async {
+                      await AuthService().signOut();
+                      Get.offAllNamed('/');
+                    },
+                    onCancel: () {
+                      print('Cancel');
+                    },
+                  );
                 },
                 child: Text('Log out',
                     style: GoogleFonts.kanit(
@@ -94,7 +114,7 @@ class ProfileInfo extends StatelessWidget {
   // UserController controller;
 
   // ProfileInfo(this.controller);
-  UserController userController = Get.put(UserController());
+  final UserController userController = Get.put(UserController());
   // ProfileController controller = Get.put(ProfileController());
 
   // List<List<String>> _profileList;

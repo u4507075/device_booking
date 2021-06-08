@@ -1,13 +1,8 @@
 import 'dart:ui';
-import 'package:device_booking/utils/loading.dart';
 import 'package:device_booking/services/auth.dart';
-import 'package:device_booking/services/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:device_booking/models/user.dart';
 
 // class Authenticate extends StatefulWidget {
 //   @override

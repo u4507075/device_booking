@@ -1,12 +1,8 @@
 import 'package:device_booking/controller/user_controller.dart';
-import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/style.dart';
 import 'package:device_booking/widget/qrscanbutton.dart';
 import 'package:flutter/material.dart';
-import 'package:device_booking/pages/deviceinfo/devicelist.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:device_booking/models/user.dart';
 
 //To use UserData copy this!
 // import 'package:provider/provider.dart';
