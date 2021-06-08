@@ -1,19 +1,9 @@
-import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/controller/timer_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
-import 'package:device_booking/models/device.dart';
-import 'package:device_booking/models/user.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:device_booking/models/pages/pages.dart';
-import 'package:device_booking/pages/deviceinfo/reportproblem.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/pages/home/home.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class InUse extends StatefulWidget {
   // DeviceController controller = Get.put(DeviceController(deviceId));

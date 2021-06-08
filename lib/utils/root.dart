@@ -1,17 +1,11 @@
 import 'package:device_booking/controller/auth_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
-import 'package:device_booking/models/pages/pages.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
-import 'package:device_booking/pages/authenticate/signup.dart';
 import 'package:device_booking/pages/bookdevice/inuse.dart';
 import 'package:device_booking/pages/home/home.dart';
 import 'package:device_booking/utils/loading.dart';
-import 'package:device_booking/services/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:device_booking/models/user.dart';
 
 //listen for auth changes
 class Root extends GetWidget<AuthController> {

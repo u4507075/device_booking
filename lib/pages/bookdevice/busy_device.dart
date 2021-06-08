@@ -1,11 +1,24 @@
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:flutter/material.dart';
-// import 'dart:async';
-// import 'package:device_booking/models/pages/pages.dart';
-// import 'package:device_booking/pages/bookdevice/Select_location.dart';
-// import 'package:auto_size_text/auto_size_text.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:device_booking/models/pages/pages.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
-// //final Color darkBlue = Color.fromARGB(255, 13, 2, 78);
+class BusyDevice extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(leading: BackButton(
+          onPressed: () {
+            Get.back();
+          },
+        )),
+      ),
+    );
+  }
+}
 
 // class MyTest extends StatefulWidget {
 //   String email;

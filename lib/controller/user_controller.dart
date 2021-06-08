@@ -1,5 +1,4 @@
 import 'package:device_booking/controller/auth_controller.dart';
-import 'package:device_booking/models/device.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

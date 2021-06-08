@@ -1,15 +1,8 @@
 import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/models/device.dart';
-import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
-import 'package:device_booking/models/pages/pages.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'dart:async';
 import 'package:intl/intl.dart';
-import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_booking/pages/bookdevice/inuse.dart';
 import 'package:get/get.dart';
 
 class Confirmation extends StatelessWidget {

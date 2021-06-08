@@ -60,6 +60,10 @@ class DeviceController extends GetxController {
     _deviceId.value = id;
   }
 
+  void setDevice(Device device) {
+    _device.value = device;
+  }
+
   Future<void> lastUseDevice() async {
     _device.value = await DBService()
         .lastUseDevice(Get.find<AuthController>().firebaseUser.uid);

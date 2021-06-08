@@ -1,8 +1,6 @@
-import 'package:device_booking/models/qrcode.dart';
 import 'package:get/get.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
 
 class QrCodeController extends GetxController {
@@ -39,7 +37,7 @@ class QrCodeController extends GetxController {
       if (barcodeScanRes == '-1') {
         print('Qr code cancelled');
       } else {
-        print('QR code scanned: ${barcodeScanRes}');
+        print('QR code scanned: $barcodeScanRes');
       }
       qrCode.value = barcodeScanRes;
     } on PlatformException {

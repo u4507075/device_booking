@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/models/device.dart';
-import 'package:device_booking/services/auth.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 
 class UserData /*implements ReassembleHandler*/ {
   String firstname;
