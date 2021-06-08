@@ -33,7 +33,8 @@ class UserController extends GetxController {
 
   //fetch user
   Future<void> fetchUser() async {
-    return DBService().fetchUser(Get.find<AuthController>().firebaseUser.uid);
+    _userData.value = await DBService()
+        .fetchUser(Get.find<AuthController>().firebaseUser.uid);
   }
 
   //register new user

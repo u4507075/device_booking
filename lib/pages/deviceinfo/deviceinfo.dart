@@ -184,7 +184,7 @@ class DeviceInfo extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Obx(
                                   () => Text(
-                                      '${deviceController.device.lastUseTime != null ? DateFormat('H:m').format(deviceController.device.lastUseTime) : ''}',
+                                      '${deviceController.device.lastUseTime != null ? DateFormat('HH:mm').format(deviceController.device.lastUseTime) : ''}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText2),
