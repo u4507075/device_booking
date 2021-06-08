@@ -10,11 +10,15 @@ class BusyDevice extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(leading: BackButton(
-          onPressed: () {
-            Get.back();
-          },
-        )),
+        appBar: AppBar(
+          leading: BackButton(
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          title: Text('Busy Device'),
+          centerTitle: true,
+        ),
       ),
     );
   }

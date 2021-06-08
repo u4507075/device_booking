@@ -74,8 +74,31 @@ class Profile extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () async {
-                  await AuthService().signOut();
-                  Get.offAllNamed('/');
+                  Get.defaultDialog(
+                    // confirm: InkWell(
+                    //   child: Container(
+                    //     decoration: BoxDecoration(color: Colors.blue),
+                    //     child: Text('Confirm'),
+                    //   ),
+                    // ),
+                    // cancel:
+                    //     OutlinedButton(onPressed: () {}, child: Text('Cancel')),
+                    // textConfirm: 'Confirm',
+                    title: 'Confirmation',
+                    textConfirm: 'Log out',
+                    confirmTextColor: Colors.white,
+                    cancelTextColor: Colors.black,
+                    buttonColor: Colors.red[800],
+                    middleText: 'Do you want to log out?',
+                    textCancel: 'Cancel',
+                    onConfirm: () async {
+                      await AuthService().signOut();
+                      Get.offAllNamed('/');
+                    },
+                    onCancel: () {
+                      print('Cancel');
+                    },
+                  );
                 },
                 child: Text('Log out',
                     style: GoogleFonts.kanit(

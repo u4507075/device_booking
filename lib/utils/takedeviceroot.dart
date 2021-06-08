@@ -1,4 +1,5 @@
 import 'package:device_booking/controller/device_controller.dart';
+import 'package:device_booking/pages/bookdevice/busydevice.dart';
 import 'package:device_booking/pages/bookdevice/selectlocation.dart';
 import 'package:device_booking/utils/loading.dart';
 import 'package:device_booking/style.dart';
@@ -17,8 +18,13 @@ class TakeDevice extends StatelessWidget {
           init: Get.put(DeviceController()),
           builder: (controller) {
             if (controller != null &&
-                controller.device != null && !controller.device.inUse) {
+                controller.device != null &&
+                !controller.device.inUse) {
               return SelectLocation();
+            } else if (controller != null &&
+                controller.device != null &&
+                controller.device.inUse) {
+              return BusyDevice();
             } else {
               return DeviceNotFound();
               //redirect to device notfound dialog & have return button
