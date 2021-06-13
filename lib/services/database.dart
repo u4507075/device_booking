@@ -202,19 +202,22 @@ class DBService {
   }
 
   Future<Device> fetchDevice(String deviceId) async {
-    CollectionReference devices =
-        FirebaseFirestore.instance.collection('devices');
-    DocumentSnapshot documentSnapshot = await devices.doc(deviceId).get();
-    if (documentSnapshot.exists) {
-      Map<String, dynamic> device = documentSnapshot.data();
-      print(
-          'Retrieve device info successful: ${device['name']}, ${device['deviceType']}');
-      print(device['lastUseTime']?.toDate().toString());
-      return Device.fromMap(device);
-    } else {
-      print('Failed to retrieve device info');
-      return null;
-    }
+    try {
+      CollectionReference devices =
+          FirebaseFirestore.instance.collection('devices');
+      DocumentSnapshot documentSnapshot = await devices.doc(deviceId).get();
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> device = documentSnapshot.data();
+        print(
+            'Retrieve device info successful: ${device['name']}, ${device['deviceType']}');
+        print(device['lastUseTime']?.toDate().toString());
+        return Device.fromMap(device);
+      } else {
+        print('Failed to retrieve device info');
+        return null;
+      }
+    } catch (e) {}
+    print('Failed to retrieve device info');
   }
 
   Stream<Device> streamDevice(String deviceId) {

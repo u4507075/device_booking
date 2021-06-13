@@ -6,14 +6,18 @@ class TimerController extends GetxController {
   // var _now = DateTime.now().obs;
   var _duration = Duration().obs;
   var _count = 0.obs;
+  var _timeout = false.obs;
 
   Duration get duration => _duration.value;
   int get count => _count.value;
+  bool get timeout => _timeout.value;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    countDownSeconds(seconds: 60);
+    _timeout.value = false;
   }
 
   @override
@@ -32,7 +36,7 @@ class TimerController extends GetxController {
     });
   }
 
-  void countDownSeconds(int seconds) {
+  void countDownSeconds({int seconds}) {
     _count.value = seconds;
     Timer.periodic(Duration(seconds: 1), (timer) {
       _count.value -= 1;
@@ -41,6 +45,8 @@ class TimerController extends GetxController {
       // }
       if (_count.value == 0) {
         timer.cancel();
+        this._timeout.value = true;
+        Get.back();
       }
     });
   }

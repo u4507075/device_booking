@@ -14,9 +14,15 @@ class UserController extends GetxController {
   UserLog get log => _userLog.value;
 
   @override
+  void onClose() {
+    super.onClose();
+  }
+
+  @override
   onInit() {
     super.onInit();
-    String userId = Get.find<AuthController>().firebaseUser.uid;
+    String userId = Get.find<AuthController>().firebaseUser?.uid;
+
     _streamUserData.bindStream(DBService().streamUserData(userId));
   }
 
@@ -24,6 +30,11 @@ class UserController extends GetxController {
 
   void clear() {
     _streamUserData.value = UserData();
+  }
+
+  void bindStream() {
+    String userId = Get.find<AuthController>().firebaseUser?.uid;
+    _streamUserData.bindStream(DBService().streamUserData(userId));
   }
 
   //For sign up

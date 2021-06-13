@@ -1,3 +1,4 @@
+import 'package:device_booking/controller/loading_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/style.dart';
 import 'package:device_booking/widget/qrscanbutton.dart';
@@ -17,7 +18,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     // final user = context.watch<UserData>();
     UserController userController = Get.put(UserController());
-    userController.fetchUser();
+
     // print('${userController.user.firstname}');
     return SafeArea(
         child: Scaffold(
@@ -96,6 +97,15 @@ class Home extends StatelessWidget {
                 //       //     ModalRoute.withName(Navigator.defaultRouteName));
                 //     },
                 //     child: Text('Sign out')),
+                // ElevatedButton(
+                //     onPressed: () {
+                //       print('Test');
+                //       Get.find<LoadingController>().loading();
+                //       Future.delayed(Duration(seconds: 2)).then((value) {
+                //         Get.find<LoadingController>().loaded();
+                //       });
+                //     },
+                //     child: Text('Test')),
               ]),
             ),
           ],

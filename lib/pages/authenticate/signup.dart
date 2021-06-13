@@ -10,40 +10,275 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:device_booking/services/database.dart';
 
-class SignUp extends StatefulWidget {
-  @override
-  _SignUpState createState() => _SignUpState();
-}
+// class SignUp extends StatefulWidget {
+//   @override
+//   _SignUpState createState() => _SignUpState();
+// }
 
-class _SignUpState extends State<SignUp> {
+// class _SignUpState extends State<SignUp> {
+//   final _formKey = GlobalKey<FormState>();
+
+//   String valueChoose;
+
+//   UserData _user = UserData();
+
+//   AuthController controller = Get.put(AuthController());
+
+//   UserController userController = Get.put(UserController());
+
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//     if (Get.find<AuthController>().firebaseUser != null) {
+//       userController.setUser(
+//           AuthService().userDataFromFirebaseUser(controller.firebaseUser));
+//       _user = userController.user;
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // _user = controller.user;
+
+//     //Google signin / other sign in method
+//     // if (controller.firebaseUser != null) {
+//     //   _user = AuthService().userDataFromFirebaseUser(controller.firebaseUser);
+//     // }
+
+//     return Scaffold(
+//       appBar: AppBar(),
+//     );
+//     // return SafeArea(
+//     //   child: Scaffold(
+//     //       appBar: AppBar(
+//     //         leading: BackButton(
+//     //           onPressed: () async {
+//     //             await AuthService().signOut();
+//     //             Get.back();
+//     //           },
+//     //         ),
+//     //         elevation: 0.0,
+//     //         title: Text(
+//     //           'Sign Up',
+//     //           style: appBarTextStyle,
+//     //         ),
+//     //         centerTitle: true,
+//     //         actions: [
+//     //           TextButton(
+//     //             style: TextButton.styleFrom(
+//     //                 backgroundColor: Colors.blue, padding: EdgeInsets.all(4)),
+//     //             onPressed: () async {
+//     //               if (_formKey.currentState.validate()) {
+//     //                 print('Submit Form Successful');
+//     //                 // await DBService().registerNewUser(_user);
+
+//     //                 userController.setUser(_user);
+//     //                 print('${userController.user.phoneNumber}');
+//     //                 Get.toNamed('/getotp');
+//     //                 // Get.back();
+//     //               } else {
+//     //                 //TODO add snack bar
+//     //                 print('Submit Form failed');
+//     //                 // print('${controller.user.email}');
+//     //               }
+//     //             },
+//     //             child: Text(
+//     //               'Next',
+//     //               style: appBarTextStyle,
+//     //             ),
+//     //           )
+//     //         ],
+//     //       ),
+//     //       body: ListView(children: [
+//     //         Container(
+//     //           padding: EdgeInsets.all(20.0),
+//     //           alignment: Alignment.topCenter,
+//     //           child: Column(
+//     //             mainAxisSize: MainAxisSize.min,
+//     //             crossAxisAlignment: CrossAxisAlignment.center,
+//     //             children: [
+//     //               SizedBox(
+//     //                 height: MediaQuery.of(context).size.height / 5,
+//     //                 child: ClipOval(
+//     //                   child: (controller.firebaseUser.photoURL != null)
+//     //                       ? Obx(() => Image.network(
+//     //                             controller.firebaseUser.photoURL ?? '',
+//     //                             fit: BoxFit.cover,
+//     //                           ))
+//     //                       : Image.asset(
+//     //                           'assets/images/profile_placeholder.png',
+//     //                           fit:
+//     //                               BoxFit.cover, //TODO fit this image to the box
+//     //                         ),
+//     //                 ),
+//     //               ),
+//     //               Padding(
+//     //                 padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
+//     //                 child: Text('${controller.firebaseUser.email ?? ''}',
+//     //                     style: b1TextStyle),
+//     //               ),
+//     //               Padding(
+//     //                 padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
+//     //                 child: Text('UID: ${controller.firebaseUser.uid ?? ''}',
+//     //                     style: b2TextStyle),
+//     //               ),
+//     //               Form(
+//     //                   key: _formKey,
+//     //                   child: Column(
+//     //                       crossAxisAlignment: CrossAxisAlignment.stretch,
+//     //                       children: [
+//     //                         //Enter firstname
+//     //                         TextFormField(
+//     //                             initialValue: AuthService()
+//     //                                 .userDataFromFirebaseUser(
+//     //                                     controller.firebaseUser)
+//     //                                 .firstname,
+//     //                             validator: (value) {
+//     //                               return (value == null ||
+//     //                                       value.isEmpty ||
+//     //                                       value.length < 3)
+//     //                                   ? 'Must contain at least 2 characters'
+//     //                                   : null;
+//     //                             },
+//     //                             onChanged: (text) async {
+//     //                               _user.firstname = text;
+//     //                             },
+//     //                             decoration: InputDecoration(
+//     //                                 labelText: "First name",
+//     //                                 labelStyle: h3TextStyle,
+//     //                                 hintText: 'Enter your first name',
+//     //                                 border: UnderlineInputBorder(
+//     //                                     borderRadius:
+//     //                                         BorderRadius.circular(4.0)))),
+//     //                         //Enter lastname
+//     //                         TextFormField(
+//     //                             initialValue: AuthService()
+//     //                                 .userDataFromFirebaseUser(
+//     //                                     controller.firebaseUser)
+//     //                                 .lastname,
+//     //                             validator: (value) {
+//     //                               return (value == null ||
+//     //                                       value.isEmpty ||
+//     //                                       value.length < 3)
+//     //                                   ? 'Must contain at least 2 characters'
+//     //                                   : null;
+//     //                             },
+//     //                             onChanged: (text) async {
+//     //                               _user.lastname = text;
+//     //                             },
+//     //                             decoration: InputDecoration(
+//     //                                 labelText: "Last name",
+//     //                                 labelStyle: h3TextStyle,
+//     //                                 hintText: 'Enter your last name',
+//     //                                 border: UnderlineInputBorder(
+//     //                                     borderRadius:
+//     //                                         BorderRadius.circular(4.0)))),
+//     //                         //Enter phonenumber
+//     //                         TextFormField(
+//     //                             initialValue:
+//     //                                 controller.firebaseUser.phoneNumber,
+//     //                             keyboardType: TextInputType.number,
+//     //                             inputFormatters: [
+//     //                               FilteringTextInputFormatter.digitsOnly
+//     //                             ],
+//     //                             validator: (value) {
+//     //                               return (value == null ||
+//     //                                       value.isEmpty ||
+//     //                                       value.length != 10 ||
+//     //                                       value.substring(0, 1) != '0')
+//     //                                   ? 'Must contain 10 digits and start with 0'
+//     //                                   : null;
+//     //                             },
+//     //                             onChanged: (text) async {
+//     //                               _user.phoneNumber = text;
+//     //                               print(_user.phoneNumber);
+//     //                             },
+//     //                             decoration: InputDecoration(
+//     //                                 labelText: "Phone number",
+//     //                                 labelStyle: h3TextStyle,
+//     //                                 hintText: 'Enter your phone number',
+//     //                                 border: UnderlineInputBorder(
+//     //                                     borderRadius:
+//     //                                         BorderRadius.circular(4.0)))),
+
+//     //                         SizedBox(height: 20),
+//     //                         DropdownButtonFormField(
+//     //                           validator: (value) => value == null
+//     //                               ? 'Please select your role'
+//     //                               : null,
+//     //                           isExpanded: true,
+//     //                           hint: Text('Select you role'),
+//     //                           value: valueChoose,
+//     //                           icon: const Icon(Icons.arrow_drop_down),
+//     //                           iconSize: mediumTextSize,
+//     //                           elevation: 16,
+//     //                           style: b1TextStyle,
+//     //                           onChanged: (value) async {
+//     //                             valueChoose = value;
+//     //                             _user.role = value;
+//     //                           },
+//     //                           items: <String>[
+//     //                             'Medical Student 4',
+//     //                             'Medical Student 5',
+//     //                             'Extern',
+//     //                             'Intern',
+//     //                             'Resident',
+//     //                             'Staff'
+//     //                           ].map<DropdownMenuItem<String>>((String value) {
+//     //                             return DropdownMenuItem<String>(
+//     //                               value: value,
+//     //                               child: Text(value),
+//     //                             );
+//     //                           }).toList(),
+//     //                         )
+//     //                       ])),
+//     //             ],
+//     //           ),
+//     //         ),
+//     //       ])),
+//     // );
+//   }
+// }
+
+class SignUp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   String valueChoose;
 
-  UserData _user = UserData();
+  UserData _user = AuthService()
+      .userDataFromFirebaseUser(Get.find<AuthController>().firebaseUser);
+
+  UserData _initialUser = UserData();
 
   AuthController controller = Get.put(AuthController());
 
   UserController userController = Get.put(UserController());
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    userController.setUser(
-        AuthService().userDataFromFirebaseUser(controller.firebaseUser));
-    _user = userController.user;
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   if (Get.find<AuthController>().firebaseUser != null) {
+  //     userController.setUser(
+  //         AuthService().userDataFromFirebaseUser(controller.firebaseUser));
+  //     _user = userController.user;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     // _user = controller.user;
 
-    //Google signin / other sign in method
-    // if (controller.firebaseUser != null) {
-    //   _user = AuthService().userDataFromFirebaseUser(controller.firebaseUser);
-    // }
+    // Google signin / other sign in method
+    if (controller.firebaseUser != null) {
+      _initialUser =
+          AuthService().userDataFromFirebaseUser(controller.firebaseUser);
+    }
 
+    // return Scaffold(
+    //   appBar: AppBar(),
+    // );
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -66,12 +301,12 @@ class _SignUpState extends State<SignUp> {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     print('Submit Form Successful');
-                    // await DBService().registerNewUser(_user);
+                    await DBService().registerNewUser(_user);
 
                     userController.setUser(_user);
                     print('${userController.user.phoneNumber}');
-                    Get.toNamed('/getotp');
-                    // Get.back();
+                    // Get.toNamed('/');
+                    Get.back();
                   } else {
                     //TODO add snack bar
                     print('Submit Form failed');
@@ -110,12 +345,12 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                    child: Text('${controller.firebaseUser.email ?? ''}',
-                        style: b1TextStyle),
+                    child:
+                        Text('${_initialUser.email ?? ''}', style: b1TextStyle),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
-                    child: Text('UID: ${controller.firebaseUser.uid ?? ''}',
+                    child: Text('UID: ${_initialUser.uid ?? ''}',
                         style: b2TextStyle),
                   ),
                   Form(
@@ -125,10 +360,7 @@ class _SignUpState extends State<SignUp> {
                           children: [
                             //Enter firstname
                             TextFormField(
-                                initialValue: AuthService()
-                                    .userDataFromFirebaseUser(
-                                        controller.firebaseUser)
-                                    .firstname,
+                                initialValue: _initialUser.firstname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -148,10 +380,7 @@ class _SignUpState extends State<SignUp> {
                                             BorderRadius.circular(4.0)))),
                             //Enter lastname
                             TextFormField(
-                                initialValue: AuthService()
-                                    .userDataFromFirebaseUser(
-                                        controller.firebaseUser)
-                                    .lastname,
+                                initialValue: _initialUser.lastname,
                                 validator: (value) {
                                   return (value == null ||
                                           value.isEmpty ||
@@ -171,8 +400,10 @@ class _SignUpState extends State<SignUp> {
                                             BorderRadius.circular(4.0)))),
                             //Enter phonenumber
                             TextFormField(
-                                initialValue:
-                                    controller.firebaseUser.phoneNumber,
+                                initialValue: '0' +
+                                    _initialUser.phoneNumber.substring(
+                                        _initialUser.phoneNumber.length -
+                                            9), //to remove +66...
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly

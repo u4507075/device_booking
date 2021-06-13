@@ -1,9 +1,11 @@
 import 'package:device_booking/controller/device_controller.dart';
+import 'package:device_booking/style.dart';
 import 'package:device_booking/widget/qrscanbutton.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DeviceInfo extends StatelessWidget {
   final String _status = 'available';
@@ -145,14 +147,36 @@ class DeviceInfo extends StatelessWidget {
                                   style: Theme.of(context).textTheme.bodyText2),
                             ),
                             Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Obx(
-                                  () => Text(
-                                      '${deviceController.device?.lastUserPhoneNumber}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2),
-                                )),
+                              padding: const EdgeInsets.all(10.0),
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Obx(
+                                      () => Text(
+                                          '${deviceController.device?.lastUserPhoneNumber}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        launch(
+                                            'tel:${deviceController.device?.lastUserPhoneNumber}');
+                                      },
+                                      icon: Icon(
+                                        Icons.phone,
+                                        // size: mediumTextSize,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         TableRow(

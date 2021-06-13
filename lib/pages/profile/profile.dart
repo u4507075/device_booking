@@ -34,18 +34,22 @@ class Profile extends StatelessWidget {
             Container(
               child: Column(
                 children: [
-                  ClipOval(
-                    child: (controller.streamUser?.photoURL != null)
-                        ? Obx(() => Image.network(
-                              controller.streamUser?.photoURL ?? '',
-                              fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height / 5,
-                              // width: MediaQuery.of(context).size.width / 5,
-                            ))
-                        : Image.asset(
-                            'assets/images/profile_placeholder.png',
-                            fit: BoxFit.cover, //TODO fit this image to the box
-                          ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 5,
+                    child: ClipOval(
+                      child: (controller.streamUser?.photoURL != '')
+                          ? Obx(() => Image.network(
+                                controller.streamUser?.photoURL ?? '',
+                                fit: BoxFit.cover,
+
+                                // width: MediaQuery.of(context).size.width / 5,
+                              ))
+                          : Image.asset(
+                              'assets/images/profile_placeholder.png',
+                              fit:
+                                  BoxFit.cover, //TODO fit this image to the box
+                            ),
+                    ),
                   ),
                 ],
               ),

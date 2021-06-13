@@ -8,15 +8,16 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TakeDevice extends StatelessWidget {
-  String deviceId = Get.arguments.toString();
+  // String deviceId = Get.arguments.toString();
 
   @override
   Widget build(BuildContext context) {
-    print('TakeDevice recieved deviceId: $deviceId');
+    // print('TakeDevice recieved deviceId: $deviceId');
     return SafeArea(
       child: GetX<DeviceController>(
           init: Get.put(DeviceController()),
           builder: (controller) {
+            print('${controller.device.deviceId}');
             if (controller != null &&
                 controller.device != null &&
                 !controller.device.inUse) {

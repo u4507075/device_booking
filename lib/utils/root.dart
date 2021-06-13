@@ -1,4 +1,5 @@
 import 'package:device_booking/controller/auth_controller.dart';
+import 'package:device_booking/controller/loading_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/pages/authenticate/authenticate.dart';
 import 'package:device_booking/pages/bookdevice/inuse.dart';
@@ -11,94 +12,52 @@ import 'package:get/get.dart';
 class Root extends GetWidget<AuthController> {
   @override
   Widget build(BuildContext context) {
-    // return Obx(() {
-    //   return (Get.find<AuthController>().firebaseUser != null
-    //       ? Home()
-    //       : Authenticate());
-    // });
     return Obx(() {
-      if (Get.find<AuthController>().firebaseUser != null) {
-        UserController userController = Get.put(UserController());
-
-        if (userController.streamUser != null) {
-          if (Get.find<UserController>().streamUser.inUse) {
-            return InUse();
-          } else {
-            return Home();
-          }
-        } else {
-          return Authenticate();
-        }
+      if (Get.find<LoadingController>().loadingState) {
+        return Loading();
       } else {
-        return Authenticate();
+        return Obx(() {
+          if (Get.find<AuthController>().firebaseUser != null) {
+            UserController userController = Get.put(UserController());
+            // print(userController.streamUser);
+            // print(Get.find<AuthController>().firebaseUser?.uid);
+            if (Get.find<UserController>().streamUser != null) {
+              userController.fetchUser();
+              if (Get.find<UserController>().streamUser.inUse) {
+                print(1);
+                return InUse();
+              } else {
+                print(2);
+                return Home();
+              }
+            } else {
+              print(3);
+              Get.find<UserController>()
+                  .bindStream(); //Re-bind stream with new value
+              return Authenticate();
+            }
+          } else {
+            print(4);
+            return Authenticate();
+          }
+        });
       }
     });
-    // return Obx(() {
-    //   if (Get.find<AuthController>().firebaseUser != null) {
-    //     // UserController userController = Get.put(UserController());
-    //     // if (Get.find<UserController>().user?.phoneNumber == '') {
-    //     //   return SignUp();
-    //     // } else {
-    //     //   return Home();
-    //     // }
-    //     String uid = Get.find<AuthController>().firebaseUser.uid;
-    //     print('Root uid:$uid');
-    //   //   return DBService()
-    //   //       .checkUser(uid)
-    //   //       .then((value) => (value) ? Home() : Authenticate());
-    //   // } else {
-    //   //   return Authenticate();
+
+    // if (Get.find<AuthController>().firebaseUser != null) {
+    //   UserController userController = Get.put(UserController());
+    //   userController.fetchUser();
+    //   if (userController.streamUser != null) {
+    //     if (Get.find<UserController>().streamUser.inUse) {
+    //       return InUse();
+    //     } else {
+    //       return Home();
+    //     }
+    //   } else {
+    //     return Authenticate();
     //   }
-    // });
+    // } else {
+    //   return Authenticate();
+    // }
   }
 }
-
-// //listen for auth changes
-// class Wrapper extends StatelessWidget {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final user = Provider.of<User>(context);
-
-//     if (user != null) {
-//       //Google signed in
-//       final userData = Provider.of<UserData>(context);
-
-//       if (userData.phoneNumber.length < 10 ||
-//           userData.phoneNumber.substring(0, 1) != '0') {
-//         return SignUp();
-//       } else {
-//         return Home();
-//       }
-//     } else {
-//       return Authenticate();
-//     }
-
-//   }
-// }
-
-// class WrapperSignUp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     //return either Home or Authenticate widget
-//     final user = Provider.of<User>(context);
-//     final userData = context.watch<UserData>();
-//     // print(user);
-//     print('username ${userData?.firstname}');
-//     if (user != null &&
-//         userData?.phoneNumber != null &&
-//         userData?.firstname != null &&
-//         userData?.lastname != null &&
-//         userData?.role != null) {
-//       //TODO Add verification that user has enter phone number before redirect to Home
-//       print('User Signed up');
-//       return Home();
-//       // } else if (user != null && userData?.phoneNumber == '') {
-//       //   print('to Sign up page');
-//       //   return SignUp();
-//     } else {
-//       print('Incompleted Sign Up');
-//       return Authenticate();
-//     }
-//   }
-// }

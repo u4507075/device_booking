@@ -1,3 +1,6 @@
+import 'package:device_booking/controller/loading_controller.dart';
+import 'package:device_booking/controller/phoneauth_controller.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_booking/models/user.dart';
@@ -9,8 +12,12 @@ class AuthService {
   UserData userDataFromFirebaseUser(User user) {
     if (user != null) {
       return UserData(
-          firstname: capitalize(user.displayName.split(' ')[0]),
-          lastname: capitalize(user.displayName.split(' ')[1]),
+          firstname: user.displayName != null
+              ? capitalize(user.displayName?.split(' ')[0])
+              : '',
+          lastname: user.displayName != null
+              ? capitalize(user.displayName?.split(' ')[1])
+              : '',
           email: user.email != null ? user.email : '',
           phoneNumber: user.phoneNumber != null ? user.phoneNumber : '',
           photoURL: user.photoURL != null ? user.photoURL : '',
@@ -23,10 +30,7 @@ class AuthService {
   Future<UserData> signInWithGoogle() async {
     // Trigger the authentication flow
     try {
-      final GoogleSignInAccount googleUser =
-          await GoogleSignIn().signIn().catchError((e) {
-        print('Sign in error: ${e.toString()}');
-      });
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
@@ -56,6 +60,53 @@ class AuthService {
     }
   }
 
+  Future<UserData> signInWithPhoneNumber(PhoneAuthCredential credential) async {
+    try {
+      UserCredential user = await _auth.signInWithCredential(credential);
+
+      UserData userData = await UserData().fetchUser(userId: user.user.uid);
+      if (userData != null) {
+        //already has UserData in Firestore
+        return userData;
+      } else {
+        // UserData().registerNewUser(
+        //     user: userDataFromFirebaseUser(user.user)); //New user
+        return userDataFromFirebaseUser(user.user);
+      }
+    } catch (e) {
+      print('Sign in with phone number failed: ${e.toString()}');
+      Get.snackbar('Log in failed', 'Wrong OTP');
+      return null;
+    }
+  }
+
+  Future<void> logInWithPhoneNumber(String phoneNumber) async {
+    await _auth.verifyPhoneNumber(
+      phoneNumber: '+66' + phoneNumber,
+      timeout: const Duration(seconds: 60),
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await _auth.signInWithCredential(credential);
+        // Get.back();
+      },
+      verificationFailed: (FirebaseAuthException e) async {
+        print('verification failed, ${e.toString()}');
+        Get.find<LoadingController>().loaded();
+        // Get.back();
+
+        // Get.snackbar('Log In Failed', '${e.code.toString()}');
+      },
+      codeSent: (String verificationId, int resendToken) async {
+        Get.find<LoadingController>().loaded();
+        Get.find<PhoneAuthController>().saveVerificationId(verificationId);
+        Get.toNamed('/getotp');
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        Get.snackbar('Time out', 'No sms confirm within 60 seconds');
+        Get.find<PhoneAuthController>().clear();
+      },
+    );
+  }
+
   Future signOut() async {
     try {
       final googleSignIn = GoogleSignIn();
@@ -81,16 +132,16 @@ class AuthService {
     _auth.signOut();
   }
 
-  Future<void> signInWithPhone() async {
-//verify phone number
-    await _auth.verifyPhoneNumber(
-      phoneNumber: '+44 7123 123 456',
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {},
-      codeSent: (String verificationId, int resendToken) {},
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
-  }
+//   Future<void> signInWithPhone() async {
+// //verify phone number
+//     await _auth.verifyPhoneNumber(
+//       phoneNumber: '+44 7123 123 456',
+//       verificationCompleted: (PhoneAuthCredential credential) {},
+//       verificationFailed: (FirebaseAuthException e) {},
+//       codeSent: (String verificationId, int resendToken) {},
+//       codeAutoRetrievalTimeout: (String verificationId) {},
+//     );
+//   }
 }
 
 String capitalize(String string) {

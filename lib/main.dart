@@ -1,5 +1,6 @@
-import 'package:device_booking/controller/bindings/authBinding.dart';
+import 'package:device_booking/controller/bindings/binding.dart';
 import 'package:device_booking/controller/count_controller.dart';
+import 'package:device_booking/controller/loading_controller.dart';
 import 'package:device_booking/models/pages/pages.dart';
 import 'package:device_booking/pages/authenticate/otpverification.dart';
 import 'package:device_booking/pages/bookdevice/busydevice.dart';
@@ -80,7 +81,7 @@ class MyApp extends StatelessWidget {
             bodyText2: b2TextStyle),
         primaryColor: Colors.blue,
       ),
-      initialBinding: AuthBinding(),
+      initialBinding: Binding(),
       initialRoute: '/',
       getPages: [
         GetPage(
@@ -127,16 +128,21 @@ class Tester extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GetBuilder<CountController>(
-              init: CountController(),
-              builder: (controller) {
-                return Text('${controller.count ?? ''}');
-              }),
+          // GetBuilder<CountController>(
+          //     init: CountController(),
+          //     builder: (controller) {
+          //       return Text('${controller.count ?? ''}');
+          //     }),
           ElevatedButton(
               onPressed: () {
                 print('Test');
-                countController.increment();
-                Get.to(() => DeviceInfo(), arguments: deviceId);
+                Get.find<LoadingController>().loading();
+                Future.delayed(Duration(seconds: 2)).then((value) {
+                  Get.find<LoadingController>().loaded();
+                });
+
+                // countController.increment();
+                // Get.to(() => DeviceInfo(), arguments: deviceId);
 
                 // Get.find<DeviceController>().setId('');
 
@@ -168,93 +174,20 @@ class Tester extends StatelessWidget {
                 // });
               },
               child: Text('Test')),
-          ElevatedButton(
-              onPressed: () {
-                deviceId = '6PpTwPAVDtVswJ13aCOo';
-                Get.to(() => DeviceInfo(), arguments: deviceId);
-              },
-              child: Text('Device 1')),
-          ElevatedButton(
-              onPressed: () {
-                deviceId = '7qfPYOiGbJWQAddGpN9x';
-                Get.to(() => DeviceInfo(), arguments: deviceId);
-              },
-              child: Text('Device 2'))
+          // ElevatedButton(
+          //     onPressed: () {
+          //       deviceId = '6PpTwPAVDtVswJ13aCOo';
+          //       Get.to(() => DeviceInfo(), arguments: deviceId);
+          //     },
+          //     child: Text('Device 1')),
+          // ElevatedButton(
+          //     onPressed: () {
+          //       deviceId = '7qfPYOiGbJWQAddGpN9x';
+          //       Get.to(() => DeviceInfo(), arguments: deviceId);
+          //     },
+          //     child: Text('Device 2'))
         ],
       )),
     );
   }
 }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key key, this.app}) : super(key: key);
-//   final FirebaseApp app;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         StreamProvider<User>.value(
-//           initialData: null,
-//           value: AuthService().onAuthStateChanged,
-//         ),
-//         // StreamProvider(
-//         //   create: (context) {
-//         //     return DBService().streamUserData(Provider.of<User>(context,
-//         //             listen: false)
-//         //         .uid); //Ref: https://github.com/rrousselGit/provider/issues/120
-//         //   },
-//         //   initialData: UserData.initialValue(),
-//         //   catchError: (context, error) {
-//         //     // AuthService().signOut();
-//         //     print(error.toString());
-//         //     return UserData.initialValue();
-//         //   },
-//         // ),
-//         StreamProvider<UltrasoundDeviceList>(
-//             create: (context) => UltrasoundDeviceList().streamDeviceList(),
-//             initialData: UltrasoundDeviceList.initialValue()),
-//         StreamProvider<EkgDeviceList>(
-//             create: (context) => EkgDeviceList().streamDeviceList(),
-//             initialData: EkgDeviceList.initialValue())
-//       ],
-//       child: GetMaterialApp(
-//         debugShowCheckedModeBanner: true,
-//         title: 'Medical Device Tracking System',
-//         theme: ThemeData(
-//           appBarTheme:
-//               AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
-//           textTheme: TextTheme(headline1: h1TextStyle, bodyText1: b1TextStyle),
-//           primaryColor: Colors.blue,
-//         ),
-//         initialRoute: '/',
-//         // home: WrapperAuth(),
-//         routes: {
-//           'tester': (context) => Tester(),
-//           '/': (context) => Wrapper(),
-//           '/home': (context) => Home(),
-//           '/authenticate': (context) => Authenticate(),
-//           '/loading': (context) => Loading(),
-//           '/signup': (context) => SignUp(),
-//           '/getotp': (context) => GetOTP(),
-//           '/bookdevice/qrscan': (context) => QRScan(),
-//           'checkuserdevice': (context) => CheckDeviceInfo(),
-//           'getotp': (context) => GetOTP2(),
-//           '/home/devicelist': (context) => DeviceListPage(),
-//           // '/bookdevice/selectLo' : (context) => LocationList(),
-//           // '/bookdevice/busydevice' : (context) => MyTest()
-//         },
-//         getPages: [
-//           GetPage(name: '/', page: () => Wrapper()),
-//           GetPage(name: 'tester', page: () => Tester()),
-//           GetPage(name: '/home', page: () => Home()),
-//           GetPage(name: 'authenticate', page: () => Authenticate()),
-//           GetPage(name: '/loading', page: () => Loading()),
-//           GetPage(name: '/qrscan', page: () => QRScan()),
-//           GetPage(name: '/signup', page: () => SignUp()),
-//           GetPage(name: '/devicelist', page: () => DeviceListPage()),
-//         ],
-//       ),
-//     );
-//   }
-// }

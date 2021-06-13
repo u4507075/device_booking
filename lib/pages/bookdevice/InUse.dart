@@ -1,13 +1,14 @@
+import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/controller/timer_controller.dart';
 import 'package:device_booking/controller/user_controller.dart';
+import 'package:device_booking/models/device.dart';
 import 'package:device_booking/services/database.dart';
 import 'package:device_booking/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 
 class InUse extends StatefulWidget {
-  // DeviceController controller = Get.put(DeviceController(deviceId));
-
   @override
   _InUseState createState() => _InUseState();
 }
@@ -15,6 +16,7 @@ class InUse extends StatefulWidget {
 class _InUseState extends State<InUse> {
   final UserController userController = Get.put(UserController());
   final TimerController timerController = Get.put(TimerController());
+  final DeviceController deviceController = Get.put(DeviceController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,36 +41,131 @@ class _InUseState extends State<InUse> {
                     );
                   } else {
                     DateTime takeTime = snapshot.data.time;
+                    deviceController.setId(snapshot.data.deviceId);
+                    deviceController.bindingStream();
                     return Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Duration',
-                            style: Theme.of(context).textTheme.headline2,
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "You're now using",
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
+                                  ),
+                                  Obx(() => Text(
+                                        '${deviceController.deviceInfo.deviceType.capitalize} ${deviceController.deviceInfo.name.capitalize}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
+                                      )),
+                                ],
+                              ),
+                            ),
                           ),
+
+                          AvatarGlow(
+                            endRadius: 150.0,
+                            glowColor: Colors.red[200],
+                            duration: Duration(milliseconds: 2500),
+                            repeat: true,
+                            repeatPauseDuration: Duration(milliseconds: 500),
+                            child: Material(
+                              elevation: 10.0,
+                              shape: CircleBorder(),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  DBService().returnDevice(
+                                      userController.log.deviceId,
+                                      userController.streamUser.uid);
+                                  Get.offAllNamed('/');
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    primary: Colors.red[900]),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Tap to',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                    Text(
+                                      'Return Device',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          .copyWith(color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Container(
+                          //   padding: const EdgeInsets.all(80),
+                          //   decoration: BoxDecoration(
+                          //     shape: BoxShape.circle,
+                          //     color: Colors.red[900],
+                          //     boxShadow: [
+                          //       BoxShadow(
+                          //           color: Colors.red[200],
+                          //           blurRadius: 50,
+                          //           spreadRadius: 35)
+                          //     ],
+                          //   ),
+                          //   child: Text('Tap to return device'),
+                          // ),
                           Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(5.0)),
-                            margin: EdgeInsets.all(5.0),
-                            padding:
-                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            child: Obx(() {
-                              timerController.timeDifference(takeTime);
-                              return Text(
-                                  '${timerController.duration.toString().split('.').first.padLeft(8, "0")}');
-                            }),
-                          ),
-                          ElevatedButton(
-                              onPressed: () async {
-                                DBService().returnDevice(
-                                    userController.log.deviceId,
-                                    userController.streamUser.uid);
-                                Get.offAllNamed('/');
-                              },
-                              child: Text('Return Device')),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Duration',
+                                  style: Theme.of(context).textTheme.headline2,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(5.0)),
+                                  margin: EdgeInsets.all(5.0),
+                                  padding: EdgeInsets.fromLTRB(
+                                      20.0, 10.0, 20.0, 10.0),
+                                  child: Obx(() {
+                                    timerController.timeDifference(takeTime);
+                                    return Text(
+                                        '${timerController.duration.toString().split('.').first.padLeft(8, "0")}');
+                                  }),
+                                ),
+                                // ElevatedButton(
+                                //   style: ButtonStyle(
+                                //       backgroundColor:
+                                //           MaterialStateProperty.all(
+                                //               Colors.red[800])),
+                                //   onPressed: () async {
+                                //     DBService().returnDevice(
+                                //         userController.log.deviceId,
+                                //         userController.streamUser.uid);
+                                //     Get.offAllNamed('/');
+                                //   },
+                                //   child: Text('Return Device'),
+                                // ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     );

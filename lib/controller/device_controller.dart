@@ -64,6 +64,10 @@ class DeviceController extends GetxController {
     _device.value = device;
   }
 
+  void bindingStream() {
+    streamDevice.bindStream(DBService().streamDevice(this._deviceId.value));
+  }
+
   Future<void> lastUseDevice() async {
     _device.value = await DBService()
         .lastUseDevice(Get.find<AuthController>().firebaseUser.uid);

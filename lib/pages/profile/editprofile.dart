@@ -65,7 +65,7 @@ class EditProfile extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 5,
                     child: ClipOval(
-                      child: (_user?.photoURL != null)
+                      child: (_user?.photoURL != '')
                           ? Obx(() => Image.network(
                                 controller.streamUser?.photoURL ?? '',
                                 fit: BoxFit.cover,
@@ -134,7 +134,9 @@ class EditProfile extends StatelessWidget {
                                             BorderRadius.circular(4.0)))),
                             //Enter phonenumber
                             TextFormField(
-                                initialValue: _user?.phoneNumber,
+                                initialValue: '0' +
+                                    _user.phoneNumber.substring(
+                                        _user.phoneNumber.length - 9),
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly

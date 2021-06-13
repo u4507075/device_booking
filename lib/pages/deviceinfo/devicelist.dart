@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:device_booking/controller/device_controller.dart';
 import 'package:device_booking/controller/devicelist_controller.dart';
+import 'package:device_booking/controller/user_controller.dart';
 import 'package:device_booking/models/device.dart';
 import 'package:device_booking/widget/qrscanbutton.dart';
 import 'package:flutter/material.dart';
