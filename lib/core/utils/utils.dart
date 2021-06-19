@@ -1,1 +1,2 @@
-export 'loading.dart';
+export './loading/loading.dart';
+export './functions/functions.dart';

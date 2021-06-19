@@ -1,18 +1,15 @@
-import 'package:device_booking/dev/controller/auth_controller.dart';
-import 'package:device_booking/dev/controller/user_controller.dart';
-import 'package:device_booking/dev/pages/authenticate/authenticate.dart';
-import 'package:device_booking/dev/pages/bookdevice/inuse.dart';
-import 'package:device_booking/dev/pages/home/home.dart';
-import 'package:device_booking/dev/utils/loading.dart';
+import 'package:device_booking/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:device_booking/features/home/home.dart';
+import 'package:device_booking/features/features.dart';
 
 //listen for auth changes
 class Root extends GetWidget<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return (Get.find<AuthController>().firebaseUser != null
+      return (Get.find<AuthController>().user != null
           ? Home()
           : Authenticate());
     });
