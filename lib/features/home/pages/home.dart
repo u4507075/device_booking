@@ -2,42 +2,68 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:device_booking/core/core.dart';
-
-//To use UserData copy this!
-// import 'package:provider/provider.dart';
-// import 'package:device_booking/models/user.dart';
-
-// final user = Provider.of<UserData>(context); //add this below build method
+import 'package:device_booking/features/deviceinfo/qrscan/qrscan.dart';
 
 class Home extends StatelessWidget {
   @override
-
-  // Get.put(UserController());
   Widget build(BuildContext context) {
-    // final user = context.watch<UserData>();
-    // UserController userController = Get.put(UserController());
-
-    // print('${userController.user.firstname}');
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      drawer: Drawer(
+        elevation: 0.0,
+        semanticLabel: 'home_drawer',
+        child: ListView(
+          padding: const EdgeInsets.all(0.0),
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Menu',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1
+                    .copyWith(color: Colors.white),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.account_circle, size: 30.0),
+              title: Text(
+                'Profile',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings, size: 30.0),
+              title: Text(
+                'Settings',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: 30,
-            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                // Obx(
-                //   () => Text(
-                //       'Welcome,\n${Get.find<UserController>().streamUser?.firstname}',
-                //       style: Theme.of(context).textTheme.headline1),
-                // ),
+                Obx(
+                  () => Text(
+                      'Welcome,\n${Get.find<UserController>().streamUser?.firstname}',
+                      style: Theme.of(context).textTheme.headline1),
+                ),
                 IconButton(
                   onPressed: () {
                     Get.toNamed('/profile');
@@ -45,19 +71,6 @@ class Home extends StatelessWidget {
                   icon: Icon(Icons.account_circle_sharp),
                   iconSize: 60,
                 ),
-                // Column(
-                //   mainAxisSize: MainAxisSize.min,
-                //   children: <Widget>[
-                //     Icon(Icons.account_circle, size: 50.0),
-                //     Padding(
-                //       padding: const EdgeInsets.all(5.0),
-                //       child: Text(
-                //         'Profile',
-                //         style: b2TextStyle,
-                //       ),
-                //     )
-                //   ],
-                // ),
               ],
             ),
             SizedBox(
@@ -108,13 +121,13 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      // floatingActionButton: _qrScanButton(),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _qrScanButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
 
-// Widget _qrScanButton() => qrScanButton();
+Widget _qrScanButton() => qrScanButton();
 
 class CardButton extends StatelessWidget {
   static const double _edge = 10.0;

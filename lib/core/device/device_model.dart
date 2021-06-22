@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import './device_service.dart';
 
 class Device {
-  String name; //deviceName
+  String name = ''; //deviceName
   String deviceId = ''; //deviceId
-  String deviceType; //type of device e.g. ultrasound / ekg
-  String location; //Current location
-  String lastUserId; //last user's uid
-  String lastUser; //last user's name
-  String lastUserPhoneNumber; //last user's phone number
+  String deviceType = ''; //type of device e.g. ultrasound / ekg
+  String location = ''; //Current location
+  String lastUserId = ''; //last user's uid
+  String lastUser = ''; //last user's name
+  String lastUserPhoneNumber = ''; //last user's phone number
   DateTime lastUseTime; //last use time
   bool inUse; //device's status
   bool maintenance;
-  List<dynamic> operatingZone;
-  String defaultLocation;
-  String photoURL;
+  List<dynamic> operatingZone = [''];
+  String defaultLocation = '';
+  String photoURL = '';
 
   Device(
       {this.name,
@@ -28,7 +28,8 @@ class Device {
       this.inUse,
       this.maintenance,
       this.operatingZone,
-      this.defaultLocation});
+      this.defaultLocation,
+      this.photoURL});
 
   factory Device.fromMap(Map map) => Device(
         name: map['name'] ?? '',
@@ -46,64 +47,65 @@ class Device {
         inUse: map['inUse'],
         operatingZone: map['operatingZone'] ?? [],
         defaultLocation: map['defaultLocation'] ?? '',
+        photoURL: map['photoURL'] ?? '',
       );
 
-  Device sample() => Device(
-      name: 'tester1',
-      deviceId: 'defaultId',
-      deviceType: 'ultrasound',
-      location: 'defaultLocation',
-      lastUserId: 'xxx',
-      lastUser: 'xxx',
-      lastUserPhoneNumber: 'xxx',
-      lastUseTime: DateTime.now(),
-      inUse: false,
-      maintenance: false,
-      operatingZone: ['หอ1', 'หอ2', 'หอ3'],
-      defaultLocation: 'defaultDefaultLocation');
+  // Device sample() => Device(
+  //     name: 'tester1',
+  //     deviceId: 'defaultId',
+  //     deviceType: 'ultrasound',
+  //     location: 'defaultLocation',
+  //     lastUserId: 'xxx',
+  //     lastUser: 'xxx',
+  //     lastUserPhoneNumber: 'xxx',
+  //     lastUseTime: DateTime.now(),
+  //     inUse: false,
+  //     maintenance: false,
+  //     operatingZone: ['หอ1', 'หอ2', 'หอ3'],
+  //     defaultLocation: 'defaultDefaultLocation');
 
-//fetch info, take, return, report
+// //fetch info, take, return, report
 
-  //fetch info
-  Future<Device> fetchDevice(String deviceId) async =>
-      DeviceService().fetchDevice(deviceId);
+//   //fetch info
+//   Future<Device> fetchDevice(String deviceId) async =>
+//       DeviceService().fetchDevice(deviceId);
 
-  Future<void> addNewDevice(Device device) async =>
-      DeviceService().addNewDevice(device);
+//   Future<void> addNewDevice(Device device) async =>
+//       DeviceService().addNewDevice(device);
 
-  //take
-  Future<void> takeDevice(
-          {@required String deviceId,
-          @required String userId,
-          @required String location}) async =>
-      DeviceService().takeDevice(deviceId, userId, location);
+//   //take
+//   Future<void> takeDevice(
+//           {@required String deviceId,
+//           @required String userId,
+//           @required String location}) async =>
+//       DeviceService().takeDevice(deviceId, userId, location);
 
-  //return
-  Future<void> returnDevice(
-          {@required String deviceId, @required String userId}) async =>
-      DeviceService().returnDevice(deviceId, userId);
+//   //return
+//   Future<void> returnDevice(
+//           {@required String deviceId, @required String userId}) async =>
+//       DeviceService().returnDevice(device, user);
 
-  //report{
-  Future<void> reportDevice(
-          {@required String deviceId,
-          @required String userId,
-          @required String reportText}) =>
-      DeviceService().reportDevice(deviceId, userId, reportText);
+//   //report{
+//   Future<void> reportDevice(
+//           {@required String deviceId,
+//           @required String userId,
+//           @required String reportText}) =>
+//       DeviceService().reportDevice(deviceId, userId, reportText);
 }
 
-Map<String, dynamic> toMap(Device device) => {
-      'name': device.name,
-      'deviceId': device.deviceId,
-      'deviceType': device.deviceType,
-      'location': device.location,
-      'defaultLocation': device.defaultLocation,
-      'lastUserId': device.lastUserId,
-      'lastUser': device.lastUser,
-      'lastUserPhoneNumber': device.lastUserPhoneNumber,
-      'inUse': false,
-      'maintenance': false,
-      'operatingZone': device.operatingZone,
-    };
+// Map<String, dynamic> toMap(Device device) => {
+//       'name': device.name,
+//       'deviceId': device.deviceId,
+//       'deviceType': device.deviceType,
+//       'location': device.location,
+//       'defaultLocation': device.defaultLocation,
+//       'lastUserId': device.lastUserId,
+//       'lastUser': device.lastUser,
+//       'lastUserPhoneNumber': device.lastUserPhoneNumber,
+//       'inUse': false,
+//       'maintenance': false,
+//       'operatingZone': device.operatingZone,
+//     };
 
 //TODO Take this "Device list" to local controller
 // class UltrasoundDeviceList {

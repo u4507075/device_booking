@@ -51,6 +51,7 @@ class Authenticate extends StatelessWidget {
                 // LogInWithGoogleButton(),
                 // SizedBox(height: 20.0),
                 LogInWithPhoneButton(),
+                signInAnonymousButton(),
               ]),
         ),
       ),

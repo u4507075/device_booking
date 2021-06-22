@@ -23,45 +23,6 @@ class DBService {
 
 //TODO Take this "fetchDeviceList" to local service
 
-  // Future<List<Device>> fetchDeviceList(String deviceType) async {
-  //   try {
-  //     QuerySnapshot querySnapshot = await _db
-  //         .collection("devices")
-  //         .where('deviceType', isEqualTo: deviceType)
-  //         .get();
-  //     print('${querySnapshot.size} device(s) found');
-  //     return querySnapshot.docs.map((doc) {
-  //       Map<String, dynamic> device = doc.data();
-  //       if (doc.exists) {
-  //         return Device.fromMap(device);
-  //       } else {
-  //         return null;
-  //       }
-  //     }).toList();
-  //   } catch (e) {
-  //     print('fetch list failed with error: ${e.toString()}');
-  //     return null;
-  //   }
-  // }
-
-  // Stream<DeviceList> streamDeviceList(String deviceType) {
-  //   try {
-  //     return _db
-  //         .collection("devices")
-  //         .where('deviceType', isEqualTo: deviceType)
-  //         .snapshots()
-  //         .map((QuerySnapshot querySnapshot) {
-  //       return DeviceList(
-  //           devices: querySnapshot.docs.map((doc) {
-  //         return Device.fromMap(doc.data());
-  //       }).toList());
-  //     });
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return null;
-  //   }
-  // }
-
   // Stream<UltrasoundDeviceList> streamUltrasoundDeviceList(String deviceType) {
   //   try {
   //     return _db

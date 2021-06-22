@@ -28,6 +28,11 @@ class AuthService {
     }
   }
 
+  Future<UserData> signInAnonymously() async {
+    UserCredential user = await FirebaseAuth.instance.signInAnonymously();
+    return userDataFromFirebaseUser(user.user);
+  }
+
   Future<UserData> signInWithGoogle() async {
     // Trigger the authentication flow
     try {

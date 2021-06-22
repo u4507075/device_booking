@@ -5,14 +5,14 @@ import 'package:flutter/foundation.dart';
 class UserData /*implements ReassembleHandler*/ {
 // -------------------- Model -------------------- //
 
-  String firstname;
-  String lastname;
-  String phoneNumber;
-  String role;
-  String email;
-  String photoURL;
-  String uid;
-  bool inUse;
+  String firstname = '';
+  String lastname = '';
+  String phoneNumber = '';
+  String role = '';
+  String email = '';
+  String photoURL = '';
+  String uid = '';
+  bool inUse = false;
 
   UserData({
     this.firstname,
@@ -38,36 +38,49 @@ class UserData /*implements ReassembleHandler*/ {
     );
   }
 
-  factory UserData.initialValue() => UserData(
-        firstname: null,
-        lastname: null,
-        phoneNumber: null,
-        role: null,
-        email: null,
-        photoURL: null,
-        uid: null,
-        inUse: false,
-      );
+  // static void isCompleted(){
 
-  bool isCompleted(UserData user) {
-    if (user.firstname != null ||
-        user.lastname != null ||
-        user.phoneNumber != null ||
-        user.role != null) {
-      if (user.firstname.length < 2 ||
-          user.lastname.length < 2 ||
-          user.phoneNumber.length < 10 ||
-          user.role.length < 3) {
-        print("Incompleted user data");
-        return false;
-      } else {
-        print('Completed user data');
-        return true;
-      }
-    } else {
-      print("Data not found");
-      return false;
-    }
+  // }
+
+  // factory UserData.initialValue() => UserData(
+  //       firstname: null,
+  //       lastname: null,
+  //       phoneNumber: null,
+  //       role: null,
+  //       email: null,
+  //       photoURL: null,
+  //       uid: null,
+  //       inUse: false,
+  //     );
+
+  // bool isCompleted(UserData user) {
+  //   if (user.firstname != null ||
+  //       user.lastname != null ||
+  //       user.phoneNumber != null ||
+  //       user.role != null) {
+  //     if (user.firstname.length < 2 ||
+  //         user.lastname.length < 2 ||
+  //         user.phoneNumber.length < 10 ||
+  //         user.role.length < 3) {
+  //       print("Incompleted user data");
+  //       return false;
+  //     } else {
+  //       print('Completed user data');
+  //       return true;
+  //     }
+  //   } else {
+  //     print("Data not found");
+  //     return false;
+  //   }
+  // }
+
+  bool isCompleted() {
+    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(patttern);
+    return !((firstname?.length ?? ''.length < 2) ||
+        (lastname?.length ?? ''.length < 2) ||
+        (!regExp.hasMatch(phoneNumber ?? '')) ||
+        (role ?? '' == ''));
   }
 
 //user InUse

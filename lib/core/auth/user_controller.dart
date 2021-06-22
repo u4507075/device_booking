@@ -67,11 +67,13 @@ class UserController extends GetxController {
 //user InUse
   void userInUse() {
     streamUser.inUse = true;
+    user.inUse = true;
   }
 
 //user return
   void userReturn() {
     streamUser.inUse = false;
+    user.inUse = false;
   }
 
   Future<UserLog> lastUserLog() async {

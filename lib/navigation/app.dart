@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:device_booking/core/core.dart';
 import './navigation.dart';
+import 'package:device_booking/features/features.dart';
 
 class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
@@ -23,6 +24,10 @@ class App extends StatelessWidget {
               bodyText1: b1TextStyle,
               bodyText2: b2TextStyle),
           primaryColor: Colors.blue,
+          iconTheme: IconThemeData(
+            // color: Colors.blue,
+            size: 20,
+          ),
         ),
         initialBinding: AllBindings(),
         initialRoute: '/',
@@ -30,7 +35,8 @@ class App extends StatelessWidget {
           //   GetPage(
           //       name: 'tester', page: () => Tester()), //Test field for new function
           GetPage(name: '/', page: () => Root()),
-          //   GetPage(name: '/loading', page: () => Loading()), //Global loading page
+          GetPage(
+              name: '/loading', page: () => Loading()), //Global loading page
 
           //   //Sign in features
           //   GetPage(name: 'authenticate', page: () => Authenticate()),
@@ -38,10 +44,10 @@ class App extends StatelessWidget {
           //   GetPage(name: '/home', page: () => Home()),
           //   GetPage(name: '/getotp', page: () => GetOTP()),
 
-          //   //Device info features
-          //   GetPage(name: '/devicelist', page: () => DeviceListPage()),
-          //   GetPage(name: '/deviceinfo', page: () => DeviceInfo()),
-          //   GetPage(name: '/reportproblem', page: () => ReportProblem()),
+          //Device info features
+          GetPage(name: '/devicelist', page: () => DeviceListPage()),
+          GetPage(name: '/deviceinfo', page: () => DeviceInfo()),
+          GetPage(name: '/reportproblem', page: () => ReportProblem()),
 
           //   //Take device features
           //   GetPage(name: '/takedevice', page: () => TakeDevice()),
@@ -56,5 +62,3 @@ class App extends StatelessWidget {
         ]);
   }
 }
-
-

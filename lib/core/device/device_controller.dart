@@ -1,3 +1,5 @@
+import 'package:device_booking/core/auth/user.dart';
+
 import 'device_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,7 @@ class DeviceController extends GetxController {
   var streamDevice = Device().obs;
   var _device = Device().obs;
   var _deviceId = ''.obs;
+  var user = Get.find<UserController>().user;
 
   Device get deviceInfo => streamDevice.value;
 
@@ -21,6 +24,7 @@ class DeviceController extends GetxController {
     super.onInit();
     streamDevice
         .bindStream(DeviceService().streamDevice(_device.value.deviceId));
+    var user = Get.find<UserController>().user;
     // lastUseDevice();
   }
 
@@ -36,19 +40,21 @@ class DeviceController extends GetxController {
   }
 
   Future<void> takeDevice(
-      {@required String deviceId,
-      @required String userId,
+      {@required Device device,
+      @required UserData user,
       @required String location}) async {
-    DeviceService().takeDevice(deviceId, userId, location);
+    DeviceService().takeDevice(device, user, location);
   }
 
   Future<void> returnDevice({@required String deviceId, String userId}) async {
-    DeviceService().returnDevice(deviceId, userId);
+    DeviceService().returnDevice(device, user);
   }
 
   Future<void> reportDevice(
-      {@required String deviceId, String userId, String reportText}) async {
-    DeviceService().reportDevice(deviceId, userId, reportText);
+      {@required Device device,
+      @required UserData user,
+      @required String reportText}) async {
+    DeviceService().reportDevice(device, user, reportText);
   }
 
   Future<void> fetchDevice(String deviceId) {
@@ -66,7 +72,8 @@ class DeviceController extends GetxController {
   }
 
   void bindingStream() {
-    streamDevice.bindStream(DeviceService().streamDevice(this._deviceId.value));
+    streamDevice
+        .bindStream(DeviceService().streamDevice(this._device.value.deviceId));
   }
 
   Future<void> lastUseDevice() async {

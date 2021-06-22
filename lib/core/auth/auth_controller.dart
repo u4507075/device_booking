@@ -1,3 +1,4 @@
+import 'package:device_booking/core/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,8 +17,14 @@ class AuthController extends GetxController {
     _firebaseUser.bindStream(AuthService().onAuthStateChanged);
   }
 
-  void signinWithGoogle() async {
+  void signInWithGoogle() async {
     AuthService().signInWithGoogle();
+  }
+
+  void signInAnonymously() async {
+    Get.find<LoadingController>().loading();
+    await AuthService().signInAnonymously();
+    Get.find<LoadingController>().loaded();
   }
 
   void signOut() async {
@@ -28,7 +35,7 @@ class AuthController extends GetxController {
     } catch (e) {
       Get.snackbar(
         "Error signing out",
-        e.message,
+        e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
     }
