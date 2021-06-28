@@ -3,25 +3,33 @@ import 'package:flutter/foundation.dart';
 
 class DeviceComment {
   String commentId;
-  String comment = '';
+  String? comment;
   String deviceId;
   String userId;
-  String displayName;
-  String userPhotoURL;
-  DateTime time;
+  String? displayName;
+  String? userPhotoURL;
+  DateTime? time;
 
   DeviceComment(
-      {this.commentId,
-      this.deviceId,
-      this.userId,
-      this.comment,
-      this.displayName,
+      {this.commentId = '',
+      this.deviceId = '',
+      this.userId = '',
+      this.comment = '',
+      this.displayName = 'User',
       this.userPhotoURL,
       this.time});
   // _comment = comment;
 
   void set setComment(String text) {
     comment = text;
+  }
+
+  void set setDisplayName(String text) {
+    displayName = text;
+  }
+
+  void set setUserPhotoURL(String text) {
+    userPhotoURL = text;
   }
 
   factory DeviceComment.fromMap(Map map) => DeviceComment(

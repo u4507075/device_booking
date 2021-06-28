@@ -9,7 +9,9 @@ class AuthController extends GetxController {
   Rxn<User> _firebaseUser = Rxn<User>();
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  User get user => _firebaseUser.value;
+  User? get firebaseUser => _firebaseUser.value;
+  UserData? get user =>
+      AuthService().userDataFromFirebaseUser(_firebaseUser.value);
 
   @override
   onInit() {
@@ -17,8 +19,17 @@ class AuthController extends GetxController {
     _firebaseUser.bindStream(AuthService().onAuthStateChanged);
   }
 
-  void signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     AuthService().signInWithGoogle();
+  }
+
+  Future<void> verifyPhoneNumber(String phoneNumber) async {
+    AuthService().verifyPhoneNumber(phoneNumber);
+  }
+
+  Future<UserData?> signInWithPhoneNumber(
+      PhoneAuthCredential credential) async {
+    return AuthService().signInWithPhoneNumber(credential);
   }
 
   void signInAnonymously() async {
@@ -27,7 +38,7 @@ class AuthController extends GetxController {
     Get.find<LoadingController>().loaded();
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     try {
       await _auth.signOut();
       await GoogleSignIn().signOut();

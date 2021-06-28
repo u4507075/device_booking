@@ -7,14 +7,14 @@ class DeviceListController extends GetxController {
   String deviceType;
 
   DeviceListController(this.deviceType);
-  List<Device> get list => deviceList.value;
+  List<Device>? get list => deviceList.value;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     print('GetX: $deviceType');
-    deviceList.bindStream(DeviceListService().streamDeviceList(deviceType));
+    deviceList.bindStream(DeviceListService().streamDeviceList(deviceType)!);
   }
 
   @override

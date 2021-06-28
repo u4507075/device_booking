@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_booking/core/auth/user_service.dart';
 import 'package:flutter/material.dart';
 import './devicecomment_model.dart';
+import 'package:device_booking/core/core.dart';
 
 class DeviceCommentService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<List<DeviceComment>> fetchDeviceComments(String deviceId,
+  Future<List<DeviceComment?>?> fetchDeviceComments(String? deviceId,
       {int numbers = 5}) async {
     try {
       QuerySnapshot querySnapshot = await _db
@@ -20,9 +21,11 @@ class DeviceCommentService {
       print('${querySnapshot.size} device comment(s) found');
 
       return querySnapshot.docs.map((doc) {
-        Map<String, dynamic> device = doc.data();
+        DeviceComment deviceComment =
+            DeviceComment.fromMap(doc.data() as Map<String, dynamic>);
         if (doc.exists) {
-          return DeviceComment.fromMap(device);
+          // await UserDataService().fetchUser(deviceComment.userId);
+          return deviceComment;
         } else {
           return null;
         }
@@ -54,7 +57,7 @@ class DeviceCommentService {
   //   }
   // }
 
-  Stream<List<DeviceComment>> streamDeviceComments(String deviceId,
+  Stream<List<DeviceComment>>? streamDeviceComments(String deviceId,
       {int numbers = 5}) {
     try {
       return _db
@@ -66,11 +69,31 @@ class DeviceCommentService {
           .snapshots()
           .map((QuerySnapshot querySnapshot) {
         return querySnapshot.docs.map((doc) {
-          // var deviceComment = DeviceComment.fromMap(doc.data());
-          // var user = await UserDataService().fetchUser(deviceComment.userId);
+          var deviceComment =
+              DeviceComment.fromMap(doc.data() as Map<dynamic, dynamic>);
 
-          // DeviceComment();
-          return DeviceComment.fromMap(doc.data());
+          // var userStream =
+          //     UserDataService().streamUserData(deviceComment.userId);
+          // // userStream?.asBroadcastStream();
+          // userStream?.asBroadcastStream().listen((user) {
+          //   deviceComment.setDisplayName = user.firstname;
+          //   deviceComment.setUserPhotoURL = user.photoURL;
+          // });
+          // return deviceComment;
+          // Stream.fromFuture(UserDataService().fetchUser(deviceComment.userId))
+          //     .listen((user) {
+          //   deviceComment.setDisplayName = user?.firstname ?? '';
+          //   deviceComment.setUserPhotoURL = user?.photoURL ?? '';
+          // });
+          return deviceComment;
+
+//        UserDataService()
+//               .fetchUser(deviceComment.userId)
+//               .then((user) {
+// deviceComment.setDisplayName = user?.firstname ?? '';
+//           deviceComment.setUserPhotoURL = user?.photoURL ?? '';
+//           return deviceComment;
+//               });
         }).toList();
       });
     } catch (e) {

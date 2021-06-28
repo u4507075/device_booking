@@ -29,13 +29,14 @@ class DeviceService {
     }
   }
 
-  Future<Device> fetchDevice(String deviceId) async {
+  Future<Device?> fetchDevice(String? deviceId) async {
     try {
       CollectionReference devices =
           FirebaseFirestore.instance.collection('devices');
       DocumentSnapshot documentSnapshot = await devices.doc(deviceId).get();
       if (documentSnapshot.exists) {
-        Map<String, dynamic> device = documentSnapshot.data();
+        Map<String, dynamic> device =
+            documentSnapshot.data() as Map<String, dynamic>;
         print(
             'Retrieve device info successful: ${device['name']}, ${device['deviceType']}');
         print(device['lastUseTime']?.toDate().toString());
@@ -49,14 +50,14 @@ class DeviceService {
     return null;
   }
 
-  Stream<Device> streamDevice(String deviceId) {
+  Stream<Device>? streamDevice(String deviceId) {
     try {
       // print('Stream $deviceId');
       return _db
           .collection('devices')
           .doc(deviceId)
           .snapshots()
-          .map((snap) => Device.fromMap(snap.data()));
+          .map((snap) => Device.fromMap(snap.data() ?? {}));
     } catch (e) {
       print(e.toString());
       return null;
@@ -75,7 +76,8 @@ class DeviceService {
 
     try {
       //fetch userData to
-      UserData userData = await UserDataService().fetchUser(user.uid);
+      UserData userData =
+          await (UserDataService().fetchUser(user.uid) as Future<UserData>);
       //update device inUse
       devices.doc(device.deviceId).update({
         'inUse': true,
@@ -196,7 +198,7 @@ class DeviceService {
     }
   }
 
-  Future<Device> lastUseDevice(String uid) async {
+  Future<Device?> lastUseDevice(String uid) async {
     try {
       QuerySnapshot querySnapshot = await _db
           .collection('users')
@@ -205,8 +207,9 @@ class DeviceService {
           .orderBy('time')
           .limitToLast(1)
           .get();
-      Map<String, dynamic> map = querySnapshot.docs[0].data();
-      String deviceId = map['deviceId'];
+      Map<String, dynamic> map =
+          querySnapshot.docs[0].data() as Map<String, dynamic>;
+      String? deviceId = map['deviceId'];
       return fetchDevice(deviceId);
     } catch (e) {
       print('getLastDeviceUse failed: ${e.toString()}');

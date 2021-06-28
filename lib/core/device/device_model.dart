@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import './device_service.dart';
 
 class Device {
-  String name = ''; //deviceName
-  String deviceId = ''; //deviceId
-  String deviceType = ''; //type of device e.g. ultrasound / ekg
-  String location = ''; //Current location
-  String lastUserId = ''; //last user's uid
-  String lastUser = ''; //last user's name
-  String lastUserPhoneNumber = ''; //last user's phone number
-  DateTime lastUseTime; //last use time
-  bool inUse; //device's status
-  bool maintenance;
-  List<dynamic> operatingZone = [''];
-  String defaultLocation = '';
-  String photoURL = '';
+  String? name = ''; //deviceName
+  String? deviceId = ''; //deviceId
+  String? deviceType = ''; //type of device e.g. ultrasound / ekg
+  String? location = ''; //Current location
+  String? lastUserId = ''; //last user's uid
+  String? lastUser = ''; //last user's name
+  String? lastUserPhoneNumber = ''; //last user's phone number
+  DateTime? lastUseTime; //last use time
+  bool? inUse; //device's status
+  bool? maintenance;
+  List<dynamic>? operatingZone = [''];
+  String? defaultLocation = '';
+  String? photoURL = '';
 
   Device(
       {this.name,

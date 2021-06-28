@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 //   }
 // }
 
-Widget signInButton({Widget leading, Text title}) {
+Widget signInButton({Widget? leading, Text? title}) {
   return LimitedBox(
     maxWidth: 300.0,
     child: Card(
@@ -33,7 +33,7 @@ Widget signInButton({Widget leading, Text title}) {
 
 class LogInWithGoogleButton extends StatelessWidget {
   const LogInWithGoogleButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

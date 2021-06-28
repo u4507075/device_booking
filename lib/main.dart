@@ -15,7 +15,6 @@ class AppInitialize extends StatefulWidget {
 
 class _AppInitializeState extends State<AppInitialize> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -35,13 +34,12 @@ class _AppInitializeState extends State<AppInitialize> {
 }
 
 class InitializeError extends StatelessWidget {
-  const InitializeError({Key key}) : super(key: key);
+  const InitializeError({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: null,
-    );
+        // child: null,
+        );
   }
 }
-

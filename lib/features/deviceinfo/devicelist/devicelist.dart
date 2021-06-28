@@ -8,7 +8,7 @@ import './devicelist_controller.dart';
 class DeviceListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Device> devices;
+    List<Device>? devices;
     final String deviceType = Get.arguments.toString();
     DeviceListController controller = Get.put(DeviceListController(deviceType));
     // devices = Get.find<DeviceListController>().list;
@@ -48,10 +48,10 @@ class DeviceListPage extends StatelessWidget {
                     devices = controller.list;
                     return ListView.builder(
                       padding: EdgeInsets.all(5.0),
-                      itemCount: devices.length,
+                      itemCount: devices!.length,
                       itemBuilder: (context, index) {
                         // print(devices[index]);
-                        return _deviceInfo(devices[index]);
+                        return _deviceList(devices![index]);
                       },
                     );
                   } else {
@@ -63,13 +63,13 @@ class DeviceListPage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: qrScanButton(),
+      floatingActionButton: qrScanButtonExtended(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
 
-Widget _deviceInfo(Device device) {
+Widget _deviceList(Device device) {
   String assetPath;
   if (device.deviceType == 'ultrasound') {
     assetPath = "assets/images/ultrasonography.png";
@@ -81,9 +81,9 @@ Widget _deviceInfo(Device device) {
 
   Color _color;
 
-  (device.maintenance)
+  device.maintenance!
       ? _color = Colors.yellow
-      : (device.inUse)
+      : device.inUse!
           ? _color = Colors.red
           : _color = Colors.green;
 

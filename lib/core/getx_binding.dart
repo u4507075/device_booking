@@ -7,7 +7,8 @@ class AllBindings extends Bindings {
   @override
   void dependencies() {
     Get.put<AuthController>(AuthController(), permanent: true);
-    Get.put<UserController>(UserController(), permanent: true);
-    Get.lazyPut<LoadingController>(() => LoadingController());
+    // Get.put<UserController>(UserController(), permanent: true);
+    Get.put<LoadingController>(LoadingController(), permanent: true);
+    Get.put<PhoneAuthController>(PhoneAuthController(), permanent: true);
   }
 }

@@ -5,8 +5,12 @@ import 'package:device_booking/core/core.dart';
 import 'package:device_booking/features/deviceinfo/qrscan/qrscan.dart';
 
 class Home extends StatelessWidget {
+  final UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
+    UserController().initialize();
+    print(
+        'Welcome,\n${Get.find<UserController>().streamUser?.firstname ?? "User"}');
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -21,6 +25,8 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.all(0.0),
           children: [
             DrawerHeader(
+              margin: const EdgeInsets.all(0.0),
+              // padding: const EdgeInsets.all(0.0),
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -28,7 +34,7 @@ class Home extends StatelessWidget {
                 'Menu',
                 style: Theme.of(context)
                     .textTheme
-                    .headline1
+                    .headline1!
                     .copyWith(color: Colors.white),
               ),
             ),
@@ -38,6 +44,10 @@ class Home extends StatelessWidget {
                 'Profile',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/profile');
+              },
             ),
             ListTile(
               leading: Icon(Icons.settings, size: 30.0),
@@ -45,6 +55,7 @@ class Home extends StatelessWidget {
                 'Settings',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
+              onTap: () {},
             ),
           ],
         ),
@@ -59,10 +70,14 @@ class Home extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Obx(
-                  () => Text(
-                      'Welcome,\n${Get.find<UserController>().streamUser?.firstname}',
-                      style: Theme.of(context).textTheme.headline1),
+                GetX<UserController>(
+                  init: Get.find<UserController>(),
+                  builder: (controller) {
+                    return (controller.streamUser != null)
+                        ? Text('Welcome,\n${controller.streamUser!.firstname}',
+                            style: Theme.of(context).textTheme.headline1)
+                        : CircularProgressIndicator();
+                  },
                 ),
                 IconButton(
                   onPressed: () {
@@ -106,28 +121,16 @@ class Home extends StatelessWidget {
                       Get.find<AuthController>().signOut();
                     },
                     child: Text('Sign out')),
-                // ElevatedButton(
-                //     onPressed: () {
-                //       print('Test');
-                //       Get.find<LoadingController>().loading();
-                //       Future.delayed(Duration(seconds: 2)).then((value) {
-                //         Get.find<LoadingController>().loaded();
-                //         print('loading completed');
-                //       });
-                //     },
-                //     child: Text('Test')),
               ]),
             ),
           ],
         ),
       ),
-      floatingActionButton: _qrScanButton(),
+      floatingActionButton: qrScanButtonExtended(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }
-
-Widget _qrScanButton() => qrScanButton();
 
 class CardButton extends StatelessWidget {
   static const double _edge = 10.0;

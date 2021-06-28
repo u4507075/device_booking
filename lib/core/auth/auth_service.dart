@@ -10,48 +10,43 @@ class AuthService {
   //convert FirebaseUser to custom UserData model
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserData userDataFromFirebaseUser(User user) {
+  UserData? userDataFromFirebaseUser(User? user) {
     if (user != null) {
       return UserData(
-          firstname: user.displayName != null
-              ? capitalize(user.displayName?.split(' ')[0])
-              : '',
-          lastname: user.displayName != null
-              ? capitalize(user.displayName?.split(' ')[1])
-              : '',
-          email: user.email != null ? user.email : '',
-          phoneNumber: user.phoneNumber != null ? user.phoneNumber : '',
-          photoURL: user.photoURL != null ? user.photoURL : '',
-          uid: user.uid != null ? user.uid : '');
-    } else {
-      return null;
-    }
+        firstname: user.displayName?.split(' ')[0].capitalize ?? '',
+        lastname: user.displayName?.split(' ')[1].capitalize ?? '',
+        email: user.email ?? '',
+        phoneNumber: user.phoneNumber ?? '',
+        photoURL: user.photoURL ?? '',
+        uid: user.uid,
+      );
+    } else {}
   }
 
-  Future<UserData> signInAnonymously() async {
+  Future<UserData?> signInAnonymously() async {
     UserCredential user = await FirebaseAuth.instance.signInAnonymously();
     return userDataFromFirebaseUser(user.user);
   }
 
-  Future<UserData> signInWithGoogle() async {
+  Future<UserData?> signInWithGoogle() async {
     // Trigger the authentication flow
     try {
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
       );
 
       // Once signed in, return the UserCredential
       UserCredential user = await _auth.signInWithCredential(credential);
 
-      UserData userData = await UserDataService().fetchUser(user.user.uid);
+      UserData? userData = await UserDataService().fetchUser(user.user?.uid);
       if (userData != null) {
         //already has UserData in Firestore
         return userData;
@@ -66,11 +61,11 @@ class AuthService {
     }
   }
 
-  Future<UserData> signInWithPhoneNumber(PhoneAuthCredential credential) async {
+  Future<UserData?> signInWithPhoneNumber(
+      PhoneAuthCredential credential) async {
     try {
       UserCredential user = await _auth.signInWithCredential(credential);
-
-      UserData userData = await UserDataService().fetchUser(user.user.uid);
+      UserData? userData = await UserDataService().fetchUser(user.user?.uid);
       if (userData != null) {
         //already has UserData in Firestore
         return userData;
@@ -86,9 +81,9 @@ class AuthService {
     }
   }
 
-  Future<void> logInWithPhoneNumber(String phoneNumber) async {
+  Future<void> verifyPhoneNumber(String phoneNumber) async {
     await _auth.verifyPhoneNumber(
-      phoneNumber: '+66' + phoneNumber,
+      phoneNumber: '+66' + phoneNumber.substring(phoneNumber.length - 9),
       timeout: const Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _auth.signInWithCredential(credential);
@@ -101,9 +96,10 @@ class AuthService {
 
         // Get.snackbar('Log In Failed', '${e.code.toString()}');
       },
-      codeSent: (String verificationId, int resendToken) async {
+      codeSent: (String verificationId, int? resendToken) async {
         Get.find<LoadingController>().loaded();
         Get.find<PhoneAuthController>().saveVerificationId(verificationId);
+        print('Code sent to: $phoneNumber');
         Get.toNamed('/getotp');
       },
       codeAutoRetrievalTimeout: (String verificationId) {
@@ -126,9 +122,9 @@ class AuthService {
   }
 
   //listen for sign in status
-  Stream<User> get onAuthStateChanged => _auth.authStateChanges();
+  Stream<User?> get onAuthStateChanged => _auth.authStateChanges();
 
-  Stream<UserData> get onAuthStateChangedUserData =>
+  Stream<UserData?> get onAuthStateChangedUserData =>
       _auth.authStateChanges().map(userDataFromFirebaseUser);
 
   //log out - google account

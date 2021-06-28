@@ -5,23 +5,23 @@ import 'package:flutter/foundation.dart';
 class UserData /*implements ReassembleHandler*/ {
 // -------------------- Model -------------------- //
 
-  String firstname = '';
-  String lastname = '';
-  String phoneNumber = '';
-  String role = '';
-  String email = '';
-  String photoURL = '';
-  String uid = '';
-  bool inUse = false;
+  String firstname;
+  String lastname;
+  String phoneNumber;
+  String role;
+  String email;
+  String photoURL;
+  String uid;
+  bool? inUse;
 
   UserData({
-    this.firstname,
-    this.lastname,
-    this.phoneNumber,
-    this.role,
-    this.email,
-    this.photoURL,
-    this.uid,
+    this.firstname = '',
+    this.lastname = '',
+    this.phoneNumber = '',
+    this.role = '',
+    this.email = '',
+    this.photoURL = '',
+    this.uid = '',
     this.inUse,
   });
 
@@ -36,6 +36,31 @@ class UserData /*implements ReassembleHandler*/ {
       uid: map['uid'] ?? '',
       inUse: map['inUse'] ?? false,
     );
+  }
+
+  factory UserData.developer() {
+    return UserData(
+      firstname: 'Admin',
+      lastname: 'Admin',
+      phoneNumber: '+66999999999',
+      role: 'Admin',
+      email: 'admin@gmail.com',
+      photoURL: '',
+      uid: 'admin',
+      inUse: false,
+    );
+  }
+
+  set setfirstName(String firstName) {
+    this.firstname = firstName;
+  }
+
+  set setlastName(String lastName) {
+    this.lastname = lastName;
+  }
+
+  set setphoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
   }
 
   // static void isCompleted(){
@@ -74,13 +99,23 @@ class UserData /*implements ReassembleHandler*/ {
   //   }
   // }
 
-  bool isCompleted() {
+  // bool isCompleted() {
+  //   String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+  //   RegExp regExp = new RegExp(patttern);
+  //   return !((firstname.length < 2) ||
+  //       (lastname.length < 2) ||
+  //       (!regExp.hasMatch(phoneNumber)) ||
+  //       (role == ''));
+  // }
+
+  bool get isCompleted {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = new RegExp(patttern);
-    return !((firstname?.length ?? ''.length < 2) ||
-        (lastname?.length ?? ''.length < 2) ||
-        (!regExp.hasMatch(phoneNumber ?? '')) ||
-        (role ?? '' == ''));
+    print('Check user');
+    return !((this.firstname.length < 2) ||
+        (this.lastname.length < 2) ||
+        (regExp.hasMatch(phoneNumber)) ||
+        (role == ''));
   }
 
 //user InUse
@@ -154,12 +189,17 @@ class UserData /*implements ReassembleHandler*/ {
 
 class UserLog {
   String deviceId;
-  DateTime time;
+  DateTime? time;
   String logId;
-  bool take;
+  bool? take;
   String userId;
 
-  UserLog({this.deviceId, this.logId, this.take, this.time, this.userId});
+  UserLog(
+      {this.deviceId = '',
+      this.logId = '',
+      this.take,
+      this.time,
+      this.userId = ''});
 
   factory UserLog.fromMap(Map map) {
     return UserLog(

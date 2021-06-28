@@ -8,9 +8,9 @@ class ReportProblem extends StatelessWidget {
   final TextEditingController textFieldController = TextEditingController();
 
   void _updateData(
-          {@required Device device,
-          @required UserData user,
-          @required String reportText}) async =>
+          {required Device device,
+          required UserData user,
+          required String reportText}) async =>
       Get.find<DeviceController>()
           .reportDevice(device: device, user: user, reportText: reportText);
 
@@ -34,8 +34,8 @@ class ReportProblem extends StatelessWidget {
                 if (textFieldController.text.length != 0) {
                   print('Problem submitted');
                   _updateData(
-                      device: deviceController.device,
-                      user: Get.find<UserController>().user,
+                      device: deviceController.device!,
+                      user: Get.find<UserController>().user!,
                       reportText: reportText);
                   Get.back();
                 } else {

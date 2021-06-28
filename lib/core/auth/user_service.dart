@@ -10,13 +10,13 @@ class UserDataService {
   }
 
   //Stream UserData
-  Stream<UserData> streamUserData(String uid) {
+  Stream<UserData>? streamUserData(String uid) {
     try {
       return _db
           .collection('users')
           .doc(uid)
           .snapshots()
-          .map((snap) => UserData.fromMap(snap.data()));
+          .map((snap) => UserData.fromMap(snap.data() ?? {}));
     } catch (e) {
       print(e.toString());
       return null;
@@ -54,10 +54,10 @@ class UserDataService {
   }
 
   //Get UserData one time
-  Future<UserData> fetchUser(String userId) async {
+  Future<UserData?> fetchUser(String? userId) async {
     var snap = await _db.collection('users').doc(userId).get();
     if (snap.exists) {
-      return UserData.fromMap(snap.data());
+      return UserData.fromMap(snap.data()!);
     } else {
       return null;
     }
@@ -73,7 +73,7 @@ class UserDataService {
         .catchError((e) => print('Failed to delete user: ${e.toString()}'));
   }
 
-  Future<UserLog> lastUserLog(String userId) async {
+  Future<UserLog?> lastUserLog(String? userId) async {
     try {
       QuerySnapshot querySnapshot = await _db
           .collection('users')
@@ -82,7 +82,8 @@ class UserDataService {
           .orderBy('time')
           .limitToLast(1)
           .get();
-      Map<String, dynamic> map = querySnapshot.docs[0].data();
+      Map<String, dynamic> map =
+          querySnapshot.docs[0].data() as Map<String, dynamic>;
       return UserLog.fromMap(map);
     } catch (e) {
       print('Get last userlog failed: ${e.toString()}');

@@ -4,11 +4,11 @@ import 'package:device_booking/core/core.dart';
 class DBService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<Map<String, dynamic>> fetchData(String field, String document) async {
+  Future<Map<String, dynamic>?> fetchData(String field, String document) async {
     CollectionReference doc = FirebaseFirestore.instance.collection(field);
     DocumentSnapshot documentSnapshot = await doc.doc(document).get();
     if (documentSnapshot.exists) {
-      Map<String, dynamic> data = documentSnapshot.data();
+      Map<String, dynamic>? data = documentSnapshot.data() as Map<String, dynamic>?;
       return data;
     } else {
       return null;

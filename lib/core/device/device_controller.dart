@@ -8,13 +8,13 @@ import 'package:device_booking/core/auth/auth.dart';
 
 class DeviceController extends GetxController {
   var streamDevice = Device().obs;
-  var _device = Device().obs;
+  Rx<Device?> _device = Device().obs;
   var _deviceId = ''.obs;
   var user = Get.find<UserController>().user;
 
   Device get deviceInfo => streamDevice.value;
 
-  Device get device => _device.value;
+  Device? get device => _device.value;
 
   String get id => _deviceId.value;
 
@@ -22,9 +22,9 @@ class DeviceController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    streamDevice
-        .bindStream(DeviceService().streamDevice(_device.value.deviceId));
-    var user = Get.find<UserController>().user;
+    streamDevice.bindStream(
+        DeviceService().streamDevice(_device.value!.deviceId ?? ' ')!);
+    // var user = Get.find<UserController>().user;
     // lastUseDevice();
   }
 
@@ -35,29 +35,31 @@ class DeviceController extends GetxController {
     clear();
   }
 
+  void init() {}
+
   void clear() {
     streamDevice.value = Device();
   }
 
   Future<void> takeDevice(
-      {@required Device device,
-      @required UserData user,
-      @required String location}) async {
+      {required Device device,
+      required UserData user,
+      required String location}) async {
     DeviceService().takeDevice(device, user, location);
   }
 
-  Future<void> returnDevice({@required String deviceId, String userId}) async {
-    DeviceService().returnDevice(device, user);
+  Future<void> returnDevice({required String deviceId, String? userId}) async {
+    DeviceService().returnDevice(device!, user!);
   }
 
   Future<void> reportDevice(
-      {@required Device device,
-      @required UserData user,
-      @required String reportText}) async {
+      {required Device device,
+      required UserData user,
+      required String reportText}) async {
     DeviceService().reportDevice(device, user, reportText);
   }
 
-  Future<void> fetchDevice(String deviceId) {
+  Future<void> fetchDevice(String? deviceId) {
     return DeviceService().fetchDevice(deviceId).then((device) {
       _device.value = device;
     });
@@ -67,17 +69,17 @@ class DeviceController extends GetxController {
     _deviceId.value = id;
   }
 
-  void setDevice(Device device) {
+  void setDevice(Device? device) {
     _device.value = device;
   }
 
   void bindingStream() {
-    streamDevice
-        .bindStream(DeviceService().streamDevice(this._device.value.deviceId));
+    streamDevice.bindStream(
+        DeviceService().streamDevice(this._device.value!.deviceId ?? ' ')!);
   }
 
   Future<void> lastUseDevice() async {
     _device.value = await DeviceService()
-        .lastUseDevice(Get.find<AuthController>().user.uid);
+        .lastUseDevice(Get.find<AuthController>().user!.uid);
   }
 }
