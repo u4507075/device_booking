@@ -32,12 +32,12 @@ class App extends StatelessWidget {
         initialRoute: '/',
         getPages: [
           //   GetPage(
-          //       name: 'tester', page: () => Tester()), //Test field for new function
+          // name: 'tester', page: () => Tester()), //Test field for new function
           GetPage(name: '/', page: () => Root()),
           GetPage(
               name: '/loading', page: () => Loading()), //Global loading page
 
-          //   //Sign in features
+          //Sign in features
           GetPage(name: 'authenticate', page: () => Authenticate()),
           GetPage(name: '/signup', page: () => SignUp()),
           GetPage(name: '/home', page: () => Home()),
@@ -48,16 +48,19 @@ class App extends StatelessWidget {
           GetPage(name: '/deviceinfo', page: () => DeviceInfo()),
           GetPage(name: '/reportproblem', page: () => ReportProblem()),
 
-          //   //Take device features
+          //Take device features
           GetPage(name: '/takedevice', page: () => TakeDeviceRoot()),
           GetPage(name: '/selectlocation', page: () => SelectLocation()),
           GetPage(name: '/confirmation', page: () => Confirmation()),
           GetPage(name: '/inuse', page: () => InUse()),
           GetPage(name: '/busydevice', page: () => BusyDevice()),
 
-          //   //Profile features
+          //Profile features
           GetPage(name: '/profile', page: () => Profile()),
           GetPage(name: '/editprofile', page: () => EditProfile()),
+
+          //Additional function
+          GetPage(name: '/faq', page: () => Faq())
         ]);
   }
 }

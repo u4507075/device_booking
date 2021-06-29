@@ -1,7 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
-class BodyWidget extends StatelessWidget {
+class Faq extends StatelessWidget {
   String email = 'patipan_s@cmu.ac.th';
   String A =
       'https://www.pinclipart.com/picdir/middle/121-1215914_question-mark-icons-question-mark-in-circle-png.png';
@@ -14,86 +14,91 @@ class BodyWidget extends StatelessWidget {
   TextEditingController _textEditingController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Card(
-            child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(A),
-                ),
-                title: Text('FAQs',
-                    style:
-                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-                subtitle: Text(
-                  'Visit our frequently asked questions. These might help you.',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.grey),
-                ),
-                trailing: Icon(Icons.keyboard_arrow_right),
-                isThreeLine: true,
-                onTap: () => Navigator.pop(context))),
-        Card(
-          child: ExpansionTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(B),
-              ),
-              title: Text('Contact us',
-                  style:
-                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-              subtitle: Text(
-                "Still can't solve your problem?, contact us directly.",
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_down),
-              children: <Widget>[
-                Card(
-                    child: ListTile(
-                  contentPadding: EdgeInsets.only(left: 35.0, right: 0.0),
+    return SafeArea(
+      child: Scaffold(
+        body: ListView(
+          children: <Widget>[
+            Card(
+                child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(A),
+                    ),
+                    title: Text('FAQs',
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold)),
+                    subtitle: Text(
+                      'Visit our frequently asked questions. These might help you.',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic, color: Colors.grey),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                    isThreeLine: true,
+                    onTap: () => Navigator.pop(context))),
+            Card(
+              child: ExpansionTile(
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(P),
+                    backgroundImage: NetworkImage(B),
                   ),
-                  title: Text('Developer', style: TextStyle(fontSize: 16.0)),
+                  title: Text('Contact us',
+                      style: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.bold)),
                   subtitle: Text(
-                    'ปฏิภาณ สิทธิประเวศ',
+                    "Still can't solve your problem?, contact us directly.",
                     style: TextStyle(
                         fontStyle: FontStyle.italic, color: Colors.grey),
                   ),
-                  isThreeLine: true,
-                )),
-                Card(
-                    child: ListTile(
-                  contentPadding: EdgeInsets.only(left: 35.0, right: 0.0),
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(E),
-                  ),
-                  title: Text('Email address'),
-                  subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        TextButton(
-                          child: Text(email),
-                          onPressed: () {
-                            FlutterClipboard.copy(email).then((result) {
-                              final snackBar = SnackBar(
-                                content: Text(
-                                  email,
-                                ),
-                                action: SnackBarAction(
-                                  label: 'Undo',
-                                  onPressed: () {},
-                                ),
-                              );
-                              Scaffold.of(context).showSnackBar(snackBar);
-                            });
-                          },
-                        )
-                      ]),
-                  isThreeLine: true,
-                )),
-              ]),
+                  trailing: Icon(Icons.keyboard_arrow_down),
+                  children: <Widget>[
+                    Card(
+                        child: ListTile(
+                      contentPadding: EdgeInsets.only(left: 35.0, right: 0.0),
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(P),
+                      ),
+                      title:
+                          Text('Developer', style: TextStyle(fontSize: 16.0)),
+                      subtitle: Text(
+                        'ปฏิภาณ สิทธิประเวศ',
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.grey),
+                      ),
+                      isThreeLine: true,
+                    )),
+                    Card(
+                        child: ListTile(
+                      contentPadding: EdgeInsets.only(left: 35.0, right: 0.0),
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(E),
+                      ),
+                      title: Text('Email address'),
+                      subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            TextButton(
+                              child: Text(email),
+                              onPressed: () {
+                                FlutterClipboard.copy(email).then((result) {
+                                  final snackBar = SnackBar(
+                                    content: Text(
+                                      email,
+                                    ),
+                                    action: SnackBarAction(
+                                      label: 'Undo',
+                                      onPressed: () {},
+                                    ),
+                                  );
+                                  Scaffold.of(context).showSnackBar(snackBar);
+                                });
+                              },
+                            )
+                          ]),
+                      isThreeLine: true,
+                    )),
+                  ]),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

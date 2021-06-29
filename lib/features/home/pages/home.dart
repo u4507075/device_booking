@@ -21,15 +21,7 @@ class Home extends StatelessWidget {
           children: [
             DrawerHeader(
               margin: const EdgeInsets.all(0.0),
-              // padding: const EdgeInsets.all(0.0),
               decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-              // color: Colors.blue,
-              //     image: DecorationImage(
-              //   image: AssetImage(
-              //     'assets/images/mdets.jpg',
-              //   ),
-              //   fit: BoxFit.cover,
-              // )),
               child: Text(
                 'Menu',
                 style: Theme.of(context)
@@ -52,11 +44,30 @@ class Home extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.settings, size: 30.0),
               title: Text(
-                'Settings',
+                'Common problems',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/faq');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings, size: 30.0),
+              title: Text(
+                'Help us improve!',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               onTap: () {},
             ),
+            // ListTile(
+            //   leading: Icon(Icons.settings, size: 30.0),
+            //   title: Text(
+            //     'Settings',
+            //     style: Theme.of(context).textTheme.bodyText1,
+            //   ),
+            //   onTap: () {},
+            // ),
           ],
         ),
       ),
