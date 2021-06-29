@@ -27,7 +27,7 @@ class _AppInitializeState extends State<AppInitialize> {
         if (snapshot.connectionState == ConnectionState.done) {
           return App();
         } // Otherwise, show something whilst waiting for initialization to complete
-        return Loading();
+        return MaterialApp(home: Loading());
       },
     );
   }
@@ -38,8 +38,6 @@ class InitializeError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        // child: null,
-        );
+    return MaterialApp();
   }
 }

@@ -8,6 +8,9 @@ PODS:
     - Firebase/Firestore (= 8.0.0)
     - firebase_core
     - Flutter
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - Reachability
   - device_info (0.0.1):
     - Flutter
   - device_info_plus (0.0.1):
@@ -170,11 +173,13 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.12)
+  - Reachability (3.2)
   - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -209,10 +214,13 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - Reachability
 
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info:
     :path: ".symlinks/plugins/device_info/ios"
   device_info_plus:
@@ -249,6 +257,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   cloud_firestore: 83d6cd19d24798c523265494ab81db32009fcb7b
+  connectivity_plus: 5f0eb61093bec56935f21a1699dd2758bc895587
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
@@ -278,6 +287,7 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: fddf5423975356c0e7f40e6fd5e6627a1d1b3cf9

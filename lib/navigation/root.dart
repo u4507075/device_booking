@@ -1,8 +1,8 @@
 import 'package:device_booking/core/core.dart';
+import 'package:device_booking/features/features.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:device_booking/features/home/home.dart';
-import 'package:device_booking/features/features.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 //listen for auth changes
 class Root extends GetWidget<AuthController> {
@@ -16,3 +16,14 @@ class Root extends GetWidget<AuthController> {
         : Loading());
   }
 }
+
+// class ConnectivityCheckRoot extends StatelessWidget {
+//   // const ConnextivityCheckRoot({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: null,
+//     );
+//   }
+// }

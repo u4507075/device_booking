@@ -2,6 +2,7 @@ import 'package:device_booking/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import './qrscan_controller.dart';
+export './qrscan_controller.dart';
 
 Widget qrScanButton() {
   QrCodeController controller = Get.put(QrCodeController());

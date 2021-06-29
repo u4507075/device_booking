@@ -175,7 +175,7 @@ class ProfileInfo extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Obx(
                         () => Text(
-                          '${controller.streamUser?.phoneNumber ?? ''}',
+                          '${'0' + (controller.streamUser?.phoneNumber ?? '').substring((controller.streamUser?.phoneNumber ?? ' ').length - 9)}',
                           style: b1TextStyle,
                         ),
                       )),

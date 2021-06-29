@@ -22,7 +22,7 @@ class App extends StatelessWidget {
               headline3: h3TextStyle,
               bodyText1: b1TextStyle,
               bodyText2: b2TextStyle),
-          primaryColor: Colors.blue,
+          primaryColor: Color.fromARGB(255, 48, 98, 153),
           iconTheme: IconThemeData(
             // color: Colors.blue,
             size: 20,
@@ -57,7 +57,7 @@ class App extends StatelessWidget {
 
           //   //Profile features
           GetPage(name: '/profile', page: () => Profile()),
-          // GetPage(name: '/editprofile', page: () => EditProfile()),
+          GetPage(name: '/editprofile', page: () => EditProfile()),
         ]);
   }
 }

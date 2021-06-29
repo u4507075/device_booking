@@ -57,6 +57,7 @@ class LogInWithPhoneButton extends StatelessWidget {
               // print('get phone number: $_phoneNumber');
               // _userController.setUser(UserData(phoneNumber: _phoneNumber));
               // print(_userController.user?.phoneNumber);
+              Get.find<PhoneAuthController>().savePhoneNumber(_phoneNumber);
 
               Get.find<LoadingController>().loading();
               // Get.toNamed('/loading');

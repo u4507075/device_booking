@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_booking/core/core.dart';
 
-import 'package:device_booking/features/deviceinfo/qrscan/qrscan.dart';
+import 'package:device_booking/features/features.dart';
 
 class DeviceInfo extends StatelessWidget {
   String? _text;

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 // void main() => runApp(MyApp());
 
 class GetOTP extends StatelessWidget {
-  final UserController userController = Get.put(UserController());
+  // final UserController userController = Get.put(UserController());
   // final TimerController timerController = Get.put(TimerController());
 
   // final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -51,7 +51,7 @@ class GetOTP extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Obx(() => Text(
-                  'Your OTP was sent to ${userController.user?.phoneNumber}',
+                  'Your OTP was sent to ${Get.find<PhoneAuthController>().phoneNumber}',
                   style: Theme.of(context).textTheme.bodyText2,
                 )),
             // Obx(() {

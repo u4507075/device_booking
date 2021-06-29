@@ -73,8 +73,8 @@ class UserController extends GetxController {
   }
 
 //update user
-  Future<void> updateUser({required UserData user}) async {
-    await UserDataService().updateUser(user);
+  Future<void> updateUser({required UserData? user}) async {
+    await UserDataService().updateUser(user ?? '' as UserData);
   }
 
 //delete user

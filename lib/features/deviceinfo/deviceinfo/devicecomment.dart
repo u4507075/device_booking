@@ -32,95 +32,93 @@ Widget addComment() {
 
   void clear() {
     textController.clear();
-    // _controller.clearComment();
+    _controller.clearComment();
   }
-
-  _controller.initialize();
 
   return StatefulBuilder(
     builder: (BuildContext context, setState) {
-      // void submit() async {
-      //   print('userId: ${_controller.comment.userId}');
-      //   print('comment: ${_controller.comment.comment}');
-      //   print('deviceId: ${_controller.comment.deviceId}');
+      void submit() async {
+        print('userId: ${_controller.comment.userId}');
+        print('comment: ${_controller.comment.comment}');
+        print('deviceId: ${_controller.comment.deviceId}');
 
-      //   FocusManager.instance.primaryFocus!.unfocus();
-      //   if (Get.find<UserController>().developermode) {
-      //     Get.snackbar('Comment submitted', 'developermode enabled');
-      //     _controller.addComment();
-      //   } else {
-      //     if (Get.find<AuthController>().firebaseUser!.isAnonymous == true) {
-      //       Get.snackbar('Access is forbidden',
-      //           'Anonymous user cannot use this function');
-      //     } else {
-      //       print('Comment add success');
-      //       _controller.addComment();
-      //     }
-      //   }
-      //   clear();
-      //   setState(() {});
-      //   // Get.find<DeviceCommentListController>().initialize();
-      // }
+        FocusManager.instance.primaryFocus!.unfocus();
+        if (Get.find<UserController>().developermode) {
+          Get.snackbar('Comment submitted', 'developermode enabled');
+          _controller.addComment();
+        } else {
+          if (Get.find<AuthController>().firebaseUser!.isAnonymous == true) {
+            Get.snackbar('Access is forbidden',
+                'Anonymous user cannot use this function');
+          } else {
+            print('Comment add success');
+            _controller.addComment();
+          }
+        }
+        clear();
+        setState(() {});
+        // Get.find<DeviceCommentListController>().initialize();
+      }
 
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 20.0),
-        // child: Center(
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     crossAxisAlignment: CrossAxisAlignment.end,
-        //     children: [
-        //       Expanded(
-        //         child: TextField(
-        //           controller: textController,
-        //           keyboardType: TextInputType.multiline,
-        //           textInputAction: TextInputAction.newline,
-        //           maxLines: null,
-        //           maxLength: maxLength,
-        //           maxLengthEnforcement: MaxLengthEnforcement.none,
-        //           onChanged: (value) {
-        //             _controller.commentText = value;
-        //             setState(() {});
-        //           },
-        //           decoration: InputDecoration(
-        //                   suffix: Row(
-        //                     crossAxisAlignment: CrossAxisAlignment.center,
-        //                     mainAxisAlignment: MainAxisAlignment.end,
-        //                     mainAxisSize: MainAxisSize.min,
-        //                     children: [
-        //                       Text('${maxLength - textController.text.length}'),
-        //                     ],
-        //                   ),
-        //                   border: OutlineInputBorder(),
-        //                   // counter: Offstage(),
-        //                   hintText: 'Add comment...',
-        //                   // buildcounter
-        //                   errorStyle: TextStyle(
-        //                       height: double.minPositive,
-        //                       color: Colors.transparent),
-        //                   counterStyle: TextStyle(
-        //                       height: double.minPositive,
-        //                       color: Colors.transparent),
-        //                   // counterText: ' ',
-        //                   contentPadding: const EdgeInsets.all(15.0),
-        //                   hintStyle: Theme.of(context).textTheme.bodyText2)
-        //               .copyWith(hintStyle: TextStyle(color: Colors.grey)),
-        //         ),
-        //       ),
-        //       IconButton(
-        //         padding: const EdgeInsets.symmetric(vertical: 20),
-        //         icon: Icon(
-        //           Icons.send_rounded,
-        //           size: 25,
-        //         ),
-        //         color: Theme.of(context).iconTheme.color,
-        //         highlightColor: Colors.grey,
-        //         splashRadius: 25,
-        //         onPressed: () =>
-        //             textController.text.trim() != '' ? submit() : null,
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: textController,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                  maxLines: null,
+                  maxLength: maxLength,
+                  maxLengthEnforcement: MaxLengthEnforcement.none,
+                  onChanged: (value) {
+                    _controller.commentText = value;
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                          suffix: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('${maxLength - textController.text.length}'),
+                            ],
+                          ),
+                          border: OutlineInputBorder(),
+                          // counter: Offstage(),
+                          hintText: 'Add comment...',
+                          // buildcounter
+                          errorStyle: TextStyle(
+                              height: double.minPositive,
+                              color: Colors.transparent),
+                          counterStyle: TextStyle(
+                              height: double.minPositive,
+                              color: Colors.transparent),
+                          // counterText: ' ',
+                          contentPadding: const EdgeInsets.all(15.0),
+                          hintStyle: Theme.of(context).textTheme.bodyText2)
+                      .copyWith(hintStyle: TextStyle(color: Colors.grey)),
+                ),
+              ),
+              IconButton(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                icon: Icon(
+                  Icons.send_rounded,
+                  size: 25,
+                ),
+                color: Theme.of(context).iconTheme.color,
+                highlightColor: Colors.grey,
+                splashRadius: 25,
+                onPressed: () =>
+                    textController.text.trim() != '' ? submit() : null,
+              ),
+            ],
+          ),
+        ),
       );
     },
   );
@@ -190,8 +188,13 @@ Widget commentSection(DeviceComment? comment) {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               CircleAvatar(
-                                backgroundImage: NetworkImage(user?.photoURL ??
-                                    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.pngq'),
+                                backgroundImage: NetworkImage((user?.photoURL ==
+                                            '' ||
+                                        user?.photoURL == null)
+                                    ?
+                                    /*user?.photoURL ??*/
+                                    'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/profile_placeholder.png'
+                                    : user!.photoURL),
                               ),
                             ],
                           ),
