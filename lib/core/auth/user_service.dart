@@ -79,7 +79,7 @@ class UserDataService {
           .collection('users')
           .doc(userId)
           .collection('userLogs')
-          .orderBy('time')
+          .orderBy('time', descending: false)
           .limitToLast(1)
           .get();
       Map<String, dynamic> map =

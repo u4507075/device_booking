@@ -6,17 +6,24 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 //listen for auth changes
 class Root extends GetWidget<AuthController> {
-  // UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
-    // userController.initialize(developermode: false);
-    // print('${userController.user?.firstname}');
     return Obx(() => (!Get.find<LoadingController>().loadingState)
-        ? (Get.find<AuthController>().user != null ? Home() : Authenticate())
+        ? (Get.find<AuthController>().user != null
+            ? InUseRoot()
+            : Authenticate())
         : Loading());
   }
 }
 
+class InUseRoot extends GetWidget<UserController> {
+  var userController = Get.put(UserController());
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+        () => (userController.streamUser?.inUse ?? false) ? InUse() : Home());
+  }
+}
 // class ConnectivityCheckRoot extends StatelessWidget {
 //   // const ConnextivityCheckRoot({Key? key}) : super(key: key);
 

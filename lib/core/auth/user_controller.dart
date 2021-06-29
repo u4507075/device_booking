@@ -95,7 +95,8 @@ class UserController extends GetxController {
   }
 
   Future<UserLog?> lastUserLog() async {
-    _userLog.value = await UserDataService().lastUserLog(_userId);
+    _userLog.value = await UserDataService()
+        .lastUserLog(Get.find<AuthController>().firebaseUser?.uid ?? ' ');
     return _userLog.value;
   }
 

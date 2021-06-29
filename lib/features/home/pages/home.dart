@@ -13,14 +13,6 @@ class Home extends StatelessWidget {
         'Welcome, ${Get.find<UserController>().streamUser?.firstname ?? "User"}');
     return SafeArea(
         child: Scaffold(
-      // appBar: AppBar(
-      //   iconTheme: Theme.of(context).iconTheme,
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      //   textTheme: Theme.of(context).appBarTheme.textTheme,
-
-      //   // titleTextStyle: Theme.of(context).appBarTheme.textTheme?.headline1,
-      // ),
       drawer: Drawer(
         elevation: 0.0,
         semanticLabel: 'home_drawer',

@@ -12,7 +12,7 @@ class DeviceController extends GetxController {
   var _deviceId = ''.obs;
   var user = Get.find<UserController>().user;
 
-  Device get deviceInfo => streamDevice.value;
+  Device? get deviceInfo => streamDevice.value;
 
   Device? get device => _device.value;
 
@@ -48,8 +48,9 @@ class DeviceController extends GetxController {
     DeviceService().takeDevice(device, user, location);
   }
 
-  Future<void> returnDevice({required String deviceId, String? userId}) async {
-    DeviceService().returnDevice(device!, user!);
+  Future<void> returnDevice({required Device device, String? userId}) async {
+    DeviceService()
+        .returnDevice(device, Get.find<AuthController>().firebaseUser!.uid);
   }
 
   Future<void> reportDevice(

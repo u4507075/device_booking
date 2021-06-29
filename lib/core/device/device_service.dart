@@ -76,15 +76,14 @@ class DeviceService {
 
     try {
       //fetch userData to
-      UserData userData =
-          await (UserDataService().fetchUser(user.uid) as Future<UserData>);
+      // UserData? userData =
+      //     await (UserDataService().fetchUser(user.uid) as Future<UserData?>)?;
       //update device inUse
       devices.doc(device.deviceId).update({
         'inUse': true,
-        'lastUser':
-            '${userData.role} ${userData.firstname} ${userData.lastname}',
-        'lastUserId': userData.uid,
-        'lastUserPhoneNumber': userData.phoneNumber,
+        'lastUser': '${user.role} ${user.firstname} ${user.lastname}',
+        'lastUserId': user.uid,
+        'lastUserPhoneNumber': user.phoneNumber,
         'location': location,
         'lastUseTime': now,
       });
@@ -94,14 +93,14 @@ class DeviceService {
       docRef.set({
         'deviceId': device.deviceId,
         'logId': docRef.id,
-        'userId': userData.uid,
+        'userId': user.uid,
         'take': true,
         'useTime': now,
       });
 
       //add userLog
-      users.doc(userData.uid).collection('userLogs').doc(docRef.id).set({
-        'uid': userData.uid,
+      users.doc(user.uid).collection('userLogs').doc(docRef.id).set({
+        'uid': user.uid,
         'deviceId': device.deviceId,
         'take': true,
         'logId': docRef.id,
@@ -109,7 +108,7 @@ class DeviceService {
       });
 
       //switch user inUse status
-      users.doc(userData.uid).update({'inUse': true});
+      users.doc(user.uid).update({'inUse': true});
       // userData.userInUse(); //TODO add this to controller instead
 
       print('Device - takeDevice() successful');
@@ -120,7 +119,7 @@ class DeviceService {
 
   //
 
-  Future<void> returnDevice(Device device, UserData user) async {
+  Future<void> returnDevice(Device device, String userId) async {
     CollectionReference users = _db.collection('users');
     CollectionReference devices = _db.collection('devices');
     CollectionReference deviceLogs =
@@ -137,11 +136,11 @@ class DeviceService {
       });
 
       //add deviceLog
-      (device.lastUserId == user.uid)
+      (device.lastUserId == userId)
           ? docRef.set({
               'deviceId': device.deviceId,
               'logId': docRef.id,
-              'userId': user.uid,
+              'userId': userId,
               'take': false, //return
               'useTime': now,
               'forceReturn': false,
@@ -149,15 +148,15 @@ class DeviceService {
           : docRef.set({
               'deviceId': device.deviceId,
               'logId': docRef.id,
-              'userId': user.uid,
+              'userId': userId,
               'take': false, //return
               'useTime': now,
               'forceReturn': true, //force return by other user
             });
 
       //add userLog
-      users.doc(user.uid).collection('userLogs').doc(docRef.id).set({
-        'uid': user.uid,
+      users.doc(userId).collection('userLogs').doc(docRef.id).set({
+        'uid': userId,
         'deviceId': device.deviceId,
         'take': false, //return
         'logId': docRef.id,
@@ -165,7 +164,7 @@ class DeviceService {
       });
 
       //switch user inUse status
-      users.doc(user.uid).update({'inUse': false});
+      users.doc(userId).update({'inUse': false});
       // user.userReturn(); //TODO change this to device controller
 
       print('Device - returnDevice() successful');

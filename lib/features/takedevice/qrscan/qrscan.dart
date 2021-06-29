@@ -20,12 +20,15 @@ Widget qrScanButton() {
       //return previous deviceinfo
       deviceController.setDevice(_device);
       Get.snackbar('QR Scan cancelled', 'QR scanner was cancelled by user');
-    } else if (deviceController.device != null) {
-      Get.toNamed('/takedevice');
     } else {
-      //return previous deviceinfo
-      deviceController.setDevice(_device);
-      Get.snackbar('QR scan error', 'QR code not found');
+      await deviceController.fetchDevice(controller.qrCode.value);
+      if (deviceController.device != null) {
+        Get.toNamed('/takedevice');
+      } else {
+        //return previous deviceinfo
+        deviceController.setDevice(_device);
+        Get.snackbar('QR scan error', 'QR code not found');
+      }
     }
   }
 
@@ -42,10 +45,9 @@ Widget qrScanButton() {
         color: Colors.black,
       ),
       onPressed: () async {
-        print({Get.find<AuthController>().firebaseUser.toString()});
-
+        print('${userController.streamUser}');
         if (!Get.find<AuthController>().firebaseUser!.isAnonymous) {
-          if (userController.user?.isCompleted ?? false) {
+          if (userController.streamUser?.isCompleted ?? false) {
             qrCodeScanner();
           } else {
             Get.snackbar('User Profile Incompleted',
@@ -68,18 +70,21 @@ Widget qrScanButtonExtended() {
 
     await controller.scanQrCode();
     // print('${controller.qrCode}');
-    await deviceController.fetchDevice(controller.qrCode.value);
+
     //cancel scan qr -> not navigate
     if (controller.qrCode.value == '-1') {
       //return previous deviceinfo
       deviceController.setDevice(_device);
       Get.snackbar('QR Scan cancelled', 'QR scanner was cancelled by user');
-    } else if (deviceController.device != null) {
-      Get.toNamed('/takedevice');
     } else {
-      //return previous deviceinfo
-      deviceController.setDevice(_device);
-      Get.snackbar('QR scan error', 'QR code not found');
+      await deviceController.fetchDevice(controller.qrCode.value);
+      if (deviceController.device != null) {
+        Get.toNamed('/takedevice');
+      } else {
+        //return previous deviceinfo
+        deviceController.setDevice(_device);
+        Get.snackbar('QR scan error', 'QR code not found');
+      }
     }
   }
 
@@ -96,10 +101,10 @@ Widget qrScanButtonExtended() {
         color: Colors.black,
       ),
       onPressed: () async {
-        print({Get.find<AuthController>().firebaseUser.toString()});
+        print('${userController.streamUser?.firstname}');
 
         if (!Get.find<AuthController>().firebaseUser!.isAnonymous) {
-          if (userController.user?.isCompleted ?? false) {
+          if (userController.streamUser?.isCompleted ?? false) {
             qrCodeScanner();
           } else {
             Get.snackbar('User Profile Incompleted',
