@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'core/core.dart';
 import 'navigation/app.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,8 @@ class _AppInitializeState extends State<AppInitialize> {
         if (snapshot.connectionState == ConnectionState.done) {
           return App();
         } // Otherwise, show something whilst waiting for initialization to complete
-        return MaterialApp(home: Loading());
+        // return GetMaterialApp(home: Loading());
+        return App();
       },
     );
   }
@@ -38,6 +40,6 @@ class InitializeError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return GetMaterialApp();
   }
 }
