@@ -72,7 +72,7 @@ class LogInWithPhoneButton extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 300.0,
+      width: 250.0,
       child: Card(
         margin: EdgeInsets.all(5.0),
         elevation: 3.0,

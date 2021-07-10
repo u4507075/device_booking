@@ -29,7 +29,9 @@ class _AppInitializeState extends State<AppInitialize> {
           return App();
         } // Otherwise, show something whilst waiting for initialization to complete
         // return GetMaterialApp(home: Loading());
-        return App();
+        return MaterialApp(
+          home: Loading(),
+        );
       },
     );
   }
@@ -40,6 +42,19 @@ class InitializeError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp();
+    return GetMaterialApp(
+      home: InitializeErrorPage(),
+    );
+  }
+}
+
+class InitializeErrorPage extends StatelessWidget {
+  const InitializeErrorPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: Text('Error initializaing app')),
+    );
   }
 }

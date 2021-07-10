@@ -49,16 +49,19 @@ class Home extends StatelessWidget {
               ),
               onTap: () {
                 Get.back();
-                Get.toNamed('/faq');
+                Get.toNamed('/help');
               },
             ),
             ListTile(
               leading: Icon(Icons.settings, size: 30.0),
               title: Text(
-                'Help us improve!',
+                'Tester!',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
-              onTap: () {},
+              onTap: () {
+                Get.back();
+                Get.toNamed('tester');
+              },
             ),
             // ListTile(
             //   leading: Icon(Icons.settings, size: 30.0),

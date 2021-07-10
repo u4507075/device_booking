@@ -252,7 +252,7 @@ class DeviceInfo extends StatelessWidget {
                           },
                         ),
                       ),
-                      _reportButton(),
+                      // _reportButton(),
                     ],
                   ), //TODO add image of the device
                 ),

@@ -70,6 +70,7 @@ class EditProfile extends StatelessWidget {
                             ),
                     ),
                   ),
+                  
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
                     child: Text('${controller.streamUser?.email ?? ''}',

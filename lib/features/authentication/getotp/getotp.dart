@@ -1,23 +1,11 @@
 import 'package:device_booking/core/core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 
-// void main() => runApp(MyApp());
-
 class GetOTP extends StatelessWidget {
-  // final UserController userController = Get.put(UserController());
-  // final TimerController timerController = Get.put(TimerController());
-
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // var verificationId = Get.arguments['verificationId'];
-  // var resendToken = Get.arguments['resendToken'];
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
 //     return Obx(() {
@@ -84,8 +72,8 @@ class GetOTP extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  Get.find<LoadingController>().loading();
                   if (_formKey.currentState!.validate()) {
+                    // Get.to(Loading());
                     PhoneAuthController phoneAuthController =
                         Get.put(PhoneAuthController());
                     String _smsCode = phoneAuthController.smsCode;
@@ -101,10 +89,18 @@ class GetOTP extends StatelessWidget {
                       AuthController()
                           .signInWithPhoneNumber(credential)
                           .then((user) {
-                        Get.find<LoadingController>().loaded();
-                        (user?.isCompleted ?? false)
-                            ? Get.back()
-                            : Get.offNamed('/signup');
+                        // Get.back(); //Close loading page
+
+                        // (user?.isCompleted ?? false)
+                        //     ? Get.back()
+                        //     : Get.offNamed('/signup');
+
+                        if (user!.isCompleted) {
+                          Get.back();
+                        } else {
+                          Get.back();
+                          Get.toNamed('/signup');
+                        }
 
                         print(user);
                       });

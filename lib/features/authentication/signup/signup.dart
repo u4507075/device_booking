@@ -38,8 +38,7 @@ class SignUp extends StatelessWidget {
             centerTitle: true,
             actions: [
               TextButton(
-                style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue, padding: EdgeInsets.all(4)),
+                style: TextButton.styleFrom(padding: EdgeInsets.all(4)),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     print('Submit Form Successful');

@@ -14,7 +14,9 @@ class AuthService {
     if (user != null) {
       return UserData(
         firstname: user.displayName?.split(' ')[0].capitalize ?? '',
-        lastname: user.displayName?.split(' ')[1].capitalize ?? '',
+        lastname: ((user.displayName?.split(' ') ?? []).length > 2)
+            ? user.displayName?.split(' ')[1].capitalize ?? ''
+            : '',
         email: user.email ?? '',
         phoneNumber: user.phoneNumber ?? '',
         photoURL: user.photoURL ?? '',

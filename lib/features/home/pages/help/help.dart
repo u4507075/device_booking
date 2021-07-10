@@ -1,7 +1,11 @@
+export './faq.dart';
+
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
-class Faq extends StatelessWidget {
+
+
+class Help extends StatelessWidget {
   String email = 'patipan_s@cmu.ac.th';
   String A =
       'https://www.pinclipart.com/picdir/middle/121-1215914_question-mark-icons-question-mark-in-circle-png.png';

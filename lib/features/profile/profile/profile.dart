@@ -174,10 +174,12 @@ class ProfileInfo extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Obx(
-                        () => Text(
-                          '${'0' + (controller.streamUser?.phoneNumber ?? '').substring((controller.streamUser?.phoneNumber ?? ' ').length - 9)}',
-                          style: b1TextStyle,
-                        ),
+                        () => (controller.streamUser?.phoneNumber != '')
+                            ? Text(
+                                '${'0' + (controller.streamUser?.phoneNumber ?? '').substring((controller.streamUser?.phoneNumber ?? ' ').length - 9)}',
+                                style: b1TextStyle,
+                              )
+                            : Text(''),
                       )),
                 ]),
                 TableRow(children: [

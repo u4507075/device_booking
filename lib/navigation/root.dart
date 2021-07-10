@@ -2,7 +2,31 @@ import 'package:device_booking/core/core.dart';
 import 'package:device_booking/features/features.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
+
+class ConnectionRoot extends StatelessWidget {
+  // const ConnectionRoot({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: Connectivity().onConnectivityChanged,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return FutureBuilder(
+            future: Connectivity().checkConnectivity(),
+            builder: (context, snapshot) {
+              print('${snapshot.data}');
+              return (snapshot.connectionState != ConnectionState.none)
+                  ? (snapshot.data != ConnectivityResult.none)
+                      ? Root()
+                      : NoConnection()
+                  : NoConnection();
+            });
+      },
+    );
+  }
+}
 
 //listen for auth changes
 class Root extends GetWidget<AuthController> {

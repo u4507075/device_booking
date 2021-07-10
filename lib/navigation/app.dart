@@ -31,9 +31,10 @@ class App extends StatelessWidget {
         initialBinding: AllBindings(),
         initialRoute: '/',
         getPages: [
-          //   GetPage(
-          // name: 'tester', page: () => Tester()), //Test field for new function
-          GetPage(name: '/', page: () => Root()),
+          GetPage(
+              name: 'tester',
+              page: () => Tester()), //Test field for new function
+          GetPage(name: '/', page: () => ConnectionRoot()),
           GetPage(
               name: '/loading', page: () => Loading()), //Global loading page
 
@@ -60,7 +61,8 @@ class App extends StatelessWidget {
           GetPage(name: '/editprofile', page: () => EditProfile()),
 
           //Additional function
-          GetPage(name: '/faq', page: () => Faq())
+          GetPage(name: '/faq', page: () => Faq()),
+          GetPage(name: '/help', page: () => Help())
         ]);
   }
 }
