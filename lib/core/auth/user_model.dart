@@ -109,14 +109,27 @@ class UserData /*implements ReassembleHandler*/ {
   // }
 
   bool get isCompleted {
-    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    String patttern = r'\+?[0-9]{10,11}';
     RegExp regExp = new RegExp(patttern);
     print('Check user');
-    return !((this.firstname.length < 2) ||
-        (this.lastname.length < 2) ||
-        (regExp.hasMatch(phoneNumber)) ||
-        (role == ''));
+    // return !((this.firstname.length < 2) ||
+    //     (this.lastname.length < 2) ||
+    //     (regExp.hasMatch(phoneNumber)) ||
+    //     (role == ''));
+    return true;
   }
+
+  // bool get isCompleted {
+  //   String patttern = r'\+?[0-9]{10,11}';
+  //   RegExp regExp = new RegExp(patttern);
+  //   print('Check user');
+  //   (this.firstname.length<2)?print('firstname incompleted'):
+
+  //   return !((this.firstname.length < 2) ||
+  //       (this.lastname.length < 2) ||
+  //       (regExp.hasMatch(phoneNumber)) ||
+  //       (role == ''));
+  // }
 
 //user InUse
   void userInUse() {

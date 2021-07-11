@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import './device_model.dart';
 import 'package:device_booking/core/auth/user_service.dart';
 import 'package:device_booking/core/auth/user.dart';
+import 'package:firebase_database/firebase_database.dart';
 // import 'package:device_booking/core/';
 
 class DeviceService {
@@ -10,6 +11,7 @@ class DeviceService {
   Future<void> addNewDevice(Device device) async {
     CollectionReference devices = _db.collection('devices');
     DocumentReference docRef = devices.doc();
+    Timestamp now = Timestamp.fromDate(DateTime.now());
     try {
       return docRef.set({
         'name': device.name,
@@ -23,6 +25,9 @@ class DeviceService {
         'inUse': false,
         'maintenance': false,
         'operatingZone': device.operatingZone,
+        'photoURL': device.photoURL,
+        'locatorId': device.locatorId,
+        'registerTime': now,
       });
     } catch (e) {
       print(e.toString());
@@ -88,6 +93,32 @@ class DeviceService {
         'lastUseTime': now,
       });
 
+      if (device.inUse!) {
+        //Force return - add deviceLog
+        DocumentReference docRefForce = deviceLogs.doc();
+        docRefForce.set({
+          'deviceId': device.deviceId,
+          'logId': docRefForce.id,
+          'userId': device.lastUserId,
+          'take': false, //return
+          'useTime': now,
+          'forceReturn': true,
+        });
+
+        //Force return - add userLog
+        users.doc(user.uid).collection('userLogs').doc(docRefForce.id).set({
+          'uid': device.lastUserId,
+          'deviceId': device.deviceId,
+          'take': false, //return
+          'logId': docRefForce.id,
+          'time': now,
+          'forceReturn': true,
+        });
+
+        //Force return - update previous user inUse
+        users.doc(device.lastUserId).update({'inUse': false});
+      }
+
       //add deviceLog
       DocumentReference docRef = deviceLogs.doc();
       docRef.set({
@@ -136,23 +167,14 @@ class DeviceService {
       });
 
       //add deviceLog
-      (device.lastUserId == userId)
-          ? docRef.set({
-              'deviceId': device.deviceId,
-              'logId': docRef.id,
-              'userId': userId,
-              'take': false, //return
-              'useTime': now,
-              'forceReturn': false,
-            })
-          : docRef.set({
-              'deviceId': device.deviceId,
-              'logId': docRef.id,
-              'userId': userId,
-              'take': false, //return
-              'useTime': now,
-              'forceReturn': true, //force return by other user
-            });
+      docRef.set({
+        'deviceId': device.deviceId,
+        'logId': docRef.id,
+        'userId': userId,
+        'take': false, //return
+        'useTime': now,
+        'forceReturn': false,
+      });
 
       //add userLog
       users.doc(userId).collection('userLogs').doc(docRef.id).set({
@@ -212,6 +234,30 @@ class DeviceService {
       return fetchDevice(deviceId);
     } catch (e) {
       print('getLastDeviceUse failed: ${e.toString()}');
+      return null;
+    }
+  }
+
+  //--------------------------- RealTime Database --------------------------- //
+
+  Stream<DeviceLocation>? streamLastDeviceLocation(String locatorId) {
+    var locationDict = {
+      //Todo fetch dict fron server
+      'DA0D-1': 'ICU Med',
+      '0957-2': 'Sub ICU Med',
+      'B1F5-3': 'อายุรกรรมชาย 1',
+      'AACF-4': 'อายุรกรรมชาย 2',
+      '978C-5': 'อายุรกรรมชาย 3',
+      '1E2A-6': 'อายุรกรรมหญิง 1',
+      '1535-7': 'อายุรกรรมหญิง 2',
+      'DF02-8': 'อายุรกรรมหญิง 3',
+    };
+    var tagLastLocationRef =
+        FirebaseDatabase.instance.reference().child('tag_last_location');
+    try {
+      return tagLastLocationRef.child(locatorId).onValue.map(
+          (map) => DeviceLocation.fromMap(map.snapshot.value, locationDict));
+    } catch (e) {
       return null;
     }
   }

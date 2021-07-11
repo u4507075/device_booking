@@ -38,7 +38,7 @@ class DeviceInfo extends StatelessWidget {
 
     var children2 = [
       Obx(() => Text(
-          '${deviceController.device?.deviceType?.capitalize ?? ''} ${deviceController.device?.name?.capitalize ?? ''}',
+          '${deviceController.device?.deviceType?.capitalize ?? ''}\n${deviceController.device?.name?.capitalize ?? ''}',
           style: Theme.of(context).textTheme.headline1)),
       SizedBox(
         height: 20.0,
@@ -68,10 +68,22 @@ class DeviceInfo extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: Obx(
-                  () => Text(
-                    '${!deviceController.device!.inUse! ? 'Available' : 'Busy'}', //TODO: add color
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
+                  () {
+                    Color _color;
+
+                    deviceController.device!.maintenance!
+                        ? _color = Colors.yellow
+                        : deviceController.device!.inUse!
+                            ? _color = Colors.red
+                            : _color = Colors.green;
+                    return Text(
+                      '${!deviceController.device!.inUse! ? 'Available' : 'Busy'}', //TODO: add color
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(color: _color),
+                    );
+                  },
                 ),
               ),
               Container(
@@ -137,9 +149,23 @@ class DeviceInfo extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Obx(
-                          () => Text(
-                              '${deviceController.device?.lastUserPhoneNumber}',
-                              style: Theme.of(context).textTheme.bodyText2),
+                          () {
+                            String? phoneNumber;
+
+                            (deviceController.device?.lastUserPhoneNumber !=
+                                    null)
+                                ? (deviceController.device!.lastUserPhoneNumber!
+                                            .length >
+                                        9)
+                                    ? phoneNumber = formatPhoneNumber(
+                                        deviceController
+                                            .device!.lastUserPhoneNumber!)
+                                    : phoneNumber = ''
+                                : phoneNumber = '';
+
+                            return Text('$phoneNumber',
+                                style: Theme.of(context).textTheme.bodyText2);
+                          },
                         ),
                         Container(
                           padding: EdgeInsets.all(0),
@@ -147,8 +173,13 @@ class DeviceInfo extends StatelessWidget {
                           child: IconButton(
                             padding: EdgeInsets.all(0),
                             onPressed: () {
-                              launch(
-                                  'tel:${deviceController.device?.lastUserPhoneNumber}');
+                              print(
+                                  deviceController.device?.lastUserPhoneNumber);
+                              (deviceController.device?.lastUserPhoneNumber !=
+                                      '')
+                                  ? launch(
+                                      'tel:${deviceController.device?.lastUserPhoneNumber}')
+                                  : null;
                             },
                             icon: Icon(
                               Icons.phone,
@@ -303,3 +334,13 @@ class DeviceInfo extends StatelessWidget {
 //                       ],
 //                     )
 //
+
+// String formatPhoneNumber(String phoneNumber) {
+//   return (isPhoneNumber(phoneNumber))
+//       ? '0' + phoneNumber.substring(phoneNumber.length - 9)
+//       : '';
+// }
+
+// bool isPhoneNumber(String phoneNumber) {
+//   return RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)').hasMatch(phoneNumber);
+// }

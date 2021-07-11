@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +90,7 @@ class AuthService {
       phoneNumber: '+66' + phoneNumber.substring(phoneNumber.length - 9),
       timeout: const Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) async {
-        await _auth.signInWithCredential(credential);
+        // await _auth.signInWithCredential(credential);
         // Get.back();
       },
       verificationFailed: (FirebaseAuthException e) async {
@@ -103,6 +105,7 @@ class AuthService {
         Get.find<PhoneAuthController>().saveVerificationId(verificationId);
         print('Code sent to: $phoneNumber');
         Get.toNamed('/getotp');
+        // (Platform.isAndroid) ? Get.toNamed('/signup') : Get.toNamed('/getotp');
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         Get.snackbar('Time out', 'No sms confirm within 60 seconds');

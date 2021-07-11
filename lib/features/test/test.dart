@@ -11,6 +11,9 @@ class Tester extends StatelessWidget {
     TestFeature(BatteryPlusTest()),
     TestFeature(SensorPlusTest()),
     TestFeature(ImagePickerTest()),
+    TestFeature(RealtimeDatabaseTest()),
+    TestFeature(AddDevice()),
+    TestFeature(QrGenerator()),
   ];
 
   @override

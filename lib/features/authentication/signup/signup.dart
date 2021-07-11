@@ -11,16 +11,11 @@ class SignUp extends StatelessWidget {
 
   // UserData? _initialUser = UserData();
 
-  UserController userController = Get.find<UserController>();
+  UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
-    // Google signin / other sign in method
-    // if (_user.firebaseUser != null) {
-    //   _initialUser = _user.user;
-    // }
-
-    print(userController.streamUser?.firstname);
+    print(_user?.phoneNumber);
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -136,10 +131,8 @@ class SignUp extends StatelessWidget {
                             //Enter phonenumber
                             TextFormField(
                                 enabled: false,
-                                initialValue: '0' +
-                                    (_user?.phoneNumber ?? '').substring(
-                                        (_user?.phoneNumber ?? '').length -
-                                            9), //to remove +66...
+                                initialValue:
+                                    formatPhoneNumber(_user!.phoneNumber),
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly

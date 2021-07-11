@@ -213,7 +213,7 @@ Widget commentSection(DeviceComment? comment) {
                                 height: 10.0,
                               ),
                               Text(
-                                '${comment?.comment ?? ''}',
+                                '${comment?.comment?.trim() ?? ''}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText2!

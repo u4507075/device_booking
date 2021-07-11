@@ -10,6 +10,7 @@ class SelectLocation extends StatelessWidget {
       Get.find<DeviceController>().device?.operatingZone;
   @override
   Widget build(BuildContext context) {
+    operatingZone?.add('Other');
     print('${Get.find<DeviceController>().device?.operatingZone}');
     return Scaffold(
       appBar: AppBar(
@@ -24,6 +25,7 @@ class SelectLocation extends StatelessWidget {
       body: ListView.builder(
         itemCount: Get.find<DeviceController>().device?.operatingZone?.length,
         itemBuilder: (context, index) {
+          print(operatingZone);
           return _location(operatingZone?[index]);
         },
       ),

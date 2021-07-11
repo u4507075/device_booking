@@ -52,7 +52,7 @@ class DeviceCommentController extends GetxController {
 }
 
 class DeviceCommentListController extends GetxController {
-  Rx<List<DeviceComment?>> _deviceComments = Rx<List<DeviceComment>>([]);
+  Rx<List<DeviceComment?>> _deviceComments = Rx<List<DeviceComment?>>([]);
   String? _deviceId;
   int allCommentNumbers = 0;
   Rx<int> numbers = 5.obs;
@@ -87,6 +87,7 @@ class DeviceCommentListController extends GetxController {
   }
 
   void bindingStream() {
+    _clear();
     _deviceId = Get.find<DeviceController>().device?.deviceId ?? ' ';
     var stream = DeviceCommentService()
         .streamDeviceComments(_deviceId ?? ' ', numbers: numbers.value)!;

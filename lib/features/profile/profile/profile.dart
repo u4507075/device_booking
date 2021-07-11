@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Profile extends StatelessWidget {
-  final UserController controller = Get.find<UserController>();
+  final UserController controller = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
+    controller.initialize();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -173,14 +174,17 @@ class ProfileInfo extends StatelessWidget {
                   ),
                   Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Obx(
-                        () => (controller.streamUser?.phoneNumber != '')
-                            ? Text(
-                                '${'0' + (controller.streamUser?.phoneNumber ?? '').substring((controller.streamUser?.phoneNumber ?? ' ').length - 9)}',
-                                style: b1TextStyle,
-                              )
-                            : Text(''),
-                      )),
+                      child: Obx(() => Text(
+                              formatPhoneNumber(
+                                  controller.streamUser?.phoneNumber ?? ''),
+                              style: Theme.of(context).textTheme.bodyText1)
+                          // ( != '')
+                          //     ? Text(
+                          //         '${'0' + (controller.streamUser?.phoneNumber ?? '').substring((controller.streamUser?.phoneNumber ?? ' ').length - 9)}',
+                          //         style: b1TextStyle,
+                          //       )
+                          //     : Text(''),
+                          )),
                 ]),
                 TableRow(children: [
                   Padding(

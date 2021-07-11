@@ -42,6 +42,7 @@ class Root extends GetWidget<AuthController> {
 
 class InUseRoot extends GetWidget<UserController> {
   var userController = Get.put(UserController());
+
   @override
   Widget build(BuildContext context) {
     return Obx(

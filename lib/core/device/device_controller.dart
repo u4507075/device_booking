@@ -10,6 +10,7 @@ class DeviceController extends GetxController {
   var streamDevice = Device().obs;
   Rx<Device?> _device = Device().obs;
   var _deviceId = ''.obs;
+  // var streamDeviceLocation = DeviceLocation().obs;
   var user = Get.find<UserController>().user;
 
   Device? get deviceInfo => streamDevice.value;
@@ -18,12 +19,16 @@ class DeviceController extends GetxController {
 
   String get id => _deviceId.value;
 
+  // DeviceLocation get value => streamDeviceLocation.value;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     streamDevice.bindStream(
         DeviceService().streamDevice(_device.value!.deviceId ?? ' ')!);
+
+    // streamDeviceLocation.bindStream(DeviceService().streamLastDeviceLocation());
     // var user = Get.find<UserController>().user;
     // lastUseDevice();
   }

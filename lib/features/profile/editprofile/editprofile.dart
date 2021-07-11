@@ -2,6 +2,8 @@ import 'package:device_booking/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class EditProfile extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -9,6 +11,7 @@ class EditProfile extends StatelessWidget {
   UserController controller = Get.put(UserController());
   UserData? _user = Get.find<UserController>().streamUser;
   String? valueChoose = Get.find<UserController>().streamUser?.role;
+  final _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,8 +30,7 @@ class EditProfile extends StatelessWidget {
             centerTitle: true,
             actions: [
               TextButton(
-                style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue, padding: EdgeInsets.all(4)),
+                style: TextButton.styleFrom(padding: EdgeInsets.all(4)),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     print('Submit Form Successful');
@@ -57,20 +59,78 @@ class EditProfile extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 5,
-                    child: ClipOval(
-                      child: (_user?.photoURL != '')
-                          ? Obx(() => Image.network(
-                                controller.streamUser?.photoURL ?? '',
-                                fit: BoxFit.cover,
-                              ))
-                          : Image.asset(
-                              'assets/images/profile_placeholder.png',
-                              fit:
-                                  BoxFit.cover, //TODO fit this image to the box
+                    child: GestureDetector(
+                      onLongPress: () {
+                        print('long pressed');
+                      },
+                      onLongPressUp: () {
+                        Get.bottomSheet(
+                          Container(
+                            height: 200,
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                  child: Center(
+                                    child: Text(
+                                      'Upload an image',
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                  ),
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                                Expanded(
+                                    child: ListView(
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        'Select from a gallery',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2,
+                                      ),
+                                      onTap: () async {
+                                        _picker.getImage(
+                                            source: ImageSource.gallery);
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        'Take a new photo',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2,
+                                      ),
+                                      onTap: () {},
+                                    )
+                                  ],
+                                ))
+                              ],
                             ),
+                          ),
+                        );
+                      },
+                      // onLongPressEnd: (LongPressEndDetails detail) {
+                      //   print(detail.globalPosition);
+                      // },
+                      child: ClipOval(
+                        child: (_user?.photoURL != '')
+                            ? Obx(() => Image.network(
+                                  controller.streamUser?.photoURL ?? '',
+                                  fit: BoxFit.cover,
+                                ))
+                            : Image.asset(
+                                'assets/images/profile_placeholder.png',
+                                fit: BoxFit
+                                    .cover, //TODO fit this image to the box
+                              ),
+                      ),
                     ),
                   ),
-                  
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
                     child: Text('${controller.streamUser?.email ?? ''}',
@@ -129,9 +189,8 @@ class EditProfile extends StatelessWidget {
                             //Enter phonenumber
                             TextFormField(
                                 enabled: false,
-                                initialValue: '0' +
-                                    (_user?.phoneNumber ?? '').substring(
-                                        (_user?.phoneNumber ?? '').length - 9),
+                                initialValue:
+                                    formatPhoneNumber(_user!.phoneNumber),
                                 keyboardType: TextInputType.number,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
