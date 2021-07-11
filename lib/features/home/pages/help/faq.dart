@@ -2,27 +2,26 @@
 import 'package:flutter/material.dart';
 import './qa.dart';
 
-const String _title = 'FAQ';
+// const String _title = 'FAQ';
 
-class Faq extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: MaterialApp(
-        title: _title,
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text(_title),
-          ),
-          body: Mystful(),
-        ),
-      ),
-    );
-  }
-}
+// class Faq extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: MaterialApp(
+//         title: _title,
+//         home: Scaffold(
+//           appBar: AppBar(
+//             title: const Text(_title),
+//           ),
+//           body: Mystful(),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class Item {
-
   Item(
       {this.expandedValue = '',
       this.headerValue = '',
@@ -42,22 +41,27 @@ List<Item> generateItems() {
   });
 }
 
-class Mystful extends StatefulWidget {
+class Faq extends StatefulWidget {
   @override
-  _MystfulState createState() => _MystfulState();
+  _FaqState createState() => _FaqState();
 }
 
-class _MystfulState extends State<Mystful> {
+class _FaqState extends State<Faq> {
   final List<Item> _data = generateItems();
   @override
   Widget build(BuildContext context) {
     print(_data);
     return SafeArea(
-        child: SingleChildScrollView(
-      child: Container(
-        child: _buildPanel(),
-      ),
-    ));
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text('Frequently ask questions'),
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              child: _buildPanel(),
+            ),
+          )),
+    );
   }
 
   Widget _buildPanel() {

@@ -3,10 +3,8 @@ export './faq.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
-
-
 class Help extends StatelessWidget {
-  String email = 'patipan_s@cmu.ac.th';
+  String email = 'mdets2021@gmail.com';
   String A =
       'https://www.pinclipart.com/picdir/middle/121-1215914_question-mark-icons-question-mark-in-circle-png.png';
   String B =
@@ -20,24 +18,27 @@ class Help extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Help'),
+        ),
         body: ListView(
           children: <Widget>[
-            Card(
-                child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(A),
-                    ),
-                    title: Text('FAQs',
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold)),
-                    subtitle: Text(
-                      'Visit our frequently asked questions. These might help you.',
-                      style: TextStyle(
-                          fontStyle: FontStyle.italic, color: Colors.grey),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                    isThreeLine: true,
-                    onTap: () => Navigator.pop(context))),
+            // Card(
+            //     child: ListTile(
+            //         leading: CircleAvatar(
+            //           backgroundImage: NetworkImage(A),
+            //         ),
+            //         title: Text('FAQs',
+            //             style: TextStyle(
+            //                 fontSize: 16.0, fontWeight: FontWeight.bold)),
+            //         subtitle: Text(
+            //           'Visit our frequently asked questions. These might help you.',
+            //           style: TextStyle(
+            //               fontStyle: FontStyle.italic, color: Colors.grey),
+            //         ),
+            //         trailing: Icon(Icons.keyboard_arrow_right),
+            //         isThreeLine: true,
+            //         onTap: () => Navigator.pop(context))),
             Card(
               child: ExpansionTile(
                   leading: CircleAvatar(
@@ -59,10 +60,10 @@ class Help extends StatelessWidget {
                       leading: CircleAvatar(
                         backgroundImage: NetworkImage(P),
                       ),
-                      title:
-                          Text('Developer', style: TextStyle(fontSize: 16.0)),
+                      title: Text('Head Developer',
+                          style: TextStyle(fontSize: 16.0)),
                       subtitle: Text(
-                        'ปฏิภาณ สิทธิประเวศ',
+                        'Patipan Sitthiprawiat',
                         style: TextStyle(
                             fontStyle: FontStyle.italic, color: Colors.grey),
                       ),
