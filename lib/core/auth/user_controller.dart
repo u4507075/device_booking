@@ -20,6 +20,7 @@ class UserController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    clear();
   }
 
   @override
@@ -31,6 +32,7 @@ class UserController extends GetxController {
   set user(UserData? value) => this._streamUserData.value = value;
 
   void initialize({bool developermode = false}) async {
+    clear();
     if (!developermode) {
       // {_userId = ;
       // do {

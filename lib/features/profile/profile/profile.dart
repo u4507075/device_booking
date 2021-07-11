@@ -8,7 +8,6 @@ class Profile extends StatelessWidget {
   final UserController controller = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
-    controller.initialize();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
