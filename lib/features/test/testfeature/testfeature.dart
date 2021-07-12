@@ -7,3 +7,4 @@ export './image_picker.dart';
 export './realtime_location.dart';
 export './adddevice.dart';
 export './qr_generator.dart';
+export './fetchdict.dart';

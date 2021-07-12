@@ -4,12 +4,18 @@ import 'package:get/get.dart';
 import 'package:device_booking/core/core.dart';
 import './navigation.dart';
 import 'package:device_booking/features/features.dart';
+import 'package:flutter/services.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //Lock screen orientation
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Medical Device Tracking System',

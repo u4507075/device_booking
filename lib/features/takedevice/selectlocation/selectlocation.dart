@@ -20,7 +20,7 @@ class SelectLocation extends StatelessWidget {
           },
         ),
         elevation: 0,
-        title: Text('Select location'),
+        title: Text('Taking device to...'),
       ),
       body: ListView.builder(
         itemCount: Get.find<DeviceController>().device?.operatingZone?.length,

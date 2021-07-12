@@ -3,6 +3,7 @@ import './device_model.dart';
 import 'package:device_booking/core/auth/user_service.dart';
 import 'package:device_booking/core/auth/user.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'dart:convert';
 // import 'package:device_booking/core/';
 
 class DeviceService {
@@ -36,8 +37,7 @@ class DeviceService {
 
   Future<Device?> fetchDevice(String? deviceId) async {
     try {
-      CollectionReference devices =
-          FirebaseFirestore.instance.collection('devices');
+      CollectionReference devices = _db.collection('devices');
       DocumentSnapshot documentSnapshot = await devices.doc(deviceId).get();
       if (documentSnapshot.exists) {
         Map<String, dynamic> device =
@@ -46,6 +46,7 @@ class DeviceService {
             'Retrieve device info successful: ${device['name']}, ${device['deviceType']}');
         print(device['lastUseTime']?.toDate().toString());
         return Device.fromMap(device);
+        // return device;
       } else {
         print('Failed to retrieve device info');
         return null;
@@ -240,23 +241,45 @@ class DeviceService {
 
   //--------------------------- RealTime Database --------------------------- //
 
+  Future<Map<String, dynamic>> fetchProbeLocation() async {
+    try {
+      var map =
+          (await _db.collection('configuration').doc('probeLocation').get())
+              .data();
+      // print(map);
+      return map ?? {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  Stream<Map<String, dynamic>> streamProbeLocation() {
+    return fetchProbeLocation().asStream();
+  }
+
+  static Map<String, dynamic>? locationDict = {};
+
   Stream<DeviceLocation>? streamLastDeviceLocation(String locatorId) {
-    var locationDict = {
-      //Todo fetch dict fron server
+    // var subscription = streamProbeLocation().listen((map) {
+    //   locationDict = map;
+    //   print(map.toString());
+    // });
+
+    locationDict = {
       'DA0D-1': 'ICU Med',
-      '0957-2': 'Sub ICU Med',
-      'B1F5-3': 'อายุรกรรมชาย 1',
       'AACF-4': 'อายุรกรรมชาย 2',
-      '978C-5': 'อายุรกรรมชาย 3',
+      '0957-2': 'Sub ICU Med',
       '1E2A-6': 'อายุรกรรมหญิง 1',
-      '1535-7': 'อายุรกรรมหญิง 2',
-      'DF02-8': 'อายุรกรรมหญิง 3',
-    };
+      '1535-7': 'อายุรกรรมหญิง 3',
+      '978C-5': 'อายุรกรรมชาย 3',
+      'B1F5-3': 'อายุรกรรมชาย 1',
+      'DF02-8': 'อายุรกรรมหญิง 2'
+    }; //Todo fetch Dict from firebase
     var tagLastLocationRef =
         FirebaseDatabase.instance.reference().child('tag_last_location');
     try {
-      return tagLastLocationRef.child(locatorId).onValue.map(
-          (map) => DeviceLocation.fromMap(map.snapshot.value, locationDict));
+      return tagLastLocationRef.child(locatorId).onValue.map((map) =>
+          DeviceLocation.fromMap(map.snapshot.value, locationDict ?? {}));
     } catch (e) {
       return null;
     }

@@ -111,12 +111,12 @@ class UserData /*implements ReassembleHandler*/ {
   bool get isCompleted {
     String patttern = r'\+?[0-9]{10,11}';
     RegExp regExp = new RegExp(patttern);
-    print('Check user');
-    // return !((this.firstname.length < 2) ||
-    //     (this.lastname.length < 2) ||
-    //     (regExp.hasMatch(phoneNumber)) ||
-    //     (role == ''));
-    return true;
+    print('Check user ${this.phoneNumber}');
+    return !((this.firstname.length < 2) ||
+        (this.lastname.length < 2) ||
+        !(regExp.hasMatch(phoneNumber)) ||
+        (role == ''));
+    // return true;
   }
 
   // bool get isCompleted {

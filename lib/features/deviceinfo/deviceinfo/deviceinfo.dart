@@ -1,13 +1,23 @@
+import 'dart:typed_data';
+import 'dart:ui';
+
+import 'package:device_booking/core/device/device_service.dart';
 import 'package:device_booking/features/deviceinfo/deviceinfo/devicecomment.dart';
 import 'package:device_booking/features/deviceinfo/deviceinfo/devicecomment_model.dart';
+import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_booking/core/core.dart';
 
 import 'package:device_booking/features/features.dart';
+import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
 class DeviceInfo extends StatelessWidget {
   String? _text;
@@ -20,91 +30,109 @@ class DeviceInfo extends StatelessWidget {
     DeviceController deviceController = Get.put(DeviceController());
     // Get.find<DeviceController>().bindingStream();
 
-    Widget _reportButton() => Container(
-          margin: EdgeInsets.all(10.0),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: ElevatedButton(
-              onPressed: () {
-                Get.toNamed('/reportproblem',
-                    arguments: deviceController.device!.deviceId);
-              },
-              child: Text('Report'),
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.amber, onPrimary: Colors.black),
-            ),
-          ),
-        );
+    // Widget _reportButton() => Container(
+    //       margin: EdgeInsets.all(10.0),
+    //       child: Align(
+    //         alignment: Alignment.bottomRight,
+    //         child: ElevatedButton(
+    //           onPressed: () {
+    //             Get.toNamed('/reportproblem',
+    //                 arguments: deviceController.device!.deviceId);
+    //           },
+    //           child: Text('Report'),
+    //           style: ElevatedButton.styleFrom(
+    //               primary: Colors.amber, onPrimary: Colors.black),
+    //         ),
+    //       ),
+    //     );
 
-    var children2 = [
+    var children = [
       Obx(() => Text(
           '${deviceController.device?.deviceType?.capitalize ?? ''}\n${deviceController.device?.name?.capitalize ?? ''}',
           style: Theme.of(context).textTheme.headline1)),
       SizedBox(
         height: 20.0,
       ),
-      Table(
-        children: [
-          TableRow(
-            children: [
-              Text(
-                'Status',
-                style: Theme.of(context).textTheme.headline3,
-              ),
-              Text(
-                'Location',
-                style: Theme.of(context).textTheme.headline3,
-              )
-            ],
-          ),
-          TableRow(
-            children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(0.0, 5.0, 10.0, 5.0),
-                padding: EdgeInsets.all(10.0),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Obx(
-                  () {
-                    Color _color;
-
-                    deviceController.device!.maintenance!
-                        ? _color = Colors.yellow
-                        : deviceController.device!.inUse!
-                            ? _color = Colors.red
-                            : _color = Colors.green;
-                    return Text(
-                      '${!deviceController.device!.inUse! ? 'Available' : 'Busy'}', //TODO: add color
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(color: _color),
-                    );
-                  },
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0),
-                padding: EdgeInsets.all(10.0),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Obx(
-                  () => Text(
-                    '${deviceController.device!.location}',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ],
+      Text(
+        'Status',
+        style: Theme.of(context).textTheme.headline3,
       ),
+      Container(
+        margin: EdgeInsets.fromLTRB(0.0, 5.0, 10.0, 5.0),
+        padding: EdgeInsets.all(10.0),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: Obx(
+          () {
+            Color _color;
+
+            deviceController.device!.maintenance!
+                ? _color = Colors.yellow
+                : deviceController.device!.inUse!
+                    ? _color = Colors.red
+                    : _color = Colors.green;
+            return Text(
+              '${!deviceController.device!.inUse! ? 'Available' : 'Busy'}', //TODO: add color
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(color: _color),
+            );
+          },
+        ),
+      ),
+      SizedBox(
+        height: 20.0,
+      ),
+      Text(
+        'Last use',
+        style: Theme.of(context).textTheme.headline3,
+      ),
+      Container(
+        margin: EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0),
+        padding: EdgeInsets.all(10.0),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: Obx(
+          () => Text(
+            '${deviceController.device!.location}',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+        ),
+      ),
+
+      SizedBox(
+        height: 20.0,
+      ),
+      Text(
+        'Last seen',
+        style: Theme.of(context).textTheme.headline3,
+      ),
+      Container(
+        margin: EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0),
+        padding: EdgeInsets.all(10.0),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        child: StreamBuilder(
+          //todo not utilize deviceservice directly
+          stream: DeviceService().streamLastDeviceLocation(
+              deviceController.device?.locatorId ?? ''),
+          initialData: DeviceLocation(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Text(snapshot.data?.location ?? 'Unknown');
+          },
+        ),
+      ),
+
       SizedBox(
         height: 20.0,
       ),
@@ -260,6 +288,11 @@ class DeviceInfo extends StatelessWidget {
         height: 100.0, //todo do as in sign up page - single scroll view
       )
     ];
+
+    // final qrCode = QrCode.fromData(
+    //     data: deviceController.device?.deviceId ?? '',
+    //     errorCorrectLevel: QrErrorCorrectLevel.L);
+
     return SafeArea(
       child: Scaffold(
         body: GestureDetector(
@@ -276,11 +309,74 @@ class DeviceInfo extends StatelessWidget {
                       Align(
                         alignment: Alignment.topLeft,
                         child: IconButton(
-                          icon: Icon(Icons.close, size: 30.0),
+                          icon: Icon(FontAwesomeIcons.times, size: 30.0),
                           color: Colors.grey[400],
                           onPressed: () {
                             Get.back();
                           },
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: PopupMenuButton(
+                          // onPressed: () {
+                          //   return PopupMenuItem(
+                          //     // value: ,
+                          //     child: Text('Working a lot harder'),
+                          //   );
+                          // },
+                          onSelected: (value) {
+                            Get.defaultDialog(
+                              title: 'More Device Info.',
+                              content: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      'DeviceId: ${deviceController.device?.deviceId}'),
+                                  Text(
+                                      'BeaconId: ${deviceController.device?.locatorId}'),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    height:
+                                        MediaQuery.of(context).size.width / 2,
+                                    child: QrImage(
+                                      data: deviceController.device!.deviceId!,
+                                      // version: QrVersions.auto,
+                                      // size: 200.0,
+                                    ),
+                                  ),
+                                  IconButton(
+                                      onPressed: () async {
+                                        Get.back();
+                                        (await saveQrToGallery(deviceController
+                                                    .device!.deviceId!) ??
+                                                false)
+                                            ? Get.snackbar(
+                                                'Save an image successful',
+                                                'Qr code has been save to your gallery')
+                                            : Get.snackbar(
+                                                'Save an image failed',
+                                                'Qr An unknown error has occured');
+                                      },
+                                      icon: Icon(FontAwesomeIcons.download))
+                                ],
+                              ),
+                            );
+                          },
+                          itemBuilder: (context) {
+                            return <PopupMenuItem<String>>[
+                              PopupMenuItem(
+                                  value: '123123', child: Text('More info.'))
+                            ];
+                          },
+                          icon: Icon(
+                            FontAwesomeIcons.ellipsisV,
+                            color: Colors.grey[400],
+                          ),
+
+                          // icon: Icon(Icons),
                         ),
                       ),
                       // _reportButton(),
@@ -292,7 +388,7 @@ class DeviceInfo extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: children2,
+                    children: children,
                   ),
                 )
               ],
@@ -305,42 +401,3 @@ class DeviceInfo extends StatelessWidget {
     );
   }
 }
-
-// Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text('Status'),
-//                             Container(
-//                               padding: EdgeInsets.all(5.0),
-//                               decoration: BoxDecoration(color: Colors.grey),
-//                               child: Text('Available'),
-//                             )
-//                           ],
-//                         ),
-//                         Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text('Status'),
-//                             Container(
-//                               padding: EdgeInsets.all(5.0),
-//                               decoration: BoxDecoration(color: Colors.grey),
-//                               child: Text('Available'),
-//                             )
-//                           ],
-//                         )
-//                       ],
-//                     )
-//
-
-// String formatPhoneNumber(String phoneNumber) {
-//   return (isPhoneNumber(phoneNumber))
-//       ? '0' + phoneNumber.substring(phoneNumber.length - 9)
-//       : '';
-// }
-
-// bool isPhoneNumber(String phoneNumber) {
-//   return RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)').hasMatch(phoneNumber);
-// }

@@ -8,6 +8,7 @@ class Tester extends StatelessWidget {
     TestFeature(ConnectionPlusTest(),
         name: 'Connection Plus Test',
         description: 'Connection Plus for checking connection'),
+    TestFeature(ProbeLocation()),
     TestFeature(BatteryPlusTest()),
     TestFeature(SensorPlusTest()),
     TestFeature(ImagePickerTest()),

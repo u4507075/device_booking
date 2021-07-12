@@ -96,6 +96,7 @@ class EditProfile extends StatelessWidget {
                                       onTap: () async {
                                         _picker.getImage(
                                             source: ImageSource.gallery);
+                                        Get.back();
                                       },
                                     ),
                                     ListTile(
@@ -105,7 +106,11 @@ class EditProfile extends StatelessWidget {
                                             .textTheme
                                             .bodyText2,
                                       ),
-                                      onTap: () {},
+                                      onTap: () async {
+                                        _picker.getImage(
+                                            source: ImageSource.camera);
+                                        Get.back();
+                                      },
                                     )
                                   ],
                                 ))
