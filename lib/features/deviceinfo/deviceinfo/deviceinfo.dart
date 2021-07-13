@@ -49,7 +49,7 @@ class DeviceInfo extends StatelessWidget {
     var children = [
       Obx(() => Text(
           '${deviceController.device?.deviceType?.capitalize ?? ''}\n${deviceController.device?.name?.capitalize ?? ''}',
-          style: Theme.of(context).textTheme.headline1)),
+          style: Theme.of(context).textTheme.headline2)),
       SizedBox(
         height: 20.0,
       ),
@@ -70,12 +70,12 @@ class DeviceInfo extends StatelessWidget {
             Color _color;
 
             deviceController.device!.maintenance!
-                ? _color = Colors.yellow
+                ? _color = Colors.yellow[800]!
                 : deviceController.device!.inUse!
                     ? _color = Colors.red
                     : _color = Colors.green;
             return Text(
-              '${!deviceController.device!.inUse! ? 'Available' : 'Busy'}', //TODO: add color
+              '${deviceController.device!.maintenance! ? 'In Maintenance' : !deviceController.device!.inUse! ? 'Available' : 'Busy'}', //TODO: add color
               style: Theme.of(context)
                   .textTheme
                   .bodyText2!
@@ -85,7 +85,7 @@ class DeviceInfo extends StatelessWidget {
         ),
       ),
       SizedBox(
-        height: 20.0,
+        height: 10.0,
       ),
       Text(
         'Last use',
@@ -108,7 +108,7 @@ class DeviceInfo extends StatelessWidget {
       ),
 
       SizedBox(
-        height: 20.0,
+        height: 10.0,
       ),
       Text(
         'Last seen',
@@ -134,10 +134,11 @@ class DeviceInfo extends StatelessWidget {
       ),
 
       SizedBox(
-        height: 20.0,
+        height: 10.0,
       ),
       Text('Last use', style: Theme.of(context).textTheme.headline3),
       Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
         padding: EdgeInsets.all(5.0),
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(5.0)),
@@ -256,6 +257,7 @@ class DeviceInfo extends StatelessWidget {
           ],
         ),
       ),
+
       SizedBox(
         height: 20.0,
       ),
@@ -301,82 +303,104 @@ class DeviceInfo extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   decoration: BoxDecoration(color: Colors.grey),
                   alignment: Alignment.topLeft,
                   child: Stack(
+                    fit: StackFit.expand,
                     children: [
+                      Image.network(
+                        deviceController.device?.photoURL ??
+                            "https://firebasestorage.googleapis.com/v0/b/med-cmu-device-tracking-system.appspot.com/o/utils%2Fplaceholder_horizontal.jpg?alt=media&token=1c19b676-8a5d-444d-af7d-e982eb533b8c",
+                        fit: BoxFit.fitHeight,
+                      ),
                       Align(
                         alignment: Alignment.topLeft,
-                        child: IconButton(
-                          icon: Icon(FontAwesomeIcons.times, size: 30.0),
-                          color: Colors.grey[400],
-                          onPressed: () {
-                            Get.back();
-                          },
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CircleAvatar(
+                            maxRadius: 20,
+                            backgroundColor: Colors.black.withOpacity(0.5),
+                            child: IconButton(
+                              icon: Icon(FontAwesomeIcons.times),
+                              color: Colors.white,
+                              onPressed: () {
+                                Get.back();
+                              },
+                            ),
+                          ),
                         ),
                       ),
                       Align(
                         alignment: Alignment.topRight,
-                        child: PopupMenuButton(
-                          // onPressed: () {
-                          //   return PopupMenuItem(
-                          //     // value: ,
-                          //     child: Text('Working a lot harder'),
-                          //   );
-                          // },
-                          onSelected: (value) {
-                            Get.defaultDialog(
-                              title: 'More Device Info.',
-                              content: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      'DeviceId: ${deviceController.device?.deviceId}'),
-                                  Text(
-                                      'BeaconId: ${deviceController.device?.locatorId}'),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
-                                    height:
-                                        MediaQuery.of(context).size.width / 2,
-                                    child: QrImage(
-                                      data: deviceController.device!.deviceId!,
-                                      // version: QrVersions.auto,
-                                      // size: 200.0,
-                                    ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CircleAvatar(
+                            maxRadius: 20,
+                            backgroundColor: Colors.black.withOpacity(0.5),
+                            child: PopupMenuButton(
+                              onSelected: (value) {
+                                Get.defaultDialog(
+                                  title: 'More Device Info.',
+                                  content: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                          'DeviceId: ${deviceController.device?.deviceId}'),
+                                      Text(
+                                          'BeaconId: ${deviceController.device?.locatorId}'),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        height:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        child: QrImage(
+                                          data: deviceController
+                                              .device!.deviceId!,
+                                          // version: QrVersions.auto,
+                                          // size: 200.0,
+                                        ),
+                                      ),
+                                      IconButton(
+                                          onPressed: () async {
+                                            Get.back();
+                                            (await saveQrToGallery(
+                                                        deviceController
+                                                            .device!.deviceId!) ??
+                                                    false)
+                                                ? Get.snackbar(
+                                                    'Save an image successful',
+                                                    'Qr code has been save to your gallery')
+                                                : Get.snackbar(
+                                                    'Save an image failed',
+                                                    'Qr An unknown error has occured');
+                                          },
+                                          icon: Icon(
+                                            FontAwesomeIcons.download,
+                                          ))
+                                    ],
                                   ),
-                                  IconButton(
-                                      onPressed: () async {
-                                        Get.back();
-                                        (await saveQrToGallery(deviceController
-                                                    .device!.deviceId!) ??
-                                                false)
-                                            ? Get.snackbar(
-                                                'Save an image successful',
-                                                'Qr code has been save to your gallery')
-                                            : Get.snackbar(
-                                                'Save an image failed',
-                                                'Qr An unknown error has occured');
-                                      },
-                                      icon: Icon(FontAwesomeIcons.download))
-                                ],
+                                );
+                              },
+                              itemBuilder: (context) {
+                                return <PopupMenuItem<String>>[
+                                  PopupMenuItem(
+                                      value: '123123',
+                                      child: Text('More info.'))
+                                ];
+                              },
+                              icon: Icon(
+                                FontAwesomeIcons.ellipsisV,
+                                color: Colors.white,
                               ),
-                            );
-                          },
-                          itemBuilder: (context) {
-                            return <PopupMenuItem<String>>[
-                              PopupMenuItem(
-                                  value: '123123', child: Text('More info.'))
-                            ];
-                          },
-                          icon: Icon(
-                            FontAwesomeIcons.ellipsisV,
-                            color: Colors.grey[400],
-                          ),
 
-                          // icon: Icon(Icons),
+                              // icon: Icon(Icons),
+                            ),
+                          ),
                         ),
                       ),
                       // _reportButton(),
@@ -395,8 +419,8 @@ class DeviceInfo extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: qrScanButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        // floatingActionButton: qrScanButton(),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       ),
     );
   }

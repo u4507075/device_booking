@@ -52,7 +52,7 @@ class Device {
         inUse: map['inUse'],
         operatingZone: map['operatingZone'] ?? [],
         defaultLocation: map['defaultLocation'] ?? '',
-        photoURL: map['photoURL'] ?? '',
+        photoURL: map['photoURL'] ?? null,
         locatorId: map['locatorId'] ?? '',
         registerTime:
             DateTime.tryParse(map['registerTime']?.toDate()?.toString() ?? ''),

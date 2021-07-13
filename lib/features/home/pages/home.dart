@@ -41,28 +41,28 @@ class Home extends StatelessWidget {
                 Get.toNamed('/profile');
               },
             ),
-            ListTile(
-              leading: Icon(Icons.settings, size: 30.0),
-              title: Text(
-                'Common problems',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              onTap: () {
-                Get.back();
-                Get.toNamed('/help');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings, size: 30.0),
-              title: Text(
-                'Tester!',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              onTap: () {
-                Get.back();
-                Get.toNamed('tester');
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.settings, size: 30.0),
+            //   title: Text(
+            //     'Common problems',
+            //     style: Theme.of(context).textTheme.bodyText1,
+            //   ),
+            //   onTap: () {
+            //     Get.back();
+            //     Get.toNamed('/help');
+            //   },
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.settings, size: 30.0),
+            //   title: Text(
+            //     'Tester!',
+            //     style: Theme.of(context).textTheme.bodyText1,
+            //   ),
+            //   onTap: () {
+            //     Get.back();
+            //     Get.toNamed('tester');
+            //   },
+            // ),
             // ListTile(
             //   leading: Icon(Icons.settings, size: 30.0),
             //   title: Text(

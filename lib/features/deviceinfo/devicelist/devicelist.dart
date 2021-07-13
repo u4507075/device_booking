@@ -86,7 +86,7 @@ Widget _deviceList(Device device) {
   Color _color;
 
   device.maintenance!
-      ? _color = Colors.yellow
+      ? _color = Colors.yellow[900]!
       : device.inUse!
           ? _color = Colors.red
           : _color = Colors.green;
