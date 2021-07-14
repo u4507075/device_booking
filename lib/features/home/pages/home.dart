@@ -6,11 +6,12 @@ import 'package:device_booking/features/features.dart';
 
 class Home extends StatelessWidget {
   final UserController userController = Get.put(UserController());
+
   @override
   Widget build(BuildContext context) {
-    UserController().initialize();
-    print(
-        'Welcome, ${Get.find<UserController>().streamUser?.firstname ?? "User"}');
+    Get.find<UserController>()
+        .fetchUser(); //Todo Add this to future builder, create a group of Future to fetch necessary data before app can be use
+    print('Welcome, ${Get.find<UserController>().user?.firstname ?? "User"}');
     return SafeArea(
         child: Scaffold(
       drawer: Drawer(
@@ -39,6 +40,14 @@ class Home extends StatelessWidget {
               onTap: () {
                 Get.back();
                 Get.toNamed('/profile');
+              },
+            ),
+            ListTile(
+              title: Text('Give us a feedback'),
+              leading: Icon(Icons.announcement, size: 30.0),
+              onTap: () {
+                Get.back();
+                Get.toNamed('/feedback');
               },
             ),
             // ListTile(

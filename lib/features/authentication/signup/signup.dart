@@ -22,7 +22,7 @@ class SignUp extends StatelessWidget {
             leading: BackButton(
               onPressed: () async {
                 await AuthController().signOut();
-                Get.back();
+                Get.offAllNamed('/');
               },
             ),
             elevation: 0.0,
@@ -43,7 +43,7 @@ class SignUp extends StatelessWidget {
                     userController.setUser(_user!);
                     print('${userController.user?.phoneNumber}');
                     // Get.toNamed('/');
-                    Get.back();
+                    Get.offAllNamed('/');
                   } else {
                     //TODO add snack bar
                     print('Submit Form failed');
