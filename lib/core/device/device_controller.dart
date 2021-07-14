@@ -1,7 +1,6 @@
 import 'package:device_booking/core/auth/user.dart';
 
 import 'device_model.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'device_service.dart';
 import 'package:device_booking/core/auth/auth.dart';
@@ -25,7 +24,6 @@ class DeviceController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     streamDevice.bindStream(
         DeviceService().streamDevice(_device.value!.deviceId ?? ' ')!);
@@ -41,7 +39,7 @@ class DeviceController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
+    //
     super.onClose();
     clear();
   }

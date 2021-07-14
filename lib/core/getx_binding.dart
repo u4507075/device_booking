@@ -1,4 +1,3 @@
-import 'package:device_booking/core/auth/user.dart';
 import 'package:device_booking/core/utils/utils.dart';
 import 'package:get/get.dart';
 import 'package:device_booking/core/auth/auth.dart';

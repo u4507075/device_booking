@@ -20,15 +20,15 @@ class DeviceComment {
       this.time});
   // _comment = comment;
 
-  void set setComment(String text) {
+  set setComment(String text) {
     comment = text;
   }
 
-  void set setDisplayName(String text) {
+  set setDisplayName(String text) {
     displayName = text;
   }
 
-  void set setUserPhotoURL(String text) {
+  set setUserPhotoURL(String text) {
     userPhotoURL = text;
   }
 

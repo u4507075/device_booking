@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:device_booking/core/core.dart';
 import 'package:device_booking/features/deviceinfo/deviceinfo/devicecomment_model.dart';
 import 'package:device_booking/features/deviceinfo/deviceinfo/devicecomment_service.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:async/async.dart';
 

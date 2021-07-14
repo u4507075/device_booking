@@ -14,7 +14,7 @@ class TimerController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
+   
     super.onInit();
     countDownSeconds();
     _timeout.value = false;
@@ -22,7 +22,7 @@ class TimerController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
+    
     super.onClose();
     clear();
   }

@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_booking/core/auth/user_service.dart';
-import 'package:flutter/material.dart';
 import './devicecomment_model.dart';
-import 'package:device_booking/core/core.dart';
 
 class DeviceCommentService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;

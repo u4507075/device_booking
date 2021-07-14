@@ -1,11 +1,9 @@
 import 'package:device_booking/core/auth/user_service.dart';
-import 'package:device_booking/features/deviceinfo/deviceinfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import './devicecomment_controller.dart';
 import './devicecomment_model.dart';
-import 'package:intl/intl.dart';
 import 'package:device_booking/core/core.dart';
 
 // class CommentSection extends StatelessWidget {

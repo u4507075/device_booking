@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './device_model.dart';
-import 'package:device_booking/core/auth/user_service.dart';
 import 'package:device_booking/core/auth/user.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'dart:convert';
 // import 'package:device_booking/core/';
 
 class DeviceService {
@@ -71,8 +69,6 @@ class DeviceService {
   }
 
   Future<void> takeDevice(Device device, UserData user, String location) async {
-    //TODO may consider to change userId to Provider<UserData> in the future to lower read&write
-    //update device inUse, deviceLogs, UserLogs
 
     CollectionReference users = _db.collection('users');
     CollectionReference devices = _db.collection('devices');

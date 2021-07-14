@@ -1,26 +1,21 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:device_booking/core/device/device_service.dart';
 import 'package:device_booking/features/deviceinfo/deviceinfo/devicecomment.dart';
-import 'package:device_booking/features/deviceinfo/deviceinfo/devicecomment_model.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_booking/core/core.dart';
-
-import 'package:device_booking/features/features.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
 
 class DeviceInfo extends StatelessWidget {
-  String? _text;
+  // String? _text;
   void unFocus() {
     return FocusManager.instance.primaryFocus?.unfocus();
   }

@@ -1,7 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import './device_service.dart';
-
 class Device {
   String? name = ''; //deviceName
   String? deviceId = ''; //deviceId
