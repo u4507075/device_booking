@@ -68,7 +68,8 @@ class App extends StatelessWidget {
 
           //Additional function
           GetPage(name: '/faq', page: () => Faq()),
-          GetPage(name: '/help', page: () => Help())
+          GetPage(name: '/help', page: () => Help()),
+          GetPage(name: '/feedback', page: () => FeedBack()),
         ]);
   }
 }

@@ -46,7 +46,7 @@ class InUseRoot extends GetWidget<UserController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-        () => (userController.streamUser?.inUse ?? false) ? InUse() : Home());
+        () => (controller.streamUser?.inUse ?? false) ? InUse() : Home());
   }
 }
 // class ConnectivityCheckRoot extends StatelessWidget {
