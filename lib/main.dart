@@ -1,71 +1,60 @@
-import 'package:device_booking/firebasedb.dart';
-import 'package:device_booking/loading.dart';
-import 'package:device_booking/smscode.dart';
 import 'package:flutter/material.dart';
-import 'package:device_booking/home.dart';
-import 'package:device_booking/getotp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'core/core.dart';
+import 'navigation/app.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_booking/book.dart';
-import 'dart:async';
-import 'dart:io';
-import 'package:device_booking/test.dart';
-import 'package:device_booking/status.dart';
-import 'package:device_booking/login.dart';
-import 'package:device_booking/firebasedb.dart';
+import 'package:get/get.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final FirebaseApp app = await Firebase.initializeApp(
-    name: 'db',
-    options: Platform.isIOS || Platform.isMacOS
-        ? const FirebaseOptions(
-      appId: '1:780797690669:ios:b2cdff48c7ca58a231c9a4',
-      apiKey: 'AIzaSyB2FxL38uNcqlhuRql7fJHceaSBeIUDBgU',
-      projectId: 'med-cmu-device-tracking-system',
-      messagingSenderId: '780797690669',
-      databaseURL: 'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
-    )
-        : const FirebaseOptions(
-      appId: '1:780797690669:android:33ab63eb3bed0cd131c9a4',
-      apiKey: 'AIzaSyDiCLAMpx1JS4AHNdw0rWhgOf6HxD_EvCs',
-      messagingSenderId: '780797690669',
-      projectId: 'med-cmu-device-tracking-system',
-      databaseURL: 'https://med-cmu-device-tracking-system-default-rtdb.asia-southeast1.firebasedatabase.app',
-    ),
-  );
-  runApp(MyApp(app: app));
+  runApp(AppInitialize());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key key, this.app}) : super(key: key);
-  final FirebaseApp app;
-  // This widget is the root of your application.
+class AppInitialize extends StatefulWidget {
+  @override
+  _AppInitializeState createState() => _AppInitializeState();
+}
+
+class _AppInitializeState extends State<AppInitialize> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    FirebaseDB().fetchData('users','366009414e0329f7');
-
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      //home: Home(),
-      home: GetOTP(),
-      //home: Book('992106606'),
-      //home: Load(),
-      //home: Status(app,'deviceid1'),
-      //home: Login(),
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return InitializeError();
+        } // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return App();
+        } // Otherwise, show something whilst waiting for initialization to complete
+        // return GetMaterialApp(home: Loading());
+        return MaterialApp(
+          home: Loading(),
+        );
+      },
     );
   }
 }
 
+class InitializeError extends StatelessWidget {
+  const InitializeError({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      home: InitializeErrorPage(),
+    );
+  }
+}
+
+class InitializeErrorPage extends StatelessWidget {
+  const InitializeErrorPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: Text('Error initializaing app')),
+    );
+  }
+}
