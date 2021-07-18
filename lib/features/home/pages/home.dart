@@ -5,7 +5,7 @@ import 'package:device_booking/core/core.dart';
 import 'package:device_booking/features/features.dart';
 
 class Home extends StatelessWidget {
-  final UserController userController = Get.put(UserController());
+  // final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +61,17 @@ class Home extends StatelessWidget {
             //     Get.toNamed('/help');
             //   },
             // ),
-            // ListTile(
-            //   leading: Icon(Icons.settings, size: 30.0),
-            //   title: Text(
-            //     'Tester!',
-            //     style: Theme.of(context).textTheme.bodyText1,
-            //   ),
-            //   onTap: () {
-            //     Get.back();
-            //     Get.toNamed('tester');
-            //   },
-            // ),
+            ListTile(
+              leading: Icon(Icons.settings, size: 30.0),
+              title: Text(
+                'Tester!',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              onTap: () {
+                Get.back();
+                Get.toNamed('tester');
+              },
+            ),
             // ListTile(
             //   leading: Icon(Icons.settings, size: 30.0),
             //   title: Text(
@@ -140,8 +140,8 @@ class Home extends StatelessWidget {
             onTap: () {
               Get.toNamed('/devicelist', arguments: 'ultrasound');
             },
-            child: CardButton(
-                'Ultrasound', 'assets/images/ultrasonography.png', 100.0),
+            child:
+                CardButton('Ultrasound', 'assets/images/ultrasound.png', 100.0),
           ),
           SizedBox(
             height: 5.0,
@@ -151,8 +151,7 @@ class Home extends StatelessWidget {
               onTap: () {
                 Get.toNamed('/devicelist', arguments: 'ekg');
               },
-              child: CardButton(
-                  'EKG', 'assets/images/electrocardiogram.png', 100.0)),
+              child: CardButton('EKG', 'assets/images/ekg.png', 100.0)),
           Divider()
         ]))
       ]),

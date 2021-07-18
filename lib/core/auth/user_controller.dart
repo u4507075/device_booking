@@ -7,7 +7,7 @@ import './auth.dart';
 class UserController extends GetxController {
   Rxn<UserData> _streamUserData = Rxn<UserData>();
   Rxn<UserData> _userData = Rxn<UserData>();
-  final Rx<UserLog?> _userLog = UserLog().obs;
+  final Rxn<UserLog?> _userLog = Rxn<UserLog>();
   String _userId = '';
   Rx<bool> _developermode = false.obs;
 
@@ -19,7 +19,7 @@ class UserController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    clear();
+    // clear();
   }
 
   @override

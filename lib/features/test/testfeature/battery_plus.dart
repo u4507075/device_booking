@@ -10,7 +10,7 @@ class BatteryPlusTest extends StatefulWidget {
 }
 
 class _BatteryPlusTestState extends State<BatteryPlusTest> {
-  StreamSubscription? subscription;
+  late StreamSubscription subscription;
   String batteryState = '';
 
   @override
@@ -20,7 +20,7 @@ class _BatteryPlusTestState extends State<BatteryPlusTest> {
     subscription = Battery().onBatteryStateChanged.listen((BatteryState state) {
       setState(() {
         batteryState = state.toString();
-        print('Connection status changed!: ${state.toString()}');
+        print('Battery status changed!: ${state.toString()}');
       });
     });
   }
@@ -29,8 +29,7 @@ class _BatteryPlusTestState extends State<BatteryPlusTest> {
   @override
   dispose() {
     super.dispose();
-
-    subscription!.cancel();
+    subscription.cancel();
   }
 
   @override

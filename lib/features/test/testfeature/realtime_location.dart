@@ -34,7 +34,7 @@ class _RealtimeDatabaseTestState extends State<RealtimeDatabaseTest> {
             ElevatedButton(
               onPressed: () async {
                 // TestService().getDict().then((value) => setState(() {}));
-                DeviceService().streamLastDeviceLocation('');
+                DeviceService().streamDeviceLocation('');
               },
               child: Text('refresh'),
             )

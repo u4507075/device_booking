@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  //Todo fetch dictionary
   runApp(AppInitialize());
 }
 

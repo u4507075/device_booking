@@ -92,4 +92,12 @@ class DeviceController extends GetxController {
     _device.value = await DeviceService()
         .lastUseDevice(Get.find<AuthController>().user!.uid);
   }
+
+  Stream<DeviceLocation>? streamDeviceLocation(Device device) {
+    return DeviceService().streamDeviceLocation(device.deviceId ?? ' ');
+  }
+
+  Stream<Map<String, dynamic>>? streamProbeLocation() {
+    return DeviceService().streamProbeLocation();
+  }
 }

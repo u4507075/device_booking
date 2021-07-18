@@ -5,6 +5,8 @@ import './testfeature/testfeature.dart';
 class Tester extends StatelessWidget {
   final List<TestFeature> widgets = [
     TestFeature(Tester1(), name: 'Tester 01', description: 'Test Function'),
+    TestFeature(StreamsTest(),
+        name: 'Stream Test', description: 'Testing stream within stream'),
     TestFeature(ConnectionPlusTest(),
         name: 'Connection Plus Test',
         description: 'Connection Plus for checking connection'),
@@ -16,6 +18,7 @@ class Tester extends StatelessWidget {
     TestFeature(RealtimeDatabaseTest()),
     TestFeature(AddDevice()),
     TestFeature(QrGenerator()),
+    TestFeature(StyledWidgetTest())
   ];
 
   @override

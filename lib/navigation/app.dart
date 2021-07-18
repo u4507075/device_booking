@@ -16,6 +16,9 @@ class App extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    //Fetch necessary data befor app initialize
+
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Medical Device Tracking System',
@@ -40,7 +43,7 @@ class App extends StatelessWidget {
           GetPage(
               name: 'tester',
               page: () => Tester()), //Test field for new function
-          GetPage(name: '/', page: () => ConnectionRoot()),
+          GetPage(name: '/', page: () => Root()),
           GetPage(
               name: '/loading', page: () => Loading()), //Global loading page
 

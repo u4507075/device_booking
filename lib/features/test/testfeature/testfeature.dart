@@ -9,3 +9,5 @@ export './adddevice.dart';
 export './qr_generator.dart';
 export './fetchdict.dart';
 export './firebasestorage.dart';
+export './styledwidget.dart';
+export './streams.dart';

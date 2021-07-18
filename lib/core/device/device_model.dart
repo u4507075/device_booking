@@ -60,18 +60,32 @@ class DeviceLocation {
   String? location;
   int? rssi;
   DateTime? time;
-  String? timeLapsed;
+  // Duration? timeLapsed;
 
-  DeviceLocation(
-      {this.locationId, this.rssi, this.location, this.time, this.timeLapsed});
+  DeviceLocation({this.locationId, this.rssi, this.time, this.location});
 
-  factory DeviceLocation.fromMap(Map map, Map locationDict) {
-    // DateTime? now = DateTime.now();
-    // var timeLapsed = timeFormat(DateTime.tryParse(map['timestamp'] ?? '')!);
+  // factory DeviceLocation.fromMap(Map map) {
+  //   DateTime now = DateTime.now();
+  //   // var timeLapsed = timeFormat(DateTime.tryParse(map['timestamp'] ?? '')!);
 
+  //   return DeviceLocation(
+  //     locationId: map['location_id'] ?? '',
+  //     // location: locationDict[map['location_id'] ?? ''] ?? 'Unknown',
+  //     rssi: map['rssi'] ?? null,
+  //     time: DateTime.tryParse(map['timestamp'] ?? ''),
+  //     timeLapsed: ((map['timestamp'] ?? '') != '')
+  //         ? now.difference(DateTime.tryParse(map['timestamp'] ?? '')!)
+  //         : null,
+  //     // timeLapsed: ((map['timestamp'] ?? '') != '')
+  //     //     ? timeFormat(DateTime.tryParse(map['timestamp'] ?? '')!)
+  //     //     : null,
+  //   );
+
+  factory DeviceLocation.fromMap(Map map, Map probeMap) {
+    DateTime now = DateTime.now();
     return DeviceLocation(
-      locationId: map['location_id'] ?? '',
-      location: locationDict[map['location_id'] ?? ''] ?? 'Unknown',
+      locationId: map['location_id'] ?? null,
+      location: probeMap[map['location_id'] ?? ''] ?? null,
       rssi: map['rssi'] ?? null,
       time: DateTime.tryParse(map['timestamp'] ?? ''),
       // timeLapsed: ((map['timestamp'] ?? '') != '')

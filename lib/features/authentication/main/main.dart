@@ -3,6 +3,7 @@ import './widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 class Authenticate extends StatelessWidget {
   @override
@@ -37,11 +38,9 @@ class Authenticate extends StatelessWidget {
                   ),
                   Text(
                     "\"Medical Device At Your Fingertip\"",
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w100),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -70,7 +69,3 @@ class Authenticate extends StatelessWidget {
     );
   }
 }
-
-// Widget authenticateDisplay(){
-//   return
-// }

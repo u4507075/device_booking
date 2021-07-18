@@ -2,12 +2,22 @@ import 'package:device_booking/core/core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
 
-class GetOTP extends StatelessWidget {
+class GetOTP extends StatefulWidget {
+  @override
+  _GetOTPState createState() => _GetOTPState();
+}
+
+class _GetOTPState extends State<GetOTP> {
   final _formKey = GlobalKey<FormState>();
+  bool verifying = false;
+
   final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
 //     return Obx(() {
 //       if (Get.find<TimerController>().timeout) {
 //         Get.snackbar('Time out', 'Please try to log in again');
@@ -26,12 +36,8 @@ class GetOTP extends StatelessWidget {
     //   return Container();
     // } else {
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
+      onTap: () =>
+          (!currentFocus.hasPrimaryFocus) ? currentFocus.unfocus() : null,
       child: Scaffold(
         appBar: AppBar(),
         body: Center(
@@ -51,12 +57,15 @@ class GetOTP extends StatelessWidget {
             Form(
               key: _formKey,
               child: TextFormField(
+                maxLength: 6,
                 autofocus: true,
                 controller: _controller,
                 style: Theme.of(context).textTheme.headline1,
                 keyboardType: TextInputType.numberWithOptions(),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
+                    counterText: null,
+                    counter: null,
                     enabledBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Colors.black26, width: 1))),
@@ -70,55 +79,68 @@ class GetOTP extends StatelessWidget {
                 },
               ),
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    // Get.to(Loading());
-                    PhoneAuthController phoneAuthController =
-                        Get.put(PhoneAuthController());
-                    String _smsCode = phoneAuthController.smsCode;
-                    String _verificationId = phoneAuthController.verificationId;
-                    print(_smsCode);
-                    print(_verificationId);
-                    PhoneAuthCredential credential =
-                        PhoneAuthProvider.credential(
-                            verificationId: _verificationId, smsCode: _smsCode);
-                    try {
-                      // UserCredential user =
+            verifying
+                ? OutlinedButton(
+                    onPressed: null,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircularProgressIndicator(
+                          color: Colors.grey,
+                          strokeWidth: 5,
+                        ).scale(all: 0.5),
+                        Text('Verifying')
+                      ],
+                    ))
+                : ElevatedButton(
+                    onPressed: () async {
+                      currentFocus.unfocus();
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          verifying = true;
+                        });
+                        // Get.to(Loading());
+                        PhoneAuthController phoneAuthController =
+                            Get.put(PhoneAuthController());
+                        String _smsCode = phoneAuthController.smsCode;
+                        String _verificationId =
+                            phoneAuthController.verificationId;
+                        print(_smsCode);
+                        print(_verificationId);
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                                verificationId: _verificationId,
+                                smsCode: _smsCode);
+                        try {
+                          // UserCredential user =
 
-                      AuthController()
-                          .signInWithPhoneNumber(credential)
-                          .then((user) {
-                        // Get.back(); //Close loading page
+                          AuthController()
+                              .signInWithPhoneNumber(credential)
+                              .then((user) {
+                            if (user!.isCompleted) {
+                              Get.back();
+                            } else {
+                              Get.back();
+                              Get.toNamed('/signup');
+                            }
+                            print(user);
+                            setState(() async {
+                              verifying = false;
+                            });
+                          });
+                        } catch (e) {
+                          print(e.toString());
 
-                        // (user?.isCompleted ?? false)
-                        //     ? Get.back()
-                        //     : Get.offNamed('/signup');
-
-                        if (user!.isCompleted) {
-                          Get.back();
-                        } else {
-                          Get.back();
-                          Get.toNamed('/signup');
+                          // Get.snackbar('Log In failed', '${e.toString()}');
                         }
 
-                        print(user);
-                      });
-                    } catch (e) {
-                      print(e.toString());
-                      Get.find<LoadingController>().loaded();
-                      // Get.snackbar('Log In failed', '${e.toString()}');
-                    }
-
-                    // // Get.back();
-                  }
-                },
-                child: Text('Verify OTP')),
+                        // // Get.back();
+                      }
+                    },
+                    child: Text('Verify OTP')),
           ],
         )),
       ),
     );
   }
-  // },
-  // );
 }

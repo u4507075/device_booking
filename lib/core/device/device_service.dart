@@ -69,7 +69,6 @@ class DeviceService {
   }
 
   Future<void> takeDevice(Device device, UserData user, String location) async {
-
     CollectionReference users = _db.collection('users');
     CollectionReference devices = _db.collection('devices');
     CollectionReference deviceLogs =
@@ -124,6 +123,7 @@ class DeviceService {
         'userId': user.uid,
         'take': true,
         'useTime': now,
+        'location': location,
       });
 
       //add userLog
@@ -133,6 +133,7 @@ class DeviceService {
         'take': true,
         'logId': docRef.id,
         'time': now,
+        'location': location,
       });
 
       //switch user inUse status
@@ -235,14 +236,11 @@ class DeviceService {
     }
   }
 
-  //--------------------------- RealTime Database --------------------------- //
-
+  //Implement on innit
   Future<Map<String, dynamic>> fetchProbeLocation() async {
     try {
       var map =
-          (await _db.collection('configuration').doc('probeLocation').get())
-              .data();
-      // print(map);
+          (await _db.collection('utils').doc('probeLocation').get()).data();
       return map ?? {};
     } catch (e) {
       return {};
@@ -255,29 +253,28 @@ class DeviceService {
 
   static Map<String, dynamic>? locationDict = {};
 
-  Stream<DeviceLocation>? streamLastDeviceLocation(String locatorId) {
-    // var subscription = streamProbeLocation().listen((map) {
-    //   locationDict = map;
-    //   print(map.toString());
-    // });
+  // Stream<DeviceLocation>? streamLastDeviceLocation(String deviceId) {
+  //   var tagLastLocationRef =
+  //       FirebaseDatabase.instance.reference().child('tag_last_location');
+  //   try {
+  //     return tagLastLocationRef
+  //         .child(deviceId)
+  //         .onValue
+  //         .map((map) => DeviceLocation.fromMap(map.snapshot.value));
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
 
-    locationDict = {
-      'DA0D-1': 'ICU Med',
-      'AACF-4': 'อายุรกรรมชาย 2',
-      '0957-2': 'Sub ICU Med',
-      '1E2A-6': 'อายุรกรรมหญิง 1',
-      '1535-7': 'อายุรกรรมหญิง 3',
-      '978C-5': 'อายุรกรรมชาย 3',
-      'B1F5-3': 'อายุรกรรมชาย 1',
-      'DF02-8': 'อายุรกรรมหญิง 2'
-    }; //Todo fetch Dict from firebase
+  Stream<DeviceLocation>? streamDeviceLocation(String deviceId) async* {
     var tagLastLocationRef =
         FirebaseDatabase.instance.reference().child('tag_last_location');
-    try {
-      return tagLastLocationRef.child(locatorId).onValue.map((map) =>
-          DeviceLocation.fromMap(map.snapshot.value, locationDict ?? {}));
-    } catch (e) {
-      return null;
-    }
+
+    var probeMap = await fetchProbeLocation();
+
+    yield* tagLastLocationRef.child(deviceId).onValue.map((event) {
+      // var locationMap = event.snapshot.value;
+      return DeviceLocation.fromMap(event.snapshot.value, probeMap);
+    });
   }
 }

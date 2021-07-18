@@ -4,8 +4,8 @@ import 'package:device_booking/core/core.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Profile extends StatelessWidget {
-  final UserController controller = Get.put(UserController());
+class Profile extends GetView<UserController> {
+  // final UserController controller = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,7 +21,7 @@ class Profile extends StatelessWidget {
           actions: [
             TextButton(
                 onPressed: () {
-                  Get.offNamed('/editprofile');
+                  Get.toNamed('/editprofile');
                 },
                 child: Text('Edit', style: appBarTextStyle))
           ],
@@ -95,6 +95,7 @@ class Profile extends StatelessWidget {
                     textCancel: 'Cancel',
                     onConfirm: () async {
                       await AuthController().signOut();
+                      Get.delete<UserController>();
                       Get.offAllNamed('/');
                     },
                     onCancel: () {

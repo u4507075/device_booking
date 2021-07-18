@@ -18,9 +18,14 @@ class FeedBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('sadfasdf'),
+        centerTitle: false,
+      ),
       body: Center(
-        child: Text('สวัสดี Pusit'),
+        child: Column(
+          children: [Text('สวัสดี Pusit'), Text('sadfasdfasd')],
+        ),
       ),
     );
   }

@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:device_booking/core/core.dart';
 import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
 
-class LogInWithPhoneButton extends StatelessWidget {
-  // var _userController = Get.put(UserController());
+class LogInWithPhoneButton extends StatefulWidget {
+  @override
+  _LogInWithPhoneButtonState createState() => _LogInWithPhoneButtonState();
+}
+
+class _LogInWithPhoneButtonState extends State<LogInWithPhoneButton> {
+  bool pressed = false;
+  double borderRadius = 30.0;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +77,43 @@ class LogInWithPhoneButton extends StatelessWidget {
             // Get.back();
           });
     }
+
+    Widget card({required Widget child}) => Styled.widget(child: child)
+        .padding(vertical: 10, horizontal: 20, animate: true)
+        .ripple()
+        .backgroundColor(Colors.white, animate: true)
+        .clipRRect(all: borderRadius)
+        .elevation(pressed ? 0 : 10,
+            shadowColor: Color(0x30000000),
+            borderRadius: BorderRadius.circular(borderRadius))
+        .padding(vertical: 10)
+        .gestures(
+          onTapChange: (tapStatus) => setState(() {
+            pressed = tapStatus;
+            print(pressed);
+          }),
+
+          // onLongPressUp: () =>
+          //     launch('tel:${widget.device.lastUserPhoneNumber}'),
+          onTapDown: (details) => getPhoneNumber(),
+          // onTap: () => print('onTap'),
+        )
+        // .translate(offset: offset, animate: true)
+        .scale(all: pressed ? 0.95 : 1, animate: true)
+        .animate(Duration(milliseconds: 100), Curves.easeInOutQuad);
+
+    Widget icon = Styled.icon(Icons.phone, animate: true)
+        .iconSize(25)
+        .padding(all: 10)
+        .constrained(width: 50, animate: true);
+
+    Widget text = Styled.text('Continue with phone number')
+        .textStyle(Theme.of(context).textTheme.bodyText2!);
+
+    return card(
+        child: <Widget>[icon, text].toRow(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start));
 
     return SizedBox(
       width: 250.0,

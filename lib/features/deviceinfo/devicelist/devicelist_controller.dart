@@ -13,7 +13,7 @@ class DeviceListController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    print('GetX: $deviceType');
+    print('Fetchhing: $deviceType');
     deviceList.bindStream(DeviceListService().streamDeviceList(deviceType)!);
   }
 

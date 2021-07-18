@@ -43,7 +43,10 @@ class ReportProblem extends StatelessWidget {
                 }
               },
               child: Text('Submit',
-                  style: Theme.of(context).appBarTheme.titleTextStyle))
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(color: Colors.white)))
         ],
       ),
       body: _myCustomForm(),
