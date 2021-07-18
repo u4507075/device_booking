@@ -136,7 +136,8 @@ Widget commentList() {
           init: _controller,
           builder: (controller) {
             // List<DeviceComment?> comments = List.from(controller.list.reversed);
-            List<DeviceComment?> comments = controller.list.reversed.toList();
+            List<DeviceComment?> comments =
+                controller.list.reversed.toList() as List<DeviceComment?>;
 
             if (comments.length != 0) {
               return ListView.builder(

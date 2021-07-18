@@ -5,51 +5,6 @@ import 'package:device_booking/features/features.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:connectivity_plus/connectivity_plus.dart';
-
-// class ConnectionRoot extends StatelessWidget {
-//   // const ConnectionRoot({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: Connectivity().onConnectivityChanged,
-//       builder: (BuildContext context, AsyncSnapshot snapshot) {
-//         return FutureBuilder(
-//             future: Connectivity().checkConnectivity(),
-//             builder: (context, snapshot) {
-//               print('${snapshot.data}');
-//               return (snapshot.connectionState != ConnectionState.none)
-//                   ? (snapshot.data != ConnectivityResult.none)
-//                       ? Root()
-//                       : NoConnection()
-//                   : NoConnection();
-//             });
-//       },
-//     );
-//   }
-// }
-
-// //listen for auth changes
-// class Root extends GetWidget<AuthController> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Obx(() => (!Get.find<LoadingController>().loadingState)
-//         ? (Get.find<AuthController>().firebaseUser != null
-//             ? InUseRoot()
-//             : Authenticate())
-//         : Loading());
-//   }
-// }
-
-// class InUseRoot extends GetView<UserController> {
-//   @override
-//   Widget build(BuildContext context) {
-//     // return Home();
-//     return Obx(
-//         () => (controller.streamUser?.inUse ?? false) ? InUse() : Home());
-//   }
-// }
 
 class Root extends StatelessWidget {
   // const Root({Key? key}) : super(key: key);
@@ -75,7 +30,7 @@ class Root extends StatelessWidget {
 Widget checkConnection({required Widget output}) {
   return FutureBuilder(
     future: Connectivity().checkConnectivity(),
-    initialData: ConnectivityResult.wifi,
+    // initialData: ConnectivityResult.wifi,
     builder: (BuildContext context, AsyncSnapshot fSnapshot) {
       return (fSnapshot.hasData)
           ? StreamBuilder(

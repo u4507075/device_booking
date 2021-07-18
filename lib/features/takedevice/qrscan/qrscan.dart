@@ -14,7 +14,7 @@ Widget qrScanButton() {
 
     await controller.scanQrCode();
     // print('${controller.qrCode}');
-    await deviceController.fetchDevice(controller.qrCode.value);
+
     //cancel scan qr -> not navigate
     if (controller.qrCode.value == '-1') {
       //return previous deviceinfo

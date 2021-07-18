@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:io';
+import 'package:stream_transform/stream_transform.dart';
 
 class ConnectionPlusTest extends StatefulWidget {
   // const ConnectionPlusTest({Key? key}) : super(key: key);
@@ -56,6 +58,14 @@ class _ConnectionPlusTestState extends State<ConnectionPlusTest> {
                 builder: (context, snapshot) {
                   return Text('${snapshot.data}');
                 }),
+            StreamBuilder(
+              stream: internetConnection(),
+              initialData: [],
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                print(snapshot.data);
+                return Text(snapshot.data.toString());
+              },
+            ),
             ElevatedButton(
                 onPressed: () {
                   setState(() {});
@@ -66,4 +76,15 @@ class _ConnectionPlusTestState extends State<ConnectionPlusTest> {
       ),
     );
   }
+}
+
+Stream<bool> internetConnection() async* {
+  try {
+    yield* InternetAddress.lookup('example.com')
+        .asStream()
+        .map((e) => e.isNotEmpty && e[0].rawAddress.isNotEmpty ? true : false);
+  } on SocketException catch (_) {
+    yield false;
+  }
+  // yield false;
 }

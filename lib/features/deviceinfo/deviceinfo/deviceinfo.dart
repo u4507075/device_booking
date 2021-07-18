@@ -2,8 +2,9 @@ import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:device_booking/core/auth/user_service.dart';
 import 'package:device_booking/core/device/device_service.dart';
-import 'package:device_booking/features/deviceinfo/deviceinfo/devicecomment.dart';
+// import './devicecomment/devicecomment.dart';
 import 'package:device_booking/features/deviceinfo/devicelist/devicelist_service.dart';
+import 'package:device_booking/features/takedevice/qrscan/qrscan.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:device_booking/core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:styled_widget/styled_widget.dart';
+import './deviceproblem/deviceproblem.dart';
 
 class DeviceInfo extends StatefulWidget {
   // String? _text;
@@ -112,7 +114,14 @@ class _DeviceInfoState extends State<DeviceInfo> {
         extendBodyBehindAppBar: true,
         // backgroundColor: Colors.grey,
         appBar: AppBar(
-          leading: BackButton(),
+          leading: Styled.icon(Icons.arrow_back, size: 26)
+              .padding(all: 5)
+              .decorated(color: Colors.black.withOpacity(0.4))
+              .clipOval()
+              .gestures(
+                onTap: () => Get.back(),
+              )
+              .padding(all: 5),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -124,22 +133,33 @@ class _DeviceInfoState extends State<DeviceInfo> {
                   BoxConstraints(minHeight: MediaQuery.of(context).size.height),
               child: Column(
                 children: [
-                  // SizedBox(
-                  //   height: 100,
-                  // ),
-                  ((deviceController.device!.photoURL != null &&
-                              deviceController.device!.photoURL != '')
-                          ? Image.network(deviceController.device!.photoURL!)
-                          : Image.asset('assets/images/device_placeholder.png'))
-                      .fittedBox(fit: BoxFit.cover)
-                      .constrained(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.width - 100,
-                      )
-                      .backgroundColor(Colors.white)
-                      .clipRRect(
-                        bottomLeft: 50,
-                      ),
+                  Stack(
+                    children: [
+                      ((deviceController.device!.photoURL != null &&
+                                  deviceController.device!.photoURL != '')
+                              ? FadeInImage(
+                                  placeholder: AssetImage(
+                                      'assets/images/device_placeholder.png'),
+                                  image: NetworkImage(
+                                      deviceController.device?.photoURL ?? ''),
+                                  fadeOutDuration: Duration(milliseconds: 300),
+                                  fadeOutCurve: Curves.easeOutBack,
+                                  fadeInDuration: Duration(milliseconds: 300),
+                                )
+                              : Image.asset(
+                                  'assets/images/device_placeholder.png'))
+                          .fittedBox(fit: BoxFit.cover)
+                          .constrained(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.width - 100,
+                          )
+                          // .backgroundColor(Colors.white)
+                          .clipRRect(
+                            bottomLeft: 50,
+                          ),
+                    ],
+                  ),
+                  // _reportButton(),
                   [
                     Text(deviceController.device!.deviceType!.capitalize! +
                             ' ' +
@@ -152,34 +172,70 @@ class _DeviceInfoState extends State<DeviceInfo> {
                             : (deviceController.device!.inUse!
                                 ? 'Busy'
                                 : 'Available'))
-                        .textStyle(Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(color: _color))
+                        .textStyle(
+                            Get.textTheme.bodyText1!.copyWith(color: _color))
                         .alignment(Alignment.bottomCenter)
                     // .paddingOnly(top: 60),
                   ].toStack().constrained(height: 85).paddingOnly(bottom: 10),
                 ]..addAll(deviceController.device!.maintenance!
                     ? []
                     : [
-                        CurrentUserCard(deviceController.device!)
+                        LastSeenCard(device: deviceController.device!)
                             .paddingSymmetric(horizontal: 20),
-                        LastSeenCard(deviceController.device!)
+                        CurrentUserCard(device: deviceController.device!)
                             .paddingSymmetric(horizontal: 20),
+                        ProblemCard(
+                          device: deviceController.device!,
+                          onTapDown: () => Get.bottomSheet([
+                            ListView(
+                              children: [
+                                Text('Device Problem Menu',
+                                        style: Get.textTheme.bodyText1)
+                                    .center()
+                                    .constrained(height: 50),
+                                Divider(
+                                  thickness: 1,
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    'Report a device problem',
+                                    style: Get.textTheme.bodyText1,
+                                  ),
+                                  trailing: Icon(FontAwesomeIcons.arrowRight),
+                                  onTap: () async {
+                                    Get.back();
+                                    Get.toNamed('/reportproblem',
+                                        arguments:
+                                            deviceController.device!.deviceId);
+                                  },
+                                ),
+                              ],
+                            ).expanded()
+                          ]
+                              .toColumn()
+                              .decorated(color: Get.theme.canvasColor)
+                              .constrained(maxHeight: 200)),
+                        ).paddingSymmetric(horizontal: 20),
+                        SizedBox(
+                          height: 100,
+                        )
                       ]),
               ),
             ),
           ),
         ),
+        floatingActionButton: qrScanButton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        // floatingActionButtonAnimator: ,
       ),
     );
   }
 }
 
 class CurrentUserCard extends StatefulWidget {
-  // CurrentUserCard({Key? key}) : super(key: key);
-  CurrentUserCard(this.device);
-  Device device;
+  CurrentUserCard({Key? key, required this.device}) : super(key: key);
+  // CurrentUserCard(this.device);
+  final Device device;
 
   @override
   _CurrentUserCardState createState() => _CurrentUserCardState();
@@ -218,8 +274,6 @@ class _CurrentUserCardState extends State<CurrentUserCard> {
         // .translate(offset: offset, animate: true)
         .scale(all: pressed ? 0.95 : 1, animate: true)
         .animate(Duration(milliseconds: 100), Curves.easeInOutQuad);
-
-    Widget header = Styled.text('Current user');
 
     Widget detail = <Widget>[
       Text(widget.device.lastUser!)
@@ -273,9 +327,9 @@ class _CurrentUserCardState extends State<CurrentUserCard> {
 }
 
 class LastSeenCard extends StatefulWidget {
-  // LastSeenCard({Key? key}) : super(key: key);
-  LastSeenCard(this.device);
-  Device device;
+  LastSeenCard({Key? key, required this.device}) : super(key: key);
+
+  final Device device;
 
   @override
   _LastSeenCardState createState() => _LastSeenCardState();
@@ -389,6 +443,89 @@ class _LastSeenCardState extends State<LastSeenCard> {
   }
 }
 
+class ProblemCard extends StatefulWidget {
+  ProblemCard({Key? key, required this.device, this.onTapDown})
+      : super(key: key);
+  // ProblemCard(this.device);
+  final Device device;
+  final VoidCallback? onTapDown;
+
+  @override
+  _ProblemCardState createState() => _ProblemCardState();
+}
+
+class _ProblemCardState extends State<ProblemCard> {
+  bool pressed = false;
+  double borderRadius = 30.0;
+  var controller = Get.put(DeviceProblemController());
+
+  @override
+  Widget build(BuildContext context) {
+    Widget card({required Widget child}) => Styled.widget(child: child)
+        .padding(all: 10, animate: true)
+        .ripple()
+        .backgroundColor(Colors.white, animate: true)
+        .clipRRect(all: borderRadius)
+        .elevation(pressed ? 0 : 20,
+            shadowColor: Color(0x30000000),
+            borderRadius: BorderRadius.circular(borderRadius))
+        .padding(vertical: 10)
+        .gestures(
+          onTapChange: (tapStatus) => setState(() {
+            pressed = tapStatus;
+            print(pressed);
+          }),
+          onLongPress: widget.onTapDown,
+          // onLongPressUp: () =>
+          //     launch('tel:${widget.device.lastUserPhoneNumber}'),
+          // onTapDown: (details) =>
+          //     launch('tel:${widget.device.lastUserPhoneNumber}'),
+          onTap: () => print('onTap'),
+        )
+        // .translate(offset: offset, animate: true)
+        .scale(all: pressed ? 0.95 : 1, animate: true)
+        .animate(Duration(milliseconds: 100), Curves.easeInOutQuad);
+
+    Widget detail({required int? count}) => <Widget>[
+          Text(count.toString() + ' problem(s) reported')
+              .textStyle(Theme.of(context).textTheme.bodyText2!)
+              .padding(
+                vertical: 5,
+              ),
+        ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
+
+    Widget icon({required IconData icon}) => Styled.icon(icon, animate: true)
+        .iconSize(30)
+        .padding(all: 10)
+        .constrained(width: 80, animate: true);
+
+    return card(
+        child: <Widget>[
+      Styled.text('Problem(s)', animate: true)
+          .textStyle(Theme.of(context).textTheme.bodyText1!)
+          .padding(left: 10),
+      Divider(),
+      FutureBuilder<int?>(
+        future: controller.count(device: widget.device),
+        initialData: 0,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot.data);
+          return snapshot.data == 0 || snapshot.data == null
+              ? <Widget>[
+                  Text('No reported problem')
+                      .textStyle(Theme.of(context).textTheme.bodyText2!)
+                      .padding(vertical: 10)
+                ].toRow(mainAxisAlignment: MainAxisAlignment.center)
+              : <Widget>[
+                  icon(icon: FontAwesomeIcons.tools),
+                  detail(count: snapshot.data),
+                ].toRow(mainAxisAlignment: MainAxisAlignment.start);
+        },
+      ),
+    ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
+  }
+}
+
 String formatDateTime(DateTime? time) {
   return time != null ? DateFormat('E, d/MM/yyyy, HH:mm').format(time) : '';
 }
@@ -416,6 +553,106 @@ String _timeFormat(DateTime? time) {
 
   return text;
 }
+
+// class DeviceInfoCard extends StatefulWidget {
+//   // DeviceInfoCard({Key? key}) : super(key: key);
+//   DeviceInfoCard(
+//       {required this.header, required this.content, this.onLongPressed, this.onTap, this.onTapDown});
+
+//   VoidCallback? onTap;
+//   VoidCallback? onTapDown;
+//   VoidCallback? onLongPressed;
+//   Widget header;
+//   Widget content;
+
+//   @override
+//   _DeviceInfoCardState createState() => _DeviceInfoCardState();
+// }
+
+// class _DeviceInfoCardState extends State<DeviceInfoCard> {
+//   bool pressed = false;
+//   double borderRadius = 30.0;
+//   // Offset offset = Offset(100, 100);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     Widget card({required Widget child}) => Styled.widget(child: child)
+//         .padding(all: 10, animate: true)
+//         .ripple()
+//         .backgroundColor(Colors.white, animate: true)
+//         .clipRRect(all: borderRadius)
+//         .elevation(pressed ? 0 : 20,
+//             shadowColor: Color(0x30000000),
+//             borderRadius: BorderRadius.circular(borderRadius))
+//         .padding(vertical: 10)
+//         .gestures(
+//           onTapChange: (tapStatus) => setState(() {
+//             pressed = tapStatus;
+//             print(pressed);
+//           }),
+//           onLongPress: widget.onLongPressed,
+//           // onLongPressUp: () =>
+//           //     launch('tel:${widget.device.lastUserPhoneNumber}'),
+//           // onTapDown: (details) =>
+//           //     launch('tel:${widget.device.lastUserPhoneNumber}'),
+//           onTap: () => print('onTap'),
+//         )
+//         // .translate(offset: offset, animate: true)
+//         .scale(all: pressed ? 0.95 : 1, animate: true)
+//         .animate(Duration(milliseconds: 100), Curves.easeInOutQuad);
+
+//     Widget header = Styled.text('Current user');
+
+//     Widget detail = <Widget>[
+//       Text(widget.device.lastUser!)
+//           .textStyle(Theme.of(context).textTheme.bodyText2!)
+//           .padding(
+//             vertical: 5,
+//           ),
+//       Text(widget.device.location!)
+//           .textStyle(Theme.of(context).textTheme.bodyText2!)
+//           .padding(
+//             bottom: 5,
+//           ),
+//       Text(formatDateTime(widget.device.lastUseTime))
+//           .textStyle(Theme.of(context).textTheme.bodyText2!)
+//           .padding(
+//             bottom: 5,
+//           ),
+//     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
+
+//     Widget avatar = FutureBuilder(
+//       future: UserDataService().fetchUser(
+//           widget.device.lastUserId == '' ? ' ' : widget.device.lastUserId),
+//       // initialData: UserData(photoURL: ),
+//       builder: (BuildContext context, AsyncSnapshot snapshot) {
+//         String url = (snapshot.data as UserData?)?.photoURL ?? '';
+//         return ((url != '')
+//             ? Image.network(url)
+//             : Image.asset('assets/images/profile_placeholder.png'));
+//       },
+//     ).clipOval().padding(all: 10).constrained(width: 80, animate: true);
+
+//     return card(
+//         child: <Widget>[
+//       Styled.text(widget.device.inUse! ? 'Current User' : 'Last User',
+//               animate: true)
+//           .textStyle(Theme.of(context).textTheme.bodyText1!)
+//           .padding(left: 10),
+//       Divider(),
+//       widget.device.lastUserId == ''
+//           ? <Widget>[
+//               Text('No previous user')
+//                   .textStyle(Theme.of(context).textTheme.bodyText2!)
+//                   .padding(vertical: 10)
+//             ].toRow(mainAxisAlignment: MainAxisAlignment.center)
+//           : <Widget>[
+//               avatar,
+//               detail,
+//             ].toRow(mainAxisAlignment: MainAxisAlignment.start)
+//     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
+//   }
+// }
 
 // var children = <Widget>[
 // Obx(() => Text(

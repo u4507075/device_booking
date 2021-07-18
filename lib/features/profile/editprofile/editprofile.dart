@@ -1,14 +1,17 @@
 import 'package:device_booking/core/core.dart';
+import 'package:device_booking/features/profile/editprofile/image_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:styled_widget/styled_widget.dart';
+import './image_controller.dart';
 
 class EditProfile extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
+  var imageController = Get.put(ImageController());
   UserController controller = Get.put(UserController());
   UserData? _user = Get.find<UserController>().streamUser;
   String? valueChoose = Get.find<UserController>().streamUser?.role;
@@ -64,86 +67,7 @@ class EditProfile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 5,
-                      child: GestureDetector(
-                        onLongPress: () {
-                          print('long pressed');
-                        },
-                        onLongPressUp: () {
-                          Get.bottomSheet(
-                            Container(
-                              height: 200,
-                              color: Colors.white,
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 50,
-                                    child: Center(
-                                      child: Text(
-                                        'Upload an image',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    thickness: 1,
-                                  ),
-                                  Expanded(
-                                      child: ListView(
-                                    children: [
-                                      ListTile(
-                                        title: Text(
-                                          'Select from a gallery',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
-                                        ),
-                                        onTap: () async {
-                                          _picker.getImage(
-                                              source: ImageSource.gallery);
-                                          Get.back();
-                                        },
-                                      ),
-                                      ListTile(
-                                        title: Text(
-                                          'Take a new photo',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
-                                        ),
-                                        onTap: () async {
-                                          _picker.getImage(
-                                              source: ImageSource.camera);
-                                          Get.back();
-                                        },
-                                      )
-                                    ],
-                                  ))
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                        // onLongPressEnd: (LongPressEndDetails detail) {
-                        //   print(detail.globalPosition);
-                        // },
-                        child: ClipOval(
-                          child: (_user?.photoURL != '')
-                              ? Obx(() => Image.network(
-                                    controller.streamUser?.photoURL ?? '',
-                                    fit: BoxFit.cover,
-                                  ))
-                              : Image.asset(
-                                  'assets/images/profile_placeholder.png',
-                                  fit: BoxFit
-                                      .cover, //TODO fit this image to the box
-                                ),
-                        ),
-                      ),
-                    ),
+                    _DisplayProfile(),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
                       child: Text('${controller.streamUser?.email ?? ''}',
@@ -269,6 +193,115 @@ class EditProfile extends StatelessWidget {
               ),
             ),
           )),
+    );
+  }
+}
+
+class _DisplayProfile extends GetView<UserController> {
+  var imageController = Get.put(ImageController());
+  bool pressed = false;
+  @override
+  Widget build(BuildContext context) {
+    print(pressed);
+    return StatefulBuilder(
+      builder: (BuildContext context, setState) {
+        return [
+          ((imageController.file != null)
+                  ? Obx(() => Image.file(imageController.file!))
+                  : (controller.user?.photoURL != '')
+                      ? Obx(() => Image.network(
+                            controller.streamUser?.photoURL ?? '',
+                            fit: BoxFit.cover,
+                          ))
+                      : Image.asset(
+                          'assets/images/profile_placeholder.png',
+                          fit: BoxFit.cover,
+                        ))
+              .fittedBox(fit: BoxFit.cover)
+              .constrained(height: Get.height / 5, width: Get.height / 5)
+              .center(), //TODO fit this image to the box
+
+          Container().decorated(
+              color: Colors.black.withOpacity(pressed ? 0.6 : 0.3),
+              animate: true),
+          Styled.text('Change photo',
+                  animate: true,
+                  style: Get.textTheme.bodyText2!
+                      .copyWith(color: Get.theme.canvasColor))
+              .center()
+        ]
+            .toStack()
+            .constrained(height: Get.height / 5, width: Get.height / 5)
+            .clipOval()
+            .gestures(
+              onTapChange: (tapState) => setState(() => pressed = tapState),
+              onLongPressStart: (_) => _openBottomSheet(),
+            )
+            .scale(all: pressed ? 0.9 : 1, animate: true)
+            .animate(Duration(milliseconds: 400), Curves.easeInOutCirc);
+      },
+    );
+  }
+
+  Future<dynamic> _openBottomSheet() {
+    final _picker = ImagePicker();
+    return Get.bottomSheet(
+      Container(
+        height: 200,
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+              child: Center(
+                child: Text(
+                  'Upload an image',
+                  style: Get.textTheme.bodyText1,
+                ),
+              ),
+            ),
+            const Divider(
+              thickness: 1,
+            ),
+            Expanded(
+                child: ListView(
+              children: [
+                ListTile(
+                  title: Text(
+                    'Select from a gallery',
+                    style: Get.textTheme.bodyText2,
+                  ),
+                  onTap: () async {
+                    imageController.image = await _picker.pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: 100,
+                        maxHeight: 300,
+                        maxWidth: 300);
+                    Get.back();
+                    print(imageController.file?.absolute);
+                    ImageService().uploadProfileImage(
+                        controller.user!, imageController.file!);
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Take a new photo',
+                    style: Get.textTheme.bodyText2,
+                  ),
+                  onTap: () async {
+                    imageController.image = await _picker.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 100,
+                        maxHeight: 300,
+                        maxWidth: 300);
+                    Get.back();
+                  },
+                )
+              ],
+            ))
+          ],
+        ),
+      ),
     );
   }
 }
