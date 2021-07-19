@@ -186,15 +186,13 @@ Widget commentSection(DeviceComment? comment) {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage((user?.photoURL ==
-                                            '' ||
-                                        user?.photoURL == null)
-                                    ?
-                                    /*user?.photoURL ??*/
-                                    'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/profile_placeholder.png'
-                                    : user!.photoURL),
-                              ),
+                              // CircleAvatar( //todo fix this null safety
+                              //   backgroundImage: NetworkImage((user.photoURL)
+                              //       ?
+                              //       /*user?.photoURL ??*/
+                              //       'https://device-tracking-system.obs.ap-southeast-2.myhuaweicloud.com/img/profile_placeholder.png'
+                              //       : user!.photoURL),
+                              // ),
                             ],
                           ),
                         ),

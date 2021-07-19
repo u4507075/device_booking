@@ -19,7 +19,7 @@ class UserController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    // clear();
+    clear();
   }
 
   @override
@@ -29,6 +29,11 @@ class UserController extends GetxController {
   }
 
   set user(UserData? value) => this._streamUserData.value = value;
+
+  set photoURL(String? url) {
+    this.user?.photoURL = url;
+    update();
+  }
 
   void initialize({bool developermode = false}) async {
     clear();
@@ -59,9 +64,9 @@ class UserController extends GetxController {
   }
 
   //For sign up
-  void updateLocalUser(UserData user) {
-    _userData.value = user;
-  }
+  // void updateLocalUser(UserData user) {
+  //   _userData.value = user;
+  // }
 
   //fetch user
   Future<void> fetchUser() async {
@@ -75,8 +80,8 @@ class UserController extends GetxController {
   }
 
 //update user
-  Future<void> updateUser({required UserData? user}) async {
-    await UserDataService().updateUser(user ?? '' as UserData);
+  Future<void> updateUser() async {
+    await UserDataService().updateUser(user!);
   }
 
 //delete user

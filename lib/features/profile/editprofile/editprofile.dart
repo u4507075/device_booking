@@ -39,14 +39,31 @@ class EditProfile extends StatelessWidget {
                 style: TextButton.styleFrom(padding: EdgeInsets.all(4)),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    print('Submit Form Successful');
-                    await controller.updateUser(user: _user);
+                    //Open loading dialog
+                    Get.dialog(LoadingDialog());
+
+                    //update user infomation to local memory
                     controller.setUser(_user!);
+
+                    //upload a new profile image
+                    imageController.file != null
+                        ? controller.photoURL =
+                            await imageController.uploadProfileImage()
+                        : null;
+
+                    //update user infomation to Firestore
+                    await controller.updateUser();
+                    //Close loading dialog
                     Get.back();
+                    //Close edit profile page
+                    Get.back();
+
+                    print('Submit Form Successful');
+                    Get.snackbar('MedTrack', 'User Profile Updated',
+                        backgroundColor:
+                            Get.theme.canvasColor.withOpacity(0.6));
                   } else {
-                    //TODO add snack bar
                     print('Submit Form failed');
-                    // print('${controller.user.email}');
                   }
                 },
                 child: Text(
@@ -272,15 +289,21 @@ class _DisplayProfile extends GetView<UserController> {
                     style: Get.textTheme.bodyText2,
                   ),
                   onTap: () async {
+                    //Close bottomsheet
+                    Get.back();
+
+                    //Open loading
+                    Get.dialog(LoadingDialog(), barrierDismissible: false);
+
                     imageController.image = await _picker.pickImage(
                         source: ImageSource.gallery,
                         imageQuality: 100,
                         maxHeight: 300,
                         maxWidth: 300);
+                    //Close loading dialog
                     Get.back();
+
                     print(imageController.file?.absolute);
-                    ImageService().uploadProfileImage(
-                        controller.user!, imageController.file!);
                   },
                 ),
                 ListTile(
@@ -289,12 +312,21 @@ class _DisplayProfile extends GetView<UserController> {
                     style: Get.textTheme.bodyText2,
                   ),
                   onTap: () async {
+                    //Close bottomsheet
+                    Get.back();
+
+                    //Open loading
+                    Get.dialog(LoadingDialog(), barrierDismissible: false);
+
                     imageController.image = await _picker.pickImage(
                         source: ImageSource.camera,
                         imageQuality: 100,
                         maxHeight: 300,
                         maxWidth: 300);
+                    //Close loading dialog
                     Get.back();
+
+                    print(imageController.file?.absolute);
                   },
                 )
               ],

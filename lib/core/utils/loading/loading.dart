@@ -2,32 +2,8 @@ export './loading_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-// class Loading extends StatefulWidget {
-//   Loading({Key? key}) : super(key: key);
-
-//   @override
-//   _LoadingState createState() => _LoadingState();
-// }
-
-// class _LoadingState extends State<Loading> {
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         backgroundColor: Colors.blue[800],
-//         body: SafeArea(
-//           child: SpinKitWanderingCubes(
-//             color: Colors.white,
-//             shape: BoxShape.circle,
-//           ),
-//         ));
-//   }
-// }
+import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 class Loading extends StatelessWidget {
   // const Loading({Key? key}) : super(key: key);
@@ -42,5 +18,26 @@ class Loading extends StatelessWidget {
             shape: BoxShape.circle,
           ),
         ));
+  }
+}
+
+class LoadingDialog extends StatelessWidget {
+  // const Loading({Key? key}) : super(key: key);
+  String? text;
+  LoadingDialog({this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SpinKitWanderingCubes(
+        color: Colors.white,
+        shape: BoxShape.circle,
+      )
+          .padding(all: 30)
+          .constrained(height: 150, width: 150)
+          .decorated(color: Get.theme.primaryColorDark.withOpacity(0.9))
+          .center(),
+    );
   }
 }

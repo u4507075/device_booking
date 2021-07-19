@@ -47,6 +47,7 @@ class UserDataService {
         'lastname': user.lastname,
         'role': user.role,
         'phoneNumber': user.phoneNumber,
+        'photoURL': user.photoURL,
       }).then((value) => print('Update user successful ${user.firstname}'));
     } catch (e) {
       print('Update user failed ${e.toString()}');

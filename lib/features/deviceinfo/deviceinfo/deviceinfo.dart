@@ -167,14 +167,14 @@ class _DeviceInfoState extends State<DeviceInfo> {
                         .textStyle(Theme.of(context).textTheme.headline2!)
                         .alignment(Alignment.center),
                     moreInfo.positioned(top: 20, right: 0),
-                    Text(deviceController.device!.maintenance!
+                    Obx(() => Text(deviceController.device!.maintenance!
                             ? 'In maintenance'
                             : (deviceController.device!.inUse!
                                 ? 'Busy'
                                 : 'Available'))
                         .textStyle(
                             Get.textTheme.bodyText1!.copyWith(color: _color))
-                        .alignment(Alignment.bottomCenter)
+                        .alignment(Alignment.bottomCenter)),
                     // .paddingOnly(top: 60),
                   ].toStack().constrained(height: 85).paddingOnly(bottom: 10),
                 ]..addAll(deviceController.device!.maintenance!
@@ -293,17 +293,23 @@ class _CurrentUserCardState extends State<CurrentUserCard> {
           ),
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
 
+    //? Fetch user info and user profile from Firestore
     Widget avatar = FutureBuilder(
       future: UserDataService().fetchUser(
           widget.device.lastUserId == '' ? ' ' : widget.device.lastUserId),
       // initialData: UserData(photoURL: ),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         String url = (snapshot.data as UserData?)?.photoURL ?? '';
+        print('this is from device Info ' + widget.device.lastUserId! + url);
         return ((url != '')
             ? Image.network(url)
             : Image.asset('assets/images/profile_placeholder.png'));
       },
-    ).clipOval().padding(all: 10).constrained(width: 80, animate: true);
+    )
+        .fittedBox(fit: BoxFit.cover)
+        .clipOval()
+        .padding(all: 10)
+        .constrained(width: 80, height: 80, animate: true);
 
     return card(
         child: <Widget>[

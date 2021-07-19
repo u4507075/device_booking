@@ -54,10 +54,6 @@ class ReportProblem extends StatelessWidget {
   }
 
   Widget _myCustomForm() {
-    // ReportProblemPage Reportproblem = ReportProblemPage();
-
-    // StreamController<String> _controller = StreamController.broadcast();
-
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: SingleChildScrollView(
@@ -79,29 +75,3 @@ class ReportProblem extends StatelessWidget {
     );
   }
 }
-
-//   void updateDa{ta() {
-//     String time = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
-//     const _chars =
-//         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-//     Random _rnd = Random();
-//     String getRandomString(int length) =>
-//         String.fromCharCodes(Iterable.generate(
-//             length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-//     String documentID = (getRandomString(20));
-//     try {
-//       databaseReference
-//           .collection('devices')
-//           .doc(DeviceID)
-//           .collection('deviceProblems')
-//           .doc('$documentID')
-//           .set({
-//         'datetime': "$time",
-//         'problem': TextFieldController.text,
-//         'uid': 'UserID'
-//       });
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//   }
-// }

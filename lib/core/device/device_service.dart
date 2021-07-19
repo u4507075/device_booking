@@ -47,11 +47,11 @@ class DeviceService {
         // return device;
       } else {
         print('Failed to retrieve device info');
-        return null;
+        // return null;
       }
     } catch (e) {}
     print('Failed to retrieve device info');
-    return null;
+    // return null;
   }
 
   Stream<Device>? streamDevice(String deviceId) {
@@ -211,6 +211,10 @@ class DeviceService {
         'reportId': docRef.id,
         'reportTime': now,
         'problem': reportText,
+        'reviewed': false,
+        'repaired': false,
+        'reviewTime': null,
+        'repairTime': null,
       });
     } catch (e) {
       print('Report device error: ${e.toString()}');

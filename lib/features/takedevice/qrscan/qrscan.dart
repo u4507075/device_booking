@@ -19,7 +19,8 @@ Widget qrScanButton() {
     if (controller.qrCode.value == '-1') {
       //return previous deviceinfo
       deviceController.setDevice(_device);
-      Get.snackbar('QR Scan cancelled', 'QR scanner was cancelled by user');
+      Get.snackbar('QR Scan cancelled', 'QR scanner was cancelled by user',
+          backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
     } else {
       await deviceController.fetchDevice(controller.qrCode.value);
       if (deviceController.device != null) {
@@ -27,7 +28,8 @@ Widget qrScanButton() {
       } else {
         //return previous deviceinfo
         deviceController.setDevice(_device);
-        Get.snackbar('QR scan error', 'QR code not found');
+        Get.snackbar('QR scan error', 'QR code not found',
+            backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
       }
     }
   }
@@ -51,11 +53,13 @@ Widget qrScanButton() {
             qrCodeScanner();
           } else {
             Get.snackbar('User Profile Incompleted',
-                'Please complete your profile before continue');
+                'Please complete your profile before continue',
+                backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
           }
         } else {
           Get.snackbar(
-              'Access is forbidden', 'Anonymous user cannot use this function');
+              'Access is forbidden', 'Anonymous user cannot use this function',
+              backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
         }
       });
 }
@@ -69,13 +73,14 @@ Widget qrScanButtonExtended() {
     Device? _device = deviceController.device;
 
     await controller.scanQrCode();
-    // print('${controller.qrCode}');
+    print('${controller.qrCode}');
 
     //cancel scan qr -> not navigate
     if (controller.qrCode.value == '-1') {
       //return previous deviceinfo
       deviceController.setDevice(_device);
-      Get.snackbar('QR Scan cancelled', 'QR scanner was cancelled by user');
+      Get.snackbar('QR Scan cancelled', 'QR scanner was cancelled',
+          backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
     } else {
       await deviceController.fetchDevice(controller.qrCode.value);
       if (deviceController.device != null) {
@@ -83,7 +88,8 @@ Widget qrScanButtonExtended() {
       } else {
         //return previous deviceinfo
         deviceController.setDevice(_device);
-        Get.snackbar('QR scan error', 'QR code not found');
+        Get.snackbar('QR Scan Error', 'QR code not found in database',
+            backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
       }
     }
   }
@@ -110,11 +116,13 @@ Widget qrScanButtonExtended() {
             qrCodeScanner();
           } else {
             Get.snackbar('User Profile Incompleted',
-                'Please complete your profile before continue');
+                'Please complete your profile before continue',
+                backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
           }
         } else {
           Get.snackbar(
-              'Access is forbidden', 'Anonymous user cannot use this function');
+              'Access is forbidden', 'Anonymous user cannot use this function',
+              backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
         }
       });
 }

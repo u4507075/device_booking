@@ -6,15 +6,15 @@ import 'device_service.dart';
 import 'package:device_booking/core/auth/auth.dart';
 
 class DeviceController extends GetxController {
-  var streamDevice = Device().obs;
-  Rx<Device?> _device = Device().obs;
+  var _streamDevice = Device().obs;
+  var _device = Rxn<Device?>();
   var _deviceId = ''.obs;
   // var streamDeviceLocation = DeviceLocation().obs;
   var user = Get.find<UserController>().user;
 
   // var locationDict = {}.obs;
 
-  Device? get deviceInfo => streamDevice.value;
+  Device? get streamDevice => _streamDevice.value;
 
   Device? get device => _device.value;
 
@@ -25,8 +25,8 @@ class DeviceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    streamDevice.bindStream(
-        DeviceService().streamDevice(_device.value!.deviceId ?? ' ')!);
+    _streamDevice.bindStream(
+        DeviceService().streamDevice(_device.value?.deviceId ?? ' ')!);
     // locationDict.bindStream(DeviceService().streamProbeLocaiton());
     // DeviceService().streamProbeLocaiton().listen((map) {
 
@@ -47,7 +47,7 @@ class DeviceController extends GetxController {
   void init() {}
 
   void clear() {
-    streamDevice.value = Device();
+    _streamDevice.value = Device();
   }
 
   Future<void> takeDevice(
@@ -84,7 +84,7 @@ class DeviceController extends GetxController {
   }
 
   void bindingStream() {
-    streamDevice.bindStream(
+    _streamDevice.bindStream(
         DeviceService().streamDevice(this._device.value!.deviceId ?? ' ')!);
   }
 

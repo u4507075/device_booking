@@ -2,6 +2,7 @@ import 'package:device_booking/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 class Confirmation extends StatelessWidget {
   final String deviceId = Get.parameters['deviceId'].toString();
@@ -13,105 +14,103 @@ class Confirmation extends StatelessWidget {
     UserController userController = Get.put(UserController());
     return SafeArea(
       child: Scaffold(
-        body: ListView(children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: BoxDecoration(color: Colors.grey),
-            alignment: Alignment.topLeft,
-            child: Stack(
-              children: [
-                Align(
-                    child: Obx(() => Text(
-                        '${deviceController.device?.deviceType?.capitalize} ${deviceController.device?.name?.capitalize}'))),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: BackButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                ),
-              ],
-            ), //TODO add image of the device
-          ),
-          Container(
-            padding: EdgeInsets.all(30.0),
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          leading: Styled.icon(Icons.arrow_back, size: 26)
+              .padding(all: 5)
+              .decorated(color: Colors.black.withOpacity(0.4))
+              .clipOval()
+              .gestures(
+                onTap: () => Get.back(),
+              )
+              .padding(all: 5),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: Get.height),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Confirmation',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  _deviceInfo(),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Text(
-                    'Take Device to',
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  Container(
-                    // margin: EdgeInsets.fromLTRB(0.0, 5.0, 10.0, 5.0),
-                    padding: EdgeInsets.all(10.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text('$location'),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                    alignment: Alignment.centerRight,
-                    child: Text('Do you want to confirm?',
-                        style: Theme.of(context).textTheme.headline3),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 3,
-                        child: Container(),
-                      ),
-                      Flexible(
-                          flex: 2,
-                          child: OutlinedButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: Text('Edit'))),
-                      Flexible(
-                          flex: 2,
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                // print('$deviceId $location ');
+              children: [
+                Stack(
+                  children: [
+                    ((deviceController.device!.photoURL != null &&
+                                deviceController.device!.photoURL != '')
+                            ? FadeInImage(
+                                placeholder: AssetImage(
+                                    'assets/images/device_placeholder.png'),
+                                image: NetworkImage(
+                                    deviceController.device?.photoURL ?? ''),
+                                fadeOutDuration: Duration(milliseconds: 300),
+                                fadeOutCurve: Curves.easeOutBack,
+                                fadeInDuration: Duration(milliseconds: 300),
+                              )
+                            : Image.asset(
+                                'assets/images/device_placeholder.png'))
+                        .fittedBox(fit: BoxFit.cover)
+                        .constrained(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width - 100,
+                        )
+                        // .backgroundColor(Colors.white)
+                        .clipRRect(
+                          bottomLeft: 50,
+                        ),
+                  ],
+                ),
+                Text(deviceController.device!.deviceType!.capitalize! +
+                        ' ' +
+                        deviceController.device!.name!)
+                    .textStyle(Theme.of(context).textTheme.headline2!)
+                    .alignment(Alignment.center)
+                    .padding(all: 20),
+                _DeviceInfo(
+                  location: location,
+                ).paddingSymmetric(horizontal: 20),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    OutlinedButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Text('Edit'))
+                        .paddingSymmetric(horizontal: 20)
+                        .expanded(),
+                    ElevatedButton(
+                      onPressed: () async {
+                        // print('$deviceId $location ');
 
-                                print(deviceController.device!.deviceId);
-                                print(userController.streamUser!.uid);
-                                print(location);
-                                await DeviceController().takeDevice(
-                                    device: deviceController.device!,
-                                    user: userController.streamUser!,
-                                    location: location);
-                                Get.offAllNamed('/');
-                              },
-                              child: Text('Confirm'))),
-                    ],
-                  ),
-                ]),
+                        // print(deviceController.device!.deviceId);
+                        // print(userController.streamUser!.uid);
+                        // print(location);
+                        await DeviceController().takeDevice(
+                            device: deviceController.device!,
+                            user: userController.streamUser!,
+                            location: location);
+                        Get.offAllNamed('/');
+                      },
+                      child: Text('Confirm'),
+                    ).paddingSymmetric(horizontal: 20).expanded(),
+                  ],
+                )
+              ],
+            ),
           ),
-        ]),
+        ), //TODO add image of the device
       ),
     );
   }
 }
 
-class _deviceInfo extends StatelessWidget {
+class _DeviceInfo extends StatelessWidget {
+  _DeviceInfo({required this.location});
+
+  String location;
+
   final UserController userController = Get.put(UserController());
   final now = DateTime.now();
 
@@ -151,7 +150,8 @@ class _deviceInfo extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Obx(
-                    () => Text('${userController.streamUser?.phoneNumber}',
+                    () => Text(
+                        '${formatPhoneNumber(userController.streamUser!.phoneNumber)}',
                         style: Theme.of(context).textTheme.bodyText2),
                   )),
             ],
@@ -180,6 +180,20 @@ class _deviceInfo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text('${DateFormat('HH:mm').format(now)}',
+                    style: Theme.of(context).textTheme.bodyText2),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text('Target',
+                    style: Theme.of(context).textTheme.bodyText2),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text('$location',
                     style: Theme.of(context).textTheme.bodyText2),
               ),
             ],

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:device_booking/core/core.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 class Profile extends GetView<UserController> {
   // final UserController controller = Get.put(UserController());
@@ -32,33 +33,39 @@ class Profile extends GetView<UserController> {
             Container(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 5,
-                    child: ClipOval(
-                      child: (controller.streamUser?.photoURL != '')
-                          ? Obx(() => Image.network(
-                                controller.streamUser?.photoURL ?? '',
-                                fit: BoxFit.cover,
-
-                                // width: MediaQuery.of(context).size.width / 5,
-                              ))
-                          : Image.asset(
-                              'assets/images/profile_placeholder.png',
-                              fit:
-                                  BoxFit.cover, //TODO fit this image to the box
-                            ),
-                    ),
+                  ClipOval(
+                    child: GetBuilder<UserController>(
+                        init: controller,
+                        builder: (controller) => ((controller.user?.photoURL !=
+                                        '' &&
+                                    controller.user?.photoURL != null)
+                                ? FadeInImage(
+                                    placeholder: AssetImage(
+                                        'assets/images/profile_placeholder.png'),
+                                    image: NetworkImage(
+                                      controller.user!.photoURL!,
+                                    ),
+                                    fadeOutDuration:
+                                        Duration(milliseconds: 300),
+                                    fadeOutCurve: Curves.easeOutBack,
+                                    fadeInDuration: Duration(milliseconds: 300),
+                                    fit: BoxFit.cover)
+                                : Image.asset(
+                                    'assets/images/profile_placeholder.png',
+                                    fit: BoxFit.cover))
+                            .constrained(
+                                height: Get.height / 5, width: Get.height / 5)),
                   ),
                 ],
               ),
             ),
-            Align(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-                child: Obx(() => Text('${controller.streamUser?.email ?? ''}',
-                    style: b1TextStyle)),
-              ),
-            ),
+            // Align(
+            //   child: Padding(
+            //     padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+            //     child: Obx(() => Text('${controller.streamUser?.email ?? ''}',
+            //         style: b1TextStyle)),
+            //   ),
+            // ),
             Align(
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),

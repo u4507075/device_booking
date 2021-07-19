@@ -6,7 +6,7 @@ class UserData /*implements ReassembleHandler*/ {
   String phoneNumber;
   String role;
   String email;
-  String photoURL;
+  String? photoURL;
   String uid;
   bool? inUse;
 
@@ -57,6 +57,10 @@ class UserData /*implements ReassembleHandler*/ {
 
   set setphoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
+  }
+
+  set setPhotoURL(String? url) {
+    this.photoURL = url;
   }
 
   bool get isCompleted {
