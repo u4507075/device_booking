@@ -252,7 +252,7 @@ class _DisplayProfile extends GetView<UserController> {
             .clipOval()
             .gestures(
               onTapChange: (tapState) => setState(() => pressed = tapState),
-              onLongPressStart: (_) => _openBottomSheet(),
+              onTap: () => _openBottomSheet(),
             )
             .scale(all: pressed ? 0.9 : 1, animate: true)
             .animate(Duration(milliseconds: 400), Curves.easeInOutCirc);

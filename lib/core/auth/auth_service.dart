@@ -76,10 +76,20 @@ class AuthService {
         //     user: userDataFromFirebaseUser(user.user)); //New user
         return userDataFromFirebaseUser(user.user);
       }
+    } on FirebaseAuthException catch (e) {
+      //? show notification to user -> why sign in fail?
+      Get.snackbar('MedTrack', e.message ?? '',
+          backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
+
+      //? return to main authentication page
+      Get.back();
     } catch (e) {
-      print('Sign in with phone number failed: ${e.toString()}');
-      Get.snackbar('Log in failed', 'Wrong OTP');
-      return null;
+      print('[Sign in with phone number]: ' + e.toString());
+      //? return to main authentication page -> why sign in fail?
+      Get.snackbar('MedTrack', e.toString(),
+          backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
+      //? return to main authentication page
+      Get.back();
     }
   }
 
@@ -88,11 +98,13 @@ class AuthService {
       phoneNumber: '+66' + phoneNumber.substring(phoneNumber.length - 9),
       timeout: const Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) async {
+        //! Disable Android Auto retrieve OTP
         // await _auth.signInWithCredential(credential);
         // Get.back();
       },
       verificationFailed: (FirebaseAuthException e) async {
         print('verification failed, ${e.toString()}');
+        Get.snackbar('MedTrack', e.toString());
         Get.find<LoadingController>().loaded();
         // Get.back();
 
@@ -106,7 +118,7 @@ class AuthService {
         // (Platform.isAndroid) ? Get.toNamed('/signup') : Get.toNamed('/getotp');
       },
       codeAutoRetrievalTimeout: (String verificationId) {
-        Get.snackbar('Time out', 'No sms confirm within 60 seconds');
+        // Get.snackbar('Time out', 'No sms confirm within 60 seconds');
         Get.find<PhoneAuthController>().clear();
       },
     );

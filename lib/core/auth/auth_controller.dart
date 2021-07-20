@@ -47,7 +47,6 @@ class AuthController extends GetxController {
       Get.snackbar(
         "Error signing out",
         e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
       );
     }
   }

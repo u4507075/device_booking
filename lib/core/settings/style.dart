@@ -7,37 +7,37 @@ const mediumTextSize = 18.0;
 const smallTextSize = 14.0;
 // const fontFamily1 = 'roboto';
 
-final appBarTextStyle = GoogleFonts.roboto(
+final appBarTextStyle = GoogleFonts.prompt(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: mediumTextSize,
         color: Colors.white));
 
-final h1TextStyle = GoogleFonts.roboto(
+final h1TextStyle = GoogleFonts.prompt(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: headingTextSize,
         color: Colors.black));
 
-final h2TextStyle = GoogleFonts.roboto(
+final h2TextStyle = GoogleFonts.prompt(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: largeTextSize,
         color: Colors.black));
 
-final h3TextStyle = GoogleFonts.roboto(
+final h3TextStyle = GoogleFonts.prompt(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: mediumTextSize,
         color: Colors.black));
 
-final b1TextStyle = GoogleFonts.roboto(
+final b1TextStyle = GoogleFonts.prompt(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: mediumTextSize,
         color: Colors.black));
 
-final b2TextStyle = GoogleFonts.roboto(
+final b2TextStyle = GoogleFonts.prompt(
     textStyle: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: smallTextSize,

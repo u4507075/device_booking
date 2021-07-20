@@ -95,7 +95,7 @@ class _LogInWithPhoneButtonState extends State<LogInWithPhoneButton> {
 
           // onLongPressUp: () =>
           //     launch('tel:${widget.device.lastUserPhoneNumber}'),
-          onTapDown: (details) => getPhoneNumber(),
+          onTap: () => getPhoneNumber(),
           // onTap: () => print('onTap'),
         )
         // .translate(offset: offset, animate: true)

@@ -47,7 +47,7 @@ Widget qrScanButton() {
         color: Colors.black,
       ),
       onPressed: () async {
-        print('${userController.streamUser}');
+        // print('${userController.streamUser}');
         if (!Get.find<AuthController>().firebaseUser!.isAnonymous) {
           if (userController.streamUser?.isCompleted ?? false) {
             qrCodeScanner();

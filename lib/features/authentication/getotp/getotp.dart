@@ -48,12 +48,6 @@ class _GetOTPState extends State<GetOTP> {
                   'Your OTP was sent to ${Get.find<PhoneAuthController>().phoneNumber}',
                   style: Theme.of(context).textTheme.bodyText2,
                 )),
-            // Obx(() {
-            //   return Text(
-            //     'Remaining time: ${timerController.count} s',
-            //     style: Theme.of(context).textTheme.bodyText2,
-            //   );
-            // }),
             Form(
               key: _formKey,
               child: TextFormField(
@@ -105,36 +99,33 @@ class _GetOTPState extends State<GetOTP> {
                         String _smsCode = phoneAuthController.smsCode;
                         String _verificationId =
                             phoneAuthController.verificationId;
-                        print(_smsCode);
-                        print(_verificationId);
+                        // print(_smsCode);
+                        // print(_verificationId);
                         PhoneAuthCredential credential =
                             PhoneAuthProvider.credential(
                                 verificationId: _verificationId,
                                 smsCode: _smsCode);
                         try {
-                          // UserCredential user =
+                          var user = await AuthController()
+                              .signInWithPhoneNumber(credential);
 
-                          AuthController()
-                              .signInWithPhoneNumber(credential)
-                              .then((user) {
-                            if (user!.isCompleted) {
-                              Get.back();
-                            } else {
-                              Get.back();
-                              Get.toNamed('/signup');
-                            }
-                            print(user);
-                            setState(() async {
-                              verifying = false;
-                            });
+                          setState(() {
+                            verifying = false;
                           });
+                          if (user!.isCompleted) {
+                            Get.back();
+                          } else {
+                            Get.back();
+                            Get.toNamed('/signup');
+                          }
+                          print(user);
                         } catch (e) {
                           print(e.toString());
-
-                          // Get.snackbar('Log In failed', '${e.toString()}');
                         }
 
-                        // // Get.back();
+                        setState(() {
+                          verifying = false;
+                        });
                       }
                     },
                     child: Text('Verify OTP')),

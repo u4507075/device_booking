@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:device_booking/core/auth/user_service.dart';
 import 'package:device_booking/core/device/device_service.dart';
+import './viewdevicephoto.dart';
 // import './devicecomment/devicecomment.dart';
 import 'package:device_booking/features/deviceinfo/devicelist/devicelist_service.dart';
 import 'package:device_booking/features/takedevice/qrscan/qrscan.dart';
@@ -16,6 +17,7 @@ import 'package:device_booking/core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:styled_widget/styled_widget.dart';
 import './deviceproblem/deviceproblem.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class DeviceInfo extends StatefulWidget {
   // String? _text;
@@ -142,8 +144,8 @@ class _DeviceInfoState extends State<DeviceInfo> {
                                       'assets/images/device_placeholder.png'),
                                   image: NetworkImage(
                                       deviceController.device?.photoURL ?? ''),
-                                  fadeOutDuration: Duration(milliseconds: 300),
-                                  fadeOutCurve: Curves.easeOutBack,
+                                  // fadeOutDuration: Duration(milliseconds: 300),
+                                  // fadeOutCurve: Curves.easeOutBack,
                                   fadeInDuration: Duration(milliseconds: 300),
                                 )
                               : Image.asset(
@@ -156,7 +158,14 @@ class _DeviceInfoState extends State<DeviceInfo> {
                           // .backgroundColor(Colors.white)
                           .clipRRect(
                             bottomLeft: 50,
-                          ),
+                          )
+                          .gestures(onTap: () {
+                        //? If there're no device photo -> prevent user to view a placeholder image
+                        if (deviceController.device!.photoURL != null &&
+                            deviceController.device!.photoURL != '') {
+                          Get.dialog(ViewDevicePhoto());
+                        }
+                      }),
                     ],
                   ),
                   // _reportButton(),
@@ -164,7 +173,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
                     Text(deviceController.device!.deviceType!.capitalize! +
                             ' ' +
                             deviceController.device!.name!)
-                        .textStyle(Theme.of(context).textTheme.headline2!)
+                        .textStyle(Theme.of(context).textTheme.bodyText1!)
                         .alignment(Alignment.center),
                     moreInfo.positioned(top: 20, right: 0),
                     Obx(() => Text(deviceController.device!.maintenance!
@@ -173,7 +182,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
                                 ? 'Busy'
                                 : 'Available'))
                         .textStyle(
-                            Get.textTheme.bodyText1!.copyWith(color: _color))
+                            Get.textTheme.bodyText2!.copyWith(color: _color))
                         .alignment(Alignment.bottomCenter)),
                     // .paddingOnly(top: 60),
                   ].toStack().constrained(height: 85).paddingOnly(bottom: 10),
