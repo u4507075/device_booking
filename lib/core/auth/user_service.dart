@@ -1,3 +1,6 @@
+import 'package:device_booking/core/device/device.dart';
+import 'package:device_booking/core/device/device_service.dart';
+
 import './user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -90,6 +93,13 @@ class UserDataService {
       print('Get last userlog failed: ${e.toString()}');
       return null;
     }
+  }
+
+  Future<Device?> lastUseDevice(String userId) async {
+    return lastUserLog(userId)
+        .then(
+            (userLog) => DeviceService().fetchDevice(userLog?.deviceId ?? ' '))
+        .onError((error, stackTrace) => null);
   }
 
   // Stream<List<List<String>>> streamProfileList(String uid) {

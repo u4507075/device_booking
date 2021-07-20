@@ -11,4 +11,8 @@ class DeviceProblemController extends GetxController {
   Future<int?> count({required Device device}) {
     return DeviceProblemService().fetchCount(device.deviceId);
   }
+
+  Stream<int?>? streamCount({required Device device}) {
+    return DeviceProblemService().streamCount(device.deviceId ?? ' ');
+  }
 }

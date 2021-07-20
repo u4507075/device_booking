@@ -46,8 +46,7 @@ class DeviceNotFound extends StatelessWidget {
             Get.back();
           },
           child: Text('device not found \nTap to back to Home',
-              style: GoogleFonts.kanit(
-                  fontSize: mediumTextSize, color: Colors.redAccent)),
+              style: Get.theme.textTheme.headline6),
         ),
       ),
     );

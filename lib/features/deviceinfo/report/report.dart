@@ -25,11 +25,11 @@ class ReportProblem extends StatelessWidget {
         elevation: 0,
         title: Text(
           'Report Problem',
-          style: appBarTextStyle,
+          style: Get.theme.accentTextTheme.headline6,
         ),
         actions: [
           TextButton(
-              onPressed: () {
+              onPressed: () async {
                 String reportText = textFieldController.text;
                 if (textFieldController.text.length != 0) {
                   print('Problem submitted');
@@ -42,11 +42,7 @@ class ReportProblem extends StatelessWidget {
                   print("Text length can't be 0");
                 }
               },
-              child: Text('Submit',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: Colors.white)))
+              child: Text('Submit', style: Get.theme.accentTextTheme.headline6))
         ],
       ),
       body: _myCustomForm(),

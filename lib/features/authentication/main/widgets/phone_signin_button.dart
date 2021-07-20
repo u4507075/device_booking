@@ -11,44 +11,58 @@ class LogInWithPhoneButton extends StatefulWidget {
 class _LogInWithPhoneButtonState extends State<LogInWithPhoneButton> {
   bool pressed = false;
   double borderRadius = 30.0;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    Future<void> submitPhoneNumber(String phoneNumber) async {
+      if (_formKey.currentState!.validate()) {
+        Get.back();
+        Get.dialog(
+          LoadingDialog(),
+          barrierDismissible: false,
+        );
+        Get.find<PhoneAuthController>().savePhoneNumber(phoneNumber);
+        AuthController().verifyPhoneNumber();
+        // //? Close loading dialog after finish authentication
+        // Future.delayed(Duration(seconds: 3)).whenComplete(() => Get.back());
+      } else {
+        print('Invalid phone number');
+      }
+    }
+
     void getPhoneNumber() {
-      final _formKey = GlobalKey<FormState>();
       TextEditingController _controller = TextEditingController();
-      String _phoneNumber = '';
       Get.defaultDialog(
-          titleStyle: Theme.of(context).textTheme.headline3,
+          titleStyle: Get.textTheme.headline6,
           title: 'Log in with phone number',
           content: Container(
             padding: const EdgeInsets.all(10.0),
-            // height: 100,
-            // width: 100,
             child: Column(
               children: [
                 Form(
                   key: _formKey,
                   child: TextFormField(
-                    // keyboardType: ,
-                    // maxLength: 6,
                     autofocus: true,
                     keyboardType: TextInputType.phone,
                     controller: _controller,
-                    onChanged: (value) {
-                      _phoneNumber = value;
-                    },
+                    onFieldSubmitted: (value) async => submitPhoneNumber(value),
                     validator: (value) {
-                      return (value == null ||
-                              value.isEmpty ||
-                              value.length != 10 ||
-                              value.substring(0, 1) != '0')
+                      String patttern = r'^[0-9]{1}[0-9]{9}$';
+                      RegExp regExp = new RegExp(patttern);
+                      return !(regExp.hasMatch(value ?? ''))
                           ? 'Must contain 10 digits and start with 0'
                           : null;
+                      // return (value == null ||
+                      //         value.isEmpty ||
+                      //         value.length != 10 ||
+                      //         value.substring(0, 1) != '0')
+                      //     ? 'Must contain 10 digits and start with 0'
+                      //     : null;
                     },
                     decoration: InputDecoration(
-                        // labelText: 'Enter Phone Number',
-                        // labelStyle: Theme.of(context).textTheme.headline3,
+                        hintStyle: Get.textTheme.bodyText2!
+                            .copyWith(color: Get.theme.hintColor),
                         hintText: 'Enter Phone Number',
                         border: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(4.0))),
@@ -59,29 +73,13 @@ class _LogInWithPhoneButtonState extends State<LogInWithPhoneButton> {
           ),
           textConfirm: 'Log in',
           confirmTextColor: Colors.white,
-          onConfirm: () async {
-            if (_formKey.currentState!.validate()) {
-              // print('get phone number: $_phoneNumber');
-              // _userController.setUser(UserData(phoneNumber: _phoneNumber));
-              // print(_userController.user?.phoneNumber);
-              Get.find<PhoneAuthController>().savePhoneNumber(_phoneNumber);
-
-              Get.find<LoadingController>().loading();
-              // Get.toNamed('/loading');
-
-              AuthController().verifyPhoneNumber(_phoneNumber);
-              Get.back();
-            } else {
-              print('Invalid phone number');
-            }
-            // Get.back();
-          });
+          onConfirm: () async => submitPhoneNumber(_controller.text));
     }
 
     Widget card({required Widget child}) => Styled.widget(child: child)
         .padding(vertical: 10, horizontal: 20, animate: true)
         .ripple()
-        .backgroundColor(Colors.white, animate: true)
+        .backgroundColor(Get.theme.accentIconTheme.color!, animate: true)
         .clipRRect(all: borderRadius)
         .elevation(pressed ? 0 : 10,
             shadowColor: Color(0x30000000),
@@ -103,12 +101,13 @@ class _LogInWithPhoneButtonState extends State<LogInWithPhoneButton> {
         .animate(Duration(milliseconds: 100), Curves.easeInOutQuad);
 
     Widget icon = Styled.icon(Icons.phone, animate: true)
-        .iconSize(25)
+        .iconSize(Get.textTheme.headline5!.fontSize!)
         .padding(all: 10)
         .constrained(width: 50, animate: true);
 
     Widget text = Styled.text('Continue with phone number')
-        .textStyle(Theme.of(context).textTheme.bodyText2!);
+        .textStyle(Get.textTheme.bodyText1!)
+        .paddingSymmetric(horizontal: 10);
 
     return card(
         child: <Widget>[icon, text].toRow(

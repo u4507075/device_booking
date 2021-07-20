@@ -84,44 +84,54 @@ class AuthService {
       //? return to main authentication page
       Get.back();
     } catch (e) {
+      //? return to main authentication page
+      Get.back();
       print('[Sign in with phone number]: ' + e.toString());
       //? return to main authentication page -> why sign in fail?
       Get.snackbar('MedTrack', e.toString(),
           backgroundColor: Get.theme.canvasColor.withOpacity(0.6));
-      //? return to main authentication page
-      Get.back();
     }
   }
 
   Future<void> verifyPhoneNumber(String phoneNumber) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: '+66' + phoneNumber.substring(phoneNumber.length - 9),
-      timeout: const Duration(seconds: 60),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        //! Disable Android Auto retrieve OTP
-        // await _auth.signInWithCredential(credential);
-        // Get.back();
-      },
-      verificationFailed: (FirebaseAuthException e) async {
-        print('verification failed, ${e.toString()}');
-        Get.snackbar('MedTrack', e.toString());
-        Get.find<LoadingController>().loaded();
-        // Get.back();
+    try {
+      return _auth.verifyPhoneNumber(
+        phoneNumber: '+66' + phoneNumber.substring(phoneNumber.length - 9),
+        timeout: const Duration(seconds: 180),
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          //! Disable Android Auto retrieve OTP
+          // await _auth.signInWithCredential(credential);
+          // Get.back();
+        },
+        verificationFailed: (FirebaseAuthException e) async {
+          print('verification failed, ${e.code}');
+          Get.back(); //? loading finish
+          // if (e.code == 'web-context-cancelled') {
+          //   Get.back();
+          // } else if(e.code == ''){
+          // } else {
+          //   Get.back();
+          // }
+          Get.snackbar('MedTrack', e.message.toString(),
+              backgroundColor:
+                  Get.theme.accentTextTheme.bodyText1!.color!.withOpacity(0.6));
+          // }
+        },
+        codeSent: (String verificationId, int? resendToken) async {
+          // Get.find<LoadingController>().loaded();
 
-        // Get.snackbar('Log In Failed', '${e.code.toString()}');
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        Get.find<LoadingController>().loaded();
-        Get.find<PhoneAuthController>().saveVerificationId(verificationId);
-        print('Code sent to: $phoneNumber');
-        Get.toNamed('/getotp');
-        // (Platform.isAndroid) ? Get.toNamed('/signup') : Get.toNamed('/getotp');
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        // Get.snackbar('Time out', 'No sms confirm within 60 seconds');
-        Get.find<PhoneAuthController>().clear();
-      },
-    );
+          Get.find<PhoneAuthController>().saveVerificationId(verificationId);
+          print('Code sent to: $phoneNumber');
+          Get.back(); // ? loading finish
+          Get.toNamed('/getotp');
+          // (Platform.isAndroid) ? Get.toNamed('/signup') : Get.toNamed('/getotp');
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          // Get.snackbar('Time out', 'No sms confirm within 60 seconds');
+          Get.find<PhoneAuthController>().clear();
+        },
+      );
+    } on FirebaseAuthException catch (e) {}
   }
 
   Future signOut() async {

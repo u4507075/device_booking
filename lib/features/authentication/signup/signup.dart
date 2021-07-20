@@ -11,7 +11,7 @@ class SignUp extends StatelessWidget {
 
   // UserData? _initialUser = UserData();
 
-  UserController userController = Get.put(UserController());
+  UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +23,13 @@ class SignUp extends StatelessWidget {
               onPressed: () async {
                 await AuthController().signOut();
                 Get.offAllNamed('/');
+                Get.delete<UserController>();
               },
             ),
             elevation: 0.0,
             title: Text(
               'Sign Up',
-              style: appBarTextStyle,
+              style: Get.theme.accentTextTheme.headline6,
             ),
             centerTitle: true,
             actions: [
@@ -52,7 +53,7 @@ class SignUp extends StatelessWidget {
                 },
                 child: Text(
                   'Next',
-                  style: appBarTextStyle,
+                  style: Get.theme.accentTextTheme.headline6,
                 ),
               )
             ],
@@ -75,11 +76,11 @@ class SignUp extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                    child: Text('${_user?.email ?? ''}', style: b1TextStyle),
+                    child: Text('${_user?.email ?? ''}', style: Get.theme.accentTextTheme.bodyText1),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
-                    child: Text('UID: ${_user?.uid ?? ''}', style: b2TextStyle),
+                    child: Text('UID: ${_user?.uid ?? ''}', style: Get.theme.accentTextTheme.bodyText1),
                   ),
                   Form(
                       key: _formKey,
@@ -102,7 +103,7 @@ class SignUp extends StatelessWidget {
                                 },
                                 decoration: InputDecoration(
                                     labelText: "First name",
-                                    labelStyle: h3TextStyle,
+                                    labelStyle: Get.theme.accentTextTheme.bodyText1,
                                     hintText: 'Enter your first name',
                                     border: UnderlineInputBorder(
                                         borderRadius:
@@ -122,7 +123,7 @@ class SignUp extends StatelessWidget {
                                 },
                                 decoration: InputDecoration(
                                     labelText: "Last name",
-                                    labelStyle: h3TextStyle,
+                                    labelStyle: Get.theme.accentTextTheme.bodyText1,
                                     hintText: 'Enter your last name',
                                     border: UnderlineInputBorder(
                                         borderRadius:
@@ -151,7 +152,7 @@ class SignUp extends StatelessWidget {
                                 },
                                 decoration: InputDecoration(
                                     labelText: "Phone number",
-                                    labelStyle: h3TextStyle,
+                                    labelStyle: Get.theme.accentTextTheme.bodyText1,
                                     hintText: 'Enter your phone number',
                                     border: UnderlineInputBorder(
                                         borderRadius:
@@ -166,9 +167,9 @@ class SignUp extends StatelessWidget {
                               hint: Text('Select you role'),
                               value: valueChoose,
                               icon: const Icon(Icons.arrow_drop_down),
-                              iconSize: mediumTextSize,
+                              iconSize: Get.theme.accentTextTheme.bodyText1!.fontSize!,
                               elevation: 16,
-                              style: b1TextStyle,
+                              style: Get.theme.accentTextTheme.bodyText1,
                               onChanged: (value) async {
                                 valueChoose = value as String;
                                 _user?.role = value;

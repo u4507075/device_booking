@@ -11,7 +11,7 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blue[800],
+        backgroundColor: Get.theme.primaryColor,
         body: SafeArea(
           child: SpinKitWanderingCubes(
             color: Colors.white,
@@ -28,16 +28,19 @@ class LoadingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SpinKitWanderingCubes(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      )
-          .padding(all: 30)
-          .constrained(height: 150, width: 150)
-          .decorated(color: Get.theme.primaryColorDark.withOpacity(0.9))
-          .center(),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SpinKitWanderingCubes(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        )
+            .padding(all: 30)
+            .constrained(height: 150, width: 150)
+            .decorated(color: Color(0xFF333333).withOpacity(0.5))
+            .center(),
+      ),
     );
   }
 }

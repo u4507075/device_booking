@@ -96,12 +96,10 @@ Widget qrScanButtonExtended() {
 
   return FloatingActionButton.extended(
       backgroundColor: Colors.grey[100],
-      label: Text('ยืมอุปกรณ์',
-          style: TextStyle(
-            fontSize: mediumTextSize,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          )),
+      label: Text(
+        'Scan ',
+        style: Get.textTheme.bodyText1,
+      ),
       icon: Icon(
         Icons.qr_code_scanner_outlined,
         color: Colors.black,

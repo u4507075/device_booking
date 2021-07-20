@@ -16,7 +16,7 @@ class Profile extends GetView<UserController> {
           elevation: 0.0,
           title: Text(
             'Profile',
-            style: appBarTextStyle,
+            style: Get.theme.accentTextTheme.headline6,
           ),
           centerTitle: true,
           actions: [
@@ -24,7 +24,7 @@ class Profile extends GetView<UserController> {
                 onPressed: () {
                   Get.toNamed('/editprofile');
                 },
-                child: Text('Edit', style: appBarTextStyle))
+                child: Text('Edit', style: Get.theme.accentTextTheme.headline6))
           ],
         ),
         body: ListView(
@@ -63,15 +63,15 @@ class Profile extends GetView<UserController> {
             //   child: Padding(
             //     padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
             //     child: Obx(() => Text('${controller.streamUser?.email ?? ''}',
-            //         style: b1TextStyle)),
+            //         style: Get.textTheme.headline6)),
             //   ),
             // ),
             Align(
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
                   child: Obx(
-                    () => Text('UID: ${controller.streamUser?.uid ?? ''}',
-                        style: b2TextStyle),
+                    () => Text('UID: ${controller.streamUser?.uid ?? ' '}',
+                        style: Get.theme.textTheme.bodyText1),
                   )),
             ),
             Padding(
@@ -84,15 +84,6 @@ class Profile extends GetView<UserController> {
             TextButton(
                 onPressed: () async {
                   Get.defaultDialog(
-                    // confirm: InkWell(
-                    //   child: Container(
-                    //     decoration: BoxDecoration(color: Colors.blue),
-                    //     child: Text('Confirm'),
-                    //   ),
-                    // ),
-                    // cancel:
-                    //     OutlinedButton(onPressed: () {}, child: Text('Cancel')),
-                    // textConfirm: 'Confirm',
                     title: 'Confirmation',
                     textConfirm: 'Log out',
                     confirmTextColor: Colors.white,
@@ -111,8 +102,8 @@ class Profile extends GetView<UserController> {
                   );
                 },
                 child: Text('Log out',
-                    style: GoogleFonts.kanit(
-                        fontSize: mediumTextSize, color: Colors.redAccent))),
+                    style: Get.theme.accentTextTheme.headline6!
+                        .copyWith(color: Get.theme.errorColor))),
           ],
         ),
       ),
@@ -124,94 +115,92 @@ class ProfileInfo extends StatelessWidget {
   // UserController controller;
 
   // ProfileInfo(this.controller);
-  final UserController userController = Get.put(UserController());
+  final UserController userController = Get.find<UserController>();
   // ProfileController controller = Get.put(ProfileController());
 
   // List<List<String>> _profileList;
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<UserController>(
-        init: userController,
-        builder: (controller) => Table(
-              border: TableBorder(
-                  horizontalInside: BorderSide(width: 1, color: Colors.grey)),
-              children: [
-                TableRow(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'First name',
-                      style: b1TextStyle,
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Obx(
-                        () => Text(
-                          '${controller.streamUser?.firstname ?? ''}',
-                          style: b1TextStyle,
-                        ),
-                      )),
-                ]),
-                TableRow(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Last name',
-                      style: b1TextStyle,
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Obx(
-                        () => Text(
-                          '${controller.streamUser?.lastname ?? ''}',
-                          style: b1TextStyle,
-                        ),
-                      )),
-                ]),
-                TableRow(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Tel.',
-                      style: b1TextStyle,
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Obx(() => Text(
-                              formatPhoneNumber(
-                                  controller.streamUser?.phoneNumber ?? ''),
-                              style: Theme.of(context).textTheme.bodyText1)
-                          // ( != '')
-                          //     ? Text(
-                          //         '${'0' + (controller.streamUser?.phoneNumber ?? '').substring((controller.streamUser?.phoneNumber ?? ' ').length - 9)}',
-                          //         style: b1TextStyle,
-                          //       )
-                          //     : Text(''),
-                          )),
-                ]),
-                TableRow(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Role',
-                      style: b1TextStyle,
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Obx(
-                        () => Text(
-                          '${controller.streamUser?.role ?? ''}',
-                          style: b1TextStyle,
-                        ),
-                      )),
-                ]),
-              ],
-            ));
+    return Table(
+      border: TableBorder(
+          horizontalInside: BorderSide(width: 1, color: Colors.grey)),
+      children: [
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'First name',
+              style: Get.textTheme.headline6,
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Obx(
+                () => Text(
+                  '${userController.streamUser?.firstname ?? ''}',
+                  style: Get.textTheme.headline6,
+                ),
+              )),
+        ]),
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Last name',
+              style: Get.textTheme.headline6,
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Obx(
+                () => Text(
+                  '${userController.streamUser?.lastname ?? ''}',
+                  style: Get.textTheme.headline6,
+                ),
+              )),
+        ]),
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Tel.',
+              style: Get.textTheme.headline6,
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Obx(() => Text(
+                      formatPhoneNumber(
+                          userController.streamUser?.phoneNumber ?? ''),
+                      style: Get.textTheme.headline6)
+                  // ( != '')
+                  //     ? Text(
+                  //         '${'0' + (controller.streamUser?.phoneNumber ?? '').substring((controller.streamUser?.phoneNumber ?? ' ').length - 9)}',
+                  //         style: Get.textTheme.headline6,
+                  //       )
+                  //     : Text(''),
+                  )),
+        ]),
+        TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Role',
+              style: Get.textTheme.headline6,
+            ),
+          ),
+          Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Obx(
+                () => Text(
+                  '${userController.streamUser?.role ?? ''}',
+                  style: Get.textTheme.headline6,
+                ),
+              )),
+        ]),
+      ],
+    );
     // _profileList = controller.list;
     // print(_profileList);
     // return GetBuilder<UserController>(
@@ -235,14 +224,14 @@ class ProfileInfo extends StatelessWidget {
     //                   padding: const EdgeInsets.all(10.0),
     //                   child: Text(
     //                     '${item[0] ?? ''}',
-    //                     style: b1TextStyle,
+    //                     style: Get.textTheme.headline6,
     //                   ),
     //                 ),
     //                 Padding(
     //                   padding: const EdgeInsets.all(10.0),
     //                   child: Text(
     //                     '${item[1] ?? ''}',
-    //                     style: b1TextStyle,
+    //                     style: Get.textTheme.headline6,
     //                   ),
     //                 ),
     //               ]),

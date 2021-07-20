@@ -18,8 +18,8 @@ class Authenticate extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height / 4,
-                    width: MediaQuery.of(context).size.width,
+                    height: 200,
+                    width: 200,
                     child: Image.asset(
                       'assets/images/location_hug.png',
                       fit: BoxFit.contain,
@@ -29,25 +29,22 @@ class Authenticate extends StatelessWidget {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       'Medical Device\nTracking System',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline1!
-                          .copyWith(color: Theme.of(context).primaryColor),
+                      style: Get.textTheme.headline4!
+                          .copyWith(color: Get.theme.primaryColor),
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Text(
                     "\"Medical Device At Your Fingertip\"",
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w100),
+                          fontStyle: FontStyle.italic,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
                     height: 30.0,
                   ),
                   // LogInWithGoogleButton(),
-                  // SizedBox(height: 20.0),
                   LogInWithPhoneButton(),
                   // signInAnonymousButton(),
                 ]),
@@ -60,8 +57,8 @@ class Authenticate extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'since 2021',
-              style: TextStyle(fontSize: 12.0),
+              'Since 2021',
+              style: Get.textTheme.bodyText2,
             ),
           ),
         ],

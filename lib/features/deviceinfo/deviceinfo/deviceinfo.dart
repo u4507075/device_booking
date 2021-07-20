@@ -139,13 +139,10 @@ class _DeviceInfoState extends State<DeviceInfo> {
                     children: [
                       ((deviceController.device!.photoURL != null &&
                                   deviceController.device!.photoURL != '')
-                              ? FadeInImage(
-                                  placeholder: AssetImage(
-                                      'assets/images/device_placeholder.png'),
-                                  image: NetworkImage(
-                                      deviceController.device?.photoURL ?? ''),
-                                  // fadeOutDuration: Duration(milliseconds: 300),
-                                  // fadeOutCurve: Curves.easeOutBack,
+                              ? FadeInImage.memoryNetwork(
+                                  placeholder: kTransparentImage,
+                                  image:
+                                      deviceController.device?.photoURL ?? '',
                                   fadeInDuration: Duration(milliseconds: 300),
                                 )
                               : Image.asset(
@@ -173,7 +170,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
                     Text(deviceController.device!.deviceType!.capitalize! +
                             ' ' +
                             deviceController.device!.name!)
-                        .textStyle(Theme.of(context).textTheme.bodyText1!)
+                        .textStyle(Theme.of(context).textTheme.headline6!)
                         .alignment(Alignment.center),
                     moreInfo.positioned(top: 20, right: 0),
                     Obx(() => Text(deviceController.device!.maintenance!
@@ -520,8 +517,8 @@ class _ProblemCardState extends State<ProblemCard> {
           .textStyle(Theme.of(context).textTheme.bodyText1!)
           .padding(left: 10),
       Divider(),
-      FutureBuilder<int?>(
-        future: controller.count(device: widget.device),
+      StreamBuilder<int?>(
+        stream: controller.streamCount(device: widget.device),
         initialData: 0,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           print(snapshot.data);

@@ -1,3 +1,4 @@
+import 'package:device_booking/core/device/device.dart';
 import 'package:get/get.dart';
 import './user_model.dart';
 import './user_service.dart';
@@ -43,7 +44,8 @@ class UserController extends GetxController {
       print(
           'UserController initialized: ${Get.find<AuthController>().user?.uid ?? ' '}');
       _streamUserData.bindStream(UserDataService()
-              .streamUserData(Get.find<AuthController>().user?.uid ?? ' ') ??
+              .streamUserData(Get.find<AuthController>().user?.uid ?? ' ')
+              ?.distinct() ??
           '' as Stream<UserData>);
       // } while (_streamUserData.value != null);
     } else {
@@ -72,6 +74,11 @@ class UserController extends GetxController {
   Future<void> fetchUser() async {
     _userData.value = await UserDataService()
         .fetchUser(Get.find<AuthController>().firebaseUser!.uid);
+  }
+
+  Stream<UserData?>? streamService() {
+    return UserDataService()
+        .streamUserData(Get.find<AuthController>().firebaseUser?.uid ?? ' ');
   }
 
   //register new user
@@ -105,6 +112,11 @@ class UserController extends GetxController {
     _userLog.value = await UserDataService()
         .lastUserLog(Get.find<AuthController>().firebaseUser?.uid ?? ' ');
     return _userLog.value;
+  }
+
+  Future<Device?> lastUseDevice() async {
+    return UserDataService()
+        .lastUseDevice(Get.find<AuthController>().firebaseUser?.uid ?? ' ');
   }
 
   void setUser(UserData user) {

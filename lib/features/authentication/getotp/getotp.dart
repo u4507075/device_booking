@@ -45,8 +45,9 @@ class _GetOTPState extends State<GetOTP> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Obx(() => Text(
-                  'Your OTP was sent to ${Get.find<PhoneAuthController>().phoneNumber}',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  'OTP was sent to\n${Get.find<PhoneAuthController>().phoneNumber}',
+                  style: Get.textTheme.headline6!.copyWith(height: 2),
+                  textAlign: TextAlign.center,
                 )),
             Form(
               key: _formKey,
@@ -54,8 +55,8 @@ class _GetOTPState extends State<GetOTP> {
                 maxLength: 6,
                 autofocus: true,
                 controller: _controller,
-                style: Theme.of(context).textTheme.headline1,
-                keyboardType: TextInputType.numberWithOptions(),
+                style: Theme.of(context).textTheme.headline2,
+                keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                     counterText: null,
@@ -112,6 +113,7 @@ class _GetOTPState extends State<GetOTP> {
                           setState(() {
                             verifying = false;
                           });
+                          Get.delete<UserController>();
                           if (user!.isCompleted) {
                             Get.back();
                           } else {

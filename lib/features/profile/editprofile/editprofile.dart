@@ -31,7 +31,7 @@ class EditProfile extends StatelessWidget {
             elevation: 0.0,
             title: Text(
               'Edit Profile',
-              style: appBarTextStyle,
+              style: Get.theme.accentTextTheme.headline6,
             ),
             centerTitle: true,
             actions: [
@@ -39,23 +39,26 @@ class EditProfile extends StatelessWidget {
                 style: TextButton.styleFrom(padding: EdgeInsets.all(4)),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    //Open loading dialog
-                    Get.dialog(LoadingDialog());
+                    //?Open loading dialog
+                    Get.dialog(
+                      LoadingDialog(),
+                      barrierDismissible: false,
+                    );
 
-                    //update user infomation to local memory
+                    //?update user infomation to local memory
                     controller.setUser(_user!);
 
-                    //upload a new profile image
+                    //?upload a new profile image
                     imageController.file != null
                         ? controller.photoURL =
                             await imageController.uploadProfileImage()
                         : null;
 
-                    //update user infomation to Firestore
+                    //?update user infomation to Firestore
                     await controller.updateUser();
-                    //Close loading dialog
+                    //?Close loading dialog
                     Get.back();
-                    //Close edit profile page
+                    //?Close edit profile page
                     Get.back();
 
                     print('Submit Form Successful');
@@ -68,7 +71,7 @@ class EditProfile extends StatelessWidget {
                 },
                 child: Text(
                   'Save',
-                  style: appBarTextStyle,
+                  style: Get.theme.accentTextTheme.headline6,
                 ),
               )
             ],
@@ -85,16 +88,15 @@ class EditProfile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _DisplayProfile(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
-                      child: Text('${controller.streamUser?.email ?? ''}',
-                          style: b1TextStyle),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
-                      child: Text('UID: ${controller.streamUser?.uid ?? ''}',
-                          style: b2TextStyle),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 5.0),
+                    //   child: Text('${controller.streamUser?.email ?? ''}',
+                    //       style: b1TextStyle),
+                    // ),
+                    Text('UID: ${controller.streamUser?.uid ?? ''}',
+                            style: Get.textTheme.bodyText1)
+                        .paddingSymmetric(vertical: 20),
+
                     Form(
                         key: _formKey,
                         child: Column(
@@ -116,7 +118,8 @@ class EditProfile extends StatelessWidget {
                                   },
                                   decoration: InputDecoration(
                                       labelText: "First name",
-                                      labelStyle: h3TextStyle,
+                                      labelStyle:
+                                          Get.theme.accentTextTheme.bodyText1,
                                       hintText: 'Enter your first name',
                                       border: UnderlineInputBorder(
                                           borderRadius:
@@ -136,7 +139,8 @@ class EditProfile extends StatelessWidget {
                                   },
                                   decoration: InputDecoration(
                                       labelText: "Last name",
-                                      labelStyle: h3TextStyle,
+                                      labelStyle:
+                                          Get.theme.accentTextTheme.bodyText1,
                                       hintText: 'Enter your last name',
                                       border: UnderlineInputBorder(
                                           borderRadius:
@@ -164,7 +168,8 @@ class EditProfile extends StatelessWidget {
                                   },
                                   decoration: InputDecoration(
                                       labelText: "Phone number",
-                                      labelStyle: h3TextStyle,
+                                      labelStyle:
+                                          Get.theme.accentTextTheme.bodyText1,
                                       hintText: 'Enter your phone number',
                                       border: UnderlineInputBorder(
                                           borderRadius:
@@ -182,9 +187,10 @@ class EditProfile extends StatelessWidget {
                                 hint: Text('Select you role'),
                                 value: valueChoose,
                                 icon: const Icon(Icons.arrow_drop_down),
-                                iconSize: mediumTextSize,
+                                iconSize: Get
+                                    .theme.accentTextTheme.bodyText1!.fontSize!,
                                 elevation: 16,
-                                style: b1TextStyle,
+                                style: Get.theme.accentTextTheme.bodyText1,
                                 onChanged: (value) async {
                                   valueChoose = value as String;
                                   _user?.role = value;

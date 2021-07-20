@@ -1,3 +1,4 @@
+import 'package:device_booking/core/auth/auth.dart';
 import 'package:device_booking/core/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -23,8 +24,9 @@ class AuthController extends GetxController {
     AuthService().signInWithGoogle();
   }
 
-  Future<void> verifyPhoneNumber(String phoneNumber) async {
-    AuthService().verifyPhoneNumber(phoneNumber);
+  Future<void> verifyPhoneNumber() async {
+    AuthService()
+        .verifyPhoneNumber(Get.find<PhoneAuthController>().phoneNumber);
   }
 
   Future<UserData?> signInWithPhoneNumber(

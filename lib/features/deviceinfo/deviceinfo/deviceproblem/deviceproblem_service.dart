@@ -17,6 +17,19 @@ class DeviceProblemService {
     }
   }
 
+  Stream<int?>? streamCount(String deviceId) {
+    try {
+      return _db
+          .collection('devices')
+          .doc(deviceId)
+          .collection('deviceProblems')
+          .snapshots()
+          .map((e) => e.size);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   // Future<List<DeviceProblem>?> fetchProblemList(String? deviceId) async {
   //   return (await _db.collection('devices').doc(deviceId).collection('deviceProblems')).;
   // }

@@ -22,21 +22,27 @@ class App extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Medical Device Tracking System',
-        theme: ThemeData(
-          appBarTheme:
-              AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
-          textTheme: TextTheme(
-              headline1: h1TextStyle,
-              headline2: h2TextStyle,
-              headline3: h3TextStyle,
-              bodyText1: b1TextStyle,
-              bodyText2: b2TextStyle),
+        theme: ThemeData.light().copyWith(
           primaryColor: Color.fromARGB(255, 48, 98, 153),
-          iconTheme: IconThemeData(
-            // color: Colors.blue,
-            size: 20,
-          ),
         ),
+        // darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.light,
+
+        // ThemeData(
+        //   appBarTheme:
+        //       AppBarTheme(textTheme: TextTheme(headline1: appBarTextStyle)),
+        //   textTheme: TextTheme(
+        //       headline1: h1TextStyle,
+        //       headline2: h2TextStyle,
+        //       headline3: h3TextStyle,
+        //       bodyText1: b1TextStyle,
+        //       bodyText2: b2TextStyle),
+        //   primaryColor: Color.fromARGB(255, 48, 98, 153),
+        //   iconTheme: IconThemeData(
+        //     // color: Colors.blue,
+        //     size: 20,
+        //   ),
+        // ),
         initialBinding: AllBindings(),
         initialRoute: '/',
         getPages: [

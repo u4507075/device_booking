@@ -37,7 +37,7 @@ class ViewDevicePhoto extends StatelessWidget {
                   )
                 : Image.asset('assets/images/device_placeholder.png'))
             .fittedBox(fit: BoxFit.fitWidth),
-      )).center().constrained(height: Get.height, width: Get.width),
+      )).center(),
       backgroundColor: Get.theme.shadowColor,
     );
   }
