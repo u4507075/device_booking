@@ -16,7 +16,7 @@ class DeviceListPage extends StatelessWidget {
     List<Device>? devices;
     final String deviceType = Get.arguments.toString();
     var controller = Get.put(DeviceListController(deviceType));
-
+    DeviceController deviceController = Get.put(DeviceController());
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(

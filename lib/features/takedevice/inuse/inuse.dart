@@ -23,12 +23,15 @@ class _InUseState extends State<InUse> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: Colors.red[800],
-          title: Text(
-            'Using Device',
-            style: Get.theme.accentTextTheme.headline6,
-          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          // title: Text(
+          //   'Using Device',
+          //   style: Get.theme.accentTextTheme.headline6,
+          // ),
         ),
         body: FutureBuilder<Device?>(
           future: userController.lastUseDevice(),
@@ -38,24 +41,37 @@ class _InUseState extends State<InUse> {
 
             deviceController.setDevice(device);
             return <Widget>[
-              SingleChildScrollView(
-                  child: <Widget>[
-                DeviceImage(),
+              GlowDeviceImage().alignment(Alignment.topCenter),
+              <Widget>[
                 Text(
                   '${device.deviceType?.capitalize} ${device.name}',
-                  style: Get.textTheme.headline1,
-                ),
+                  style: Get.textTheme.headline6,
+                ).padding(top: 20),
+                Text(
+                  'In Use',
+                  style: Get.textTheme.bodyText1!
+                      .copyWith(color: Get.theme.errorColor),
+                ).padding(vertical: 10),
                 Divider(),
                 timerText(device.lastUseTime ?? DateTime.now()),
                 Divider(),
+                ReturnButton()
               ]
-                      .toColumn(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start)
-                      .center()
-                  // .constrained(minHeight: Get.height),
-                  ),
-              Align(alignment: Alignment.bottomCenter, child: ReturnButton()),
+                  .toColumn(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end)
+                  .decorated(
+                    color: Get.theme.canvasColor,
+                  )
+                  // .card(
+                  //     color: Get.theme.cardColor.withOpacity(1), elevation: 10)
+                  .clipRRect(topLeft: 20, topRight: 20)
+                  .elevation(20, borderRadius: BorderRadius.circular(20))
+                  .padding(top: 20, horizontal: 20)
+                  // .constrained(height: 250)
+                  // .padding(bottom: 100)
+                  .alignment(Alignment.bottomCenter),
+              // Align(alignment: Alignment.bottomCenter, child: ReturnButton()),
             ].toStack();
           },
         ),
@@ -65,7 +81,7 @@ class _InUseState extends State<InUse> {
 }
 
 Widget timerText(DateTime timeStart) {
-  TextStyle _style = Get.textTheme.headline1!;
+  TextStyle _style = Get.textTheme.headline2!;
   return StreamBuilder(
     stream: Stream.periodic(Duration(seconds: 1)),
     builder: (_, __) {
@@ -82,7 +98,6 @@ Widget timerText(DateTime timeStart) {
           .toRow(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min)
-          .scale(all: 2)
           .paddingSymmetric(vertical: 10);
     },
   );
@@ -92,12 +107,28 @@ String _durationFormat(Duration duration) {
   return duration.toString().split('.').first.padLeft(8, "0");
 }
 
+class GlowDeviceImage extends StatelessWidget {
+  const GlowDeviceImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AvatarGlow(
+      endRadius: 170.0,
+      glowColor: Colors.red[200]!,
+      duration: Duration(milliseconds: 3000),
+      repeat: true,
+      repeatPauseDuration: Duration(milliseconds: 2000),
+      child: DeviceImage(),
+    );
+  }
+}
+
 class DeviceImage extends GetView<DeviceController> {
   const DeviceImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ((controller.device!.photoURL != null &&
+    var _widget = ((controller.device!.photoURL != null &&
                 controller.device!.photoURL != '')
             ? FadeInImage.memoryNetwork(
                 placeholder: kTransparentImage,
@@ -106,11 +137,13 @@ class DeviceImage extends GetView<DeviceController> {
               )
             : Image.asset('assets/images/device_placeholder.png'))
         .fittedBox(fit: BoxFit.fitWidth)
-        .constrained(width: Get.height / 3, height: Get.height / 3)
+        .constrained(width: Get.height / 4, height: Get.height / 4)
         .clipOval()
-        .elevation(20)
-        .clipOval()
+        .elevation(5,
+            borderRadius: BorderRadius.circular(100),
+            shadowColor: Colors.red[100]!.withOpacity(0.5))
         .padding(all: 20);
+    return _widget;
   }
 }
 
@@ -142,9 +175,7 @@ class ReturnButton extends StatelessWidget {
       );
     }
 
-    return Styled.text('Return',
-            style:
-                Get.textTheme.bodyText1!.copyWith(color: Get.theme.canvasColor))
+    return Styled.text('Return', style: Get.theme.accentTextTheme.headline6)
         .padding(all: 20)
         .center()
         .ripple()
@@ -274,7 +305,7 @@ class Content extends StatelessWidget {
                               children: [
                                 Text(
                                   "You're now using",
-                                  style: Theme.of(context).textTheme.headline2,
+                                  style: Theme.of(context).textTheme.headline6,
                                 ),
                                 Container(
                                   decoration: BoxDecoration(

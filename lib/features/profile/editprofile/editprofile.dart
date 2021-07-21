@@ -118,8 +118,7 @@ class EditProfile extends StatelessWidget {
                                   },
                                   decoration: InputDecoration(
                                       labelText: "First name",
-                                      labelStyle:
-                                          Get.theme.accentTextTheme.bodyText1,
+                                      labelStyle: Get.theme.textTheme.headline6,
                                       hintText: 'Enter your first name',
                                       border: UnderlineInputBorder(
                                           borderRadius:
@@ -139,8 +138,7 @@ class EditProfile extends StatelessWidget {
                                   },
                                   decoration: InputDecoration(
                                       labelText: "Last name",
-                                      labelStyle:
-                                          Get.theme.accentTextTheme.bodyText1,
+                                      labelStyle: Get.theme.textTheme.headline6,
                                       hintText: 'Enter your last name',
                                       border: UnderlineInputBorder(
                                           borderRadius:
@@ -168,8 +166,7 @@ class EditProfile extends StatelessWidget {
                                   },
                                   decoration: InputDecoration(
                                       labelText: "Phone number",
-                                      labelStyle:
-                                          Get.theme.accentTextTheme.bodyText1,
+                                      labelStyle: Get.theme.textTheme.headline6,
                                       hintText: 'Enter your phone number',
                                       border: UnderlineInputBorder(
                                           borderRadius:
@@ -187,10 +184,9 @@ class EditProfile extends StatelessWidget {
                                 hint: Text('Select you role'),
                                 value: valueChoose,
                                 icon: const Icon(Icons.arrow_drop_down),
-                                iconSize: Get
-                                    .theme.accentTextTheme.bodyText1!.fontSize!,
+                                iconSize: Get.textTheme.bodyText1!.fontSize!,
                                 elevation: 16,
-                                style: Get.theme.accentTextTheme.bodyText1,
+                                style: Get.theme.textTheme.bodyText1,
                                 onChanged: (value) async {
                                   valueChoose = value as String;
                                   _user?.role = value;

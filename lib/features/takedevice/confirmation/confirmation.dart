@@ -11,99 +11,104 @@ class Confirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DeviceController deviceController = Get.put(DeviceController());
-    UserController userController = Get.put(UserController());
+    UserController userController = Get.find<UserController>();
     return SafeArea(
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          leading: Styled.icon(Icons.arrow_back, size: 26)
-              .padding(all: 5)
-              .decorated(color: Colors.black.withOpacity(0.4))
-              .clipOval()
-              .gestures(
-                onTap: () => Get.back(),
-              )
-              .padding(all: 5),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: Get.height),
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    ((deviceController.device!.photoURL != null &&
-                                deviceController.device!.photoURL != '')
-                            ? FadeInImage(
-                                placeholder: AssetImage(
-                                    'assets/images/device_placeholder.png'),
-                                image: NetworkImage(
-                                    deviceController.device?.photoURL ?? ''),
-                                fadeOutDuration: Duration(milliseconds: 300),
-                                fadeOutCurve: Curves.easeOutBack,
-                                fadeInDuration: Duration(milliseconds: 300),
-                              )
-                            : Image.asset(
-                                'assets/images/device_placeholder.png'))
-                        .fittedBox(fit: BoxFit.cover)
-                        .constrained(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.width - 100,
-                        )
-                        // .backgroundColor(Colors.white)
-                        .clipRRect(
-                          bottomLeft: 50,
-                        ),
-                  ],
-                ),
-                Text(deviceController.device!.deviceType!.capitalize! +
-                        ' ' +
-                        deviceController.device!.name!)
-                    .textStyle(Theme.of(context).textTheme.headline2!)
-                    .alignment(Alignment.center)
-                    .padding(all: 20),
-                _DeviceInfo(
-                  location: location,
-                ).paddingSymmetric(horizontal: 20),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    OutlinedButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: Text('Edit'))
-                        .paddingSymmetric(horizontal: 20)
-                        .expanded(),
-                    ElevatedButton(
-                      onPressed: () async {
-                        // print('$deviceId $location ');
-
-                        // print(deviceController.device!.deviceId);
-                        // print(userController.streamUser!.uid);
-                        // print(location);
-                        await DeviceController().takeDevice(
-                            device: deviceController.device!,
-                            user: userController.streamUser!,
-                            location: location);
-                        Get.offAllNamed('/');
-                      },
-                      child: Text('Confirm'),
-                    ).paddingSymmetric(horizontal: 20).expanded(),
-                  ],
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            leading: Styled.icon(Icons.arrow_back, size: 26)
+                .padding(all: 5)
+                .decorated(color: Colors.black.withOpacity(0.4))
+                .clipOval()
+                .gestures(
+                  onTap: () => Get.back(),
                 )
-              ],
-            ),
+                .padding(all: 5),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
           ),
-        ), //TODO add image of the device
-      ),
+          body: [
+            SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: Get.height),
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        ((deviceController.device!.photoURL != null &&
+                                    deviceController.device!.photoURL != '')
+                                ? FadeInImage(
+                                    placeholder: AssetImage(
+                                        'assets/images/device_placeholder.png'),
+                                    image: NetworkImage(
+                                        deviceController.device?.photoURL ??
+                                            ''),
+                                    fadeOutDuration:
+                                        Duration(milliseconds: 300),
+                                    fadeOutCurve: Curves.easeOutBack,
+                                    fadeInDuration: Duration(milliseconds: 300),
+                                  )
+                                : Image.asset(
+                                    'assets/images/device_placeholder.png'))
+                            .fittedBox(fit: BoxFit.cover)
+                            .constrained(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.width - 100,
+                            )
+                            // .backgroundColor(Colors.white)
+                            .clipRRect(
+                              bottomLeft: 50,
+                            ),
+                      ],
+                    ),
+                    Text(deviceController.device!.deviceType!.capitalize! +
+                            ' ' +
+                            deviceController.device!.name!)
+                        .textStyle(Theme.of(context).textTheme.headline6!)
+                        .alignment(Alignment.center)
+                        .padding(all: 20),
+                    _DeviceInfo(
+                      location: location,
+                    ).paddingSymmetric(horizontal: 20),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    SizedBox(
+                      height: 100,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            _confirmButton(location: location).alignment(Alignment.bottomCenter)
+          ].toStack()),
     );
   }
+}
+
+Widget _confirmButton({required String location}) {
+  DeviceController deviceController = Get.put(DeviceController());
+  UserController userController = Get.find<UserController>();
+  return Styled.text('Confirm',
+          style:
+              Get.textTheme.headline6!.copyWith(color: Get.theme.canvasColor))
+      .padding(all: 20)
+      .center()
+      .ripple()
+      .decorated(
+        color: Get.theme.primaryColor,
+        borderRadius: BorderRadius.circular(20),
+      )
+      .elevation(10, shadowColor: Colors.red[800]!)
+      .clipRRect(all: 20)
+      .constrained(height: 80)
+      .gestures(onTap: () async {
+    await DeviceController().takeDevice(
+        device: deviceController.device!,
+        user: userController.streamUser!,
+        location: location);
+    Get.offAllNamed('/');
+  }).padding(all: 20);
 }
 
 class _DeviceInfo extends StatelessWidget {
