@@ -82,8 +82,8 @@ class UserController extends GetxController {
   }
 
   //register new user
-  Future<void> registerNewUser({required UserData user}) async {
-    await UserDataService().registerNewUser(user);
+  Future<void> registerNewUser() async {
+    await UserDataService().registerNewUser(this.user!);
   }
 
 //update user

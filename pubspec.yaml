@@ -1,4 +1,4 @@
-name: MedTrack
+name: device_booking
 description: Medical device tracking system
 
 # The following line prevents the package from being accidentally published to
