@@ -36,7 +36,9 @@ class UserDataService {
         'photoURL': user.photoURL,
         'role': user.role,
         'uid': user.uid,
-        'inUse': false
+        'inUse': false,
+        'admin': false,
+        'timeCreated': DateTime.now()
       }).then((value) => print('Register user successful: ${user.firstname} '));
     } catch (e) {
       print('Register user failed: ${e.toString()} ');

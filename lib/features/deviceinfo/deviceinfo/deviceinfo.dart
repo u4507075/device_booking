@@ -268,14 +268,14 @@ class _CurrentUserCardState extends State<CurrentUserCard> {
             pressed = tapStatus;
             print(pressed);
           }),
-          onLongPress: () => (widget.device.lastUserId != '')
-              ? launch('tel:${widget.device.lastUserPhoneNumber}')
-              : null,
+          onLongPress: () {},
           // onLongPressUp: () =>
           //     launch('tel:${widget.device.lastUserPhoneNumber}'),
           // onTapDown: (details) =>
           //     launch('tel:${widget.device.lastUserPhoneNumber}'),
-          onTap: () => print('onTap'),
+          onTap: () => (widget.device.lastUserId != '')
+              ? launch('tel:${widget.device.lastUserPhoneNumber}')
+              : null,
         )
         // .translate(offset: offset, animate: true)
         .scale(all: pressed ? 0.95 : 1, animate: true)
@@ -306,7 +306,7 @@ class _CurrentUserCardState extends State<CurrentUserCard> {
       // initialData: UserData(photoURL: ),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         String url = (snapshot.data as UserData?)?.photoURL ?? '';
-        print('this is from device Info ' + widget.device.lastUserId! + url);
+        // print('this is from device Info ' + widget.device.lastUserId! + url);
         return ((url != '')
             ? Image.network(url)
             : Image.asset('assets/images/profile_placeholder.png'));
@@ -319,10 +319,20 @@ class _CurrentUserCardState extends State<CurrentUserCard> {
 
     return card(
         child: <Widget>[
-      Styled.text(widget.device.inUse! ? 'Current User' : 'Last User',
-              animate: true)
-          .textStyle(Theme.of(context).textTheme.bodyText1!)
-          .padding(left: 10),
+      [
+        Styled.text(widget.device.inUse! ? 'Current User' : 'Last User',
+                animate: true)
+            .textStyle(Theme.of(context).textTheme.bodyText1!)
+            .padding(left: 10),
+        [
+          Styled.icon(
+            Icons.call,
+            size: Get.textTheme.bodyText1!.fontSize,
+          ).padding(right: 10),
+          Styled.text('Press to Call', style: Get.textTheme.bodyText1)
+              .padding(right: 10),
+        ].toRow()
+      ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
       Divider(),
       widget.device.lastUserId == ''
           ? <Widget>[
@@ -487,12 +497,12 @@ class _ProblemCardState extends State<ProblemCard> {
             pressed = tapStatus;
             print(pressed);
           }),
-          onLongPress: widget.onTapDown,
+          onLongPress: () {},
           // onLongPressUp: () =>
           //     launch('tel:${widget.device.lastUserPhoneNumber}'),
           // onTapDown: (details) =>
           //     launch('tel:${widget.device.lastUserPhoneNumber}'),
-          onTap: () => print('onTap'),
+          onTap: widget.onTapDown,
         )
         // .translate(offset: offset, animate: true)
         .scale(all: pressed ? 0.95 : 1, animate: true)
@@ -513,9 +523,19 @@ class _ProblemCardState extends State<ProblemCard> {
 
     return card(
         child: <Widget>[
-      Styled.text('Problem(s)', animate: true)
-          .textStyle(Theme.of(context).textTheme.bodyText1!)
-          .padding(left: 10),
+      [
+        Styled.text('Problem(s)', animate: true)
+            .textStyle(Theme.of(context).textTheme.bodyText1!)
+            .padding(left: 10),
+        [
+          Icon(
+            Icons.announcement_rounded,
+            size: Get.textTheme.bodyText1!.fontSize,
+          ).padding(right: 10),
+          Styled.text('Press to report', style: Get.textTheme.bodyText1)
+              .padding(right: 10)
+        ].toRow(),
+      ].toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween),
       Divider(),
       StreamBuilder<int?>(
         stream: controller.streamCount(device: widget.device),

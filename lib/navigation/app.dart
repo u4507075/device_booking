@@ -65,7 +65,7 @@ class App extends StatelessWidget {
           GetPage(name: '/reportproblem', page: () => ReportProblem()),
 
           //Take device features
-          // GetPage(name: '/takedevice', page: () => TakeDeviceRoot()),
+          GetPage(name: '/takedevice', page: () => TakeDeviceRoot()),
           GetPage(name: '/selectlocation', page: () => SelectLocation()),
           GetPage(name: '/confirmation', page: () => Confirmation()),
           GetPage(name: '/inuse', page: () => InUse()),

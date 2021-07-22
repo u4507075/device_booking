@@ -139,29 +139,32 @@ Widget _deviceList(Device device) {
                                     subtitle: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: (deviceLocation?.location !=
-                                              null)
-                                          ? <Widget>[
-                                              Text(
-                                                '${deviceLocation?.location ?? 'Unknown'}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText2!
-                                                    .copyWith(
-                                                      color: Colors.grey[600],
-                                                    ),
-                                              ),
-                                              Text(
-                                                'Last seen: $timeLapsed',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText2!
-                                                    .copyWith(
-                                                      color: Colors.grey[600],
-                                                    ),
-                                              ),
-                                            ]
-                                          : <Widget>[Text('Searching...')],
+                                      children: (device.maintenance!)
+                                          ? <Widget>[Text('In Maintenance')]
+                                          : (deviceLocation?.location != null)
+                                              ? <Widget>[
+                                                  Text(
+                                                    '${deviceLocation?.location ?? 'Unknown'}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2!
+                                                        .copyWith(
+                                                          color:
+                                                              Colors.grey[600],
+                                                        ),
+                                                  ),
+                                                  Text(
+                                                    'Last seen: $timeLapsed',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyText2!
+                                                        .copyWith(
+                                                          color:
+                                                              Colors.grey[600],
+                                                        ),
+                                                  ),
+                                                ]
+                                              : <Widget>[Text('Searching...')],
                                     ),
                                   ),
                                 ),

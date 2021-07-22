@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:device_booking/core/core.dart';
-import 'package:device_booking/features/profile/editprofile/image_service.dart';
+import 'package:device_booking/core/image/image_service.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -5,3 +5,4 @@ export './auth/user.dart';
 export './device/device.dart';
 export './getx_binding.dart';
 export './userdeviceinfo/userdeviceinfo.dart';
+export './image/image.dart';

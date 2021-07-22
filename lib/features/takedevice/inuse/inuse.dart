@@ -38,41 +38,43 @@ class _InUseState extends State<InUse> {
           initialData: Device(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             Device? device = snapshot.data as Device;
-
             deviceController.setDevice(device);
-            return <Widget>[
-              GlowDeviceImage().alignment(Alignment.topCenter),
-              <Widget>[
-                Text(
-                  '${device.deviceType?.capitalize} ${device.name}',
-                  style: Get.textTheme.headline6,
-                ).padding(top: 20),
-                Text(
-                  'In Use',
-                  style: Get.textTheme.bodyText1!
-                      .copyWith(color: Get.theme.errorColor),
-                ).padding(vertical: 10),
-                Divider(),
-                timerText(device.lastUseTime ?? DateTime.now()),
-                Divider(),
-                ReturnButton()
-              ]
-                  .toColumn(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end)
-                  .decorated(
-                    color: Get.theme.canvasColor,
-                  )
-                  // .card(
-                  //     color: Get.theme.cardColor.withOpacity(1), elevation: 10)
-                  .clipRRect(topLeft: 20, topRight: 20)
-                  .elevation(20, borderRadius: BorderRadius.circular(20))
-                  .padding(top: 20, horizontal: 20)
-                  // .constrained(height: 250)
-                  // .padding(bottom: 100)
-                  .alignment(Alignment.bottomCenter),
-              // Align(alignment: Alignment.bottomCenter, child: ReturnButton()),
-            ].toStack();
+            return snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData
+                ? <Widget>[
+                    GlowDeviceImage().alignment(Alignment.topCenter),
+                    <Widget>[
+                      Text(
+                        '${device.deviceType?.capitalize} ${device.name}',
+                        style: Get.textTheme.headline6,
+                      ).padding(top: 20),
+                      Text(
+                        'In Use',
+                        style: Get.textTheme.bodyText1!
+                            .copyWith(color: Get.theme.errorColor),
+                      ).padding(vertical: 10),
+                      Divider(),
+                      timerText(device.lastUseTime ?? DateTime.now()),
+                      Divider(),
+                      ReturnButton()
+                    ]
+                        .toColumn(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end)
+                        .decorated(
+                          color: Get.theme.canvasColor,
+                        )
+                        // .card(
+                        //     color: Get.theme.cardColor.withOpacity(1), elevation: 10)
+                        .clipRRect(topLeft: 20, topRight: 20)
+                        .elevation(20, borderRadius: BorderRadius.circular(20))
+                        .padding(top: 20, horizontal: 20)
+                        // .constrained(height: 250)
+                        // .padding(bottom: 100)
+                        .alignment(Alignment.bottomCenter),
+                    // Align(alignment: Alignment.bottomCenter, child: ReturnButton()),
+                  ].toStack()
+                : Loading();
           },
         ),
       ),

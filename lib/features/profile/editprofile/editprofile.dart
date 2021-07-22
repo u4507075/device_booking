@@ -1,12 +1,11 @@
 import 'package:device_booking/core/core.dart';
-import 'package:device_booking/features/profile/editprofile/image_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:styled_widget/styled_widget.dart';
-import './image_controller.dart';
 
 class EditProfile extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();

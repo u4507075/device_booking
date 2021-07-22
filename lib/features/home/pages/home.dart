@@ -13,6 +13,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserController userController = Get.find<UserController>();
+    print(userController.streamUser?.uid);
     userController
         .fetchUser(); //Todo Add this to future builder, create a group of Future to fetch necessary data before app can be use
     print('Welcome, ${userController.user?.firstname ?? "User"}');
@@ -34,7 +35,8 @@ class Home extends StatelessWidget {
             // ),
             Obx(
               () => UserAccountsDrawerHeader(
-                currentAccountPicture: (userController.user?.photoURL != null
+                currentAccountPicture: (userController.user?.photoURL != null &&
+                            userController.user?.photoURL != ''
                         ? FadeInImage.memoryNetwork(
                             placeholder: kTransparentImage,
                             image: userController.user!.photoURL!)
@@ -60,17 +62,17 @@ class Home extends StatelessWidget {
                 Get.toNamed('/profile');
               },
             ),
-            ListTile(
-              title: Text(
-                'Give us a feedback',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              leading: Icon(Icons.announcement, size: 30.0),
-              onTap: () {
-                Get.back();
-                Get.toNamed('/feedback');
-              },
-            ),
+            // ListTile(
+            //   title: Text(
+            //     'Give us a feedback',
+            //     style: Theme.of(context).textTheme.bodyText1,
+            //   ),
+            //   leading: Icon(Icons.announcement, size: 30.0),
+            //   onTap: () {
+            //     Get.back();
+            //     Get.toNamed('/feedback');
+            //   },
+            // ),
             ListTile(
               leading: Icon(Icons.info, size: 30.0),
               title: Text(

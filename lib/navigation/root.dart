@@ -22,7 +22,7 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return checkConnection(
-        output: checkAuthStatus(output: checkInUseStatus(output: Home())));
+        output: checkAuthStatus(output: checkUserStatus(output: Home())));
   }
 }
 
@@ -58,22 +58,36 @@ Widget checkConnection({required Widget output}) {
 
 Widget checkAuthStatus({required Widget output}) {
   print('Check Auth state');
-  return Obx(() => Get.find<AuthController>().firebaseUser != null
-      ? output
-      : Authenticate());
+  return Obx(
+    () => Get.find<AuthController>().firebaseUser != null
+        ? output
+        : Authenticate(), //? User have not signed in
+  );
 }
 
-Widget checkInUseStatus({required Widget output}) {
+Widget checkUserStatus({required Widget output}) {
   print('Check Use status');
-  // return StreamBuilder(
-  //   stream: Get.find<UserController>().streamService(),
-  //   initialData: UserData(),
-  //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-  //     return !(snapshot.data.inUse ?? false) ? output : InUse();
-  //   },
-  // );
-  return Obx(() => ((Get.find<UserController>().streamUser != null) &&
-          !(Get.find<UserController>().streamUser?.inUse ?? false))
-      ? output
-      : InUse());
+
+  return Obx(
+    () => ((Get.find<UserController>().streamUser?.uid == ''))
+        ? Authenticate() //? User is not registered, close during sign up page
+        : (Get.find<UserController>().streamUser?.inUse ?? false)
+            ? InUse() //? User.inUser = true -> InUsePage
+            : output, //? User.inUser = false -> Home
+  );
 }
+
+// Widget checkUserCompleted({required Widget output}) {
+//   return FutureBuilder(
+//     future: Get.find<UserController>().fetchUser(),
+//     // initialData: InitialData,
+//     builder: (BuildContext context, AsyncSnapshot snapshot) {
+//       UserData? user = snapshot.data;
+//       if (snapshot.hasData &&
+//           snapshot.connectionState == ConnectionState.done) {
+//             return (user!=null || user.isCompleted)?output :Get.find<AuthController>().signOut();
+//         return ;
+//       }
+//     },
+//   );
+// }

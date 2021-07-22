@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class NoConnection extends StatelessWidget {
   const NoConnection({Key? key}) : super(key: key);
@@ -12,20 +14,18 @@ class NoConnection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.height / 2,
+            width: Get.width / 2,
+            height: Get.width / 2,
             child: Image.asset(
               'assets/images/signal_searching.png',
               fit: BoxFit.contain,
             ),
           ),
-          Text(
-            'No internet connection',
-            style: Theme.of(context).textTheme.headline2,
-          ),
+          Text('No internet connection', style: Get.textTheme.headline5)
+              .paddingSymmetric(vertical: 10),
           Text(
             'Please connect to the internet',
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Get.textTheme.bodyText1,
           ),
         ],
       )),
